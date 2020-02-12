@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,8 +24,20 @@ namespace OpenMTS
         /// </summary>
         private IConfiguration Configuration { get; }
 
-        public Startup(IHostingEnvironment environment, IConfiguration configuration)
+        /// <summary>
+        /// Logger factory to use locally and pass through to services.
+        /// </summary>
+        private ILoggerFactory LoggerFactory { get; }
+
+        /// <summary>
+        /// Sets up the Startup class with everything needed for configuration.
+        /// </summary>
+        /// <param name="loggerFactory">Logger factory to create loggers from.</param>
+        /// <param name="environment">Hosting environment information.</param>
+        /// <param name="configuration">App configuration as set up by the web host builder.</param>
+        public Startup(ILoggerFactory loggerFactory, IHostingEnvironment environment, IConfiguration configuration)
         {
+            LoggerFactory = loggerFactory;
             Environment = environment;
             Configuration = configuration;
         }
