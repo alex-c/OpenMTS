@@ -2,7 +2,7 @@
 
 namespace OpenMTS.Controllers
 {
-    [Route("/")]
+    [Route("api/")]
     public class TestController : Controller
     {
         [HttpGet]
