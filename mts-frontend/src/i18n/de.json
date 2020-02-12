@@ -1,0 +1,13 @@
+{
+  "login": {
+    "header": "Benutzeranmeldung",
+    "button": "Anmelden",
+    "placeholder": {
+      "user": "Benutzername",
+      "password": "Passwort"
+    },
+    "notice": "Passwort vergessen? Kontaktieren Sie bitte einen Administrator!",
+    "settings": "Einstellungen",
+    "language": "Sprache"
+  }
+}

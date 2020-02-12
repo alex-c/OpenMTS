@@ -1,0 +1,13 @@
+{
+  "login": {
+    "header": "User Login",
+    "button": "Sing in",
+    "placeholder": {
+      "user": "User name",
+      "password": "Password"
+    },
+    "notice": "Password forgotten? Contact an administrator!",
+    "settings": "Settings",
+    "language": "Language"
+  }
+}
