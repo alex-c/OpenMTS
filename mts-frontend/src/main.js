@@ -18,12 +18,28 @@ const messages = {
   en: {
     login: {
       header: 'User Login',
+      button: 'Sing in',
+      placeholder: {
+        user: 'User name',
+        password: 'Password',
+      },
+      notice: 'Password forgotten? Contact an administrator!',
+      settings: 'Settings',
+      language: 'Language',
     },
     ...enLocale,
   },
   de: {
     login: {
-      header: 'Anmeldung',
+      header: 'Benutzeranmeldung',
+      button: 'Anmelden',
+      placeholder: {
+        user: 'Benutzername',
+        password: 'Passwort',
+      },
+      notice: 'Passwort vergessen? Kontaktieren Sie bitte einen Administrator!',
+      settings: 'Einstellungen',
+      language: 'Sprache',
     },
     ...deLocale,
   },

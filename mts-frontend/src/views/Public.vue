@@ -11,30 +11,41 @@
         <i class="el-icon-user-solid"></i>
       </div>
       <div id="login-box-header">
-        User Login
+        {{ $t('login.header') }}
       </div>
       <div id="login-box-main">
         <el-form :model="form">
           <el-form-item>
-            <el-input placeholder="User name" v-model="form.user"></el-input>
+            <el-input :placeholder="$t('login.placeholder.user')" v-model="form.user"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input placeholder="Password" v-model="form.password" show-password></el-input>
+            <el-input :placeholder="$t('login.placeholder.password')" v-model="form.password" show-password></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="login">Sign in</el-button>
+            <el-button type="primary" @click="login">{{ $t('login.button') }}</el-button>
           </el-form-item>
         </el-form>
       </div>
       <div id="login-box-footer">
-        Password forgotten? Contact an administrator!
+        {{ $t('login.notice') }}
       </div>
     </div>
     <div id="footer">
       <a href="https://www.github.com/alex-c/openmts">OpenMTS</a>
     </div>
-    <el-drawer title="Settings" :visible.sync="drawer" direction="rtl">
-      <span>Internationalization settings here!</span>
+    <el-drawer :title="$t('login.settings')" :visible.sync="drawer" direction="rtl">
+      <div id="drawer-body">
+        <el-form label-position="top">
+          <el-form-item :label="$t('login.language')">
+            <el-select v-model="$i18n.locale">
+              <el-option v-for="(lang, i) in languages" :key="`Lang${i}`" :label="lang" :value="lang">
+                <span style="float: left">{{ lang }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ lang }}</span>
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+      </div>
     </el-drawer>
   </div>
 </template>
@@ -45,6 +56,7 @@ export default {
   data() {
     return {
       drawer: false,
+      languages: ['en', 'de'],
       form: {
         user: '',
         password: '',
@@ -127,5 +139,14 @@ export default {
   > a:hover {
     text-decoration: underline;
   }
+}
+
+#drawer-body {
+  padding: 16px;
+  text-align: left;
+}
+
+#drawer-body .el-select {
+  width: 100%;
 }
 </style>
