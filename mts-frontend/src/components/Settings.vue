@@ -1,5 +1,5 @@
 <template>
-  <el-drawer :title="$t('login.settings')" :visible.sync="drawerOpen" direction="rtl">
+  <el-drawer :title="$t('login.settings')" :visible.sync="drawerOpen" direction="rtl" size="200">
     <div id="drawer-body">
       <el-form label-position="top">
         <el-form-item :label="$t('login.language')">
@@ -35,3 +35,15 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+#drawer-body {
+  padding: 16px;
+  text-align: left;
+  min-width: 200px;
+}
+
+#drawer-body .el-select {
+  width: 100%;
+}
+</style>

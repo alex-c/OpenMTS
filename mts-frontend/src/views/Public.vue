@@ -1,9 +1,11 @@
 <template>
   <div class="public">
     <div id="navbar">
-      <div id="navbar-left">OpenMTS</div>
+      <div id="navbar-title">OpenMTS</div>
       <div id="navbar-right">
-        <el-button icon="el-icon-s-tools" size="mini" circle @click="drawer = true"></el-button>
+        <div class="navbar-button" @click="drawer = true">
+          <i class="el-icon-s-tools"></i>
+        </div>
       </div>
     </div>
     <div id="login-box">
@@ -64,19 +66,31 @@ export default {
 @import '../theme/colors.scss';
 
 #navbar {
-  padding: 16px;
   background-color: $color-primary;
   color: white;
   overflow: auto;
+  border-bottom: 1px solid $color-dark-accent;
+  box-shadow: 0px 0px 5px gray;
 }
 
-#navbar-left {
+#navbar-title {
   float: left;
+  padding: 16px;
   font-size: 24px;
 }
 
 #navbar-right {
   float: right;
+  font-size: 28px;
+}
+
+.navbar-button {
+  padding: 16px 16px 12px;
+}
+
+.navbar-button:hover {
+  background-color: $color-dark-accent;
+  cursor: pointer;
 }
 
 #login-box {
@@ -86,6 +100,7 @@ export default {
   min-width: 240px;
   border: 1px solid gray;
   border-radius: 5px;
+  box-shadow: 0px 0px 3px 0px gray;
 }
 
 #login-box-header {
@@ -100,6 +115,7 @@ export default {
   height: 64px;
   border-radius: 32px;
   background-color: $color-primary;
+  border: 1px solid $color-dark-accent;
   font-size: 52px;
   color: white;
   position: relative;
@@ -128,14 +144,6 @@ export default {
   > a:hover {
     text-decoration: underline;
   }
-}
-
-#drawer-body {
-  padding: 16px;
-  text-align: left;
-}
-
-#drawer-body .el-select {
-  width: 100%;
+  margin-bottom: 80px;
 }
 </style>
