@@ -1,10 +1,17 @@
 import Vue from 'vue';
-import App from './App.vue';
+Vue.config.productionTip = false;
+
+// Element UI & theme
+import ElementUI from 'element-ui';
+import './element-theme.scss';
+Vue.use(ElementUI);
+
+// Router & Vuex
 import router from './router';
 import store from './store';
 
-Vue.config.productionTip = false;
-
+// Mount app
+import App from './App.vue';
 new Vue({
   router,
   store,
