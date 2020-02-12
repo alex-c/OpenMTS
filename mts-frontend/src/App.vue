@@ -8,6 +8,7 @@
 body {
   margin: 0px;
   text-align: center;
+  font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 #app {

@@ -3,7 +3,8 @@ Vue.config.productionTip = false;
 
 // Element UI & theme
 import ElementUI from 'element-ui';
-import './element-theme.scss';
+import 'element-ui/lib/theme-chalk/reset.css';
+import './theme/element-theme.scss';
 Vue.use(ElementUI);
 
 // Router & Vuex
