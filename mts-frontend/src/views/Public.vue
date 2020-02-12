@@ -3,7 +3,7 @@
     <div id="navbar">
       <div id="navbar-left">OpenMTS</div>
       <div id="navbar-right">
-        <el-button icon="el-icon-s-tools" size="mini" circle></el-button>
+        <el-button icon="el-icon-s-tools" size="mini" circle @click="drawer = true"></el-button>
       </div>
     </div>
     <div id="login-box">
@@ -22,7 +22,7 @@
             <el-input placeholder="Password" v-model="form.password" show-password></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">Sign in</el-button>
+            <el-button type="primary" @click="login">Sign in</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -33,6 +33,9 @@
     <div id="footer">
       <a href="https://www.github.com/alex-c/openmts">OpenMTS</a>
     </div>
+    <el-drawer title="Settings" :visible.sync="drawer" direction="rtl">
+      <span>Internationalization settings here!</span>
+    </el-drawer>
   </div>
 </template>
 
@@ -41,11 +44,17 @@ export default {
   name: 'public',
   data() {
     return {
+      drawer: false,
       form: {
         user: '',
         password: '',
       },
     };
+  },
+  methods: {
+    login: function() {
+      this.$message.error({ message: 'Login is not implemented yet.', duration: 2000 });
+    },
   },
 };
 </script>
