@@ -33,30 +33,19 @@
     <div id="footer">
       <a href="https://www.github.com/alex-c/openmts">OpenMTS</a>
     </div>
-    <el-drawer :title="$t('login.settings')" :visible.sync="drawer" direction="rtl">
-      <div id="drawer-body">
-        <el-form label-position="top">
-          <el-form-item :label="$t('login.language')">
-            <el-select v-model="$i18n.locale">
-              <el-option v-for="(lang, i) in languages" :key="`Lang${i}`" :label="lang" :value="lang">
-                <span style="float: left">{{ lang }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{ lang }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </div>
-    </el-drawer>
+    <Settings :drawer.sync="drawer" />
   </div>
 </template>
 
 <script>
+import Settings from '@/components/Settings.vue';
+
 export default {
   name: 'public',
+  components: { Settings },
   data() {
     return {
       drawer: false,
-      languages: ['en', 'de'],
       form: {
         user: '',
         password: '',
