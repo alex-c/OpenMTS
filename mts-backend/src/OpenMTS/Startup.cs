@@ -3,6 +3,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using OpenMTS.Repositories;
+using OpenMTS.Repositories.Mocking;
+using OpenMTS.Services;
+using OpenMTS.Services.Authentication;
+using OpenMTS.Services.Authentication.Providers.UserLogin;
+using System;
 
 namespace OpenMTS
 {
@@ -70,6 +76,38 @@ namespace OpenMTS
                     });
                 }
             });
+
+            // Set up repositories
+            if (Configuration.GetValue<bool>("Mocking:UseMockDataPersistence"))
+            {
+                MockDataProvider dataProvider = null;
+                if (Configuration.GetValue<bool>("Mocking:SeedWithMockDataOnStartup"))
+                {
+                    dataProvider = new MockDataProvider(new PasswordHashingService());
+                }
+                MockUserRepository userRepository = new MockUserRepository(dataProvider);
+                services.AddSingleton<IReadOnlyUserRepository>(userRepository);
+                services.AddSingleton<IUserRepository>(userRepository);
+            }
+            else
+            {
+                // TODO: implement repositories for PostgreSQL persistence
+            }
+
+            // Check JWT signing key validity
+            if (Configuration.GetValue<string>("Jwt:Secret").Length < 16)
+            {
+                string errorMessage = "The secret for signing JWTs has to be at least 16 characters long.";
+                Logger.LogError(errorMessage);
+                throw new Exception(errorMessage);
+            }
+
+            // Register auth providers
+            services.AddSingleton<IAuthenticationProvider, UserLoginAuthenticationProvider>();
+
+            // Register services
+            services.AddSingleton<PasswordHashingService>();
+            services.AddSingleton<AuthService>();
 
             // Configure MVC
             services.AddMvc();
