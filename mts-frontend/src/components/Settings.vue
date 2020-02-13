@@ -4,7 +4,12 @@
       <el-form label-position="top">
         <el-form-item :label="$t('login.language')">
           <el-select v-model="$i18n.locale">
-            <el-option v-for="(lang, i) in languages" :key="`Lang${i}`" :label="lang.label" :value="lang.value">
+            <el-option
+              v-for="(lang, i) in languages"
+              :key="`Lang${i}`"
+              :label="lang.label"
+              :value="lang.value"
+            >
               <span style="float: left">{{ lang.label }}</span>
               <span style="float: right; color: #8492a6; font-size: 13px">{{ lang.value }}</span>
             </el-option>
@@ -23,16 +28,17 @@ export default {
   props: ['drawer'],
   data() {
     return {
-      drawerOpen: this.drawer,
       languages: languageIndex.languages,
     };
   },
-  watch: {
-    drawer(drawer) {
-      this.drawerOpen = drawer;
-    },
-    drawerOpen(drawerOpen) {
-      this.$emit('update:drawer', drawerOpen);
+  computed: {
+    drawerOpen: {
+      get() {
+        return this.drawer;
+      },
+      set(value) {
+        this.$emit('update:drawer', value);
+      },
     },
   },
 };
