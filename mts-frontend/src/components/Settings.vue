@@ -3,7 +3,7 @@
     <div id="drawer-body">
       <el-form label-position="top">
         <el-form-item :label="$t('login.language')">
-          <el-select v-model="$i18n.locale">
+          <el-select v-model="$i18n.locale" @change="languageSelected">
             <el-option
               v-for="(lang, i) in languages"
               :key="`Lang${i}`"
@@ -39,6 +39,11 @@ export default {
       set(value) {
         this.$emit('update:drawer', value);
       },
+    },
+  },
+  methods: {
+    languageSelected: function(language) {
+      localStorage.setItem('language', language);
     },
   },
 };

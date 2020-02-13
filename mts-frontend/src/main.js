@@ -1,6 +1,10 @@
 import Vue from 'vue';
 Vue.config.productionTip = false;
 
+// Router & Vuex
+import router from './router';
+import store from './store';
+
 // Element UI & theme
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/reset.css';
@@ -22,15 +26,12 @@ const messages = {
 };
 
 // Configure internationalization
+let language = localStorage.getItem('language') || 'en';
 const i18n = new VueI18n({
-  locale: 'en',
+  locale: language,
   fallbackLocale: 'en',
   messages,
 });
-
-// Router & Vuex
-import router from './router';
-import store from './store';
 
 // Mount app
 import App from './App.vue';
