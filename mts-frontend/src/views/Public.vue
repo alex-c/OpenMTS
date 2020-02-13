@@ -1,53 +1,44 @@
 <template>
   <div class="public">
-    <div id="navbar">
-      <div id="navbar-title">OpenMTS</div>
-      <div id="navbar-right">
-        <div class="navbar-button" @click="drawer = true">
-          <i class="el-icon-s-tools"></i>
-        </div>
-      </div>
-    </div>
+    <Navbar />
     <div id="login-box">
       <div id="login-box-logo">
         <i class="el-icon-user-solid"></i>
       </div>
-      <div id="login-box-header">
-        {{ $t('login.header') }}
-      </div>
+      <div id="login-box-header">{{ $t('login.header') }}</div>
       <div id="login-box-main">
         <el-form :model="form">
           <el-form-item>
             <el-input :placeholder="$t('login.placeholder.user')" v-model="form.user"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input :placeholder="$t('login.placeholder.password')" v-model="form.password" show-password></el-input>
+            <el-input
+              :placeholder="$t('login.placeholder.password')"
+              v-model="form.password"
+              show-password
+            ></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="login">{{ $t('login.button') }}</el-button>
           </el-form-item>
         </el-form>
       </div>
-      <div id="login-box-footer">
-        {{ $t('login.notice') }}
-      </div>
+      <div id="login-box-footer">{{ $t('login.notice') }}</div>
     </div>
     <div id="footer">
       <a href="https://www.github.com/alex-c/openmts">OpenMTS</a>
     </div>
-    <Settings :drawer.sync="drawer" />
   </div>
 </template>
 
 <script>
-import Settings from '@/components/Settings.vue';
+import Navbar from '@/components/Navbar.vue';
 
 export default {
   name: 'public',
-  components: { Settings },
+  components: { Navbar },
   data() {
     return {
-      drawer: false,
       form: {
         user: '',
         password: '',
@@ -64,34 +55,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '../theme/colors.scss';
-
-#navbar {
-  background-color: $color-primary;
-  color: white;
-  overflow: auto;
-  border-bottom: 1px solid $color-dark-accent;
-  box-shadow: 0px 0px 5px gray;
-}
-
-#navbar-title {
-  float: left;
-  padding: 16px;
-  font-size: 24px;
-}
-
-#navbar-right {
-  float: right;
-  font-size: 28px;
-}
-
-.navbar-button {
-  padding: 16px 16px 12px;
-}
-
-.navbar-button:hover {
-  background-color: $color-dark-accent;
-  cursor: pointer;
-}
 
 #login-box {
   margin: auto;
