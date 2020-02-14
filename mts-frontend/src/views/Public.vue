@@ -60,7 +60,7 @@ export default {
   margin: auto;
   margin-top: 96px;
   max-width: 320px;
-  min-width: 240px;
+  min-width: 230px;
   border: 1px solid gray;
   border-radius: 5px;
   box-shadow: 0px 0px 3px 0px gray;

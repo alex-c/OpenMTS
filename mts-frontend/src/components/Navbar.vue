@@ -1,13 +1,27 @@
 <template>
-  <div id="navbar">
+  <header id="navbar">
     <div id="navbar-title">OpenMTS</div>
-    <div id="navbar-right">
-      <div class="navbar-button" @click="drawer = true">
-        <i class="el-icon-s-tools"></i>
+    <div id="navbar-left">
+      <div class="navbar-button" @click="toggleSidebar">
+        <i class="el-icon-s-unfold" v-if="menuCollapsed"></i>
+        <i class="el-icon-s-fold" v-else></i>
       </div>
     </div>
+    <div class="navbar-button navbar-right" @click="drawer = true">
+      <i class="el-icon-s-tools"></i>
+    </div>
+    <el-dropdown class="navbar-right" style="color:white;" trigger="click" placement="bottom">
+      <div class="navbar-button" id="user-menu">
+        <i class="el-icon-user-solid"></i>
+        <span id="user-menu-title">User Name</span>
+      </div>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item icon="el-icon-user-solid">Account</el-dropdown-item>
+        <el-dropdown-item icon="el-icon-close">Sign Out</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
     <Settings :drawer.sync="drawer" />
-  </div>
+  </header>
 </template>
 
 <script>
@@ -20,6 +34,16 @@ export default {
     return {
       drawer: false,
     };
+  },
+  computed: {
+    menuCollapsed() {
+      return this.$store.state.ui.menuCollapsed;
+    },
+  },
+  methods: {
+    toggleSidebar: function() {
+      this.$store.commit('toggleSidebar');
+    },
   },
 };
 </script>
@@ -37,11 +61,18 @@ export default {
 
 #navbar-title {
   float: left;
-  padding: 16px;
+  width: 230px;
+  padding: 16px 0px;
   font-size: 24px;
+  background-color: $color-dark-accent;
 }
 
-#navbar-right {
+#navbar-left {
+  float: left;
+  font-size: 28px;
+}
+
+.navbar-right {
   float: right;
   font-size: 28px;
 }
@@ -53,5 +84,15 @@ export default {
 .navbar-button:hover {
   background-color: $color-dark-accent;
   cursor: pointer;
+}
+
+#user-menu > i {
+  margin-right: 8px;
+}
+
+#user-menu-title {
+  font-size: 16px;
+  position: relative;
+  top: -4px;
 }
 </style>
