@@ -1,6 +1,9 @@
 <template>
   <header id="navbar">
-    <div id="navbar-title">OpenMTS</div>
+    <div id="navbar-title" :class="{collapsed : menuCollapsed}">
+      <i class="el-icon-s-home" v-if="menuCollapsed" />
+      <span id="navbar-title-text" v-else>OpenMTS</span>
+    </div>
     <div id="navbar-left">
       <div class="navbar-button" @click="toggleSidebar">
         <i class="el-icon-s-unfold" v-if="menuCollapsed"></i>
@@ -65,6 +68,15 @@ export default {
   padding: 16px 0px;
   font-size: 24px;
   background-color: $color-dark-accent;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+  &.collapsed {
+    width: 47px;
+  }
+  i {
+    position: relative;
+    top: 2px;
+  }
 }
 
 #navbar-left {
@@ -94,5 +106,15 @@ export default {
   font-size: 16px;
   position: relative;
   top: -4px;
+}
+
+.collapse-enter-active,
+.collapse-leave-active {
+  transition: all 0.5s ease-in-out;
+  overflow: hidden;
+}
+.collapse-enter,
+.collapse-leave-to {
+  width: 0;
 }
 </style>
