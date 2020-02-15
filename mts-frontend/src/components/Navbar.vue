@@ -55,16 +55,18 @@ export default {
 @import '../theme/colors.scss';
 
 #navbar {
+  max-height: 60px;
+  overflow: hidden;
+  border-bottom: 1px solid $color-dark-accent;
   background-color: $color-primary;
   color: white;
-  overflow: auto;
-  border-bottom: 1px solid $color-dark-accent;
   box-shadow: 0px 0px 5px gray;
 }
 
 #navbar-title {
   float: left;
   width: 230px;
+  height: 28px;
   padding: 16px 0px;
   font-size: 24px;
   background-color: $color-dark-accent;

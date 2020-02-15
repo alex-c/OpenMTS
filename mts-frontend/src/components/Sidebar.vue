@@ -29,7 +29,7 @@ export default {
 
 #sidebar {
   position: fixed;
-  top: 62px;
+  top: 61px;
   left: 0;
   min-height: 100%;
   width: 229px;
