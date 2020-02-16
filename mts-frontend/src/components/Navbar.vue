@@ -1,6 +1,6 @@
 <template>
   <header id="navbar">
-    <div id="navbar-title" :class="{collapsed : menuCollapsed}">
+    <div id="navbar-title" :class="{collapsed : menuCollapsed}" @click="navigateHome">
       <i class="el-icon-s-home" v-if="menuCollapsed" />
       <span id="navbar-title-text" v-else>OpenMTS</span>
     </div>
@@ -55,18 +55,24 @@ export default {
     },
   },
   methods: {
+    navigateHome: function() {
+      this.$router.push({ path: '/' }, () => {});
+    },
     toggleSidebar: function() {
       this.$store.commit('toggleSidebar');
     },
     userMenuAction: function(command) {
       switch (command) {
         case 'account':
-          this.$router.push({ name: command });
+          this.$router.push({ path: '/private/' + command });
           break;
         case 'logout':
           this.$store.commit('logout');
           this.$store.commit('expandSidebar');
-          this.$router.push({ path: '/' });
+          this.$router.push({ path: '/login' }, () => {});
+          break;
+        default:
+          console.error(`Invalid user menu action '${command}' was triggered.`);
           break;
       }
     },
@@ -95,6 +101,9 @@ export default {
   background-color: $color-dark-accent;
   overflow: hidden;
   transition: all 0.5s ease-in-out;
+  &:hover {
+    cursor: pointer;
+  }
   &.collapsed {
     width: 47px;
   }

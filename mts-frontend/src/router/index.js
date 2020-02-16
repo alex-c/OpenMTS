@@ -14,7 +14,6 @@ import store from '../store';
 const routes = [
   {
     path: '/',
-    name: 'home',
     beforeEnter: (_to, _from, next) => {
       if (store.state.token === null) {
         next({ path: '/login' });
@@ -25,28 +24,25 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'public',
     component: Public,
   },
   {
     path: '/private',
-    name: 'private',
     component: Private,
     beforeEnter: function(_to, _from, next) {
       if (store.state.token === null) {
-        next({ path: '/' });
+        next({ path: '/login' });
       } else {
         next();
       }
     },
     children: [
       {
-        path: '/',
+        path: '',
         component: Dashboard,
       },
       {
-        path: '/account',
-        name: 'account',
+        path: 'account',
         component: Account,
       },
     ],
