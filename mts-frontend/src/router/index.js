@@ -1,13 +1,29 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+Vue.use(VueRouter);
+
+// Components
 import Public from '../views/Public.vue';
 import Private from '../views/Private.vue';
+import Dashboard from '../views/private/Dashboard.vue';
 
-Vue.use(VueRouter);
+// Store
+import store from '../store';
 
 const routes = [
   {
     path: '/',
+    name: 'home',
+    beforeEnter: (_to, _from, next) => {
+      if (store.state.token === null) {
+        next({ path: '/login' });
+      } else {
+        next({ path: '/private' });
+      }
+    },
+  },
+  {
+    path: '/login',
     name: 'public',
     component: Public,
   },
@@ -15,6 +31,19 @@ const routes = [
     path: '/private',
     name: 'private',
     component: Private,
+    beforeEnter: function(_to, _from, next) {
+      if (store.state.token === null) {
+        next({ path: '/' });
+      } else {
+        next();
+      }
+    },
+    children: [
+      {
+        path: '/',
+        component: Dashboard,
+      },
+    ],
   },
 ];
 

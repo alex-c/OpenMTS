@@ -2,7 +2,9 @@
   <div id="private">
     <Navbar />
     <Sidebar />
-    <div id="content" :class="{collapsed : menuCollapsed}">Content</div>
+    <div id="content" :class="{collapsed : menuCollapsed}">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 

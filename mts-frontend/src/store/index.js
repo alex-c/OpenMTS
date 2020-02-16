@@ -2,21 +2,21 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex);
 
-const ui = {
-  state: {
-    menuCollapsed: false,
-  },
-  mutations: {
-    toggleSidebar(state) {
-      state.menuCollapsed = !state.menuCollapsed;
-    },
-  },
-  actions: {},
-  getters: {},
-};
+// Import modules
+import ui from './modules/ui.js';
 
+// Load user data from local storage
+const token = localStorage.getItem('token');
+const user = localStorage.getItem('user');
+const name = localStorage.getItem('name');
+
+// Define store
 export default new Vuex.Store({
-  state: {},
+  state: {
+    token: token,
+    user: user,
+    name: name,
+  },
   mutations: {},
   actions: {},
   modules: { ui },
