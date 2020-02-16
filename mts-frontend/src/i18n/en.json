@@ -15,6 +15,10 @@
       "user": "Please enter a user name!",
       "password": "Please enter a password!"
     },
+    "fail": {
+      "title": "Login failed.",
+      "description": "Please check your user name and password."
+    },
     "notice": "Password forgotten? Contact an administrator!",
     "settings": "Settings",
     "language": "Language"

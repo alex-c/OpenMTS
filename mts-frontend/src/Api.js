@@ -1,6 +1,6 @@
 function processResponse(response) {
   return new Promise((resolve, reject) => {
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
       reject({ status: response.status });
     } else {
       let handler;
@@ -12,7 +12,7 @@ function processResponse(response) {
 
 function catchNetworkError(response) {
   return new Promise((_, reject) => {
-    reject({ message: 'general.networkerror' });
+    reject({ status: null, message: 'general.networkerror' });
   });
 }
 

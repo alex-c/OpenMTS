@@ -2,6 +2,9 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex);
 
+// JWT decoding utility
+const jwtDecode = require('jwt-decode');
+
 // Import modules
 import ui from './modules/ui.js';
 
@@ -20,7 +23,11 @@ export default new Vuex.Store({
     name: name,
   },
   mutations: {
-    login(state, token, user, role, name) {
+    login(state, token) {
+      const decodedToken = jwtDecode(token);
+      const user = decodedToken.sub;
+      const role = decodedToken.role;
+      const name = decodedToken.sub;
       state.token = token;
       state.user = user;
       state.role = role;
