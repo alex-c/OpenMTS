@@ -6,6 +6,7 @@ Vue.use(VueRouter);
 import Public from '../views/Public.vue';
 import Private from '../views/Private.vue';
 import Dashboard from '../views/private/Dashboard.vue';
+import Account from '../views/private/Account.vue';
 
 // Store
 import store from '../store';
@@ -42,6 +43,11 @@ const routes = [
       {
         path: '/',
         component: Dashboard,
+      },
+      {
+        path: '/account',
+        name: 'account',
+        component: Account,
       },
     ],
   },

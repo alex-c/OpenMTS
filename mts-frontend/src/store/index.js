@@ -17,7 +17,13 @@ export default new Vuex.Store({
     user: user,
     name: name,
   },
-  mutations: {},
+  mutations: {
+    logout(state) {
+      state.token = null;
+      state.user = null;
+      state.name = null;
+    },
+  },
   actions: {},
   modules: { ui },
 });

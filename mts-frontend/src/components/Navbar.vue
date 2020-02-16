@@ -13,14 +13,20 @@
     <div class="navbar-button navbar-right" @click="drawer = true">
       <i class="el-icon-s-tools"></i>
     </div>
-    <el-dropdown class="navbar-right" style="color:white;" trigger="click" placement="bottom">
+    <el-dropdown
+      class="navbar-right"
+      style="color:white;"
+      trigger="click"
+      placement="bottom"
+      @command="userMenuAction"
+    >
       <div id="user-menu" class="navbar-button">
         <i class="el-icon-user-solid"></i>
         <div id="user-menu-title" :class="{collapsed : menuCollapsed}">{{userName}}</div>
       </div>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item icon="el-icon-user-solid">{{$t('general.account')}}</el-dropdown-item>
-        <el-dropdown-item icon="el-icon-close">{{$t('general.logout')}}</el-dropdown-item>
+        <el-dropdown-item icon="el-icon-user-solid" command="account">{{$t('general.account')}}</el-dropdown-item>
+        <el-dropdown-item icon="el-icon-close" command="logout">{{$t('general.logout')}}</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <Settings :drawer.sync="drawer" />
@@ -47,6 +53,17 @@ export default {
   methods: {
     toggleSidebar: function() {
       this.$store.commit('toggleSidebar');
+    },
+    userMenuAction: function(command) {
+      switch (command) {
+        case 'account':
+          this.$router.push({ name: command });
+          break;
+        case 'logout':
+          this.$store.commit('logout');
+          this.$router.push({ path: '/' });
+          break;
+      }
     },
   },
 };
