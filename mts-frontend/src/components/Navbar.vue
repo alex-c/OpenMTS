@@ -14,13 +14,13 @@
       <i class="el-icon-s-tools"></i>
     </div>
     <el-dropdown class="navbar-right" style="color:white;" trigger="click" placement="bottom">
-      <div class="navbar-button" id="user-menu">
+      <div id="user-menu" class="navbar-button">
         <i class="el-icon-user-solid"></i>
-        <span id="user-menu-title">User Name</span>
+        <div id="user-menu-title" :class="{collapsed : menuCollapsed}">{{userName}}</div>
       </div>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item icon="el-icon-user-solid">Account</el-dropdown-item>
-        <el-dropdown-item icon="el-icon-close">Sign Out</el-dropdown-item>
+        <el-dropdown-item icon="el-icon-user-solid">{{$t('general.account')}}</el-dropdown-item>
+        <el-dropdown-item icon="el-icon-close">{{$t('general.logout')}}</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <Settings :drawer.sync="drawer" />
@@ -36,6 +36,7 @@ export default {
   data() {
     return {
       drawer: false,
+      userName: localStorage.getItem('name'),
     };
   },
   computed: {
@@ -100,14 +101,30 @@ export default {
   cursor: pointer;
 }
 
-#user-menu > i {
-  margin-right: 8px;
+#user-menu {
+  width: auto;
+  height: 33px;
+  overflow: hidden;
+}
+
+#user-menu i {
+  float: left;
 }
 
 #user-menu-title {
+  max-width: 320px;
+  height: 16px;
+  margin: 6px;
+  padding-left: 8px;
   font-size: 16px;
-  position: relative;
-  top: -4px;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+  &.collapsed {
+    max-width: 0px;
+    padding-left: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 .collapse-enter-active,

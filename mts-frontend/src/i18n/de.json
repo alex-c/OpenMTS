@@ -1,4 +1,8 @@
 {
+  "general": {
+    "account": "Account",
+    "logout": "Abmelden"
+  },
   "login": {
     "header": "Benutzeranmeldung",
     "button": "Anmelden",

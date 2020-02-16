@@ -1,4 +1,8 @@
 {
+  "general": {
+    "account": "Account",
+    "logout": "Sign Out"
+  },
   "login": {
     "header": "User Login",
     "button": "Sing in",
