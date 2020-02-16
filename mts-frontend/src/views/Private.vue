@@ -20,6 +20,22 @@ export default {
       return this.$store.state.ui.menuCollapsed;
     },
   },
+  methods: {
+    fitToScreen: function() {
+      if (window.innerWidth < 700) {
+        this.$store.commit('collapseSidebar');
+      } else {
+        this.$store.commit('expandSidebar');
+      }
+    },
+  },
+  created: function() {
+    window.addEventListener('resize', this.fitToScreen);
+    this.fitToScreen();
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.fitToScreen);
+  },
 };
 </script>
 
