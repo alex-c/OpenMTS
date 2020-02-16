@@ -4,7 +4,7 @@
       <i class="el-icon-s-home" v-if="menuCollapsed" />
       <span id="navbar-title-text" v-else>OpenMTS</span>
     </div>
-    <div id="navbar-left">
+    <div id="navbar-left" v-if="userIsAuthenticated">
       <div class="navbar-button" @click="toggleSidebar">
         <i class="el-icon-s-unfold" v-if="menuCollapsed"></i>
         <i class="el-icon-s-fold" v-else></i>
@@ -20,7 +20,7 @@
       placement="bottom"
       @command="userMenuAction"
     >
-      <div id="user-menu" class="navbar-button">
+      <div id="user-menu" class="navbar-button" v-if="userIsAuthenticated">
         <i class="el-icon-user-solid"></i>
         <div id="user-menu-title" :class="{collapsed : menuCollapsed}">{{userName}}</div>
       </div>
@@ -49,6 +49,9 @@ export default {
     menuCollapsed() {
       return this.$store.state.ui.menuCollapsed;
     },
+    userIsAuthenticated() {
+      return this.$store.state.token !== null;
+    },
   },
   methods: {
     toggleSidebar: function() {
@@ -61,6 +64,7 @@ export default {
           break;
         case 'logout':
           this.$store.commit('logout');
+          this.$store.commit('expandSidebar');
           this.$router.push({ path: '/' });
           break;
       }
