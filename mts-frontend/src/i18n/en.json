@@ -1,0 +1,26 @@
+{
+  "general": {
+    "networkerror": "Network error: please check your connection to the OpenMTS server.",
+    "account": "Account",
+    "logout": "Sign Out"
+  },
+  "login": {
+    "header": "User Login",
+    "button": "Sing in",
+    "placeholder": {
+      "user": "User name",
+      "password": "Password"
+    },
+    "validation": {
+      "user": "Please enter a user name!",
+      "password": "Please enter a password!"
+    },
+    "fail": {
+      "title": "Login failed.",
+      "description": "Please check your user name and password."
+    },
+    "notice": "Password forgotten? Contact an administrator!",
+    "settings": "Settings",
+    "language": "Language"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "general": {
+    "networkerror": "Netzwerkfehler: Bitte überprüfen Sie die Verbindung zum OpenMTS-Server.",
+    "account": "Account",
+    "logout": "Abmelden"
+  },
+  "login": {
+    "header": "Benutzeranmeldung",
+    "button": "Anmelden",
+    "placeholder": {
+      "user": "Benutzername",
+      "password": "Passwort"
+    },
+    "validation": {
+      "user": "Bitte geben Sie einen Benutzernamen ein!",
+      "password": "Bitte geben Sie ein Passwort ein!"
+    },
+    "fail": {
+      "title": "Anmeldung fehlgeschlagen",
+      "description": "Überprüfen Sie bitte Ihre Eingaben."
+    },
+    "notice": "Passwort vergessen? Kontaktieren Sie bitte einen Administrator!",
+    "settings": "Einstellungen",
+    "language": "Sprache"
+  }
+}

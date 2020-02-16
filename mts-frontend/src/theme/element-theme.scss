@@ -1,0 +1,8 @@
+@import './colors.scss';
+
+$--color-primary: $color-primary;
+$--color-info: #409EFF;
+
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import '~element-ui/packages/theme-chalk/src/index';
