@@ -19,8 +19,9 @@
       trigger="click"
       placement="bottom"
       @command="userMenuAction"
+      v-if="userIsAuthenticated"
     >
-      <div id="user-menu" class="navbar-button" v-if="userIsAuthenticated">
+      <div id="user-menu" class="navbar-button">
         <i class="el-icon-user-solid"></i>
         <div id="user-menu-title" :class="{collapsed : menuCollapsed}">{{userName}}</div>
       </div>
