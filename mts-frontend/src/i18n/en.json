@@ -10,6 +10,10 @@
       "user": "User name",
       "password": "Password"
     },
+    "validation": {
+      "user": "Please enter a user name!",
+      "password": "Please enter a password!"
+    },
     "notice": "Password forgotten? Contact an administrator!",
     "settings": "Settings",
     "language": "Language"

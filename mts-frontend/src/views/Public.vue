@@ -7,14 +7,14 @@
       </div>
       <div id="login-box-header">{{ $t('login.header') }}</div>
       <div id="login-box-main">
-        <el-form :model="form">
-          <el-form-item>
-            <el-input :placeholder="$t('login.placeholder.user')" v-model="form.user"></el-input>
+        <el-form :model="loginForm" :rules="validationRules" ref="loginForm">
+          <el-form-item prop="user">
+            <el-input :placeholder="$t('login.placeholder.user')" v-model="loginForm.user"></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="password">
             <el-input
               :placeholder="$t('login.placeholder.password')"
-              v-model="form.password"
+              v-model="loginForm.password"
               show-password
             ></el-input>
           </el-form-item>
@@ -39,15 +39,30 @@ export default {
   components: { Navbar },
   data() {
     return {
-      form: {
+      loginForm: {
         user: '',
         password: '',
       },
     };
   },
+  computed: {
+    validationRules() {
+      return {
+        user: { required: true, message: this.$t('login.validation.user'), trigger: 'blur' },
+        password: { required: true, message: this.$t('login.validation.password'), trigger: 'blur' },
+      };
+    },
+  },
   methods: {
     login: function() {
-      this.$message.error({ message: 'Login is not implemented yet.', duration: 2000 });
+      this.$refs['loginForm'].validate(valid => {
+        if (valid) {
+          // TODO: login
+          this.$router.push('/private');
+        } else {
+          return false;
+        }
+      });
     },
   },
 };

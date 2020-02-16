@@ -10,6 +10,10 @@
       "user": "Benutzername",
       "password": "Passwort"
     },
+    "validation": {
+      "user": "Bitte geben Sie einen Benutzernamen ein!",
+      "password": "Bitte geben Sie ein Passwort ein!"
+    },
     "notice": "Passwort vergessen? Kontaktieren Sie bitte einen Administrator!",
     "settings": "Einstellungen",
     "language": "Sprache"
