@@ -1,5 +1,6 @@
 {
   "general": {
+    "networkerror": "Network error: please check your connection to the OpenMTS server.",
     "account": "Account",
     "logout": "Sign Out"
   },

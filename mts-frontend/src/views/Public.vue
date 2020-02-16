@@ -12,11 +12,7 @@
             <el-input :placeholder="$t('login.placeholder.user')" v-model="loginForm.user"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input
-              :placeholder="$t('login.placeholder.password')"
-              v-model="loginForm.password"
-              show-password
-            ></el-input>
+            <el-input :placeholder="$t('login.placeholder.password')" v-model="loginForm.password" show-password></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="login">{{ $t('login.button') }}</el-button>
@@ -32,7 +28,9 @@
 </template>
 
 <script>
+import jwtDecode from 'jwt-decode';
 import Navbar from '@/components/Navbar.vue';
+import Api from '../Api.js';
 
 export default {
   name: 'public',
@@ -57,8 +55,20 @@ export default {
     login: function() {
       this.$refs['loginForm'].validate(valid => {
         if (valid) {
-          // TODO: login
-          this.$router.push('/private');
+          Api.login(this.user, this.password)
+            .then(response => {
+              const token = response.body.token;
+              const decodedToken = jwtDecode(token);
+              this.$store.commit('login', token, decodedToken.sub, decoded.token.role, decodedToken.sub);
+              this.$router.push('/private');
+            })
+            .catch(error => {
+              this.$message({
+                message: this.$t(error.message),
+                type: 'error',
+                showClose: true,
+              });
+            });
         } else {
           return false;
         }
