@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OpenMTS.Controllers.Contracts.Responses;
+using OpenMTS.Services.Exceptions;
 using System;
 
 namespace OpenMTS.Controllers
@@ -25,6 +26,16 @@ namespace OpenMTS.Controllers
         protected IActionResult HandleBadRequest(string message)
         {
             return BadRequest(new ClientErrorResponse(message));
+        }
+
+        /// <summary>
+        /// Handle "resource not found"-type of exceptions
+        /// </summary>
+        /// <param name="exception">The actual exception.</param>
+        /// <returns>Returns a 404 error.</returns>
+        protected IActionResult HandleResourceNotFoundException(IResourceNotFoundException exception)
+        {
+            return NotFound(new ClientErrorResponse(exception.Message));
         }
 
         /// <summary>

@@ -108,6 +108,7 @@ namespace OpenMTS
             // Register services
             services.AddSingleton<PasswordHashingService>();
             services.AddSingleton<AuthService>();
+            services.AddSingleton<UserService>();
 
             // Configure MVC
             services.AddMvc();
