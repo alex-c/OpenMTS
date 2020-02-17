@@ -37,16 +37,19 @@ namespace OpenMTS.Controllers
         #region Public getters
 
         /// <summary>
-        /// Gets all available users.
+        /// Gets available users.
         /// </summary>
-        /// <returns>Returns a list of users.</returns>
+        /// <param name="page">Requested page of data.</param>
+        /// <param name="elementsPerPage">Number of elements requested.</param>
+        /// <returns>Returns a paginated list of users.</returns>
         [HttpGet]
-        public IActionResult GetAllUsers()
+        public IActionResult GetUsers([FromQuery] int page = 1, [FromQuery] int elementsPerPage = 10)
         {
             try
             {
                 IEnumerable<User> users = UserService.GetAllUsers();
-                return Ok(users.Select(u => new UserResponse(u)));
+                IEnumerable<User> paginatedUsers = users.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
+                return Ok(new PaginatedResponse(paginatedUsers.Select(u => new UserResponse(u)), users.Count()));
             }
             catch (Exception exception)
             {
