@@ -1,6 +1,7 @@
 ﻿using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Services.Exceptions;
+using System;
 using System.Collections.Generic;
 
 namespace OpenMTS.Services
@@ -98,6 +99,37 @@ namespace OpenMTS.Services
             UserRepository.UpdateUser(user);
 
             return user;
+        }
+
+        /// <summary>
+        /// Attempts to change a user's password
+        /// </summary>
+        /// <param name="id">The ID of the user.</param>
+        /// <param name="oldPassword">The old password for verification.</param>
+        /// <param name="newPassword">The new password to save.</param>
+        /// <exception cref="UserNotFoundException">Thrown if there is no such user.</exception>
+        /// <exception cref="UnauthorizedAccessException">Thrown if the submitted old password is wrong!</exception>
+        public void ChangePassword(string id, string oldPassword, string newPassword)
+        {
+            User user = UserRepository.GetUser(id);
+
+            // Check for user existence
+            if (user == null)
+            {
+                throw new UserNotFoundException(id);
+            }
+
+            // Verify old password
+            if (user.Password != PasswordHashingService.HashAndSaltPassword(oldPassword, user.Salt))
+            {
+                throw new UnauthorizedAccessException();
+            }
+
+            // Hash and salt new password
+            (string hashedPassword, byte[] salt) = PasswordHashingService.HashAndSaltPassword(newPassword);
+            user.Password = hashedPassword;
+            user.Salt = salt;
+            UserRepository.UpdateUser(user);
         }
     }
 }

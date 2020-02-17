@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Services.Exceptions;
 using System;
+using System.Linq;
+using System.Security.Claims;
 
 namespace OpenMTS.Controllers
 {
@@ -24,6 +26,21 @@ namespace OpenMTS.Controllers
         protected Uri GetNewResourceUri(string resourceId)
         {
             return new Uri($"{Request.Scheme}://{Request.Host}{Request.Path}/{resourceId}");
+        }
+
+        /// <summary>
+        /// Get's the request subject's ID as pasrsed from the JWT, which is the user ID for users.
+        /// </summary>
+        /// <returns>Returns the subject's ID.</returns>
+        /// <exception cref="Exception">Thrown if no valid subject ID was found.</exception>
+        protected string GetSubject()
+        {
+            Claim subject = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).FirstOrDefault();
+            if (subject == null)
+            {
+                throw new Exception("No subject available.");
+            }
+            return subject.Value;
         }
 
         #region Error Handling
