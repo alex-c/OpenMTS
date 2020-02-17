@@ -1,6 +1,8 @@
 {
   "general": {
     "networkerror": "Netzwerkfehler: Bitte überprüfen Sie die Verbindung zum OpenMTS-Server.",
+    "unexpecteEerror": "Ein unerwarteter Fehler ist passiert; bitte kontaktieren Sie einen Administrator.",
+    "noData": "Keine Daten.",
     "account": "Account",
     "logout": "Abmelden"
   },

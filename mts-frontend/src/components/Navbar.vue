@@ -105,7 +105,7 @@ export default {
     cursor: pointer;
   }
   &.collapsed {
-    width: 47px;
+    width: 48px;
   }
   i {
     position: relative;

@@ -7,6 +7,7 @@ import Public from '../views/Public.vue';
 import Private from '../views/Private.vue';
 import Dashboard from '../views/private/Dashboard.vue';
 import Account from '../views/private/Account.vue';
+import UserAdministration from '../views/private/UserAdministration.vue';
 
 // Store
 import store from '../store';
@@ -44,6 +45,10 @@ const routes = [
       {
         path: 'account',
         component: Account,
+      },
+      {
+        path: 'users',
+        component: UserAdministration,
       },
     ],
   },

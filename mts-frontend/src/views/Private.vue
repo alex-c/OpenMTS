@@ -42,7 +42,6 @@ export default {
 <style lang="scss" scoped>
 #content {
   margin-left: 230px;
-  padding: 16px;
   text-align: left;
   transition: all 0.5s ease-in-out;
   &.collapsed {

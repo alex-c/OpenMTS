@@ -1,6 +1,8 @@
 {
   "general": {
-    "networkerror": "Network error: please check your connection to the OpenMTS server.",
+    "networkError": "Network error: please check your connection to the OpenMTS server.",
+    "unexpecteEerror": "An unexpected error occured; please contact an administrator.",
+    "noData": "No data.",
     "account": "Account",
     "logout": "Sign Out"
   },

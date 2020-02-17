@@ -12,7 +12,7 @@ function processResponse(response) {
 
 function catchNetworkError(response) {
   return new Promise((_, reject) => {
-    reject({ status: null, message: 'general.networkerror' });
+    reject({ status: null, message: 'general.networkError' });
   });
 }
 
@@ -22,6 +22,14 @@ export default {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ Id: id, Password: password }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getUsers: (page, elementsPerPage, search) => {
+    return fetch(`http://localhost:5000/api/users?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
     })
       .catch(catchNetworkError)
       .then(processResponse);
