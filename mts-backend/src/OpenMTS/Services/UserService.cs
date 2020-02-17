@@ -73,5 +73,31 @@ namespace OpenMTS.Services
             (string hash, byte[] salt) = PasswordHashingService.HashAndSaltPassword(password);
             return UserRepository.CreateUser(id, name, hash, salt, role);
         }
+
+        /// <summary>
+        /// Updates an existing user.
+        /// </summary>
+        /// <param name="id">The ID of the user to update.</param>
+        /// <param name="name">The new user name to set.</param>
+        /// <param name="role">The user role to assign to the user.</param>
+        /// <returns>Returns the modified user model.</returns>
+        /// <exception cref="UserNotFoundException">Thrown if there is no such user to update.</exception>
+        public User UpdateUser(string id, string name, Role role)
+        {
+            User user = UserRepository.GetUser(id);
+
+            // Check for user existence
+            if (user == null)
+            {
+                throw new UserNotFoundException(id);
+            }
+
+            // Update user data
+            user.Name = name;
+            user.Role = role;
+            UserRepository.UpdateUser(user);
+
+            return user;
+        }
     }
 }

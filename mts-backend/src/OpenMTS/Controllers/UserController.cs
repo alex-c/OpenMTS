@@ -114,6 +114,38 @@ namespace OpenMTS.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates an existing user's data.
+        /// </summary>
+        /// <param name="id">If of the user to update.</param>
+        /// <param name="userUpdateRequest">Request contract with data to update.</param>
+        /// <returns>Returns the modified user.</returns>
+        [HttpPatch("{id}"), Authorize(Roles = "Administrator")]
+        public IActionResult UpdateUser(string id, [FromBody] UserUpdateRequest userUpdateRequest)
+        {
+            if (userUpdateRequest == null ||
+                string.IsNullOrWhiteSpace(userUpdateRequest.Name) ||
+                string.IsNullOrWhiteSpace(userUpdateRequest.Role))
+            {
+                return HandleBadRequest("A valid user name and role need to be provided.");
+            }
+
+            if (!Enum.TryParse(userUpdateRequest.Role, out Role role))
+            {
+                return HandleBadRequest("A valid user role needs to be provided.");
+            }
+
+            try
+            {
+                User user = UserService.UpdateUser(id, userUpdateRequest.Name, role);
+                return Ok(new UserResponse(user));
+            }
+            catch (UserNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+        }
+
         #endregion
     }
 }
