@@ -1,5 +1,6 @@
 ﻿using OpenMTS.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenMTS.Repositories.Mocking
 {
@@ -19,14 +20,15 @@ namespace OpenMTS.Repositories.Mocking
             }
         }
 
-        public User CreateUser(string id, string name, string password, byte[] salt)
+        public User CreateUser(string id, string name, string password, byte[] salt, Role role)
         {
             User user = new User()
             {
                 Id = id,
                 Name = name,
                 Password = password,
-                Salt = salt
+                Salt = salt,
+                Role = role
             };
             Users.Add(id, user);
             return user;
@@ -50,6 +52,11 @@ namespace OpenMTS.Repositories.Mocking
         public void UpdateUser(User user)
         {
             Users[user.Id] = user;
+        }
+
+        public IEnumerable<User> SearchUsersByName(string partialName)
+        {
+            return Users.Values.Where(u => u.Name.ToLowerInvariant().Contains(partialName));
         }
     }
 }
