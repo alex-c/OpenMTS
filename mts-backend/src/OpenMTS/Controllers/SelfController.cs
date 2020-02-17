@@ -11,7 +11,7 @@ namespace OpenMTS.Controllers
     /// <summary>
     /// Functionality concerning the requesting user himself.
     /// </summary>
-    [Route("api/self")]
+    [Route("api/self"), Authorize]
     public class SelfController : ControllerBase
     {
         /// <summary>
@@ -35,7 +35,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="passwordChangeRequest">The request contract.</param>
         /// <returns>Returns an empty 200 Ok response on success.</returns>
-        [HttpPost("password"), Authorize]
+        [HttpPost("password")]
         public IActionResult ChangePassword([FromBody] PasswordChangeRequest passwordChangeRequest)
         {
             if (passwordChangeRequest == null ||
