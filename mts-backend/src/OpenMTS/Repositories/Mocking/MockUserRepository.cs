@@ -1,5 +1,6 @@
 ﻿using OpenMTS.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenMTS.Repositories.Mocking
 {
@@ -51,6 +52,11 @@ namespace OpenMTS.Repositories.Mocking
         public void UpdateUser(User user)
         {
             Users[user.Id] = user;
+        }
+
+        public IEnumerable<User> SearchUsersByName(string partialName)
+        {
+            return Users.Values.Where(u => u.Name.ToLowerInvariant().Contains(partialName));
         }
     }
 }

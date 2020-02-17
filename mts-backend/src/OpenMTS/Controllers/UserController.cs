@@ -41,13 +41,22 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="page">Requested page of data.</param>
         /// <param name="elementsPerPage">Number of elements requested.</param>
+        /// <param name="search">Optional partial name to filter users with.</param>
         /// <returns>Returns a paginated list of users.</returns>
         [HttpGet]
-        public IActionResult GetUsers([FromQuery] int page = 1, [FromQuery] int elementsPerPage = 10)
+        public IActionResult GetUsers([FromQuery] int page = 1, [FromQuery] int elementsPerPage = 10, [FromQuery] string search = null)
         {
             try
             {
-                IEnumerable<User> users = UserService.GetAllUsers();
+                IEnumerable<User> users = null;
+                if (string.IsNullOrWhiteSpace(search))
+                {
+                    users = UserService.GetAllUsers();
+                }
+                else
+                {
+                    users = UserService.SearchUsersByName(search);
+                }
                 IEnumerable<User> paginatedUsers = users.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
                 return Ok(new PaginatedResponse(paginatedUsers.Select(u => new UserResponse(u)), users.Count()));
             }

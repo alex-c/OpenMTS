@@ -15,6 +15,13 @@ namespace OpenMTS.Repositories
         IEnumerable<User> GetAllUsers();
 
         /// <summary>
+        /// Searches users by name using a partial name.
+        /// </summary>
+        /// <param name="partialName">Partial name to search for.</param>
+        /// <returns>Returns a list of matching users.</returns>
+        IEnumerable<User> SearchUsersByName(string partialName);
+
+        /// <summary>
         /// Gets a user by his unique user ID.
         /// </summary>
         /// <param name="id">ID of the user.</param>
