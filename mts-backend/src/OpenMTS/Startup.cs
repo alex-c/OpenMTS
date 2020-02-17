@@ -92,6 +92,7 @@ namespace OpenMTS
             else
             {
                 // TODO: implement repositories for PostgreSQL persistence
+                throw new NotImplementedException("PostgreSQL-based persistence hasn't been implemented yet.");
             }
 
             // Check JWT signing key validity
