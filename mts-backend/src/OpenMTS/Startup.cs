@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.Mocking;
 using OpenMTS.Services;
 using OpenMTS.Services.Authentication;
 using OpenMTS.Services.Authentication.Providers.UserLogin;
 using System;
+using System.Text;
 
 namespace OpenMTS
 {
@@ -77,6 +80,21 @@ namespace OpenMTS
                 }
             });
 
+            // Configure JWT-based aut
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateLifetime = true,
+                        ValidateAudience = false,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration.GetValue<string>("Jwt:Issuer"),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("Jwt:Secret")))
+                    };
+                });
+
             // Set up repositories
             if (Configuration.GetValue<bool>("Mocking:UseMockDataPersistence"))
             {
@@ -92,6 +110,7 @@ namespace OpenMTS
             else
             {
                 // TODO: implement repositories for PostgreSQL persistence
+                throw new NotImplementedException("PostgreSQL-based persistence hasn't been implemented yet.");
             }
 
             // Check JWT signing key validity
@@ -108,6 +127,7 @@ namespace OpenMTS
             // Register services
             services.AddSingleton<PasswordHashingService>();
             services.AddSingleton<AuthService>();
+            services.AddSingleton<UserService>();
 
             // Configure MVC
             services.AddMvc();
@@ -125,6 +145,9 @@ namespace OpenMTS
                 app.UseCors(LOCAL_DEVELOPMENT_CORS_POLICY);
                 Logger.LogInformation("Local development CORS policy for 'localhost:8080' enabled.");
             }
+            
+            // Use JWT-based auth
+            app.UseAuthentication();
 
             // Use MVC
             app.UseMvc();
