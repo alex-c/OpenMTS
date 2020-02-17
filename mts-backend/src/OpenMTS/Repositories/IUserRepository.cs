@@ -28,8 +28,9 @@ namespace OpenMTS.Repositories
         /// <param name="name">The display name of the user to create.</param>
         /// <param name="password">The password of the user to create.</param>
         /// <param name="salt">The salt used to had the user's password.</param>
+        /// <param name="role">The user role to assigne to the user to create.</param>
         /// <returns>Returns the newly created user.</returns>
-        User CreateUser(string id, string name, string password, byte[] salt);
+        User CreateUser(string id, string name, string password, byte[] salt, Role role);
 
         /// <summary>
         /// Updates a user.

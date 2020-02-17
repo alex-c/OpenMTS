@@ -19,14 +19,15 @@ namespace OpenMTS.Repositories.Mocking
             }
         }
 
-        public User CreateUser(string id, string name, string password, byte[] salt)
+        public User CreateUser(string id, string name, string password, byte[] salt, Role role)
         {
             User user = new User()
             {
                 Id = id,
                 Name = name,
                 Password = password,
-                Salt = salt
+                Salt = salt,
+                Role = role
             };
             Users.Add(id, user);
             return user;

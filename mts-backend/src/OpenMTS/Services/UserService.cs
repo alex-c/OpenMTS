@@ -52,5 +52,26 @@ namespace OpenMTS.Services
             }
             return user;
         }
+        
+        /// <summary>
+        /// Creates a new user.
+        /// </summary>
+        /// <param name="id">An ID for the user to create.</param>
+        /// <param name="name">A name for the user to create.</param>
+        /// <param name="password">A password for the user.</param>
+        /// <param name="role">A user role to assign to the user.</param>
+        /// <returns>Returns the newly created user.</returns>
+        /// <exception cref="UserAlreadyExistsException">Thrown if the login name is already taken.</exception>
+        public User CreateUser(string id, string name, string password, Role role)
+        {
+            if (UserRepository.GetUser(id) != null)
+            {
+                throw new UserAlreadyExistsException(id);
+            }
+
+            // Hash & salt password, create user!
+            (string hash, byte[] salt) = PasswordHashingService.HashAndSaltPassword(password);
+            return UserRepository.CreateUser(id, name, hash, salt, role);
+        }
     }
 }

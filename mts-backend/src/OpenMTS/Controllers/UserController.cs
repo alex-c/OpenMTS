@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Models;
 using OpenMTS.Services;
@@ -72,6 +74,43 @@ namespace OpenMTS.Controllers
             catch (Exception exception)
             {
                 return HandleUnexpectedException(exception);
+            }
+        }
+
+        #endregion
+
+        #region Administrative features
+
+        /// <summary>
+        /// Creates a new user.
+        /// </summary>
+        /// <param name="userCreationRequest">The request contract.</param>
+        /// <returns>Returns the newly created user.</returns>
+        [HttpPost, Authorize(Roles = "Administrator")]
+        public IActionResult CreateUser([FromBody] UserCreationRequest userCreationRequest)
+        {
+            if (userCreationRequest == null ||
+                string.IsNullOrWhiteSpace(userCreationRequest.Id) ||
+                string.IsNullOrWhiteSpace(userCreationRequest.Name) ||
+                string.IsNullOrWhiteSpace(userCreationRequest.Password) ||
+                string.IsNullOrWhiteSpace(userCreationRequest.Role))
+            {
+                return HandleBadRequest("A valid user ID, name, password and role need to be provided.");
+            }
+
+            if (!Enum.TryParse(userCreationRequest.Role, out Role role))
+            {
+                return HandleBadRequest("A valid user role needs to be provided.");
+            }
+
+            try
+            {
+                User user = UserService.CreateUser(userCreationRequest.Id, userCreationRequest.Name, userCreationRequest.Password, role);
+                return Created(GetNewResourceUri(user.Id), new UserResponse(user));
+            }
+            catch (UserAlreadyExistsException exception)
+            {
+                return HandleResourceAlreadyExistsException(exception);
             }
         }
 

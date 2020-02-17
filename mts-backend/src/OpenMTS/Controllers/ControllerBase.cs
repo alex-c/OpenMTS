@@ -16,6 +16,16 @@ namespace OpenMTS.Controllers
         /// </summary>
         protected ILogger Logger { get; set; }
 
+        /// <summary>
+        /// Get's the URI of a newly created resource, to be included in `201 Created` responses.
+        /// </summary>
+        /// <param name="resourceId">The ID of the newly created resource.</param>
+        /// <returns>Returns the newly created resource's URI.</returns>
+        protected Uri GetNewResourceUri(string resourceId)
+        {
+            return new Uri($"{Request.Scheme}://{Request.Host}{Request.Path}/{resourceId}");
+        }
+
         #region Error Handling
 
         /// <summary>
@@ -36,6 +46,16 @@ namespace OpenMTS.Controllers
         protected IActionResult HandleResourceNotFoundException(IResourceNotFoundException exception)
         {
             return NotFound(new ClientErrorResponse(exception.Message));
+        }
+
+        /// <summary>
+        /// Handle "resource already exists"-type of exceptions.
+        /// </summary>
+        /// <param name="exception">The actual exception.</param>
+        /// <returns>Returns a 409 error.</returns>
+        protected IActionResult HandleResourceAlreadyExistsException(IResourceAlreadyExsistsException exception)
+        {
+            return Conflict(new ClientErrorResponse(exception.Message));
         }
 
         /// <summary>
