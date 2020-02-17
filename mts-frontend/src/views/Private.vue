@@ -3,7 +3,9 @@
     <Navbar />
     <Sidebar />
     <div id="content" :class="{collapsed : menuCollapsed}">
-      <router-view></router-view>
+      <div id="content-inner">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -39,13 +41,55 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import '../theme/colors.scss';
+
 #content {
   margin-left: 230px;
-  text-align: left;
+  padding: 0px 16px;
+  text-align: center;
   transition: all 0.5s ease-in-out;
   &.collapsed {
     margin-left: 48px;
   }
+}
+
+#content-inner {
+  max-width: 900px;
+  margin: auto;
+  text-align: left;
+}
+
+.content-row {
+  padding-top: 16px;
+  overflow: auto;
+  .left {
+    float: left;
+  }
+  .right {
+    float: right;
+  }
+}
+
+.content-section {
+  padding-top: 8px;
+  & .content-row {
+    padding-top: 8px;
+  }
+}
+
+.content-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+table td {
+  cursor: pointer;
+}
+
+.current-row > td {
+  background-color: $color-info !important;
+  color: white !important;
 }
 </style>

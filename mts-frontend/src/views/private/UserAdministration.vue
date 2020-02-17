@@ -1,17 +1,15 @@
 <template>
   <div id="user-administration">
-    <div id="breadcrumb">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">OpenMTS</el-breadcrumb-item>
-        <el-breadcrumb-item>User Administration</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div id="users-view">
-      <div id="users-view-header">
-        Users
-        <el-button icon="el-icon-plus" type="primary" size="mini">New User</el-button>
+    <div class="content-section">
+      <div class="content-row">
+        <div class="left content-title">Users</div>
+        <div class="right">
+          <router-link to="/private/users/create">
+            <el-button icon="el-icon-plus" type="primary" size="mini">New User</el-button>
+          </router-link>
+        </div>
       </div>
-      <div id="users-view-table">
+      <div class="content-row">
         <el-table
           :data="users"
           stripe
@@ -19,14 +17,31 @@
           size="mini"
           :empty-text="$t('general.noData')"
           highlight-current-row
+          @current-change="selectUser"
         >
           <el-table-column prop="id" label="ID"></el-table-column>
           <el-table-column prop="name" label="Name"></el-table-column>
           <el-table-column prop="role" label="Role"></el-table-column>
         </el-table>
       </div>
-      <div id="users-view-footer">
-        <el-button icon="el-icon-edit" type="info" plain size="mini">Edit</el-button>
+      <div class="content-row">
+        <div class="left">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="totalUsers"
+            :page-size="query.usersPerPage"
+          ></el-pagination>
+        </div>
+        <div class="right">
+          <el-button
+            icon="el-icon-edit"
+            type="info"
+            size="mini"
+            :disabled="selected.id === null"
+            @click="edit"
+          >Edit</el-button>
+        </div>
       </div>
     </div>
   </div>
@@ -39,13 +54,33 @@ export default {
   name: 'UserAdministration',
   data() {
     return {
+      query: {
+        page: 1,
+        usersPerPage: 10,
+        search: '',
+      },
       users: [],
+      totalUsers: 0,
+      selected: {
+        id: null,
+        name: null,
+        role: null,
+      },
     };
   },
+  methods: {
+    selectUser: function(user) {
+      this.selected = user.id;
+    },
+    edit: function() {
+      this.$router.push({ path: '/private/users/edit', params: { id: this.selected.id, name: this.selected.name } });
+    },
+  },
   mounted() {
-    Api.getUsers(1, 10, '')
+    Api.getUsers(this.page, this.usersPerPage, '')
       .then(response => {
-        this.users = response.data;
+        this.users = response.body.data;
+        this.totalUsers = response.body.totalElements;
       })
       .catch(error => {
         this.$message({
@@ -59,28 +94,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#breadcrumb {
-  padding: 16px;
-}
-
-#users-view {
-  padding: 0px 16px;
-}
-
-#users-view-header {
-  margin: 8px 0px;
-  font-size: 16px;
-  overflow: auto;
-  button {
-    float: right;
-  }
-}
-
-#users-view-footer {
-  margin: 8px 0px;
-  overflow: auto;
-  button {
-    float: right;
-  }
-}
 </style>
