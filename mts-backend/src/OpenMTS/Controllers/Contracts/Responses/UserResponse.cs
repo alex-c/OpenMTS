@@ -15,7 +15,7 @@ namespace OpenMTS.Controllers.Contracts.Responses
         {
             Id = user.Id;
             Name = user.Name;
-            Role = user.Role.ToString();
+            Role = (int)user.Role;
         }
 
         /// <summary>
@@ -31,6 +31,6 @@ namespace OpenMTS.Controllers.Contracts.Responses
         /// <summary>
         /// The platform role the user has been assigned.
         /// </summary>
-        public string Role { get; set; }
+        public int Role { get; set; }
     }
 }
