@@ -1,30 +1,31 @@
 <template>
   <div class="content-section">
-    <div class="content-row content-title">Edit User {{id}}</div>
-    <el-form :model="editUserForm" :rules="validationRules" ref="loginForm">
+    <div class="content-row content-title">{{$t('users.edit') + " " + id}}</div>
+    <el-form
+      :model="editUserForm"
+      :rules="validationRules"
+      ref="editUserForm"
+      label-position="left"
+      label-width="120px"
+      size="mini"
+    >
       <div class="content-row">
-        <el-form-item prop="name">
-          <el-input :placeholder="$t('users.name')" v-model="editUserForm.name"></el-input>
+        <el-form-item prop="name" label="Name">
+          <el-input placeholder="Name" v-model="editUserForm.userName"></el-input>
         </el-form-item>
-      </div>
-      <div class="content-row">
-        Administrator:
-        <el-switch v-model="editUserForm.isAdmin"></el-switch>
-        <el-form-item class="right">
-          <el-button type="primary" @click="save">Save</el-button>
+        <el-form-item prop="role" :label="$t('users.role')">
+          <el-select v-model="editUserForm.userRole" :placeholder="$t('users.role')">
+            <el-option value="0" :label="$t('users.roles.admin')" />
+            <el-option value="1" :label="$t('users.roles.assistant')" />
+            <el-option value="2" :label="$t('users.roles.user')" />
+          </el-select>
+          <div class="right">
+            <router-link to="/private/users">
+              <el-button type="warning" plain icon="el-icon-arrow-left">{{$t('general.cancel')}}</el-button>
+            </router-link>
+            <el-button type="primary" @click="edit" icon="el-icon-check">{{$t('general.save')}}</el-button>
+          </div>
         </el-form-item>
-      </div>
-      <div class="content-row">
-        <transition name="el-zoom-in-top">
-          <el-alert
-            id="bad-login-error"
-            :closable="false"
-            :title="$t('login.fail.title')"
-            type="error"
-            v-show="badLogin"
-            show-icon
-          >{{ $t('login.fail.description') }}</el-alert>
-        </transition>
       </div>
     </el-form>
   </div>
@@ -38,12 +39,20 @@ export default {
     return {
       editUserForm: {
         userName: name,
-        userIsAdmin: false,
+        userRole: null,
       },
     };
   },
+  computed: {
+    validationRules() {
+      return {
+        name: { required: true, message: this.$t('users.validation.name'), trigger: 'blur' },
+        role: { required: true, message: this.$t('users.validation.role'), trigger: ['change', 'blur'] },
+      };
+    },
+  },
   methods: {
-    save: function() {},
+    edit: function() {},
   },
 };
 </script>

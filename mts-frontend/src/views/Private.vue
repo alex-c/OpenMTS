@@ -68,6 +68,9 @@ export default {
   }
   .right {
     float: right;
+    button {
+      margin-left: 8px;
+    }
   }
 }
 
@@ -91,5 +94,13 @@ table td {
 .current-row > td {
   background-color: $color-info !important;
   color: white !important;
+}
+
+.input-button {
+  color: $color-primary !important;
+}
+
+.el-select-dropdown {
+  text-align: left;
 }
 </style>

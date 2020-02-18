@@ -16,6 +16,10 @@ function catchNetworkError(response) {
   });
 }
 
+function getAuthorizationHeader() {
+  return 'Bearer ' + localStorage.getItem('token');
+}
+
 export default {
   login: (id, password) => {
     return fetch('http://localhost:5000/api/auth?method=userLogin', {
@@ -30,6 +34,17 @@ export default {
     return fetch(`http://localhost:5000/api/users?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  createUser: (id, name, isAdmin) => {
+    return fetch('http://localhost:5000/api/users', {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ Id: id, Name: name, IsAdmin: isAdmin }),
     })
       .catch(catchNetworkError)
       .then(processResponse);

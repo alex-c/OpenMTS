@@ -4,7 +4,10 @@
     "unexpecteEerror": "An unexpected error occured; please contact an administrator.",
     "noData": "No data.",
     "account": "Account",
-    "logout": "Sign Out"
+    "users": "Users",
+    "logout": "Sign Out",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "login": {
     "header": "User Login",
@@ -24,5 +27,21 @@
     "notice": "Password forgotten? Contact an administrator!",
     "settings": "Settings",
     "language": "Language"
+  },
+  "users": {
+    "role": "Role",
+    "roles": {
+      "admin": "Administrator",
+      "assistant": "Sci. Assistant",
+      "user": "User"
+    },
+    "create": "New User",
+    "edit": "Edit",
+    "validation": {
+      "name": "Please enter a user name.",
+      "id": "Please enter or generate an ID.",
+      "role": "Please select a user role."
+    },
+    "generateId": "Generate an ID from the user name."
   }
 }

@@ -58,6 +58,7 @@ const routes = [
       },
       {
         path: 'users/edit',
+        name: 'editUser',
         component: EditUser,
         props: true,
       },

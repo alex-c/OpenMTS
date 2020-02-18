@@ -4,7 +4,10 @@
     "unexpecteEerror": "Ein unerwarteter Fehler ist passiert; bitte kontaktieren Sie einen Administrator.",
     "noData": "Keine Daten.",
     "account": "Account",
-    "logout": "Abmelden"
+    "users": "Benutzer",
+    "logout": "Abmelden",
+    "save": "Speichern",
+    "cancel": "Abbrechen"
   },
   "login": {
     "header": "Benutzeranmeldung",
@@ -24,5 +27,21 @@
     "notice": "Passwort vergessen? Kontaktieren Sie bitte einen Administrator!",
     "settings": "Einstellungen",
     "language": "Sprache"
+  },
+  "users": {
+    "role": "Rolle",
+    "roles": {
+      "admin": "Administrator",
+      "assistant": "Wiss. Assistent",
+      "user": "Nutzer"
+    },
+    "create": "Neuer Benutzer",
+    "edit": "Editieren",
+    "validation": {
+      "name": "Bitte geben Sie einen Benutzernamen ein.",
+      "id": "Bitte geben Sie eine ID ein, oder generieren Sie eine.",
+      "role": "Bitte wählen Sie eine Nutzerrolle aus."
+    },
+    "generateId": "ID aus dem Benutzernamen generieren."
   }
 }

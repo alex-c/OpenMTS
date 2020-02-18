@@ -2,7 +2,7 @@
   <aside id="sidebar" :class="{collapsed: menuCollapsed}">
     <div id="menu">
       <MenuHeader label="Administration" :collapsed="menuCollapsed" />
-      <MenuButton label="Users" icon="el-icon-user-solid" to="/private/users" />
+      <MenuButton :label="$t('general.users')" icon="el-icon-user-solid" to="/private/users" />
     </div>
   </aside>
 </template>
