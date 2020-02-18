@@ -25,7 +25,7 @@ export default {
     return fetch('http://localhost:5000/api/auth?method=userLogin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ Id: id, Password: password }),
+      body: JSON.stringify({ id, password }),
     })
       .catch(catchNetworkError)
       .then(processResponse);
@@ -38,13 +38,24 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  createUser: (id, name, isAdmin) => {
+  createUser: (id, name, password, role) => {
     return fetch('http://localhost:5000/api/users', {
       method: 'POST',
       withCredentials: true,
       credentials: 'include',
       headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
-      body: JSON.stringify({ Id: id, Name: name, IsAdmin: isAdmin }),
+      body: JSON.stringify({ id, name, password, role }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateUser: (id, name, role) => {
+    return fetch(`http://localhost:5000/api/users/${id}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ id, name, role }),
     })
       .catch(catchNetworkError)
       .then(processResponse);

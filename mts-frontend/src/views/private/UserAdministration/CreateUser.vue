@@ -24,6 +24,21 @@
             ></el-button>
           </el-input>
         </el-form-item>
+        <el-form-item prop="password" :label="$t('login.placeholder.password')">
+          <el-input
+            :placeholder="$t('login.placeholder.password')"
+            v-model="createUserForm.password"
+            autofocus
+          >
+            <el-button
+              slot="append"
+              icon="el-icon-refresh-right"
+              class="input-button"
+              @click="generatePassword"
+              :title="$t('users.generatePassword')"
+            ></el-button>
+          </el-input>
+        </el-form-item>
         <el-form-item prop="role" :label="$t('users.role')">
           <el-select v-model="createUserForm.role" :placeholder="$t('users.role')">
             <el-option value="0" :label="$t('users.roles.admin')" />
@@ -38,44 +53,29 @@
           </div>
         </el-form-item>
       </div>
-      <div class="content-row">
-        <transition name="el-zoom-in-top">
-          <el-alert
-            :closable="false"
-            :title="$t('login.fail.title')"
-            type="error"
-            v-show="error"
-            show-icon
-          >{{ $t('login.fail.description') }}</el-alert>
-        </transition>
-        <transition name="el-zoom-in-top">
-          <el-alert
-            :closable="false"
-            :title="$t('login.fail.title')"
-            type="success"
-            v-show="success"
-            show-icon
-          >{{ $t('login.fail.description') }}</el-alert>
-        </transition>
-      </div>
+      <Alert type="error" :description="$t(error)" :show="error !== null" />
     </el-form>
   </div>
 </template>
 
 <script>
 import Api from '../../../Api.js';
+import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
+import Alert from '@/components/Alert.vue';
 
 export default {
   name: 'CreateUser',
+  components: { Alert },
+  mixins: [GenericErrorHandlingMixin],
   data() {
     return {
       createUserForm: {
         name: '',
         id: '',
+        password: '',
         role: null,
       },
-      error: false,
-      success: true,
+      error: null,
     };
   },
   computed: {
@@ -83,6 +83,7 @@ export default {
       return {
         name: { required: true, message: this.$t('users.validation.name'), trigger: 'blur' },
         id: { required: true, message: this.$t('users.validation.id'), trigger: ['change', 'blur'] },
+        password: { required: true, message: this.$t('users.validation.password'), trigger: ['change', 'blur'] },
         role: { required: true, message: this.$t('users.validation.role'), trigger: ['change', 'blur'] },
       };
     },
@@ -96,25 +97,26 @@ export default {
           .toLowerCase();
       }
     },
+    generatePassword: function() {
+      this.createUserForm.password = Math.random()
+        .toString(36)
+        .substr(2, 8);
+    },
     create: function() {
-      this.error = false;
+      this.error = null;
       this.$refs['createUserForm'].validate(valid => {
         if (valid) {
-          Api.createUser(this.createUserForm.id, this.createUserForm.name, this.createUserForm.isAdmin)
-            .then(response => {})
+          Api.createUser(this.createUserForm.id, this.createUserForm.name, this.createUserForm.password, this.createUserForm.role)
+            .then(response => {
+              this.$router.push({ name: 'users', params: { userCreated: this.createUserForm.id } });
+            })
             .catch(error => {
-              if (error.status === 403) {
-                this.$message({
-                  message: this.$t(error.message),
-                  type: 'error',
-                  showClose: true,
-                });
+              if (error.status === 409) {
+                this.error = 'users.idTaken';
               } else {
-                // TODO
+                this.handleHttpError(error);
               }
             });
-        } else {
-          return false;
         }
       });
     },

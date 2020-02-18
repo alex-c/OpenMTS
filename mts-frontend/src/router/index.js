@@ -50,7 +50,9 @@ const routes = [
       },
       {
         path: 'users',
+        name: 'users',
         component: UserAdministration,
+        props: true,
       },
       {
         path: 'users/create',

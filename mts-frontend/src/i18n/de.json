@@ -1,13 +1,16 @@
 {
   "general": {
     "networkerror": "Netzwerkfehler: Bitte überprüfen Sie die Verbindung zum OpenMTS-Server.",
-    "unexpecteEerror": "Ein unerwarteter Fehler ist passiert; bitte kontaktieren Sie einen Administrator.",
+    "unexpecteError": "Ein unerwarteter Fehler ist passiert; bitte kontaktieren Sie einen Administrator.",
+    "unauthorizedError": "Sie wurden aufgrund fehlender Authorisierung abgemeldet.",
+    "forbiddenError": "Dazu fehlt Ihnen die Berechtigung.",
     "noData": "Keine Daten.",
     "account": "Account",
     "users": "Benutzer",
     "logout": "Abmelden",
     "save": "Speichern",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "warning": "Warnung"
   },
   "login": {
     "header": "Benutzeranmeldung",
@@ -37,11 +40,19 @@
     },
     "create": "Neuer Benutzer",
     "edit": "Editieren",
+    "archive": "Archivieren",
+    "filter": "Mit Benutzernamen filtern...",
+    "archiveConfirm": "Sind Sie sicher, dass Sie den Nutzer `{id}` archivieren wollen?",
     "validation": {
       "name": "Bitte geben Sie einen Benutzernamen ein.",
       "id": "Bitte geben Sie eine ID ein, oder generieren Sie eine.",
+      "password": "Bitte geben Sie ein Passwort ein, oder generieren Sie eines.",
       "role": "Bitte wählen Sie eine Nutzerrolle aus."
     },
-    "generateId": "ID aus dem Benutzernamen generieren."
+    "generateId": "ID aus dem Benutzernamen generieren.",
+    "generatePassword": "Zufälliges passwort generieren.",
+    "idTaken": "Diese Benutzer-ID ist bereits vergeben.",
+    "created": "Benutzer `{id}` wurde angelegt!",
+    "updated": "Benutzer mit ID `{id}` wurde aktualisiert!"
   }
 }

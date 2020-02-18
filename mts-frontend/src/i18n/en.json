@@ -1,13 +1,16 @@
 {
   "general": {
     "networkError": "Network error: please check your connection to the OpenMTS server.",
-    "unexpecteEerror": "An unexpected error occured; please contact an administrator.",
+    "unexpecteError": "An unexpected error occured; please contact an administrator.",
+    "unauthorizedError": "You have been logged out because of missing authorization.",
+    "forbiddenError": "You are not authorized to do that.",
     "noData": "No data.",
     "account": "Account",
     "users": "Users",
     "logout": "Sign Out",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "warning": "Warning"
   },
   "login": {
     "header": "User Login",
@@ -37,11 +40,19 @@
     },
     "create": "New User",
     "edit": "Edit",
+    "archive": "Archive",
+    "filter": "Filter by user name...",
+    "archiveConfirm": "Are you sure that you want to archive user `{id}`?",
     "validation": {
       "name": "Please enter a user name.",
       "id": "Please enter or generate an ID.",
+      "password": "Please enter or generate a password.",
       "role": "Please select a user role."
     },
-    "generateId": "Generate an ID from the user name."
+    "generateId": "Generate an ID from the user name.",
+    "generatePassword": "Generate a random password.",
+    "idTaken": "This user ID is already taken.",
+    "created": "User `{id}` was successfully created!",
+    "updated": "User with ID `{id}` was updated!"
   }
 }

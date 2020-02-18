@@ -10,10 +10,10 @@
       size="mini"
     >
       <div class="content-row">
-        <el-form-item prop="name" label="Name">
+        <el-form-item prop="userName" label="Name">
           <el-input placeholder="Name" v-model="editUserForm.userName"></el-input>
         </el-form-item>
-        <el-form-item prop="role" :label="$t('users.role')">
+        <el-form-item prop="userRole" :label="$t('users.role')">
           <el-select v-model="editUserForm.userRole" :placeholder="$t('users.role')">
             <el-option value="0" :label="$t('users.roles.admin')" />
             <el-option value="1" :label="$t('users.roles.assistant')" />
@@ -27,20 +27,28 @@
           </div>
         </el-form-item>
       </div>
+      <Alert type="error" :description="$t(error)" :show="error !== null" />
     </el-form>
   </div>
 </template>
 
 <script>
+import Api from '../../../Api.js';
+import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
+import Alert from '@/components/Alert.vue';
+
 export default {
   name: 'EditUser',
+  components: { Alert },
+  mixins: [GenericErrorHandlingMixin],
   props: ['id', 'name', 'role'],
   data() {
     return {
       editUserForm: {
-        userName: name,
-        userRole: null,
+        userName: this.name,
+        userRole: this.role,
       },
+      error: null,
     };
   },
   computed: {
@@ -52,7 +60,20 @@ export default {
     },
   },
   methods: {
-    edit: function() {},
+    edit: function() {
+      this.error = null;
+      this.$refs['editUserForm'].validate(valid => {
+        if (valid) {
+          Api.updateUser(this.id, this.editUserForm.userName, this.editUserForm.userRole)
+            .then(response => {
+              this.$router.push({ name: 'users', params: { userUpdated: this.id } });
+            })
+            .catch(error => {
+              this.handleHttpError(error);
+            });
+        }
+      });
+    },
   },
 };
 </script>
