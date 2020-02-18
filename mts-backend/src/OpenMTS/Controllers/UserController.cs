@@ -104,17 +104,23 @@ namespace OpenMTS.Controllers
             if (userCreationRequest == null ||
                 string.IsNullOrWhiteSpace(userCreationRequest.Id) ||
                 string.IsNullOrWhiteSpace(userCreationRequest.Name) ||
-                string.IsNullOrWhiteSpace(userCreationRequest.Password) ||
-                string.IsNullOrWhiteSpace(userCreationRequest.Role))
+                string.IsNullOrWhiteSpace(userCreationRequest.Password))
             {
                 return HandleBadRequest("A valid user ID, name, password and role need to be provided.");
             }
 
-            if (!Enum.TryParse(userCreationRequest.Role, out Role role))
+            // Attempt to parse role
+            Role role;
+            if (Enum.IsDefined(typeof(Role), userCreationRequest.Role))
+            {
+                role = (Role)userCreationRequest.Role;
+            }
+            else
             {
                 return HandleBadRequest("A valid user role needs to be provided.");
             }
 
+            // Attempt to create the new user
             try
             {
                 User user = UserService.CreateUser(userCreationRequest.Id, userCreationRequest.Name, userCreationRequest.Password, role);
@@ -135,18 +141,23 @@ namespace OpenMTS.Controllers
         [HttpPatch("{id}"), Authorize(Roles = "Administrator")]
         public IActionResult UpdateUser(string id, [FromBody] UserUpdateRequest userUpdateRequest)
         {
-            if (userUpdateRequest == null ||
-                string.IsNullOrWhiteSpace(userUpdateRequest.Name) ||
-                string.IsNullOrWhiteSpace(userUpdateRequest.Role))
+            if (userUpdateRequest == null || string.IsNullOrWhiteSpace(userUpdateRequest.Name))
             {
                 return HandleBadRequest("A valid user name and role need to be provided.");
             }
 
-            if (!Enum.TryParse(userUpdateRequest.Role, out Role role))
+            // Attempt to parse role
+            Role role;
+            if (Enum.IsDefined(typeof(Role), userUpdateRequest.Role))
+            {
+                role = (Role)userUpdateRequest.Role;
+            }
+            else
             {
                 return HandleBadRequest("A valid user role needs to be provided.");
             }
 
+            // Attempt to update the user
             try
             {
                 User user = UserService.UpdateUser(id, userUpdateRequest.Name, role);

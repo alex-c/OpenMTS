@@ -23,6 +23,6 @@
         /// <summary>
         /// The user role to assign to the user.
         /// </summary>
-        public string Role { get; set; }
+        public int Role { get; set; }
     }
 }
