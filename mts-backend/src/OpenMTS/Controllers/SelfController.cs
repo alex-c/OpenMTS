@@ -49,7 +49,7 @@ namespace OpenMTS.Controllers
             {
                 string id = GetSubject();
                 UserService.ChangePassword(id, passwordChangeRequest.Old, passwordChangeRequest.New);
-                return Ok();
+                return NoContent();
             }
             catch (UserNotFoundException exception)
             {
