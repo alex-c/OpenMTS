@@ -87,6 +87,11 @@ export default {
   margin-top: 4px;
 }
 
+.content-subtitle {
+  font-size: 14px;
+  font-weight: 600;
+}
+
 table td {
   cursor: pointer;
 }

@@ -167,4 +167,8 @@ export default {
 .collapse-leave-to {
   width: 0;
 }
+
+.el-dropdown-menu {
+  text-align: left;
+}
 </style>

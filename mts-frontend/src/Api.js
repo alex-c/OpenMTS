@@ -1,6 +1,8 @@
 function processResponse(response) {
   return new Promise((resolve, reject) => {
-    if (response.status === 401 || response.status === 403) {
+    if (response.status === 204) {
+      resolve({ status: response.status });
+    } else if (response.status === 401 || response.status === 403) {
       reject({ status: response.status });
     } else {
       let handler;
@@ -26,6 +28,17 @@ export default {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, password }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  changePassword: (oldPassword, newPassword) => {
+    return fetch('http://localhost:5000/api/self/password', {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ old: oldPassword, new: newPassword }),
     })
       .catch(catchNetworkError)
       .then(processResponse);

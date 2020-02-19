@@ -5,12 +5,13 @@
     "unauthorizedError": "Sie wurden aufgrund fehlender Authorisierung abgemeldet.",
     "forbiddenError": "Dazu fehlt Ihnen die Berechtigung.",
     "noData": "Keine Daten.",
-    "account": "Account",
+    "account": "Benutzerkonto",
     "users": "Benutzer",
     "logout": "Abmelden",
     "save": "Speichern",
     "cancel": "Abbrechen",
-    "warning": "Warnung"
+    "warning": "Warnung",
+    "repeat": "Wiederholen"
   },
   "login": {
     "header": "Benutzeranmeldung",
@@ -30,6 +31,18 @@
     "notice": "Passwort vergessen? Kontaktieren Sie bitte einen Administrator!",
     "settings": "Einstellungen",
     "language": "Sprache"
+  },
+  "account": {
+    "passwordChanged": "Ihr Passwort wurde geändert.",
+    "changePassword": "Passwort ändern",
+    "oldPassword": "Altes Passwort",
+    "newPassword": "Neues Passwort",
+    "validation": {
+      "oldPassword": "Bitte geben Sie ihr altes Passwort ein.",
+      "newPassword": "Bitte geben Sie ihr neues Passwort ein.",
+      "newPasswordRepeat": "Bitte wiederholen Sie ihr altes Passwort."
+    },
+    "badPassword": "Das alte Passwort stimmt nicht."
   },
   "users": {
     "role": "Rolle",

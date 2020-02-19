@@ -10,7 +10,8 @@
     "logout": "Sign Out",
     "save": "Save",
     "cancel": "Cancel",
-    "warning": "Warning"
+    "warning": "Warning",
+    "repeat": "Repeat"
   },
   "login": {
     "header": "User Login",
@@ -30,6 +31,18 @@
     "notice": "Password forgotten? Contact an administrator!",
     "settings": "Settings",
     "language": "Language"
+  },
+  "account": {
+    "passwordChanged": "Your password was successfully changed.",
+    "changePassword": "Change password",
+    "oldPassword": "Old password",
+    "newPassword": "New password",
+    "validation": {
+      "oldPassword": "Please enter your old password.",
+      "newPassword": "Please enter your new password.",
+      "newPasswordRepeat": "Please repeate your new password."
+    },
+    "badPassword": "You submitted a bad old password."
   },
   "users": {
     "role": "Role",
