@@ -20,6 +20,39 @@ namespace OpenMTS.Repositories.Mocking
             }
         }
 
+        public IEnumerable<User> GetAllUsers(bool showArchived)
+        {
+            IEnumerable<User> users;
+            if (showArchived)
+            {
+                users = Users.Values;
+            }
+            else
+            {
+                users = Users.Values.Where(u => u.IsArchived == false);
+            }
+            return users;
+        }
+
+        public IEnumerable<User> SearchUsersByName(string partialName, bool showArchived)
+        {
+            IEnumerable<User> users;
+            if (showArchived)
+            {
+                users = Users.Values;
+            }
+            else
+            {
+                users = Users.Values.Where(u => u.IsArchived == false);
+            }
+            return users.Where(u => u.Name.ToLowerInvariant().Contains(partialName));
+        }
+
+        public User GetUser(string id)
+        {
+            return Users.GetValueOrDefault(id);
+        }
+
         public User CreateUser(string id, string name, string password, byte[] salt, Role role)
         {
             User user = new User()
@@ -28,25 +61,11 @@ namespace OpenMTS.Repositories.Mocking
                 Name = name,
                 Password = password,
                 Salt = salt,
-                Role = role
+                Role = role,
+                IsArchived = false
             };
             Users.Add(id, user);
             return user;
-        }
-
-        public void DeleteUser(string id)
-        {
-            Users.Remove(id);
-        }
-
-        public IEnumerable<User> GetAllUsers()
-        {
-            return Users.Values;
-        }
-
-        public User GetUser(string id)
-        {
-            return Users.GetValueOrDefault(id);
         }
 
         public void UpdateUser(User user)
@@ -54,9 +73,9 @@ namespace OpenMTS.Repositories.Mocking
             Users[user.Id] = user;
         }
 
-        public IEnumerable<User> SearchUsersByName(string partialName)
+        public void DeleteUser(string id)
         {
-            return Users.Values.Where(u => u.Name.ToLowerInvariant().Contains(partialName));
+            Users.Remove(id);
         }
     }
 }

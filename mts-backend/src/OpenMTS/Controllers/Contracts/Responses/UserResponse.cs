@@ -16,6 +16,7 @@ namespace OpenMTS.Controllers.Contracts.Responses
             Id = user.Id;
             Name = user.Name;
             Role = (int)user.Role;
+            IsArchived = user.IsArchived;
         }
 
         /// <summary>
@@ -32,5 +33,10 @@ namespace OpenMTS.Controllers.Contracts.Responses
         /// The platform role the user has been assigned.
         /// </summary>
         public int Role { get; set; }
+
+        /// <summary>
+        /// Whether the user is archived.
+        /// </summary>
+        public bool IsArchived { get; set; }
     }
 }
