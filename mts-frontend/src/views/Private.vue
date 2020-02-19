@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     fitToScreen: function() {
-      if (window.innerWidth < 700) {
+      if (window.innerWidth <= 800) {
         this.$store.commit('collapseSidebar');
       } else {
         this.$store.commit('expandSidebar');
