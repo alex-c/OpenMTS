@@ -66,7 +66,7 @@ export default {
         if (valid) {
           Api.updateUser(this.id, this.editUserForm.userName, this.editUserForm.userRole)
             .then(response => {
-              this.$router.push({ name: 'users', params: { userUpdated: this.id } });
+              this.$router.push({ name: 'users', params: { successMessage: this.$t('users.updated', { id: this.id }) } });
             })
             .catch(error => {
               this.handleHttpError(error);

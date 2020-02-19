@@ -43,8 +43,8 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getUsers: (page, elementsPerPage, search) => {
-    return fetch(`http://localhost:5000/api/users?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
+  getUsers: (page, elementsPerPage, search, showArchived) => {
+    return fetch(`http://localhost:5000/api/users?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&showArchived=${showArchived}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })
@@ -69,6 +69,17 @@ export default {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
       body: JSON.stringify({ id, name, role }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateUserStatus: (id, archived) => {
+    return fetch(`http://localhost:5000/api/users/${id}/status`, {
+      method: 'PUT',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ archived }),
     })
       .catch(catchNetworkError)
       .then(processResponse);

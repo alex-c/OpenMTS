@@ -10,7 +10,6 @@
     "logout": "Sign Out",
     "save": "Save",
     "cancel": "Cancel",
-    "warning": "Warning",
     "repeat": "Repeat"
   },
   "login": {
@@ -47,6 +46,11 @@
   },
   "users": {
     "role": "Role",
+    "status": {
+      "label": "Status",
+      "archived": "Archived",
+      "active": "Active"
+    },
     "roles": {
       "admin": "Administrator",
       "assistant": "Sci. Assistant",
@@ -55,8 +59,10 @@
     "create": "New User",
     "edit": "Edit",
     "archive": "Archive",
+    "restore": "Restore",
     "filter": "Filter by user name...",
     "archiveConfirm": "Are you sure that you want to archive user `{id}`?",
+    "restoreConfirm": "Are you sure that you want to restore user `{id}`?",
     "validation": {
       "name": "Please enter a user name.",
       "id": "Please enter or generate an ID.",
@@ -67,6 +73,8 @@
     "generatePassword": "Generate a random password.",
     "idTaken": "This user ID is already taken.",
     "created": "User `{id}` was successfully created!",
-    "updated": "User with ID `{id}` was updated!"
+    "updated": "User with ID `{id}` was updated!",
+    "archived": "User with ID `{id}` was archived.",
+    "restored": "User with ID `{id}` was restored."
   }
 }

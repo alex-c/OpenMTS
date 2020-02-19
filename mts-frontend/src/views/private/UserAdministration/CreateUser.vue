@@ -108,7 +108,7 @@ export default {
         if (valid) {
           Api.createUser(this.createUserForm.id, this.createUserForm.name, this.createUserForm.password, this.createUserForm.role)
             .then(response => {
-              this.$router.push({ name: 'users', params: { userCreated: this.createUserForm.id } });
+              this.$router.push({ name: 'users', params: { successMessage: this.$t('users.created', { id: this.createUserForm.id }) } });
             })
             .catch(error => {
               if (error.status === 409) {
