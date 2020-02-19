@@ -15,6 +15,11 @@ namespace OpenMTS.Controllers
     public class AuthController : ControllerBase
     {
         /// <summary>
+        /// The service providing OpenMTS configuration functionality.
+        /// </summary>
+        private ConfigurationService ConfigurationService { get; }
+
+        /// <summary>
         /// The service providing authentication functionality.
         /// </summary>
         private AuthService AuthService { get; }
@@ -23,10 +28,12 @@ namespace OpenMTS.Controllers
         /// Initializes a controller instance.
         /// </summary>
         /// <param name="loggerFactory">Factory to create loggers from.</param>
+        /// <param name="configurationService">Service for configuration access.</param>
         /// <param name="authService">Injected authentication service.</param>
-        public AuthController(ILoggerFactory loggerFactory, AuthService authService)
+        public AuthController(ILoggerFactory loggerFactory, ConfigurationService configurationService, AuthService authService)
         {
             Logger = loggerFactory.CreateLogger<AuthController>();
+            ConfigurationService = configurationService;
             AuthService = authService;
         }
 
@@ -52,6 +59,12 @@ namespace OpenMTS.Controllers
             catch (Exception)
             {
                 return HandleBadRequest("Unknown authentication method.");
+            }
+
+            // Check whether guest login is allowed
+            if (authenticationMethod == AuthenticationMethod.GuestLogin && !ConfigurationService.GetConfiguration().AllowGuestLogin)
+            {
+                return Unauthorized();
             }
 
             // Parse body

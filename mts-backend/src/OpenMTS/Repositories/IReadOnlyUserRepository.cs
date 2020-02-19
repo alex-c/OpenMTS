@@ -11,8 +11,17 @@ namespace OpenMTS.Repositories
         /// <summary>
         /// Gets all users.
         /// </summary>
+        /// <param name="showArchived">Whether to return soft-deleted users.</param>
         /// <returns>Returns all users.</returns>
-        IEnumerable<User> GetAllUsers();
+        IEnumerable<User> GetAllUsers(bool showArchived = false);
+
+        /// <summary>
+        /// Searches users by name using a partial name.
+        /// </summary>
+        /// <param name="partialName">Partial name to search for.</param>
+        /// <param name="showArchived">Whether to return soft-deleted users.</param>
+        /// <returns>Returns a list of matching users.</returns>
+        IEnumerable<User> SearchUsersByName(string partialName, bool showArchived);
 
         /// <summary>
         /// Gets a user by his unique ID.

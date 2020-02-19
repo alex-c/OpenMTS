@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenMTS.Services.Authentication.Providers.UserLogin
 {
+    /// <summary>
+    /// An authentication provider for classic user logins.
+    /// </summary>
     public class UserLoginAuthenticationProvider : AuthenticationProviderBase, IAuthenticationProvider
     {
         /// <summary>

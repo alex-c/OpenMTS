@@ -32,20 +32,22 @@ namespace OpenMTS.Services
         /// <summary>
         /// Gets all available users.
         /// </summary>
+        /// <param name="showArchived">Whether to return archived users.</param>
         /// <returns>Returns a list of users.</returns>
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<User> GetAllUsers(bool showArchived = false)
         {
-            return UserRepository.GetAllUsers();
+            return UserRepository.GetAllUsers(showArchived);
         }
 
         /// <summary>
         /// Searches users by name using a partial name.
         /// </summary>
         /// <param name="partialName">Partial name to search for.</param>
+        /// <param name="showArchived">Whether to return archived users.</param>
         /// <returns>Returns a list of matching users.</returns>
-        public IEnumerable<User> SearchUsersByName(string partialName)
+        public IEnumerable<User> SearchUsersByName(string partialName, bool showArchived = false)
         {
-            return UserRepository.SearchUsersByName(partialName);
+            return UserRepository.SearchUsersByName(partialName, showArchived);
         }
 
         /// <summary>
@@ -56,12 +58,7 @@ namespace OpenMTS.Services
         /// <exception cref="UserNotFoundException">Thrown if there is no user with the given id.</exception>
         public User GetUser(string id)
         {
-            User user = UserRepository.GetUser(id);
-            if (user == null)
-            {
-                throw new UserNotFoundException(id);
-            }
-            return user;
+            return GetUserOrThrowNotFoundException(id);
         }
         
         /// <summary>
@@ -95,20 +92,25 @@ namespace OpenMTS.Services
         /// <exception cref="UserNotFoundException">Thrown if there is no such user to update.</exception>
         public User UpdateUser(string id, string name, Role role)
         {
-            User user = UserRepository.GetUser(id);
-
-            // Check for user existence
-            if (user == null)
-            {
-                throw new UserNotFoundException(id);
-            }
-
-            // Update user data
+            User user = GetUserOrThrowNotFoundException(id);
+            
             user.Name = name;
             user.Role = role;
             UserRepository.UpdateUser(user);
 
             return user;
+        }
+
+        /// <summary>
+        /// Updates a user's status: whether he is archived or not.
+        /// </summary>
+        /// <param name="id">ID of the user to update.</param>
+        /// <param name="isArchived">Whether the user is archived.</param>
+        public void UpdateUserStatus(string id, bool isArchived)
+        {
+            User user = GetUserOrThrowNotFoundException(id);
+            user.IsArchived = isArchived;
+            UserRepository.UpdateUser(user);
         }
 
         /// <summary>
@@ -121,13 +123,7 @@ namespace OpenMTS.Services
         /// <exception cref="UnauthorizedAccessException">Thrown if the submitted old password is wrong!</exception>
         public void ChangePassword(string id, string oldPassword, string newPassword)
         {
-            User user = UserRepository.GetUser(id);
-
-            // Check for user existence
-            if (user == null)
-            {
-                throw new UserNotFoundException(id);
-            }
+            User user = GetUserOrThrowNotFoundException(id);
 
             // Verify old password
             if (user.Password != PasswordHashingService.HashAndSaltPassword(oldPassword, user.Salt))
@@ -141,5 +137,28 @@ namespace OpenMTS.Services
             user.Salt = salt;
             UserRepository.UpdateUser(user);
         }
+
+        #region Private Helpers
+
+        /// <summary>
+        /// Attempts to get a user from the underlying repository and throws a <see cref="UserNotFoundException"/> if no matching user could be found.
+        /// </summary>
+        /// <param name="id">ID of the user to get.</param>
+        /// <exception cref="UserNotFoundException">Thrown if no matching user could be found.</exception>
+        /// <returns>Returns the user, if found.</returns>
+        private User GetUserOrThrowNotFoundException(string id)
+        {
+            User user = UserRepository.GetUser(id);
+
+            // Check for user existence
+            if (user == null)
+            {
+                throw new UserNotFoundException(id);
+            }
+
+            return user;
+        }
+
+        #endregion
     }
 }

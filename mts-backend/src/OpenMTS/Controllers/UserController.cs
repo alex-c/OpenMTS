@@ -44,18 +44,18 @@ namespace OpenMTS.Controllers
         /// <param name="search">Optional partial name to filter users with.</param>
         /// <returns>Returns a paginated list of users.</returns>
         [HttpGet]
-        public IActionResult GetUsers([FromQuery] int page = 1, [FromQuery] int elementsPerPage = 10, [FromQuery] string search = null)
+        public IActionResult GetUsers([FromQuery] int page = 1, [FromQuery] int elementsPerPage = 10, [FromQuery] string search = null, [FromQuery] bool showArchived = false)
         {
             try
             {
                 IEnumerable<User> users = null;
                 if (string.IsNullOrWhiteSpace(search))
                 {
-                    users = UserService.GetAllUsers();
+                    users = UserService.GetAllUsers(showArchived);
                 }
                 else
                 {
-                    users = UserService.SearchUsersByName(search);
+                    users = UserService.SearchUsersByName(search, showArchived);
                 }
                 IEnumerable<User> paginatedUsers = users.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
                 return Ok(new PaginatedResponse(paginatedUsers.Select(u => new UserResponse(u)), users.Count()));
@@ -109,6 +109,12 @@ namespace OpenMTS.Controllers
                 return HandleBadRequest("A valid user ID, name, password and role need to be provided.");
             }
 
+            // Special check to avoid conflicts with guest login functionality
+            if (userCreationRequest.Id == "openmts.guest")
+            {
+                return Conflict(new ClientErrorResponse("The ID `openmts.guest` is not available."));
+            }
+
             // Attempt to parse role
             Role role;
             if (Enum.IsDefined(typeof(Role), userCreationRequest.Role))
@@ -129,6 +135,10 @@ namespace OpenMTS.Controllers
             catch (UserAlreadyExistsException exception)
             {
                 return HandleResourceAlreadyExistsException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
             }
         }
 
@@ -166,6 +176,39 @@ namespace OpenMTS.Controllers
             catch (UserNotFoundException exception)
             {
                 return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        /// <summary>
+        /// Allows to update a user's status (whether he is archived or not).
+        /// </summary>
+        /// <param name="id">Id of the user to update.</param>
+        /// <param name="updateUserStatusRequest">The request contract containing whether the user should be archived or not.</param>
+        /// <returns>Returns `204 No Content` on success.</returns>
+        [HttpPut("{id}/status"), Authorize(Roles = "Administrator")]
+        public IActionResult UpdateUserStatus(string id, [FromBody] UpdateUserStatusRequest updateUserStatusRequest)
+        {
+            if (updateUserStatusRequest == null)
+            {
+                return HandleBadRequest("Missing status data.");
+            }
+
+            try
+            {
+                UserService.UpdateUserStatus(id, updateUserStatusRequest.Archived);
+                return NoContent();
+            }
+            catch (UserNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
             }
         }
 

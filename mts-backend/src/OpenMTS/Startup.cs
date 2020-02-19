@@ -9,6 +9,7 @@ using OpenMTS.Repositories;
 using OpenMTS.Repositories.Mocking;
 using OpenMTS.Services;
 using OpenMTS.Services.Authentication;
+using OpenMTS.Services.Authentication.Providers.GuestLogin;
 using OpenMTS.Services.Authentication.Providers.UserLogin;
 using System;
 using System.Text;
@@ -103,6 +104,7 @@ namespace OpenMTS
                 {
                     dataProvider = new MockDataProvider(new PasswordHashingService());
                 }
+                services.AddSingleton<IConfigurationRepository>(new MockConfigurationRepository());
                 MockUserRepository userRepository = new MockUserRepository(dataProvider);
                 services.AddSingleton<IReadOnlyUserRepository>(userRepository);
                 services.AddSingleton<IUserRepository>(userRepository);
@@ -123,9 +125,11 @@ namespace OpenMTS
 
             // Register auth providers
             services.AddSingleton<IAuthenticationProvider, UserLoginAuthenticationProvider>();
+            services.AddSingleton<IAuthenticationProvider, GuestLoginAuthenticationProvider>();
 
             // Register services
             services.AddSingleton<PasswordHashingService>();
+            services.AddSingleton<ConfigurationService>();
             services.AddSingleton<AuthService>();
             services.AddSingleton<UserService>();
 
