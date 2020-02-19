@@ -8,6 +8,11 @@
         /// <summary>
         /// Determines that the used authentication method is a user login.
         /// </summary>
-        UserLogin
+        UserLogin,
+
+        /// <summary>
+        /// Determines that the used authentication method is a guest login.
+        /// </summary>
+        GuestLogin
     }
 }

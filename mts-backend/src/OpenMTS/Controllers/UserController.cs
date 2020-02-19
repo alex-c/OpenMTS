@@ -109,6 +109,12 @@ namespace OpenMTS.Controllers
                 return HandleBadRequest("A valid user ID, name, password and role need to be provided.");
             }
 
+            // Special check to avoid conflicts with guest login functionality
+            if (userCreationRequest.Id == "openmts.guest")
+            {
+                return Conflict(new ClientErrorResponse("The ID `openmts.guest` is not available."));
+            }
+
             // Attempt to parse role
             Role role;
             if (Enum.IsDefined(typeof(Role), userCreationRequest.Role))
