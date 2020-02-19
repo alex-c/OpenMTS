@@ -29,5 +29,10 @@
         /// The platform role the user has been assigned.
         /// </summary>
         public Role Role { get; set; }
+
+        /// <summary>
+        /// Whether the user is archived (soft delete).
+        /// </summary>
+        public bool IsArchived { get; set; }
     }
 }
