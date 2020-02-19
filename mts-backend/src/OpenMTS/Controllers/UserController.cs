@@ -177,6 +177,12 @@ namespace OpenMTS.Controllers
             }
         }
 
+        /// <summary>
+        /// Allows to update a user's status (whether he is archived or not).
+        /// </summary>
+        /// <param name="id">Id of the user to update.</param>
+        /// <param name="updateUserStatusRequest">The request contract containing whether the user should be archived or not.</param>
+        /// <returns>Returns `204 No Content` on success.</returns>
         [HttpPut("{id}/status"), Authorize(Roles = "Administrator")]
         public IActionResult UpdateUserStatus(string id, [FromBody] UpdateUserStatusRequest updateUserStatusRequest)
         {

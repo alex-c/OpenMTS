@@ -103,6 +103,7 @@ namespace OpenMTS
                 {
                     dataProvider = new MockDataProvider(new PasswordHashingService());
                 }
+                services.AddSingleton<IConfigurationRepository>(new MockConfigurationRepository());
                 MockUserRepository userRepository = new MockUserRepository(dataProvider);
                 services.AddSingleton<IReadOnlyUserRepository>(userRepository);
                 services.AddSingleton<IUserRepository>(userRepository);
@@ -126,6 +127,7 @@ namespace OpenMTS
 
             // Register services
             services.AddSingleton<PasswordHashingService>();
+            services.AddSingleton<ConfigurationService>();
             services.AddSingleton<AuthService>();
             services.AddSingleton<UserService>();
 
