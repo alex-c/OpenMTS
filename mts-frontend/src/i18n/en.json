@@ -40,7 +40,8 @@
     "validation": {
       "oldPassword": "Please enter your old password.",
       "newPassword": "Please enter your new password.",
-      "newPasswordRepeat": "Please repeate your new password."
+      "newPasswordRepeat": "Please repeate your new password.",
+      "passwordMatch": "The passwords don't match."
     },
     "badPassword": "You submitted a bad old password."
   },

@@ -40,7 +40,8 @@
     "validation": {
       "oldPassword": "Bitte geben Sie ihr altes Passwort ein.",
       "newPassword": "Bitte geben Sie ihr neues Passwort ein.",
-      "newPasswordRepeat": "Bitte wiederholen Sie ihr altes Passwort."
+      "newPasswordRepeat": "Bitte wiederholen Sie ihr altes Passwort.",
+      "passwordMatch": "Die Passwörter stimmen nicht überein."
     },
     "badPassword": "Das alte Passwort stimmt nicht."
   },

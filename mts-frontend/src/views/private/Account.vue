@@ -1,7 +1,7 @@
 <template>
   <div>
+    <Alert type="success" :description="$t('account.passwordChanged')" :show="passwordChanged" />
     <div class="content-section">
-      <Alert type="success" :description="$t('account.passwordChanged')" :show="passwordChanged" />
       <div class="content-row content-title">{{$t('general.account')}}</div>
     </div>
     <div class="content-section">
@@ -17,21 +17,21 @@
         <div class="content-row">
           <el-form-item prop="oldPassword" :label="$t('account.oldPassword')">
             <el-input
-              type="password"
+              show-password
               :placeholder="$t('account.oldPassword')"
               v-model="changePasswordForm.oldPassword"
             ></el-input>
           </el-form-item>
           <el-form-item prop="newPassword" :label="$t('account.newPassword')">
             <el-input
-              type="password"
+              show-password
               :placeholder="$t('account.newPassword')"
               v-model="changePasswordForm.newPassword"
             ></el-input>
           </el-form-item>
           <el-form-item prop="newPasswordRepeat" :label="$t('general.repeat')">
             <el-input
-              type="password"
+              show-password
               :placeholder="$t('account.newPassword')"
               v-model="changePasswordForm.newPasswordRepeat"
             ></el-input>
@@ -77,18 +77,30 @@ export default {
       return {
         oldPassword: { required: true, message: this.$t('account.validation.oldPassword'), trigger: 'blur' },
         newPassword: { required: true, message: this.$t('account.validation.newPassword'), trigger: 'blur' },
-        newPasswordRepeat: { required: true, message: this.$t('account.validation.newPasswordRepeat'), trigger: 'blur' },
+        newPasswordRepeat: [
+          { required: true, message: this.$t('account.validation.newPasswordRepeat'), trigger: 'blur' },
+          { validator: this.validatePasswordRepeat, trigger: 'blur' },
+        ],
       };
     },
   },
   methods: {
+    validatePasswordRepeat: function(_, value, callback) {
+      if (value !== this.changePasswordForm.newPassword) {
+        callback(new Error(this.$t('account.validation.passwordMatch')));
+      } else {
+        callback();
+      }
+    },
     changePassword: function() {
       this.error = null;
+      this.passwordChanged = false;
       this.$refs['changePasswordForm'].validate(valid => {
         if (valid) {
           Api.changePassword(this.changePasswordForm.oldPassword, this.changePasswordForm.newPassword)
             .then(response => {
               this.passwordChanged = true;
+              this.$refs['changePasswordForm'].resetFields();
             })
             .catch(error => {
               if (error.status === 400) {
