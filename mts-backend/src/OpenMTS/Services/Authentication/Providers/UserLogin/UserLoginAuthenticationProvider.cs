@@ -59,6 +59,12 @@ namespace OpenMTS.Services.Authentication.Providers.UserLogin
                 return false;
             }
 
+            // Check for status
+            if (user.Disabled)
+            {
+                return false;
+            }
+
             // Check password
             if (PasswordHashingService.HashAndSaltPassword(userLoginData.Password, user.Salt) != user.Password)
             {
