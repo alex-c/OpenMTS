@@ -16,7 +16,7 @@ namespace OpenMTS.Controllers.Contracts.Responses
             Id = user.Id;
             Name = user.Name;
             Role = (int)user.Role;
-            IsArchived = user.IsArchived;
+            Disabled = user.Disabled;
         }
 
         /// <summary>
@@ -35,8 +35,8 @@ namespace OpenMTS.Controllers.Contracts.Responses
         public int Role { get; set; }
 
         /// <summary>
-        /// Whether the user is archived.
+        /// Whether the user is disabled.
         /// </summary>
-        public bool IsArchived { get; set; }
+        public bool Disabled { get; set; }
     }
 }

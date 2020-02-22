@@ -31,8 +31,8 @@
         public Role Role { get; set; }
 
         /// <summary>
-        /// Whether the user is archived (soft delete).
+        /// Whether the user is disabled (soft delete).
         /// </summary>
-        public bool IsArchived { get; set; }
+        public bool Disabled { get; set; }
     }
 }
