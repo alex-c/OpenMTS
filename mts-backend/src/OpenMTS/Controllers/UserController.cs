@@ -198,6 +198,13 @@ namespace OpenMTS.Controllers
                 return HandleBadRequest("Missing status data.");
             }
 
+            // An admin can't disable himself!
+            if (id == GetSubject())
+            {
+                return Conflict(new ClientErrorResponse("You cannot enable/disable yourself!"));
+            }
+
+            // Attempt to update status
             try
             {
                 UserService.UpdateUserStatus(id, updateUserStatusRequest.Disabled);
