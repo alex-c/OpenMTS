@@ -32,22 +32,22 @@ namespace OpenMTS.Services
         /// <summary>
         /// Gets all available users.
         /// </summary>
-        /// <param name="showArchived">Whether to return archived users.</param>
+        /// <param name="showDisabled">Whether to return disabled users.</param>
         /// <returns>Returns a list of users.</returns>
-        public IEnumerable<User> GetAllUsers(bool showArchived = false)
+        public IEnumerable<User> GetAllUsers(bool showDisabled = false)
         {
-            return UserRepository.GetAllUsers(showArchived);
+            return UserRepository.GetAllUsers(showDisabled);
         }
 
         /// <summary>
         /// Searches users by name using a partial name.
         /// </summary>
         /// <param name="partialName">Partial name to search for.</param>
-        /// <param name="showArchived">Whether to return archived users.</param>
+        /// <param name="showDisabled">Whether to return disabled users.</param>
         /// <returns>Returns a list of matching users.</returns>
-        public IEnumerable<User> SearchUsersByName(string partialName, bool showArchived = false)
+        public IEnumerable<User> SearchUsersByName(string partialName, bool showDisabled = false)
         {
-            return UserRepository.SearchUsersByName(partialName, showArchived);
+            return UserRepository.SearchUsersByName(partialName, showDisabled);
         }
 
         /// <summary>
@@ -102,14 +102,14 @@ namespace OpenMTS.Services
         }
 
         /// <summary>
-        /// Updates a user's status: whether he is archived or not.
+        /// Updates a user's status: whether he is disabled or not.
         /// </summary>
         /// <param name="id">ID of the user to update.</param>
-        /// <param name="isArchived">Whether the user is archived.</param>
-        public void UpdateUserStatus(string id, bool isArchived)
+        /// <param name="isDisabled">Whether the user is disabled.</param>
+        public void UpdateUserStatus(string id, bool isDisabled)
         {
             User user = GetUserOrThrowNotFoundException(id);
-            user.IsArchived = isArchived;
+            user.Disabled = isDisabled;
             UserRepository.UpdateUser(user);
         }
 

@@ -6,8 +6,8 @@
     public class UpdateUserStatusRequest
     {
         /// <summary>
-        /// Whether the user is archived.
+        /// Whether the user is disabled.
         /// </summary>
-        public bool Archived { get; set; }
+        public bool Disabled { get; set; }
     }
 }
