@@ -1,18 +1,19 @@
 <template>
   <aside id="sidebar" :class="{collapsed: menuCollapsed}">
     <div id="menu">
-      <div class="menu-header" v-show="!menuCollapsed">Header</div>
-      <div class="menu-button">
-        <i class="el-icon-share"></i>
-        <div>Button</div>
-      </div>
+      <MenuHeader label="Administration" :collapsed="menuCollapsed" />
+      <MenuButton :label="$t('general.users')" icon="el-icon-user-solid" to="/private/users" />
     </div>
   </aside>
 </template>
 
 <script>
+import MenuHeader from './Sidebar/MenuHeader.vue';
+import MenuButton from './Sidebar/MenuButton.vue';
+
 export default {
   name: 'sidebar',
+  components: { MenuHeader, MenuButton },
   data() {
     return {};
   },
@@ -45,33 +46,7 @@ export default {
 #menu {
   height: auto;
   text-align: left;
-}
-
-.menu-header {
-  padding: 12px;
-  background-color: $color-menu-dark-accent;
-  color: $color-menu-dark-text;
-  overflow: hidden;
-}
-
-.menu-button {
-  padding: 16px;
-  overflow: hidden;
-  &:hover {
-    cursor: pointer;
-    background-color: $color-menu-light-accent;
-    color: white;
-  }
-  div {
-    max-width: 197px;
-    max-height: 16px;
-    overflow: hidden;
-  }
-  i {
-    float: left;
-    margin: 1px;
-    margin-right: 8px;
-  }
+  font-size: 16px;
 }
 
 .collapse-enter-active,

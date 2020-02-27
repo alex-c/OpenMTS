@@ -7,6 +7,9 @@ import Public from '../views/Public.vue';
 import Private from '../views/Private.vue';
 import Dashboard from '../views/private/Dashboard.vue';
 import Account from '../views/private/Account.vue';
+import UserAdministration from '../views/private/UserAdministration.vue';
+import CreateUser from '../views/private/UserAdministration/CreateUser.vue';
+import EditUser from '../views/private/UserAdministration/EditUser.vue';
 
 // Store
 import store from '../store';
@@ -44,6 +47,22 @@ const routes = [
       {
         path: 'account',
         component: Account,
+      },
+      {
+        path: 'users',
+        name: 'users',
+        component: UserAdministration,
+        props: true,
+      },
+      {
+        path: 'users/create',
+        component: CreateUser,
+      },
+      {
+        path: 'users/edit',
+        name: 'editUser',
+        component: EditUser,
+        props: true,
       },
     ],
   },

@@ -105,7 +105,7 @@ export default {
     cursor: pointer;
   }
   &.collapsed {
-    width: 47px;
+    width: 48px;
   }
   i {
     position: relative;
@@ -166,5 +166,9 @@ export default {
 .collapse-enter,
 .collapse-leave-to {
   width: 0;
+}
+
+.el-dropdown-menu {
+  text-align: left;
 }
 </style>
