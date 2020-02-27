@@ -90,6 +90,7 @@
 
 <script>
 import Api from '../../Api.js';
+import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
 import RoleHandlingMixin from '@/mixins/RoleHandlingMixin.js';
 import CreateUser from './UserAdministration/CreateUser.vue';
 import Alert from '@/components/Alert.vue';
@@ -97,7 +98,7 @@ import Alert from '@/components/Alert.vue';
 export default {
   name: 'UserAdministration',
   components: { CreateUser, Alert },
-  mixins: [RoleHandlingMixin],
+  mixins: [GenericErrorHandlingMixin, RoleHandlingMixin],
   props: ['successMessage'],
   data() {
     return {
