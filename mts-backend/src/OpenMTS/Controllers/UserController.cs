@@ -42,20 +42,21 @@ namespace OpenMTS.Controllers
         /// <param name="page">Requested page of data.</param>
         /// <param name="elementsPerPage">Number of elements requested.</param>
         /// <param name="search">Optional partial name to filter users with.</param>
+        /// <param name="showDisabled">Whether to show disabled users.</param>
         /// <returns>Returns a paginated list of users.</returns>
         [HttpGet]
-        public IActionResult GetUsers([FromQuery] int page = 1, [FromQuery] int elementsPerPage = 10, [FromQuery] string search = null, [FromQuery] bool showArchived = false)
+        public IActionResult GetUsers([FromQuery] int page = 1, [FromQuery] int elementsPerPage = 10, [FromQuery] string search = null, [FromQuery] bool showDisabled = false)
         {
             try
             {
                 IEnumerable<User> users = null;
                 if (string.IsNullOrWhiteSpace(search))
                 {
-                    users = UserService.GetAllUsers(showArchived);
+                    users = UserService.GetAllUsers(showDisabled);
                 }
                 else
                 {
-                    users = UserService.SearchUsersByName(search, showArchived);
+                    users = UserService.SearchUsersByName(search, showDisabled);
                 }
                 IEnumerable<User> paginatedUsers = users.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
                 return Ok(new PaginatedResponse(paginatedUsers.Select(u => new UserResponse(u)), users.Count()));
@@ -184,10 +185,10 @@ namespace OpenMTS.Controllers
         }
 
         /// <summary>
-        /// Allows to update a user's status (whether he is archived or not).
+        /// Allows to update a user's status (whether he is disabled or not).
         /// </summary>
         /// <param name="id">Id of the user to update.</param>
-        /// <param name="updateUserStatusRequest">The request contract containing whether the user should be archived or not.</param>
+        /// <param name="updateUserStatusRequest">The request contract containing whether the user should be disabled or not.</param>
         /// <returns>Returns `204 No Content` on success.</returns>
         [HttpPut("{id}/status"), Authorize(Roles = "Administrator")]
         public IActionResult UpdateUserStatus(string id, [FromBody] UpdateUserStatusRequest updateUserStatusRequest)
@@ -197,9 +198,16 @@ namespace OpenMTS.Controllers
                 return HandleBadRequest("Missing status data.");
             }
 
+            // An admin can't disable himself!
+            if (id == GetSubject())
+            {
+                return Conflict(new ClientErrorResponse("You cannot enable/disable yourself!"));
+            }
+
+            // Attempt to update status
             try
             {
-                UserService.UpdateUserStatus(id, updateUserStatusRequest.Archived);
+                UserService.UpdateUserStatus(id, updateUserStatusRequest.Disabled);
                 return NoContent();
             }
             catch (UserNotFoundException exception)

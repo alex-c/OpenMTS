@@ -20,30 +20,30 @@ namespace OpenMTS.Repositories.Mocking
             }
         }
 
-        public IEnumerable<User> GetAllUsers(bool showArchived)
+        public IEnumerable<User> GetAllUsers(bool showDisabled)
         {
             IEnumerable<User> users;
-            if (showArchived)
+            if (showDisabled)
             {
                 users = Users.Values;
             }
             else
             {
-                users = Users.Values.Where(u => u.IsArchived == false);
+                users = Users.Values.Where(u => u.Disabled == false);
             }
             return users;
         }
 
-        public IEnumerable<User> SearchUsersByName(string partialName, bool showArchived)
+        public IEnumerable<User> SearchUsersByName(string partialName, bool showDisabled)
         {
             IEnumerable<User> users;
-            if (showArchived)
+            if (showDisabled)
             {
                 users = Users.Values;
             }
             else
             {
-                users = Users.Values.Where(u => u.IsArchived == false);
+                users = Users.Values.Where(u => u.Disabled == false);
             }
             return users.Where(u => u.Name.ToLowerInvariant().Contains(partialName));
         }
@@ -62,7 +62,7 @@ namespace OpenMTS.Repositories.Mocking
                 Password = password,
                 Salt = salt,
                 Role = role,
-                IsArchived = false
+                Disabled = false
             };
             Users.Add(id, user);
             return user;
