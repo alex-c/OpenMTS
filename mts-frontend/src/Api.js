@@ -43,8 +43,8 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getUsers: (page, elementsPerPage, search, showArchived) => {
-    return fetch(`http://localhost:5000/api/users?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&showArchived=${showArchived}`, {
+  getUsers: (page, elementsPerPage, search, showDisabled) => {
+    return fetch(`http://localhost:5000/api/users?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&showDisabled=${showDisabled}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })
@@ -73,13 +73,13 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  updateUserStatus: (id, archived) => {
+  updateUserStatus: (id, disabled) => {
     return fetch(`http://localhost:5000/api/users/${id}/status`, {
       method: 'PUT',
       withCredentials: true,
       credentials: 'include',
       headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
-      body: JSON.stringify({ archived }),
+      body: JSON.stringify({ disabled }),
     })
       .catch(catchNetworkError)
       .then(processResponse);

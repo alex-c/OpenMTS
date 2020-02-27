@@ -9,9 +9,8 @@
       <div class="content-row">
         <div class="left content-title">{{$t('general.users')}}</div>
         <div class="right">
-          Show archived users:
-          <el-switch v-model="query.showArchivedUsers" @change="switchArchived" />
-          <el-button icon="el-icon-refresh" type="primary" size="mini" @click="refresh"></el-button>
+          {{$t('users.showDisabledSwitchLabel')}}
+          <el-switch v-model="query.showDisabledUsers" @change="switchDisabled" />
           <router-link to="/private/users/create">
             <el-button icon="el-icon-plus" type="primary" size="mini">{{$t('users.create')}}</el-button>
           </router-link>
@@ -43,10 +42,10 @@
           <el-table-column prop="name" label="Name"></el-table-column>
           <el-table-column prop="role" :label="$t('users.role')" :formatter="roleIdToText"></el-table-column>
           <el-table-column
-            prop="isArchived"
+            prop="disabled"
             :label="$t('users.status.label')"
-            :formatter="archivedText"
-            v-if="query.showArchivedUsers"
+            :formatter="disabledText"
+            v-if="query.showDisabledUsers"
           ></el-table-column>
         </el-table>
       </div>
@@ -57,6 +56,7 @@
             layout="prev, pager, next"
             :total="totalUsers"
             :page-size="query.usersPerPage"
+            :current-page.sync="query.page"
             @current-change="changePage"
           ></el-pagination>
         </div>
@@ -65,16 +65,16 @@
             icon="el-icon-s-check"
             type="success"
             size="mini"
-            v-if="this.selected.archived === true"
-            @click="restore"
-          >{{$t('users.restore')}}</el-button>
+            v-if="this.selected.disabled === true"
+            @click="enable"
+          >{{$t('users.enable')}}</el-button>
           <el-button
             icon="el-icon-takeaway-box"
             type="warning"
             size="mini"
-            v-if="this.selected.archived === false"
-            @click="archive"
-          >{{$t('users.archive')}}</el-button>
+            v-if="this.selected.disabled === false"
+            @click="disable"
+          >{{$t('users.disable')}}</el-button>
           <el-button
             icon="el-icon-edit"
             type="info"
@@ -106,7 +106,7 @@ export default {
         page: 1,
         usersPerPage: 10,
         search: '',
-        showArchivedUsers: false,
+        showDisabledUsers: false,
       },
       users: [],
       totalUsers: 0,
@@ -114,7 +114,7 @@ export default {
         id: null,
         name: null,
         role: null,
-        archived: null,
+        disabled: null,
       },
       feedback: {
         successMessage: this.successMessage,
@@ -124,7 +124,7 @@ export default {
   methods: {
     getUsers: function() {
       this.resetSelectedUser();
-      Api.getUsers(this.query.page, this.query.usersPerPage, this.query.search, this.query.showArchivedUsers)
+      Api.getUsers(this.query.page, this.query.usersPerPage, this.query.search, this.query.showDisabledUsers)
         .then(response => {
           this.users = response.body.data;
           this.totalUsers = response.body.totalElements;
@@ -146,7 +146,8 @@ export default {
       this.query.page = 1;
       this.getUsers();
     },
-    switchArchived: function(value) {
+    switchDisabled: function(value) {
+      this.query.page = 1;
       this.getUsers();
     },
     selectUser: function(user) {
@@ -154,7 +155,7 @@ export default {
         id: user.id,
         name: user.name,
         role: user.role,
-        archived: user.isArchived,
+        disabled: user.disabled,
       };
     },
     resetSelectedUser: function() {
@@ -162,22 +163,23 @@ export default {
       this.selected.id = null;
       this.selected.name = null;
       this.selected.role = null;
-      this.selected.archived = null;
+      this.selected.disabled = null;
     },
     edit: function() {
       const params = { id: this.selected.id, name: this.selected.name, role: this.selected.role };
       this.$router.push({ name: 'editUser', params });
     },
-    archive: function() {
-      this.$confirm(this.$t('users.archiveConfirm', { id: this.selected.id }), {
-        confirmButtonText: this.$t('users.archive'),
+    disable: function() {
+      this.$confirm(this.$t('users.disableConfirm', { id: this.selected.id }), {
+        confirmButtonText: this.$t('users.disable'),
         cancelButtonText: this.$t('general.cancel'),
         type: 'warning',
       })
         .then(() => {
+          this.query.page = 1;
           Api.updateUserStatus(this.selected.id, true)
             .then(response => {
-              this.feedback.successMessage = this.$t('users.archived', { id: this.selected.id });
+              this.feedback.successMessage = this.$t('users.disabled', { id: this.selected.id });
               this.getUsers();
             })
             .catch(error => {
@@ -186,16 +188,17 @@ export default {
         })
         .catch(() => {});
     },
-    restore: function() {
-      this.$confirm(this.$t('users.restoreConfirm', { id: this.selected.id }), {
-        confirmButtonText: this.$t('users.restore'),
+    enable: function() {
+      this.$confirm(this.$t('users.enableConfirm', { id: this.selected.id }), {
+        confirmButtonText: this.$t('users.enable'),
         cancelButtonText: this.$t('general.cancel'),
         type: 'success',
       })
         .then(() => {
+          this.query.page = 1;
           Api.updateUserStatus(this.selected.id, false)
             .then(response => {
-              this.feedback.successMessage = this.$t('users.restored', { id: this.selected.id });
+              this.feedback.successMessage = this.$t('users.enabled', { id: this.selected.id });
               this.getUsers();
             })
             .catch(error => {
@@ -204,15 +207,12 @@ export default {
         })
         .catch(() => {});
     },
-    archivedText: function(value) {
-      if (value.isArchived) {
-        return this.$t('users.status.archived');
+    disabledText: function(value) {
+      if (value.disabled) {
+        return this.$t('users.status.disabled');
       } else {
-        return this.$t('users.status.active');
+        return this.$t('users.status.enabled');
       }
-    },
-    refresh: function() {
-      this.$router.go();
     },
   },
   mounted() {
