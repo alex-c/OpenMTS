@@ -48,21 +48,22 @@
     "role": "Role",
     "status": {
       "label": "Status",
-      "archived": "Archived",
-      "active": "Active"
+      "disabled": "Disabled",
+      "enabled": "Enabled"
     },
     "roles": {
       "admin": "Administrator",
       "assistant": "Sci. Assistant",
       "user": "User"
     },
+    "showDisabledSwitchLabel": "Show disabled users:",
     "create": "New User",
     "edit": "Edit",
-    "archive": "Archive",
-    "restore": "Restore",
+    "disable": "Disable",
+    "enable": "Enable",
     "filter": "Filter by user name...",
-    "archiveConfirm": "Are you sure that you want to archive user `{id}`?",
-    "restoreConfirm": "Are you sure that you want to restore user `{id}`?",
+    "disableConfirm": "Are you sure that you want to disable user `{id}`?",
+    "enableConfirm": "Are you sure that you want to enable user `{id}`?",
     "validation": {
       "name": "Please enter a user name.",
       "id": "Please enter or generate an ID.",
@@ -74,7 +75,7 @@
     "idTaken": "This user ID is already taken.",
     "created": "User `{id}` was successfully created!",
     "updated": "User with ID `{id}` was updated!",
-    "archived": "User with ID `{id}` was archived.",
-    "restored": "User with ID `{id}` was restored."
+    "disabled": "User with ID `{id}` was disabled.",
+    "enabled": "User with ID `{id}` was enabled."
   }
 }

@@ -48,21 +48,22 @@
     "role": "Rolle",
     "status": {
       "label": "Status",
-      "archived": "Archiviert",
-      "active": "Aktiv"
+      "disabled": "Deaktiviert",
+      "enabled": "Aktiv"
     },
     "roles": {
       "admin": "Administrator",
       "assistant": "Wiss. Assistent",
       "user": "Nutzer"
     },
+    "showDisabledSwitchLabel": "Deaktivierte Benutzer anzeigen:",
     "create": "Neuer Benutzer",
     "edit": "Editieren",
-    "archive": "Archivieren",
-    "restore": "Wiederherstellen",
+    "disable": "Deaktivieren",
+    "enable": "Aktivieren",
     "filter": "Mit Benutzernamen filtern...",
-    "archiveConfirm": "Sind Sie sicher, dass Sie den Nutzer `{id}` archivieren wollen?",
-    "restoreConfirm": "Sind Sie sicher, dass Sie den Nutzer `{id}` wiederherstellen wollen?",
+    "disableConfirm": "Sind Sie sicher, dass Sie den Nutzer `{id}` deaktivieren wollen?",
+    "enableConfirm": "Sind Sie sicher, dass Sie den Nutzer `{id}` reaktivieren wollen?",
     "validation": {
       "name": "Bitte geben Sie einen Benutzernamen ein.",
       "id": "Bitte geben Sie eine ID ein, oder generieren Sie eine.",
@@ -74,7 +75,7 @@
     "idTaken": "Diese Benutzer-ID ist bereits vergeben.",
     "created": "Benutzer `{id}` wurde angelegt!",
     "updated": "Benutzer mit ID `{id}` wurde aktualisiert!",
-    "archived": "Benutzer mti ID `{id}` wurde archiviert.",
-    "restored": "Benutzer mti ID `{id}` wurde wiederhergestellt."
+    "disabled": "Benutzer mti ID `{id}` wurde deaktiviert.",
+    "enabled": "Benutzer mti ID `{id}` wurde aktiviert."
   }
 }
