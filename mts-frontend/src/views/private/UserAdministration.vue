@@ -62,14 +62,14 @@
         </div>
         <div class="right">
           <el-button
-            icon="el-icon-s-check"
+            icon="el-icon-unlock"
             type="success"
             size="mini"
             v-if="this.selected.disabled === true"
             @click="enable"
           >{{$t('users.enable')}}</el-button>
           <el-button
-            icon="el-icon-takeaway-box"
+            icon="el-icon-lock"
             type="warning"
             size="mini"
             v-if="this.selected.disabled === false"
@@ -192,7 +192,7 @@ export default {
       this.$confirm(this.$t('users.enableConfirm', { id: this.selected.id }), {
         confirmButtonText: this.$t('users.enable'),
         cancelButtonText: this.$t('general.cancel'),
-        type: 'success',
+        type: 'warning',
       })
         .then(() => {
           this.query.page = 1;
