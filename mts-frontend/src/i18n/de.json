@@ -6,11 +6,17 @@
     "forbiddenError": "Dazu fehlt Ihnen die Berechtigung.",
     "noData": "Keine Daten.",
     "account": "Benutzerkonto",
-    "users": "Benutzer",
     "logout": "Abmelden",
     "save": "Speichern",
     "cancel": "Abbrechen",
-    "repeat": "Wiederholen"
+    "repeat": "Wiederholen",
+    "sites": "Lagerorte",
+    "inventory": "Lagerbestand",
+    "materials": "Werkstoffe",
+    "configuration": "Konfiguration",
+    "locations": "Lagerstätten",
+    "users": "Benutzer",
+    "apiKeys": "API Keys"
   },
   "login": {
     "header": "Benutzeranmeldung",

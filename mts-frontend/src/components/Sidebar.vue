@@ -1,8 +1,19 @@
 <template>
   <aside id="sidebar" :class="{collapsed: menuCollapsed}">
     <div id="menu">
+      <MenuHeader label="Material" :collapsed="menuCollapsed" />
+      <MenuButton :label="$t('general.sites')" icon="el-icon-office-building" to="/private/sites" />
+      <MenuButton :label="$t('general.inventory')" icon="el-icon-box" to="/private/inventory" />
+      <MenuButton :label="$t('general.materials')" icon="el-icon-document" to="/private/materials" />
       <MenuHeader label="Administration" :collapsed="menuCollapsed" />
+      <MenuButton :label="$t('general.configuration')" icon="el-icon-set-up" to="/private/config" />
       <MenuButton :label="$t('general.users')" icon="el-icon-user-solid" to="/private/users" />
+      <MenuButton :label="$t('general.apiKeys')" icon="el-icon-key" to="/private/keys" />
+      <MenuButton
+        :label="$t('general.locations')"
+        icon="el-icon-office-building"
+        to="/private/locations"
+      />
     </div>
   </aside>
 </template>

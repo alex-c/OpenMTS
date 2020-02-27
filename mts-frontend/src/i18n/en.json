@@ -6,11 +6,17 @@
     "forbiddenError": "You are not authorized to do that.",
     "noData": "No data.",
     "account": "Account",
-    "users": "Users",
     "logout": "Sign Out",
     "save": "Save",
     "cancel": "Cancel",
-    "repeat": "Repeat"
+    "repeat": "Repeat",
+    "sites": "Storage Sites",
+    "inventory": "Inventory",
+    "materials": "Materials",
+    "configuration": "Configuration",
+    "locations": "Locations",
+    "users": "Users",
+    "apiKeys": "API Keys"
   },
   "login": {
     "header": "User Login",
