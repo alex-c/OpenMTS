@@ -43,6 +43,25 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getConfiguration: () => {
+    return fetch(`http://localhost:5000/api/configuration`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  setConfiguration: allowGuestLogin => {
+    return fetch(`http://localhost:5000/api/configuration`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ allowGuestLogin }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   getUsers: (page, elementsPerPage, search, showDisabled) => {
     return fetch(`http://localhost:5000/api/users?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&showDisabled=${showDisabled}`, {
       method: 'GET',

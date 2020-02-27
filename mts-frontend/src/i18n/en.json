@@ -50,6 +50,16 @@
     },
     "badPassword": "You submitted a bad old password."
   },
+  "config": {
+    "allowGuestLogin": "Allow guest login:",
+    "guestLoginWarning": "Allowing guest logins implies that users will be able to login to OpenMTS with full user rights without an account or password. Use with care!",
+    "allowGuestLoginConfirm": "Are you sure you want to allow guest logins?",
+    "disallowGuestLoginConfirm": "Are you sure you want to disallow guest logins?",
+    "allow": "Allow",
+    "disallow": "Disallow",
+    "guestLoginAllowed": "Guest logins were allowed.",
+    "guestLoginDisallowed": "Guest logins were disallowed."
+  },
   "users": {
     "role": "Role",
     "status": {

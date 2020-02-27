@@ -7,6 +7,7 @@ import Public from '../views/Public.vue';
 import Private from '../views/Private.vue';
 import Dashboard from '../views/private/Dashboard.vue';
 import Account from '../views/private/Account.vue';
+import Configuration from '../views/private/Configuration.vue';
 import UserAdministration from '../views/private/UserAdministration.vue';
 import CreateUser from '../views/private/UserAdministration/CreateUser.vue';
 import EditUser from '../views/private/UserAdministration/EditUser.vue';
@@ -47,6 +48,10 @@ const routes = [
       {
         path: 'account',
         component: Account,
+      },
+      {
+        path: 'config',
+        component: Configuration,
       },
       {
         path: 'users',
