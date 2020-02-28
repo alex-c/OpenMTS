@@ -20,6 +20,7 @@ export default {
           });
           break;
         default:
+          console.error(error);
           this.$message({
             message: this.$t('general.unexpecteError'),
             type: 'error',

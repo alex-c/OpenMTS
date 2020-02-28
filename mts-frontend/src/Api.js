@@ -32,6 +32,15 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  guestLogin: () => {
+    return fetch('http://localhost:5000/api/auth?method=guestLogin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}',
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   changePassword: (oldPassword, newPassword) => {
     return fetch('http://localhost:5000/api/self/password', {
       method: 'POST',
