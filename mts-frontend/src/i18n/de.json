@@ -10,9 +10,11 @@
     "save": "Speichern",
     "cancel": "Abbrechen",
     "repeat": "Wiederholen",
+    "material": "Material",
     "sites": "Lagerorte",
     "inventory": "Lagerbestand",
     "materials": "Werkstoffe",
+    "administration": "Administration",
     "configuration": "Konfiguration",
     "locations": "Lagerstätten",
     "users": "Benutzer",
@@ -21,6 +23,7 @@
   "login": {
     "header": "Benutzeranmeldung",
     "button": "Anmelden",
+    "guestLogin": "Gastzugang",
     "placeholder": {
       "user": "Benutzername",
       "password": "Passwort"

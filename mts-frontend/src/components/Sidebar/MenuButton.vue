@@ -27,7 +27,7 @@ export default {
   }
   div {
     max-width: 197px;
-    max-height: 16px;
+    max-height: 20px;
     overflow: hidden;
   }
   i {

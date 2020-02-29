@@ -10,9 +10,11 @@
     "save": "Save",
     "cancel": "Cancel",
     "repeat": "Repeat",
+    "material": "Material",
     "sites": "Storage Sites",
     "inventory": "Inventory",
     "materials": "Materials",
+    "administration": "Administration",
     "configuration": "Configuration",
     "locations": "Locations",
     "users": "Users",
@@ -21,6 +23,7 @@
   "login": {
     "header": "User Login",
     "button": "Sing in",
+    "guestLogin": "Guest Login",
     "placeholder": {
       "user": "User name",
       "password": "Password"

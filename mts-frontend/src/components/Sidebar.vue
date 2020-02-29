@@ -1,11 +1,11 @@
 <template>
   <aside id="sidebar" :class="{collapsed: menuCollapsed}">
     <div id="menu">
-      <MenuHeader label="Material" :collapsed="menuCollapsed" />
+      <MenuHeader :label="$t('general.material')" :collapsed="menuCollapsed" />
       <MenuButton :label="$t('general.sites')" icon="el-icon-office-building" to="/private/sites" />
       <MenuButton :label="$t('general.inventory')" icon="el-icon-box" to="/private/inventory" />
       <MenuButton :label="$t('general.materials')" icon="el-icon-document" to="/private/materials" />
-      <MenuHeader label="Administration" :collapsed="menuCollapsed" />
+      <MenuHeader :label="$t('general.administration')" :collapsed="menuCollapsed" />
       <MenuButton
         :label="$t('general.configuration')"
         icon="el-icon-s-operation"
