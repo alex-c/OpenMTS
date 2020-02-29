@@ -38,8 +38,8 @@
           ref="userTable"
           row-key="id"
         >
-          <el-table-column prop="id" label="ID"></el-table-column>
-          <el-table-column prop="name" label="Name"></el-table-column>
+          <el-table-column prop="id" :label="$t('general.id')"></el-table-column>
+          <el-table-column prop="name" :label="$t('general.name')"></el-table-column>
           <el-table-column prop="role" :label="$t('users.role')" :formatter="roleIdToText"></el-table-column>
           <el-table-column
             prop="disabled"

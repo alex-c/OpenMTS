@@ -156,7 +156,8 @@ export default {
 
 #user-menu-title {
   max-width: 320px;
-  height: 16px;
+  min-height: 16px;
+  max-height: 20px;
   margin: 6px;
   padding-left: 8px;
   font-size: 16px;

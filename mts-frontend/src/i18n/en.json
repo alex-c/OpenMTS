@@ -10,6 +10,8 @@
     "save": "Save",
     "cancel": "Cancel",
     "repeat": "Repeat",
+    "id": "ID",
+    "name": "Name",
     "material": "Material",
     "sites": "Storage Sites",
     "inventory": "Inventory",
@@ -41,6 +43,7 @@
     "language": "Language"
   },
   "account": {
+    "data": "Data",
     "passwordChanged": "Your password was successfully changed.",
     "changePassword": "Change password",
     "oldPassword": "Old password",

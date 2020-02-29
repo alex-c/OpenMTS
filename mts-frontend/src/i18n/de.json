@@ -10,6 +10,8 @@
     "save": "Speichern",
     "cancel": "Abbrechen",
     "repeat": "Wiederholen",
+    "id": "ID",
+    "name": "Name",
     "material": "Material",
     "sites": "Lagerorte",
     "inventory": "Lagerbestand",
@@ -41,6 +43,7 @@
     "language": "Sprache"
   },
   "account": {
+    "data": "Daten",
     "passwordChanged": "Ihr Passwort wurde geändert.",
     "changePassword": "Passwort ändern",
     "oldPassword": "Altes Passwort",
