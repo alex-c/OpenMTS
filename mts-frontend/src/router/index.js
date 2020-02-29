@@ -19,7 +19,7 @@ import store from '../store';
 function userIsAdministrator(_to, _from, next) {
   if (store.state.token === null) {
     next({ path: '/login' });
-  } else if (store.state.role === 0) {
+  } else if (store.state.role === '0') {
     next();
   } else {
     next(_from);

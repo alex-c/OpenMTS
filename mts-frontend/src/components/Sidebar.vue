@@ -45,7 +45,7 @@ export default {
       return this.$store.state.token !== null;
     },
     userIsAdmin() {
-      return this.userRole === 0;
+      return this.userRole === '0';
     },
   },
 };
