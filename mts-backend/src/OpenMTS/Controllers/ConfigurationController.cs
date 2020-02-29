@@ -51,7 +51,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="configuration">Configuration to set.</param>
         /// <returns>Returns `204 No Content` on success.</returns>
-        [HttpPost, Authorize(Roles = "Administrator")]
+        [HttpPost, Authorize(Roles = "0")]
         public IActionResult SetConfiguration([FromBody] Configuration configuration)
         {
             try
