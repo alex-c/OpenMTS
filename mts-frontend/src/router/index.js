@@ -17,9 +17,7 @@ import store from '../store';
 
 // Administration router guard
 function userIsAdministrator(_to, _from, next) {
-  if (store.state.token === null) {
-    next({ path: '/login' });
-  } else if (store.state.role === '0') {
+  if (store.state.role === 0) {
     next();
   } else {
     next(_from);
@@ -60,6 +58,13 @@ const routes = [
       {
         path: 'account',
         component: Account,
+        beforeEnter: function(_to, _from, next) {
+          if (store.state.user === 'openmts.guest') {
+            next(_from);
+          } else {
+            next();
+          }
+        },
       },
       {
         path: 'config',
