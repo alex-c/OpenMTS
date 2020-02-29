@@ -191,7 +191,7 @@ namespace OpenMTS.Controllers
         /// <param name="updateUserStatusRequest">The request contract containing whether the user should be disabled or not.</param>
         /// <returns>Returns `204 No Content` on success.</returns>
         [HttpPut("{id}/status"), Authorize(Roles = "0")]
-        public IActionResult UpdateUserStatus(string id, [FromBody] UpdateUserStatusRequest updateUserStatusRequest)
+        public IActionResult UpdateUserStatus(string id, [FromBody] UserStatusUpdateRequest updateUserStatusRequest)
         {
             if (updateUserStatusRequest == null)
             {
