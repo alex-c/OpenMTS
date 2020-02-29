@@ -99,7 +99,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="userCreationRequest">The request contract.</param>
         /// <returns>Returns the newly created user.</returns>
-        [HttpPost, Authorize(Roles = "Administrator")]
+        [HttpPost, Authorize(Roles = "0")]
         public IActionResult CreateUser([FromBody] UserCreationRequest userCreationRequest)
         {
             if (userCreationRequest == null ||
@@ -149,7 +149,7 @@ namespace OpenMTS.Controllers
         /// <param name="id">If of the user to update.</param>
         /// <param name="userUpdateRequest">Request contract with data to update.</param>
         /// <returns>Returns the modified user.</returns>
-        [HttpPatch("{id}"), Authorize(Roles = "Administrator")]
+        [HttpPatch("{id}"), Authorize(Roles = "0")]
         public IActionResult UpdateUser(string id, [FromBody] UserUpdateRequest userUpdateRequest)
         {
             if (userUpdateRequest == null || string.IsNullOrWhiteSpace(userUpdateRequest.Name))
@@ -190,7 +190,7 @@ namespace OpenMTS.Controllers
         /// <param name="id">Id of the user to update.</param>
         /// <param name="updateUserStatusRequest">The request contract containing whether the user should be disabled or not.</param>
         /// <returns>Returns `204 No Content` on success.</returns>
-        [HttpPut("{id}/status"), Authorize(Roles = "Administrator")]
+        [HttpPut("{id}/status"), Authorize(Roles = "0")]
         public IActionResult UpdateUserStatus(string id, [FromBody] UpdateUserStatusRequest updateUserStatusRequest)
         {
             if (updateUserStatusRequest == null)
