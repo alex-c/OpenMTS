@@ -81,7 +81,7 @@
             size="mini"
             :disabled="selected.id === null"
             @click="edit"
-          >{{$t('users.edit')}}</el-button>
+          >{{$t('general.edit')}}</el-button>
         </div>
       </div>
     </div>

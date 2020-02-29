@@ -110,7 +110,9 @@ const routes = [
       },
       {
         path: 'keys',
+        name: 'keys',
         component: ApiKeys,
+        props: true,
         beforeEnter: userIsAdministrator,
       },
       {

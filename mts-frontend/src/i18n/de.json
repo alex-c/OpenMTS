@@ -22,6 +22,8 @@
     "locations": "Lagerstätten",
     "users": "Benutzer",
     "apiKeys": "API Keys",
+    "disable": "Deaktivieren",
+    "enable": "Aktivieren",
     "status": {
       "label": "Status",
       "disabled": "Deaktiviert",
@@ -81,8 +83,6 @@
     },
     "showDisabledSwitchLabel": "Deaktivierte Benutzer anzeigen:",
     "create": "Neuer Benutzer",
-    "disable": "Deaktivieren",
-    "enable": "Aktivieren",
     "filter": "Mit Benutzernamen filtern...",
     "disableConfirm": "Sind Sie sicher, dass Sie den Nutzer `{id}` deaktivieren wollen?",
     "enableConfirm": "Sind Sie sicher, dass Sie den Nutzer `{id}` reaktivieren wollen?",
@@ -111,6 +111,11 @@
     },
     "rightsAvailable": "Verfügbar",
     "rightsSelected": "Zugewiesen",
-    "filterPlaceholder": "Filtern..."
+    "filterPlaceholder": "Filtern...",
+    "updated": "Key `{name}` ({id}) wurde aktualisiert.",
+    "enableConfirm": "Sind Sie sicher, dass Sie den API key `{name}` ({id}) aktivieren möchten?",
+    "disableConfirm": "Sind Sie sicher, dass Sie den API key `{name}` ({id}) deaktivieren möchten?",
+    "enabled": "API key `{name}` ({id}) wurde aktiviert.",
+    "disabled": "API key `{name}` ({id}) wurde deaktiviert."
   }
 }

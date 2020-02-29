@@ -22,6 +22,8 @@
     "locations": "Locations",
     "users": "Users",
     "apiKeys": "API Keys",
+    "disable": "Disable",
+    "enable": "Enable",
     "status": {
       "label": "Status",
       "disabled": "Disabled",
@@ -81,8 +83,6 @@
     },
     "showDisabledSwitchLabel": "Show disabled users:",
     "create": "New User",
-    "disable": "Disable",
-    "enable": "Enable",
     "filter": "Filter by user name...",
     "disableConfirm": "Are you sure that you want to disable user `{id}`?",
     "enableConfirm": "Are you sure that you want to enable user `{id}`?",
@@ -111,6 +111,11 @@
     },
     "rightsAvailable": "Available",
     "rightsSelected": "Granted",
-    "filterPlaceholder": "Filter..."
+    "filterPlaceholder": "Filter...",
+    "updated": "Key `{name}` ({id}) has been updated.",
+    "enableConfirm": "Are you sure that you want to enable API key `{name}` ({id})?",
+    "disableConfirm": "Are you sure that you want to disable API key `{name}` ({id})?",
+    "enabled": "API key `{name}` ({id}) was enabled.",
+    "disabled": "API key `{name}` ({id}) was disabled."
   }
 }

@@ -23,6 +23,16 @@ function getAuthorizationHeader() {
 }
 
 export default {
+  getRights: () => {
+    return fetch('http://localhost:5000/api/auth/rights', {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   login: (id, password) => {
     return fetch('http://localhost:5000/api/auth?method=userLogin', {
       method: 'POST',
@@ -129,6 +139,28 @@ export default {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
       body: JSON.stringify({ name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateApiKey: (id, name, rights) => {
+    return fetch(`http://localhost:5000/api/keys/${id}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name, rights }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateApiKeyStatus: (id, enabled) => {
+    return fetch(`http://localhost:5000/api/keys/${id}/status`, {
+      method: 'PUT',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ enabled }),
     })
       .catch(catchNetworkError)
       .then(processResponse);

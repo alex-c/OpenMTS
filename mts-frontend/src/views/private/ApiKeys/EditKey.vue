@@ -69,8 +69,23 @@ export default {
   },
   methods: {
     edit: function() {
-      console.log('EDIT!');
+      Api.updateApiKey(this.id, this.editKeyForm.name, this.selectedRights)
+        .then(result => {
+          this.$router.push({ name: 'keys', params: { successMessage: this.$t('apiKeys.updated', { id: this.id, name: this.editKeyForm.name }) } });
+        })
+        .catch(error => this.handleHttpError(error));
     },
+  },
+  mounted() {
+    Api.getRights()
+      .then(result => {
+        let rights = [];
+        for (let i = 0; i < result.body.length; i++) {
+          rights.push({ key: result.body[i], label: result.body[i], disabled: false });
+        }
+        this.availableRights = rights;
+      })
+      .catch(error => this.handleHttpError(error));
   },
 };
 </script>

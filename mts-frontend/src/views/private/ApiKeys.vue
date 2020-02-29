@@ -1,5 +1,10 @@
 <template>
   <div id="api-keys">
+    <Alert
+      type="success"
+      :description="feedback.successMessage"
+      :show="feedback.successMessage !== undefined"
+    />
     <div class="content-section">
       <div class="content-row">
         <div class="left content-title">{{$t('general.apiKeys')}}</div>
@@ -57,16 +62,16 @@
             icon="el-icon-unlock"
             type="success"
             size="mini"
-            v-if="this.selected.disabled === true"
+            v-if="this.selected.enabled === false"
             @click="enable"
-          >{{$t('users.enable')}}</el-button>
+          >{{$t('general.enable')}}</el-button>
           <el-button
             icon="el-icon-lock"
             type="warning"
             size="mini"
-            v-if="this.selected.disabled === false"
+            v-if="this.selected.enabled === true"
             @click="disable"
-          >{{$t('users.disable')}}</el-button>
+          >{{$t('general.disable')}}</el-button>
           <el-button
             icon="el-icon-edit"
             type="info"
@@ -89,6 +94,7 @@ export default {
   name: 'ApiKey',
   components: { Alert },
   mixins: [GenericErrorHandlingMixin],
+  props: ['successMessage'],
   data() {
     return {
       query: {
@@ -103,6 +109,9 @@ export default {
         enabled: null,
         rights: null,
       },
+      feedback: {
+        successMessage: this.successMessage,
+      },
     };
   },
   methods: {
@@ -110,6 +119,7 @@ export default {
       Api.getApiKeys(this.query.page, this.query.keysPerPage)
         .then(result => {
           this.keys = result.body.data;
+          this.totalKeys = result.body.totalElements;
         })
         .catch(error => {
           this.handleHttpError(error);
@@ -124,7 +134,7 @@ export default {
       })
         .then(({ value }) => {
           Api.createApiKey(value)
-            .then(result => {})
+            .then(result => this.$router.push({ name: 'editKey', params: { id: result.body.id, name: result.body.name, rights: result.body.rights } }))
             .catch(error => this.handleHttpError(error));
         })
         .catch(() => {});
@@ -137,7 +147,7 @@ export default {
         rights: key.rights,
       };
     },
-    resetSelectedUser: function() {
+    resetSelectedKey: function() {
       this.$refs['keysTable'].setCurrentRow(1);
       this.selected.id = null;
       this.selected.name = null;
@@ -151,6 +161,44 @@ export default {
     edit: function() {
       const params = { id: this.selected.id, name: this.selected.name, rights: this.selected.rights };
       this.$router.push({ name: 'editKey', params });
+    },
+    disable: function() {
+      this.$confirm(this.$t('apiKeys.disableConfirm', { id: this.selected.id, name: this.selected.name }), {
+        confirmButtonText: this.$t('general.disable'),
+        cancelButtonText: this.$t('general.cancel'),
+        type: 'warning',
+      })
+        .then(() => {
+          Api.updateApiKeyStatus(this.selected.id, false)
+            .then(response => {
+              this.feedback.successMessage = this.$t('apiKeys.disabled', { id: this.selected.id, name: this.selected.name });
+              this.resetSelectedKey();
+              this.getKeys();
+            })
+            .catch(error => {
+              this.handleHttpError(error);
+            });
+        })
+        .catch(() => {});
+    },
+    enable: function() {
+      this.$confirm(this.$t('apiKeys.enableConfirm', { id: this.selected.id, name: this.selected.name }), {
+        confirmButtonText: this.$t('general.enable'),
+        cancelButtonText: this.$t('general.cancel'),
+        type: 'warning',
+      })
+        .then(() => {
+          Api.updateApiKeyStatus(this.selected.id, true)
+            .then(response => {
+              this.feedback.successMessage = this.$t('apiKeys.enabled', { id: this.selected.id, name: this.selected.name });
+              this.resetSelectedKey();
+              this.getKeys();
+            })
+            .catch(error => {
+              this.handleHttpError(error);
+            });
+        })
+        .catch(() => {});
     },
     enabledText: function(key) {
       if (key.enabled) {
