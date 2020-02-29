@@ -5,19 +5,21 @@
       <MenuButton :label="$t('general.sites')" icon="el-icon-office-building" to="/private/sites" />
       <MenuButton :label="$t('general.inventory')" icon="el-icon-box" to="/private/inventory" />
       <MenuButton :label="$t('general.materials')" icon="el-icon-document" to="/private/materials" />
-      <MenuHeader :label="$t('general.administration')" :collapsed="menuCollapsed" />
-      <MenuButton
-        :label="$t('general.configuration')"
-        icon="el-icon-s-operation"
-        to="/private/config"
-      />
-      <MenuButton :label="$t('general.users')" icon="el-icon-user-solid" to="/private/users" />
-      <MenuButton :label="$t('general.apiKeys')" icon="el-icon-key" to="/private/keys" />
-      <MenuButton
-        :label="$t('general.locations')"
-        icon="el-icon-office-building"
-        to="/private/locations"
-      />
+      <div v-if="userIsAuthenticated && userIsAdmin">
+        <MenuHeader :label="$t('general.administration')" :collapsed="menuCollapsed" />
+        <MenuButton
+          :label="$t('general.configuration')"
+          icon="el-icon-s-operation"
+          to="/private/config"
+        />
+        <MenuButton :label="$t('general.users')" icon="el-icon-user-solid" to="/private/users" />
+        <MenuButton :label="$t('general.apiKeys')" icon="el-icon-key" to="/private/keys" />
+        <MenuButton
+          :label="$t('general.locations')"
+          icon="el-icon-office-building"
+          to="/private/locations"
+        />
+      </div>
     </div>
   </aside>
 </template>
@@ -30,11 +32,20 @@ export default {
   name: 'sidebar',
   components: { MenuHeader, MenuButton },
   data() {
-    return {};
+    return {
+      userName: localStorage.getItem('name'),
+      userRole: localStorage.getItem('role'),
+    };
   },
   computed: {
     menuCollapsed() {
       return this.$store.state.ui.menuCollapsed;
+    },
+    userIsAuthenticated() {
+      return this.$store.state.token !== null;
+    },
+    userIsAdmin() {
+      return this.userRole === 0;
     },
   },
 };
