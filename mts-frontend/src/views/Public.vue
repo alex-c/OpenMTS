@@ -9,15 +9,39 @@
       <div id="login-box-main">
         <el-form :model="loginForm" :rules="validationRules" ref="loginForm">
           <el-form-item prop="user">
-            <el-input :placeholder="$t('login.placeholder.user')" v-model="loginForm.user" prefix-icon="el-icon-user-solid" @keyup.enter.native="login" autofocus></el-input>
+            <el-input
+              :placeholder="$t('login.placeholder.user')"
+              v-model="loginForm.user"
+              prefix-icon="el-icon-user-solid"
+              @keyup.enter.native="login"
+              autofocus
+            ></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input :placeholder="$t('login.placeholder.password')" v-model="loginForm.password" show-password prefix-icon="el-icon-lock" @keyup.enter.native="login"></el-input>
+            <el-input
+              :placeholder="$t('login.placeholder.password')"
+              v-model="loginForm.password"
+              show-password
+              prefix-icon="el-icon-lock"
+              @keyup.enter.native="login"
+            ></el-input>
           </el-form-item>
           <transition name="el-zoom-in-top">
-            <el-alert id="bad-login-error" :closable="false" :title="$t('login.fail.title')" type="error" v-show="badLogin" show-icon>{{ $t('login.fail.description') }}</el-alert>
+            <el-alert
+              id="bad-login-error"
+              :closable="false"
+              :title="$t('login.fail.title')"
+              type="error"
+              v-show="badLogin"
+              show-icon
+            >{{ $t('login.fail.description') }}</el-alert>
           </transition>
           <el-form-item>
+            <el-button
+              type="default"
+              @click="guestLogin"
+              v-if="guestLoginAllowed"
+            >{{ $t('login.guestLogin') }}</el-button>
             <el-button type="primary" @click="login">{{ $t('login.button') }}</el-button>
           </el-form-item>
         </el-form>
@@ -31,14 +55,17 @@
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue';
 import Api from '../Api.js';
+import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
+import Navbar from '@/components/Navbar.vue';
 
 export default {
   name: 'public',
   components: { Navbar },
+  mixins: [GenericErrorHandlingMixin],
   data() {
     return {
+      guestLoginAllowed: false,
       loginForm: {
         user: '',
         password: '',
@@ -69,11 +96,7 @@ export default {
               if (error.status === 401) {
                 this.badLogin = true;
               } else {
-                this.$message({
-                  message: this.$t(error.message),
-                  type: 'error',
-                  showClose: true,
-                });
+                this.handleHttpError(error);
               }
             });
         } else {
@@ -81,6 +104,28 @@ export default {
         }
       });
     },
+    guestLogin: function() {
+      Api.guestLogin()
+        .then(response => {
+          const token = response.body.token;
+          this.$store.commit('login', token);
+          this.$router.push('/private');
+        })
+        .catch(error => {
+          this.handleHttpError(error);
+        });
+    },
+  },
+  mounted() {
+    Api.getConfiguration()
+      .then(response => {
+        if (response.body.allowGuestLogin === true) {
+          this.guestLoginAllowed = true;
+        }
+      })
+      .catch(error => {
+        this.handleHttpError(error);
+      });
   },
 };
 </script>

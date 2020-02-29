@@ -32,6 +32,15 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  guestLogin: () => {
+    return fetch('http://localhost:5000/api/auth?method=guestLogin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}',
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   changePassword: (oldPassword, newPassword) => {
     return fetch('http://localhost:5000/api/self/password', {
       method: 'POST',
@@ -39,6 +48,25 @@ export default {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
       body: JSON.stringify({ old: oldPassword, new: newPassword }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getConfiguration: () => {
+    return fetch(`http://localhost:5000/api/configuration`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  setConfiguration: allowGuestLogin => {
+    return fetch(`http://localhost:5000/api/configuration`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ allowGuestLogin }),
     })
       .catch(catchNetworkError)
       .then(processResponse);

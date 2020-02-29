@@ -38,8 +38,8 @@
           ref="userTable"
           row-key="id"
         >
-          <el-table-column prop="id" label="ID"></el-table-column>
-          <el-table-column prop="name" label="Name"></el-table-column>
+          <el-table-column prop="id" :label="$t('general.id')"></el-table-column>
+          <el-table-column prop="name" :label="$t('general.name')"></el-table-column>
           <el-table-column prop="role" :label="$t('users.role')" :formatter="roleIdToText"></el-table-column>
           <el-table-column
             prop="disabled"
@@ -62,14 +62,14 @@
         </div>
         <div class="right">
           <el-button
-            icon="el-icon-s-check"
+            icon="el-icon-unlock"
             type="success"
             size="mini"
             v-if="this.selected.disabled === true"
             @click="enable"
           >{{$t('users.enable')}}</el-button>
           <el-button
-            icon="el-icon-takeaway-box"
+            icon="el-icon-lock"
             type="warning"
             size="mini"
             v-if="this.selected.disabled === false"
@@ -90,6 +90,7 @@
 
 <script>
 import Api from '../../Api.js';
+import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
 import RoleHandlingMixin from '@/mixins/RoleHandlingMixin.js';
 import CreateUser from './UserAdministration/CreateUser.vue';
 import Alert from '@/components/Alert.vue';
@@ -97,7 +98,7 @@ import Alert from '@/components/Alert.vue';
 export default {
   name: 'UserAdministration',
   components: { CreateUser, Alert },
-  mixins: [RoleHandlingMixin],
+  mixins: [GenericErrorHandlingMixin, RoleHandlingMixin],
   props: ['successMessage'],
   data() {
     return {
@@ -192,7 +193,7 @@ export default {
       this.$confirm(this.$t('users.enableConfirm', { id: this.selected.id }), {
         confirmButtonText: this.$t('users.enable'),
         cancelButtonText: this.$t('general.cancel'),
-        type: 'success',
+        type: 'warning',
       })
         .then(() => {
           this.query.page = 1;

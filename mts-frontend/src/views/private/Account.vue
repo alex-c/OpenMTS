@@ -5,6 +5,16 @@
       <div class="content-row content-title">{{$t('general.account')}}</div>
     </div>
     <div class="content-section">
+      <div class="content-row content-subtitle">{{$t('account.data')}}</div>
+      <div class="content-row">
+        <el-table :data="tableData" border size="mini">
+          <el-table-column prop="id" :label="$t('general.id')"></el-table-column>
+          <el-table-column prop="name" :label="$t('general.name')"></el-table-column>
+          <el-table-column prop="role" :label="$t('users.role')" :formatter="roleIdToText"></el-table-column>
+        </el-table>
+      </div>
+    </div>
+    <div class="content-section">
       <el-form
         :model="changePasswordForm"
         :rules="validationRules"
@@ -55,14 +65,16 @@
 <script>
 import Api from '../../Api.js';
 import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
+import RoleHandlingMixin from '@/mixins/RoleHandlingMixin.js';
 import Alert from '@/components/Alert.vue';
 
 export default {
   name: 'Account',
   components: { Alert },
-  mixins: [GenericErrorHandlingMixin],
+  mixins: [GenericErrorHandlingMixin, RoleHandlingMixin],
   data() {
     return {
+      tableData: [{ id: this.$store.state.user, name: this.$store.state.name, role: this.$store.state.role }],
       error: null,
       passwordChanged: false,
       changePasswordForm: {

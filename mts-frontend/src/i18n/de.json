@@ -6,15 +6,26 @@
     "forbiddenError": "Dazu fehlt Ihnen die Berechtigung.",
     "noData": "Keine Daten.",
     "account": "Benutzerkonto",
-    "users": "Benutzer",
     "logout": "Abmelden",
     "save": "Speichern",
     "cancel": "Abbrechen",
-    "repeat": "Wiederholen"
+    "repeat": "Wiederholen",
+    "id": "ID",
+    "name": "Name",
+    "material": "Material",
+    "sites": "Lagerorte",
+    "inventory": "Lagerbestand",
+    "materials": "Werkstoffe",
+    "administration": "Administration",
+    "configuration": "Konfiguration",
+    "locations": "Lagerstätten",
+    "users": "Benutzer",
+    "apiKeys": "API Keys"
   },
   "login": {
     "header": "Benutzeranmeldung",
     "button": "Anmelden",
+    "guestLogin": "Gastzugang",
     "placeholder": {
       "user": "Benutzername",
       "password": "Passwort"
@@ -32,6 +43,7 @@
     "language": "Sprache"
   },
   "account": {
+    "data": "Daten",
     "passwordChanged": "Ihr Passwort wurde geändert.",
     "changePassword": "Passwort ändern",
     "oldPassword": "Altes Passwort",
@@ -43,6 +55,16 @@
       "passwordMatch": "Die Passwörter stimmen nicht überein."
     },
     "badPassword": "Das alte Passwort stimmt nicht."
+  },
+  "config": {
+    "allowGuestLogin": "Gastzugang aktivieren:",
+    "guestLoginWarning": "Bei aktiviertem Gastzugang können sich Nutzer ohne Account oder Passwort anmelden und erhalten dabei volle Benutzerberechtigungen. Benutzen Sie diese Option mit Bedacht!",
+    "allowGuestLoginConfirm": "Sind Sie sicher, dass sie den Gastzugang aktivieren wollen?",
+    "disallowGuestLoginConfirm": "Sind Sie sicher, dass sie den Gastzugang deaktivieren wollen?",
+    "allow": "Aktivieren",
+    "disallow": "Deaktivieren",
+    "guestLoginAllowed": "Der Gastzugang wurde aktiviert.",
+    "guestLoginDisallowed": "Der Gastzugang wurde deaktiviert.."
   },
   "users": {
     "role": "Rolle",
