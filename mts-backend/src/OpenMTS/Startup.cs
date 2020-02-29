@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using OpenMTS.Repositories;
+using OpenMTS.Repositories.Memory;
 using OpenMTS.Repositories.Mocking;
 using OpenMTS.Services;
 using OpenMTS.Services.Authentication;
@@ -115,6 +116,7 @@ namespace OpenMTS
                 // TODO: implement repositories for PostgreSQL persistence
                 throw new NotImplementedException("PostgreSQL-based persistence hasn't been implemented yet.");
             }
+            services.AddSingleton<IRightsRepository>(new MemoryRightsRepository());
 
             // Check JWT signing key validity
             if (Configuration.GetValue<string>("Jwt:Secret").Length < 16)
@@ -134,6 +136,7 @@ namespace OpenMTS
             services.AddSingleton<AuthService>();
             services.AddSingleton<UserService>();
             services.AddSingleton<ApiKeyService>();
+            services.AddSingleton<RightsService>();
 
             // Configure MVC
             services.AddMvc();

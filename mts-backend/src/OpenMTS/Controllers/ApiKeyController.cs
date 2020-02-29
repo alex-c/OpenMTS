@@ -24,13 +24,19 @@ namespace OpenMTS.Controllers
         private ApiKeyService ApiKeyService { get; }
 
         /// <summary>
+        /// The service granting access to available rights.
+        /// </summary>
+        private RightsService RightsService { get; }
+
+        /// <summary>
         /// Initializes a controller with all needed components.
         /// </summary>
         /// <param name="loggerFactory">A factory to create loggers from.</param>
         /// <param name="apiKeyService">The API key service.</param>
-        public ApiKeyController(ILoggerFactory loggerFactory, ApiKeyService apiKeyService)
+        public ApiKeyController(ILoggerFactory loggerFactory, ApiKeyService apiKeyService, RightsService rightsService)
         {
             ApiKeyService = apiKeyService;
+            RightsService = rightsService;
             Logger = loggerFactory.CreateLogger<ApiKeyController>();
         }
 
@@ -45,7 +51,7 @@ namespace OpenMTS.Controllers
         {
             IEnumerable<ApiKey> keys = ApiKeyService.GetAllApiKeys();
             IEnumerable<ApiKey> paginatedKeys = keys.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
-            return Ok(new PaginatedResponse(paginatedKeys, keys.Count()));
+            return Ok(new PaginatedResponse(paginatedKeys.Select(k => new ApiKeyResponse(k)), keys.Count()));
         }
 
         /// <summary>
@@ -63,7 +69,7 @@ namespace OpenMTS.Controllers
             }
 
             ApiKey key = ApiKeyService.CreateApiKey(apiKeyCreationRequest.Name);
-            return Created(GetNewResourceUri(key.Id.ToString()), key);
+            return Created(GetNewResourceUri(key.Id.ToString()), new ApiKeyResponse(key));
         }
 
         /// <summary>
@@ -83,21 +89,22 @@ namespace OpenMTS.Controllers
             }
 
             // Validate access rights
-            IEnumerable<Right> rights;
-            try
+            List<Right> rights = new List<Right>();
+            foreach (string right in apiKeyUpdateRequest.Rights)
             {
-                rights = apiKeyUpdateRequest.Rights.Select(k => Enum.Parse<Right>(k));
-            }
-            catch
-            {
-                return HandleBadRequest("One or more of the submitted rights are no valid right values.");
+                Right parsedRight = RightsService.GetRight(right);
+                if (parsedRight == null)
+                {
+                    return HandleBadRequest($"'{right}' is not a valid access right value.");
+                }
+                rights.Add(parsedRight);
             }
             
             // Attempt to update the key data.
             try
             {
                 ApiKey key = ApiKeyService.UpdateApiKey(id, apiKeyUpdateRequest.Name, rights);
-                return Ok(key);
+                return Ok(new ApiKeyResponse(key));
             }
             catch (ApiKeyNotFoundException exception)
             {
