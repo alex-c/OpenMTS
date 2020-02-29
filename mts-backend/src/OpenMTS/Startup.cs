@@ -108,6 +108,7 @@ namespace OpenMTS
                 MockUserRepository userRepository = new MockUserRepository(dataProvider);
                 services.AddSingleton<IReadOnlyUserRepository>(userRepository);
                 services.AddSingleton<IUserRepository>(userRepository);
+                services.AddSingleton<IApiKeyRepository>(new MockApiKeyRepository());
             }
             else
             {
@@ -132,6 +133,7 @@ namespace OpenMTS
             services.AddSingleton<ConfigurationService>();
             services.AddSingleton<AuthService>();
             services.AddSingleton<UserService>();
+            services.AddSingleton<ApiKeyService>();
 
             // Configure MVC
             services.AddMvc();
