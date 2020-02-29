@@ -19,7 +19,7 @@
       trigger="click"
       placement="bottom"
       @command="userMenuAction"
-      v-if="userIsAuthenticated"
+      v-if="userIsAuthenticated && !userIsGuest"
     >
       <div id="user-menu" class="navbar-button">
         <i class="el-icon-user-solid"></i>
@@ -30,6 +30,15 @@
         <el-dropdown-item icon="el-icon-close" command="logout">{{$t('general.logout')}}</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
+    <div
+      id="user-menu"
+      class="navbar-right navbar-button"
+      v-if="userIsAuthenticated && userIsGuest"
+      @click="userMenuAction('logout')"
+    >
+      <i class="el-icon-close"></i>
+      <div id="user-menu-title">{{$t('general.logout')}}</div>
+    </div>
     <Settings :drawer.sync="drawer" />
   </header>
 </template>
@@ -52,6 +61,9 @@ export default {
     },
     userIsAuthenticated() {
       return this.$store.state.token !== null;
+    },
+    userIsGuest() {
+      return this.userName === 'openmts.guest';
     },
   },
   methods: {
