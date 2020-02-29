@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OpenMTS.Controllers.Contracts.Responses;
+using OpenMTS.Models;
 using OpenMTS.Services.Exceptions;
 using System;
 using System.Linq;

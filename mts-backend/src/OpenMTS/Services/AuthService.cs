@@ -90,7 +90,7 @@ namespace OpenMTS.Services
                     // Add role claims
                     foreach (Role role in roles)
                     {
-                        claims.Add(new Claim("role", ((int)role).ToString()));
+                        claims.Add(new Claim("role", ((int)role).ToString(), ClaimValueTypes.Integer32));
                     }
 
                     // Add right claims
