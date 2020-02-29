@@ -5,8 +5,13 @@ Vue.use(VueRouter);
 // Components
 import Public from '../views/Public.vue';
 import Private from '../views/Private.vue';
-import Dashboard from '../views/private/Dashboard.vue';
 import Account from '../views/private/Account.vue';
+import Dashboard from '../views/private/Dashboard.vue';
+import StorageSites from '../views/private/StorageSites.vue';
+import Inventory from '../views/private/Inventory.vue';
+import Materials from '../views/private/Materials.vue';
+import ApiKeys from '../views/private/ApiKeys.vue';
+import StorageLocations from '../views/private/StorageLocations.vue';
 import Configuration from '../views/private/Configuration.vue';
 import UserAdministration from '../views/private/UserAdministration.vue';
 import CreateUser from '../views/private/UserAdministration/CreateUser.vue';
@@ -17,7 +22,7 @@ import store from '../store';
 
 // Administration router guard
 function userIsAdministrator(_to, _from, next) {
-  if (store.state.role === 0) {
+  if (store.state.role === 0 || store.state.role === '0') {
     next();
   } else {
     next(_from);
@@ -67,6 +72,18 @@ const routes = [
         },
       },
       {
+        path: 'sites',
+        component: StorageSites,
+      },
+      {
+        path: 'inventory',
+        component: Inventory,
+      },
+      {
+        path: 'materials',
+        component: Materials,
+      },
+      {
         path: 'config',
         component: Configuration,
         beforeEnter: userIsAdministrator,
@@ -88,6 +105,16 @@ const routes = [
         name: 'editUser',
         component: EditUser,
         props: true,
+        beforeEnter: userIsAdministrator,
+      },
+      {
+        path: 'keys',
+        component: ApiKeys,
+        beforeEnter: userIsAdministrator,
+      },
+      {
+        path: 'locations',
+        component: StorageLocations,
         beforeEnter: userIsAdministrator,
       },
     ],
