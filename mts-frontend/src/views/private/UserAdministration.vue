@@ -43,7 +43,7 @@
           <el-table-column prop="role" :label="$t('users.role')" :formatter="roleIdToText"></el-table-column>
           <el-table-column
             prop="disabled"
-            :label="$t('users.status.label')"
+            :label="$t('general.status.label')"
             :formatter="disabledText"
             v-if="query.showDisabledUsers"
           ></el-table-column>
@@ -210,9 +210,9 @@ export default {
     },
     disabledText: function(value) {
       if (value.disabled) {
-        return this.$t('users.status.disabled');
+        return this.$t('general.status.disabled');
       } else {
-        return this.$t('users.status.enabled');
+        return this.$t('general.status.enabled');
       }
     },
   },

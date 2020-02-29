@@ -7,6 +7,7 @@
     "noData": "No data.",
     "account": "Account",
     "logout": "Sign Out",
+    "edit": "Edit",
     "save": "Save",
     "cancel": "Cancel",
     "repeat": "Repeat",
@@ -20,7 +21,12 @@
     "configuration": "Configuration",
     "locations": "Locations",
     "users": "Users",
-    "apiKeys": "API Keys"
+    "apiKeys": "API Keys",
+    "status": {
+      "label": "Status",
+      "disabled": "Disabled",
+      "enabled": "Enabled"
+    }
   },
   "login": {
     "header": "User Login",
@@ -68,11 +74,6 @@
   },
   "users": {
     "role": "Role",
-    "status": {
-      "label": "Status",
-      "disabled": "Disabled",
-      "enabled": "Enabled"
-    },
     "roles": {
       "admin": "Administrator",
       "assistant": "Sci. Assistant",
@@ -80,7 +81,6 @@
     },
     "showDisabledSwitchLabel": "Show disabled users:",
     "create": "New User",
-    "edit": "Edit",
     "disable": "Disable",
     "enable": "Enable",
     "filter": "Filter by user name...",
@@ -99,5 +99,18 @@
     "updated": "User with ID `{id}` was updated!",
     "disabled": "User with ID `{id}` was disabled.",
     "enabled": "User with ID `{id}` was enabled."
+  },
+  "apiKeys": {
+    "key": "Key",
+    "create": "New API Key",
+    "createPrompt": "Please enter a name for the new API key:",
+    "createInputError": "Please enter a name.",
+    "editTitle": "Edit key `{key}`",
+    "validation": {
+      "name": "Please enter a key name."
+    },
+    "rightsAvailable": "Available",
+    "rightsSelected": "Granted",
+    "filterPlaceholder": "Filter..."
   }
 }

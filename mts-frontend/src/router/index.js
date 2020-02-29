@@ -11,6 +11,7 @@ import StorageSites from '../views/private/StorageSites.vue';
 import Inventory from '../views/private/Inventory.vue';
 import Materials from '../views/private/Materials.vue';
 import ApiKeys from '../views/private/ApiKeys.vue';
+import EditKey from '../views/private/ApiKeys/EditKey.vue';
 import StorageLocations from '../views/private/StorageLocations.vue';
 import Configuration from '../views/private/Configuration.vue';
 import UserAdministration from '../views/private/UserAdministration.vue';
@@ -110,6 +111,13 @@ const routes = [
       {
         path: 'keys',
         component: ApiKeys,
+        beforeEnter: userIsAdministrator,
+      },
+      {
+        path: 'keys/edit',
+        name: 'editKey',
+        component: EditKey,
+        props: true,
         beforeEnter: userIsAdministrator,
       },
       {

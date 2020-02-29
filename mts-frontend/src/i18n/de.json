@@ -7,6 +7,7 @@
     "noData": "Keine Daten.",
     "account": "Benutzerkonto",
     "logout": "Abmelden",
+    "edit": "Editieren",
     "save": "Speichern",
     "cancel": "Abbrechen",
     "repeat": "Wiederholen",
@@ -20,7 +21,12 @@
     "configuration": "Konfiguration",
     "locations": "Lagerstätten",
     "users": "Benutzer",
-    "apiKeys": "API Keys"
+    "apiKeys": "API Keys",
+    "status": {
+      "label": "Status",
+      "disabled": "Deaktiviert",
+      "enabled": "Aktiv"
+    }
   },
   "login": {
     "header": "Benutzeranmeldung",
@@ -68,11 +74,6 @@
   },
   "users": {
     "role": "Rolle",
-    "status": {
-      "label": "Status",
-      "disabled": "Deaktiviert",
-      "enabled": "Aktiv"
-    },
     "roles": {
       "admin": "Administrator",
       "assistant": "Wiss. Assistent",
@@ -80,7 +81,6 @@
     },
     "showDisabledSwitchLabel": "Deaktivierte Benutzer anzeigen:",
     "create": "Neuer Benutzer",
-    "edit": "Editieren",
     "disable": "Deaktivieren",
     "enable": "Aktivieren",
     "filter": "Mit Benutzernamen filtern...",
@@ -99,5 +99,18 @@
     "updated": "Benutzer mit ID `{id}` wurde aktualisiert!",
     "disabled": "Benutzer mti ID `{id}` wurde deaktiviert.",
     "enabled": "Benutzer mti ID `{id}` wurde aktiviert."
+  },
+  "apiKeys": {
+    "create": "Neuer API Key",
+    "key": "Key",
+    "createPrompt": "Bitte geben Sie einen Namen für den neuen API Key ein:",
+    "createInputError": "Bitte geben Sie einen Namen ein.",
+    "editTitle": "Key `{key}` editieren" ,
+    "validation": {
+      "name": "Bitte geben Sie einen Namen ein."
+    },
+    "rightsAvailable": "Verfügbar",
+    "rightsSelected": "Zugewiesen",
+    "filterPlaceholder": "Filtern..."
   }
 }

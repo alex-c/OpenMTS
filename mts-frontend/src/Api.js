@@ -112,4 +112,25 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getApiKeys: (page, elementsPerPage) => {
+    return fetch(`http://localhost:5000/api/keys?page=${page}&elementsPerPage=${elementsPerPage}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  createApiKey: name => {
+    return fetch(`http://localhost:5000/api/keys`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
 };
