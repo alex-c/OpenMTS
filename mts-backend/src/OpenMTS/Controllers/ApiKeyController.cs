@@ -70,7 +70,7 @@ namespace OpenMTS.Controllers
             }
 
             ApiKey key = ApiKeyService.CreateApiKey(apiKeyCreationRequest.Name);
-            return Created(GetNewResourceUri(key.Id.ToString()), new ApiKeyResponse(key));
+            return Created(GetNewResourceUri(key.Id), new ApiKeyResponse(key));
         }
 
         /// <summary>
