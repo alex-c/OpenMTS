@@ -46,7 +46,7 @@ export default {
     return {
       editUserForm: {
         userName: this.name,
-        userRole: this.role,
+        userRole: this.role.toString(),
       },
       error: null,
     };
