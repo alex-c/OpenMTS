@@ -31,9 +31,9 @@
         >
           <el-table-column type="expand">
             <template slot-scope="props">
-              <p>
-                <b>Rights:</b>
-                {{ props.row.rights.join(", ") }}
+              <p id="rights-tags">
+                <b>{{$t('apiKeys.rights')}}:</b>
+                <el-tag v-for="right in props.row.rights" :key="right" size="mini">{{ right }}</el-tag>
               </p>
             </template>
           </el-table-column>
@@ -238,3 +238,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+#rights-tags .el-tag {
+  margin-left: 4px;
+}
+</style>
