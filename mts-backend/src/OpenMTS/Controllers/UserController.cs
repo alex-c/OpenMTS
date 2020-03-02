@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OpenMTS.Authorization;
 using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Models;
@@ -99,7 +100,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="userCreationRequest">The request contract.</param>
         /// <returns>Returns the newly created user.</returns>
-        [HttpPost, Authorize(Roles = "0")]
+        [HttpPost, Authorize(Policy = AuthPolicyNames.MAY_CREATE_USER)]
         public IActionResult CreateUser([FromBody] UserCreationRequest userCreationRequest)
         {
             if (userCreationRequest == null ||
@@ -149,7 +150,7 @@ namespace OpenMTS.Controllers
         /// <param name="id">If of the user to update.</param>
         /// <param name="userUpdateRequest">Request contract with data to update.</param>
         /// <returns>Returns the modified user.</returns>
-        [HttpPatch("{id}"), Authorize(Roles = "0")]
+        [HttpPatch("{id}"), Authorize(Policy = AuthPolicyNames.MAY_UPDATE_USER)]
         public IActionResult UpdateUser(string id, [FromBody] UserUpdateRequest userUpdateRequest)
         {
             if (userUpdateRequest == null || string.IsNullOrWhiteSpace(userUpdateRequest.Name))
@@ -190,7 +191,7 @@ namespace OpenMTS.Controllers
         /// <param name="id">Id of the user to update.</param>
         /// <param name="updateUserStatusRequest">The request contract containing whether the user should be disabled or not.</param>
         /// <returns>Returns `204 No Content` on success.</returns>
-        [HttpPut("{id}/status"), Authorize(Roles = "0")]
+        [HttpPut("{id}/status"), Authorize(Policy = AuthPolicyNames.MAY_UPDATE_USER_STATUS)]
         public IActionResult UpdateUserStatus(string id, [FromBody] UserStatusUpdateRequest updateUserStatusRequest)
         {
             if (updateUserStatusRequest == null)

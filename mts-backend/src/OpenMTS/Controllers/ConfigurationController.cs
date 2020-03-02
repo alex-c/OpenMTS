@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OpenMTS.Authorization;
 using OpenMTS.Models;
 using OpenMTS.Services;
 using System;
@@ -51,7 +52,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="configuration">Configuration to set.</param>
         /// <returns>Returns `204 No Content` on success.</returns>
-        [HttpPost, Authorize(Roles = "0")]
+        [HttpPost, Authorize(Policy = AuthPolicyNames.MAY_SET_CONFIGURATION)]
         public IActionResult SetConfiguration([FromBody] Configuration configuration)
         {
             try

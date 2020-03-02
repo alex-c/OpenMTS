@@ -1,7 +1,5 @@
-﻿using System;
+﻿using OpenMTS.Models;
 using System.Collections.Generic;
-using System.Text;
-using OpenMTS.Models;
 
 namespace OpenMTS.Repositories.Memory
 {
@@ -10,17 +8,6 @@ namespace OpenMTS.Repositories.Memory
     /// </summary>
     public class MemoryRightsRepository : IRightsRepository
     {
-        /// <summary>
-        /// The IDs of all access rights. This is currently the single source of access rights.
-        /// </summary>
-        private static readonly List<string> RightIds = new List<string>()
-        {
-            // TODO: Define and add access rights....
-            "users.create",
-            "users.update",
-            "users.updateStatus"
-        };
-
         /// <summary>
         /// A mapping of access right IDs to model class instances.
         /// </summary>
@@ -32,7 +19,7 @@ namespace OpenMTS.Repositories.Memory
         public MemoryRightsRepository()
         {
             Rights = new Dictionary<string, Right>();
-            foreach (string rightId in RightIds)
+            foreach (string rightId in RightIds.GetAll())
             {
                 Rights.Add(rightId, new Right(rightId));
             }

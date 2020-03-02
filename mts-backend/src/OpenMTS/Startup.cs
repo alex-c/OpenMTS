@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using OpenMTS.Authorization;
+using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.Memory;
 using OpenMTS.Repositories.Mocking;
@@ -12,6 +15,7 @@ using OpenMTS.Services;
 using OpenMTS.Services.Authentication;
 using OpenMTS.Services.Authentication.Providers;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace OpenMTS
@@ -81,7 +85,7 @@ namespace OpenMTS
                 }
             });
 
-            // Configure JWT-based aut
+            // Configure JWT-based authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -95,6 +99,27 @@ namespace OpenMTS
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("Jwt:Secret")))
                     };
                 });
+
+            // Configure authorization policies
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(AuthPolicyNames.MAY_SET_CONFIGURATION, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CONFIGFURATION_SET)));
+
+                // User administration
+                options.AddPolicy(AuthPolicyNames.MAY_CREATE_USER, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.USERS_CREATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_USER, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.USERS_UPDATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_USER_STATUS, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.USERS_UPDATE_STATUS)));
+
+                // API key administration
+                options.AddPolicy(AuthPolicyNames.MAY_QUERY_KEYS, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.KEYS_QUERY)));
+                options.AddPolicy(AuthPolicyNames.MAY_CREATE_KEY, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.KEYS_CREATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_KEY, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.KEYS_UPDATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_KEY_STATUS, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.KEYS_UPDATE_STATUS)));
+                options.AddPolicy(AuthPolicyNames.MAY_DELETE_KEY, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.KEYS_DELETE)));
+            });
+
+            // Add authorization handler
+            services.AddSingleton<IAuthorizationHandler, AccessRightsHandler>();
 
             // Set up repositories
             if (Configuration.GetValue<bool>("Mocking:UseMockDataPersistence"))

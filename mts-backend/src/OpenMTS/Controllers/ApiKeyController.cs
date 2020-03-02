@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OpenMTS.Authorization;
 using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Models;
@@ -15,7 +16,7 @@ namespace OpenMTS.Controllers
     /// <summary>
     /// API route for the management of API keys.
     /// </summary>
-    [Route("api/keys"), Authorize(Roles = "0")]
+    [Route("api/keys"), Authorize]
     public class ApiKeyController : ControllerBase
     {
         /// <summary>
@@ -46,7 +47,7 @@ namespace OpenMTS.Controllers
         /// <param name="page">Page number to display, starting at 1.</param>
         /// <param name="elementsPerPage">Number of elements to display per page.</param>
         /// <returns>Returns the paginated API keys.</returns>
-        [HttpGet]
+        [HttpGet, Authorize(Policy = AuthPolicyNames.MAY_QUERY_KEYS)]
         public IActionResult GetApiKeys([FromQuery] int page = 1, [FromQuery] int elementsPerPage = 10)
         {
             IEnumerable<ApiKey> keys = ApiKeyService.GetAllApiKeys();
@@ -59,7 +60,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="apiKeyCreationRequest">Te request contract.</param>
         /// <returns>Returns the successfully created key.</returns>
-        [HttpPost]
+        [HttpPost, Authorize(Policy = AuthPolicyNames.MAY_CREATE_KEY)]
         public IActionResult CreateApiKey([FromBody] ApiKeyCreationRequest apiKeyCreationRequest)
         {
             if (apiKeyCreationRequest == null ||
@@ -78,7 +79,7 @@ namespace OpenMTS.Controllers
         /// <param name="id">ID of the key to update.</param>
         /// <param name="apiKeyUpdateRequest">Request contract with data to update.</param>
         /// <returns>Returns the updated key on success.</returns>
-        [HttpPatch("{id}")]
+        [HttpPatch("{id}"), Authorize(Policy = AuthPolicyNames.MAY_UPDATE_KEY)]
         public IActionResult UpdateApiKey(Guid id, [FromBody] ApiKeyUpdateRequest apiKeyUpdateRequest)
         {
             if (apiKeyUpdateRequest == null ||
@@ -122,7 +123,7 @@ namespace OpenMTS.Controllers
         /// <param name="id">Id of the key to update.</param>
         /// <param name="updateUserStatusRequest">The request contract containing whether the key should be enabled or not.</param>
         /// <returns>Returns `204 No Content` on success.</returns>
-        [HttpPut("{id}/status")]
+        [HttpPut("{id}/status"), Authorize(Policy = AuthPolicyNames.MAY_UPDATE_KEY_STATUS)]
         public IActionResult UpdateApiKeyStatus(Guid id, [FromBody] ApiKeyStatusUpdateRequest apiKeyStatusUpdateRequest)
         {
             if (apiKeyStatusUpdateRequest == null)
@@ -151,7 +152,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="id">ID of the key to delete.</param>
         /// <returns>Returns a 204 No Content response.</returns>
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Policy = AuthPolicyNames.MAY_DELETE_KEY)]
         public IActionResult DeleteApiKey(Guid id)
         {
             ApiKeyService.DeleteApiKey(id);
