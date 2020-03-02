@@ -1,8 +1,9 @@
 ﻿using OpenMTS.Models;
 using OpenMTS.Repositories;
+using OpenMTS.Services.Authentication.Providers.UserLogin;
 using System.Collections.Generic;
 
-namespace OpenMTS.Services.Authentication.Providers.UserLogin
+namespace OpenMTS.Services.Authentication.Providers
 {
     /// <summary>
     /// An authentication provider for classic user logins.
@@ -38,11 +39,12 @@ namespace OpenMTS.Services.Authentication.Providers.UserLogin
         /// <summary>
         /// Attempts to authenticate a user with his unique ID and password.
         /// </summary>
-        /// <param name="data">User data as a JSON string.</param>
+        /// <param name="data">The <see cref="UserLoginData"/> as a JSON string.</param>
         /// <param name="subject">The ID user.</param>
         /// <param name="roles">Roles of the successfully authenticated user.</param>
         /// <param name="rights">Rights of the successfully authenticated user.</param>
         /// <returns>Returns whether the user was successfully authenticated.</returns>
+        /// <exception cref="MalformedAuthenticationDataException">Thrown if the passed data doesn't match the expected model.</exception>
         public bool TryAuthenticate(string data, out string subject, out IEnumerable<Role> roles, out IEnumerable<Right> rights)
         {
             UserLoginData userLoginData = ParseData<UserLoginData>(data);

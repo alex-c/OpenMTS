@@ -7,7 +7,9 @@
     "noData": "Keine Daten.",
     "account": "Benutzerkonto",
     "logout": "Abmelden",
+    "edit": "Editieren",
     "save": "Speichern",
+    "delete": "Löschen",
     "cancel": "Abbrechen",
     "repeat": "Wiederholen",
     "id": "ID",
@@ -20,7 +22,14 @@
     "configuration": "Konfiguration",
     "locations": "Lagerstätten",
     "users": "Benutzer",
-    "apiKeys": "API Keys"
+    "apiKeys": "API Keys",
+    "disable": "Deaktivieren",
+    "enable": "Aktivieren",
+    "status": {
+      "label": "Status",
+      "disabled": "Deaktiviert",
+      "enabled": "Aktiv"
+    }
   },
   "login": {
     "header": "Benutzeranmeldung",
@@ -68,11 +77,6 @@
   },
   "users": {
     "role": "Rolle",
-    "status": {
-      "label": "Status",
-      "disabled": "Deaktiviert",
-      "enabled": "Aktiv"
-    },
     "roles": {
       "admin": "Administrator",
       "assistant": "Wiss. Assistent",
@@ -80,9 +84,6 @@
     },
     "showDisabledSwitchLabel": "Deaktivierte Benutzer anzeigen:",
     "create": "Neuer Benutzer",
-    "edit": "Editieren",
-    "disable": "Deaktivieren",
-    "enable": "Aktivieren",
     "filter": "Mit Benutzernamen filtern...",
     "disableConfirm": "Sind Sie sicher, dass Sie den Nutzer `{id}` deaktivieren wollen?",
     "enableConfirm": "Sind Sie sicher, dass Sie den Nutzer `{id}` reaktivieren wollen?",
@@ -99,5 +100,25 @@
     "updated": "Benutzer mit ID `{id}` wurde aktualisiert!",
     "disabled": "Benutzer mti ID `{id}` wurde deaktiviert.",
     "enabled": "Benutzer mti ID `{id}` wurde aktiviert."
+  },
+  "apiKeys": {
+    "create": "Neuer API Key",
+    "key": "Key",
+    "createPrompt": "Bitte geben Sie einen Namen für den neuen API Key ein:",
+    "createInputError": "Bitte geben Sie einen Namen ein.",
+    "editTitle": "Key `{key}` editieren" ,
+    "validation": {
+      "name": "Bitte geben Sie einen Namen ein."
+    },
+    "rightsAvailable": "Verfügbar",
+    "rightsSelected": "Zugewiesen",
+    "filterPlaceholder": "Filtern...",
+    "updated": "Key `{name}` ({id}) wurde aktualisiert.",
+    "enableConfirm": "Sind Sie sicher, dass Sie den API key `{name}` ({id}) aktivieren möchten?",
+    "disableConfirm": "Sind Sie sicher, dass Sie den API key `{name}` ({id}) deaktivieren möchten?",
+    "enabled": "API key `{name}` ({id}) wurde aktiviert.",
+    "disabled": "API key `{name}` ({id}) wurde deaktiviert.",
+    "deleteConfirm": "Sind Sie sicher, dass Sie den API key `{name}` ({id}) löschen möchten?",
+    "deleted": "API key `{name}` ({id}) wurde gelöscht."
   }
 }

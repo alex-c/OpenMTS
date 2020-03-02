@@ -1,7 +1,7 @@
 ﻿using OpenMTS.Models;
 using System.Collections.Generic;
 
-namespace OpenMTS.Services.Authentication.Providers.GuestLogin
+namespace OpenMTS.Services.Authentication.Providers
 {
     /// <summary>
     /// Provides authentication for a password-less guest login.

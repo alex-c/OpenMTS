@@ -43,7 +43,7 @@
           <el-table-column prop="role" :label="$t('users.role')" :formatter="roleIdToText"></el-table-column>
           <el-table-column
             prop="disabled"
-            :label="$t('users.status.label')"
+            :label="$t('general.status.label')"
             :formatter="disabledText"
             v-if="query.showDisabledUsers"
           ></el-table-column>
@@ -67,21 +67,21 @@
             size="mini"
             v-if="this.selected.disabled === true"
             @click="enable"
-          >{{$t('users.enable')}}</el-button>
+          >{{$t('general.enable')}}</el-button>
           <el-button
             icon="el-icon-lock"
             type="warning"
             size="mini"
             v-if="this.selected.disabled === false"
             @click="disable"
-          >{{$t('users.disable')}}</el-button>
+          >{{$t('general.disable')}}</el-button>
           <el-button
             icon="el-icon-edit"
             type="info"
             size="mini"
             :disabled="selected.id === null"
             @click="edit"
-          >{{$t('users.edit')}}</el-button>
+          >{{$t('general.edit')}}</el-button>
         </div>
       </div>
     </div>
@@ -172,7 +172,7 @@ export default {
     },
     disable: function() {
       this.$confirm(this.$t('users.disableConfirm', { id: this.selected.id }), {
-        confirmButtonText: this.$t('users.disable'),
+        confirmButtonText: this.$t('general.disable'),
         cancelButtonText: this.$t('general.cancel'),
         type: 'warning',
       })
@@ -191,7 +191,7 @@ export default {
     },
     enable: function() {
       this.$confirm(this.$t('users.enableConfirm', { id: this.selected.id }), {
-        confirmButtonText: this.$t('users.enable'),
+        confirmButtonText: this.$t('general.enable'),
         cancelButtonText: this.$t('general.cancel'),
         type: 'warning',
       })
@@ -210,9 +210,9 @@ export default {
     },
     disabledText: function(value) {
       if (value.disabled) {
-        return this.$t('users.status.disabled');
+        return this.$t('general.status.disabled');
       } else {
-        return this.$t('users.status.enabled');
+        return this.$t('general.status.enabled');
       }
     },
   },

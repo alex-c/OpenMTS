@@ -3,9 +3,20 @@
     /// <summary>
     /// Represent an access right.
     /// </summary>
-    public enum Right
+    public class Right
     {
-        // TODO: define rights
-        Temporary = 0
+        /// <summary>
+        /// The ID of this right.
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Initializes this right instance.
+        /// </summary>
+        /// <param name="id">ID of the access right.</param>
+        public Right(string id)
+        {
+            Id = id;
+        }
     }
 }

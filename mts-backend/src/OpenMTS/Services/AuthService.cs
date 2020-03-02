@@ -96,7 +96,7 @@ namespace OpenMTS.Services
                     // Add right claims
                     foreach (Right right in rights)
                     {
-                        claims.Add(new Claim("right", right.ToString()));
+                        claims.Add(new Claim("rights", right.Id));
                     }
 
                     // Generate token

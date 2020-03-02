@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Services;
 using OpenMTS.Services.Authentication;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace OpenMTS.Controllers
 {
@@ -25,16 +27,25 @@ namespace OpenMTS.Controllers
         private AuthService AuthService { get; }
 
         /// <summary>
+        /// The service providing access rights.
+        /// </summary>
+        private RightsService RightsService { get; }
+
+        /// <summary>
         /// Initializes a controller instance.
         /// </summary>
         /// <param name="loggerFactory">Factory to create loggers from.</param>
         /// <param name="configurationService">Service for configuration access.</param>
         /// <param name="authService">Injected authentication service.</param>
-        public AuthController(ILoggerFactory loggerFactory, ConfigurationService configurationService, AuthService authService)
+        public AuthController(ILoggerFactory loggerFactory,
+            ConfigurationService configurationService,
+            AuthService authService,
+            RightsService rightsService)
         {
             Logger = loggerFactory.CreateLogger<AuthController>();
             ConfigurationService = configurationService;
             AuthService = authService;
+            RightsService = rightsService;
         }
 
         /// <summary>
@@ -94,6 +105,16 @@ namespace OpenMTS.Controllers
             {
                 return HandleBadRequest("Malformed authentication data was sent.");
             }
+        }
+
+        /// <summary>
+        /// Queries the server for all existing backend access rights.
+        /// </summary>
+        /// <returns>Returns a list of rights IDs.</returns>
+        [HttpGet("rights"), Authorize(Roles = "0")]
+        public IActionResult GetAllAccessRights()
+        {
+            return Ok(RightsService.GetAllRights().Select(r => r.Id));
         }
     }
 }
