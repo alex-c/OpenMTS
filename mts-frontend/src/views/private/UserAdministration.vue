@@ -172,7 +172,7 @@ export default {
     },
     disable: function() {
       this.$confirm(this.$t('users.disableConfirm', { id: this.selected.id }), {
-        confirmButtonText: this.$t('users.disable'),
+        confirmButtonText: this.$t('general.disable'),
         cancelButtonText: this.$t('general.cancel'),
         type: 'warning',
       })
@@ -191,7 +191,7 @@ export default {
     },
     enable: function() {
       this.$confirm(this.$t('users.enableConfirm', { id: this.selected.id }), {
-        confirmButtonText: this.$t('users.enable'),
+        confirmButtonText: this.$t('general.enable'),
         cancelButtonText: this.$t('general.cancel'),
         type: 'warning',
       })
