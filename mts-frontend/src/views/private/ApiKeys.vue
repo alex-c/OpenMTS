@@ -79,6 +79,13 @@
             :disabled="selected.id === null"
             @click="edit"
           >{{$t('general.edit')}}</el-button>
+          <el-button
+            icon="el-icon-delete"
+            type="danger"
+            size="mini"
+            :disabled="selected.id === null"
+            @click="deleteKey"
+          >{{$t('general.delete')}}</el-button>
         </div>
       </div>
     </div>
@@ -161,6 +168,24 @@ export default {
     edit: function() {
       const params = { id: this.selected.id, name: this.selected.name, rights: this.selected.rights };
       this.$router.push({ name: 'editKey', params });
+    },
+    deleteKey: function() {
+      this.$confirm(this.$t('apiKeys.deleteConfirm', { id: this.selected.id, name: this.selected.name }), {
+        confirmButtonText: this.$t('general.delete'),
+        cancelButtonText: this.$t('general.cancel'),
+        type: 'error',
+      })
+        .then(() => {
+          Api.deleteApiKey(this.selected.id)
+            .then(result => {
+              this.feedback.successMessage = this.$t('apiKeys.deleted', { id: this.selected.id, name: this.selected.name });
+              this.query.page = 1;
+              this.resetSelectedKey();
+              this.getKeys();
+            })
+            .catch(error => this.handleHttpError(error));
+        })
+        .catch(() => {});
     },
     disable: function() {
       this.$confirm(this.$t('apiKeys.disableConfirm', { id: this.selected.id, name: this.selected.name }), {

@@ -9,6 +9,7 @@
     "logout": "Sign Out",
     "edit": "Edit",
     "save": "Save",
+    "delete": "Delete",
     "cancel": "Cancel",
     "repeat": "Repeat",
     "id": "ID",
@@ -116,6 +117,8 @@
     "enableConfirm": "Are you sure that you want to enable API key `{name}` ({id})?",
     "disableConfirm": "Are you sure that you want to disable API key `{name}` ({id})?",
     "enabled": "API key `{name}` ({id}) was enabled.",
-    "disabled": "API key `{name}` ({id}) was disabled."
+    "disabled": "API key `{name}` ({id}) was disabled.",
+    "deleteConfirm": "Are you sure that you want to delete API key `{name}` ({id})?",
+    "deleted": "API key `{name}` ({id}) was deleted."
   }
 }

@@ -165,4 +165,14 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  deleteApiKey: id => {
+    return fetch(`http://localhost:5000/api/keys/${id}`, {
+      method: 'DELETE',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
 };

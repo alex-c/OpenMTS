@@ -9,6 +9,7 @@
     "logout": "Abmelden",
     "edit": "Editieren",
     "save": "Speichern",
+    "delete": "Löschen",
     "cancel": "Abbrechen",
     "repeat": "Wiederholen",
     "id": "ID",
@@ -116,6 +117,8 @@
     "enableConfirm": "Sind Sie sicher, dass Sie den API key `{name}` ({id}) aktivieren möchten?",
     "disableConfirm": "Sind Sie sicher, dass Sie den API key `{name}` ({id}) deaktivieren möchten?",
     "enabled": "API key `{name}` ({id}) wurde aktiviert.",
-    "disabled": "API key `{name}` ({id}) wurde deaktiviert."
+    "disabled": "API key `{name}` ({id}) wurde deaktiviert.",
+    "deleteConfirm": "Sind Sie sicher, dass Sie den API key `{name}` ({id}) löschen möchten?",
+    "deleted": "API key `{name}` ({id}) wurde gelöscht."
   }
 }
