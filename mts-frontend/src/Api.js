@@ -175,4 +175,23 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getStorageLocations: () => {
+    return fetch(`http://localhost:5000/api/sites`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  createStorageSite: name => {
+    return fetch(`http://localhost:5000/api/sites`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
 };

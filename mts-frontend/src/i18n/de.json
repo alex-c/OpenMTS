@@ -110,6 +110,7 @@
     "validation": {
       "name": "Bitte geben Sie einen Namen ein."
     },
+    "rights": "Rechte",
     "rightsAvailable": "Verfügbar",
     "rightsSelected": "Zugewiesen",
     "filterPlaceholder": "Filtern...",
@@ -120,5 +121,16 @@
     "disabled": "API key `{name}` ({id}) wurde deaktiviert.",
     "deleteConfirm": "Sind Sie sicher, dass Sie den API key `{name}` ({id}) löschen möchten?",
     "deleted": "API key `{name}` ({id}) wurde gelöscht."
+  },
+  "storage": {
+    "locations": "Lagerstätten",
+    "location": "Lagerstätte",
+    "sites": "Lagerorte",
+    "site": "Lagerort",
+    "areas": "Lagerplätze",
+    "area": "Lagerplatz",
+    "createSite": "Neuer Lagerort",
+    "createSitePrompt": "Bitte geben Sie einen Namen für den neuen Lagerort ein:",
+    "createSiteInputError": "Bitte geben Sie einen Namen ein."
   }
 }

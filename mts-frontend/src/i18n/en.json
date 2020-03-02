@@ -110,6 +110,7 @@
     "validation": {
       "name": "Please enter a key name."
     },
+    "rights": "Rights",
     "rightsAvailable": "Available",
     "rightsSelected": "Granted",
     "filterPlaceholder": "Filter...",
@@ -120,5 +121,16 @@
     "disabled": "API key `{name}` ({id}) was disabled.",
     "deleteConfirm": "Are you sure that you want to delete API key `{name}` ({id})?",
     "deleted": "API key `{name}` ({id}) was deleted."
+  },
+  "storage": {
+    "locations": "Storage Locations",
+    "location": "Storage Location",
+    "sites": "Storage Sites",
+    "site": "Storage Site",
+    "areas": "Storage Areas",
+    "area": "Storage Area",
+    "createSite": "New Site",
+    "createSitePrompt": "Please enter a name for the new storage site:",
+    "createSiteInputError": "Please enter a name."
   }
 }
