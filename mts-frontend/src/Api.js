@@ -175,7 +175,7 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getStorageLocations: () => {
+  getStorageSites: () => {
     return fetch(`http://localhost:5000/api/sites`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },

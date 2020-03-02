@@ -12,11 +12,12 @@ import Inventory from '../views/private/Inventory.vue';
 import Materials from '../views/private/Materials.vue';
 import ApiKeys from '../views/private/ApiKeys.vue';
 import EditKey from '../views/private/ApiKeys/EditKey.vue';
-import StorageLocations from '../views/private/StorageLocations.vue';
 import Configuration from '../views/private/Configuration.vue';
 import UserAdministration from '../views/private/UserAdministration.vue';
 import CreateUser from '../views/private/UserAdministration/CreateUser.vue';
 import EditUser from '../views/private/UserAdministration/EditUser.vue';
+import StorageLocations from '../views/private/StorageLocations.vue';
+import EditStorageSite from '../views/private/StorageLocations/EditStorageSite.vue';
 
 // Store
 import store from '../store';
@@ -124,7 +125,16 @@ const routes = [
       },
       {
         path: 'locations',
+        name: 'locations',
         component: StorageLocations,
+        props: true,
+        beforeEnter: userIsAdministrator,
+      },
+      {
+        path: 'locations/edit',
+        name: 'editStoragSite',
+        component: EditStorageSite,
+        props: true,
         beforeEnter: userIsAdministrator,
       },
     ],
