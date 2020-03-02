@@ -13,6 +13,11 @@
         /// <summary>
         /// Determines that the used authentication method is a guest login.
         /// </summary>
-        GuestLogin
+        GuestLogin,
+
+        /// <summary>
+        /// Determines that the used authentication method is a pre-configured API key.
+        /// </summary>
+        ApiKey
     }
 }

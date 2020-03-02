@@ -10,8 +10,7 @@ using OpenMTS.Repositories.Memory;
 using OpenMTS.Repositories.Mocking;
 using OpenMTS.Services;
 using OpenMTS.Services.Authentication;
-using OpenMTS.Services.Authentication.Providers.GuestLogin;
-using OpenMTS.Services.Authentication.Providers.UserLogin;
+using OpenMTS.Services.Authentication.Providers;
 using System;
 using System.Text;
 
@@ -129,6 +128,7 @@ namespace OpenMTS
             // Register auth providers
             services.AddSingleton<IAuthenticationProvider, UserLoginAuthenticationProvider>();
             services.AddSingleton<IAuthenticationProvider, GuestLoginAuthenticationProvider>();
+            services.AddSingleton<IAuthenticationProvider, ApiKeyAuthenticationProvider>();
 
             // Register services
             services.AddSingleton<PasswordHashingService>();
