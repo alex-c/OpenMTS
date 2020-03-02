@@ -67,14 +67,14 @@
             size="mini"
             v-if="this.selected.disabled === true"
             @click="enable"
-          >{{$t('users.enable')}}</el-button>
+          >{{$t('general.enable')}}</el-button>
           <el-button
             icon="el-icon-lock"
             type="warning"
             size="mini"
             v-if="this.selected.disabled === false"
             @click="disable"
-          >{{$t('users.disable')}}</el-button>
+          >{{$t('general.disable')}}</el-button>
           <el-button
             icon="el-icon-edit"
             type="info"
