@@ -134,6 +134,7 @@ namespace OpenMTS
                 services.AddSingleton<IReadOnlyUserRepository>(userRepository);
                 services.AddSingleton<IUserRepository>(userRepository);
                 services.AddSingleton<IApiKeyRepository>(new MockApiKeyRepository());
+                services.AddSingleton<ILocationsRepository>(new MockLocationsRepository(dataProvider));
             }
             else
             {
@@ -162,6 +163,7 @@ namespace OpenMTS
             services.AddSingleton<UserService>();
             services.AddSingleton<ApiKeyService>();
             services.AddSingleton<RightsService>();
+            services.AddSingleton<LocationsService>();
 
             // Configure MVC
             services.AddMvc();
