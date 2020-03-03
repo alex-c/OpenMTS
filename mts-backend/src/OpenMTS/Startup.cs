@@ -130,17 +130,15 @@ namespace OpenMTS
             // Set up repositories
             if (Configuration.GetValue<bool>("Mocking:UseMockDataPersistence"))
             {
-                MockDataProvider dataProvider = null;
                 if (Configuration.GetValue<bool>("Mocking:SeedWithMockDataOnStartup"))
                 {
-                    dataProvider = new MockDataProvider(new PasswordHashingService());
+                    services.AddSingleton<MockDataProvider>();
                 }
-                services.AddSingleton<IConfigurationRepository>(new MockConfigurationRepository());
-                MockUserRepository userRepository = new MockUserRepository(dataProvider);
-                services.AddSingleton<IReadOnlyUserRepository>(userRepository);
-                services.AddSingleton<IUserRepository>(userRepository);
-                services.AddSingleton<IApiKeyRepository>(new MockApiKeyRepository());
-                services.AddSingleton<ILocationsRepository>(new MockLocationsRepository(dataProvider));
+                services.AddSingleton<IConfigurationRepository, MockConfigurationRepository>();
+                services.AddSingleton<IUserRepository, MockUserRepository>();
+                services.AddSingleton<IReadOnlyUserRepository, MockUserRepository>();
+                services.AddSingleton<IApiKeyRepository, MockApiKeyRepository>();
+                services.AddSingleton<ILocationsRepository, MockLocationsRepository>();
             }
             else
             {
