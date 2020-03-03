@@ -98,6 +98,7 @@
     "generateId": "ID aus dem Benutzernamen generieren.",
     "generatePassword": "Zufälliges passwort generieren.",
     "idTaken": "Diese Benutzer-ID ist bereits vergeben.",
+    "edit": "Benutzer `{id}` Editieren",
     "created": "Benutzer `{id}` wurde angelegt!",
     "updated": "Benutzer mit ID `{id}` wurde aktualisiert!",
     "disabled": "Benutzer mti ID `{id}` wurde deaktiviert.",

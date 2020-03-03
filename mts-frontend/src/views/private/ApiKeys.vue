@@ -6,6 +6,7 @@
       :show="feedback.successMessage !== undefined"
     />
     <div class="content-section">
+      <!-- Header -->
       <div class="content-row">
         <div class="left content-title">{{$t('general.apiKeys')}}</div>
         <div class="right">
@@ -17,6 +18,8 @@
           >{{$t('apiKeys.create')}}</el-button>
         </div>
       </div>
+
+      <!-- Keys Table -->
       <div class="content-row">
         <el-table
           :data="keys"
@@ -46,6 +49,8 @@
           ></el-table-column>
         </el-table>
       </div>
+
+      <!-- Pagination & Buttons -->
       <div class="content-row">
         <div class="left">
           <el-pagination

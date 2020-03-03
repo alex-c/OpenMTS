@@ -1,60 +1,71 @@
 <template>
-  <div class="content-section">
-    <div class="content-row content-title">{{$t('users.create')}}</div>
-    <el-form
-      :model="createUserForm"
-      :rules="validationRules"
-      ref="createUserForm"
-      label-position="left"
-      label-width="120px"
-      size="mini"
-    >
+  <div id="create-user">
+    <!-- Header -->
+    <div class="content-section">
       <div class="content-row">
-        <el-form-item prop="name" label="Name">
-          <el-input placeholder="Name" v-model="createUserForm.name"></el-input>
-        </el-form-item>
-        <el-form-item prop="id" label="ID">
-          <el-input placeholder="ID" v-model="createUserForm.id" autofocus>
-            <el-button
-              slot="append"
-              icon="el-icon-refresh-right"
-              class="input-button"
-              @click="generateId"
-              :title="$t('users.generateId')"
-            ></el-button>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="password" :label="$t('login.placeholder.password')">
-          <el-input
-            :placeholder="$t('login.placeholder.password')"
-            v-model="createUserForm.password"
-            autofocus
-          >
-            <el-button
-              slot="append"
-              icon="el-icon-refresh-right"
-              class="input-button"
-              @click="generatePassword"
-              :title="$t('users.generatePassword')"
-            ></el-button>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="role" :label="$t('users.role')">
-          <el-select v-model="createUserForm.role" :placeholder="$t('users.role')">
-            <el-option value="0" :label="$t('users.roles.admin')" />
-            <el-option value="1" :label="$t('users.roles.assistant')" />
-            <el-option value="2" :label="$t('users.roles.user')" />
-          </el-select>
-          <div class="right">
-            <router-link to="/private/users">
-              <el-button type="warning" plain icon="el-icon-arrow-left">{{$t('general.cancel')}}</el-button>
-            </router-link>
-            <el-button type="primary" @click="create" icon="el-icon-check">{{$t('general.save')}}</el-button>
-          </div>
-        </el-form-item>
+        <div class="left content-title">{{$t('users.create')}}</div>
+        <div class="right">
+          <router-link to="/private/users">
+            <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{$t('general.back')}}</el-button>
+          </router-link>
+        </div>
       </div>
-      <Alert type="error" :description="$t(error)" :show="error !== null" />
-    </el-form>
+    </div>
+
+    <!-- Create User Form -->
+    <div class="content-section">
+      <el-form
+        :model="createUserForm"
+        :rules="validationRules"
+        ref="createUserForm"
+        label-position="left"
+        label-width="120px"
+        size="mini"
+      >
+        <div class="content-row">
+          <el-form-item prop="name" label="Name">
+            <el-input placeholder="Name" v-model="createUserForm.name"></el-input>
+          </el-form-item>
+          <el-form-item prop="id" label="ID">
+            <el-input placeholder="ID" v-model="createUserForm.id" autofocus>
+              <el-button
+                slot="append"
+                icon="el-icon-refresh-right"
+                class="input-button"
+                @click="generateId"
+                :title="$t('users.generateId')"
+              ></el-button>
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="password" :label="$t('login.placeholder.password')">
+            <el-input
+              :placeholder="$t('login.placeholder.password')"
+              v-model="createUserForm.password"
+              autofocus
+            >
+              <el-button
+                slot="append"
+                icon="el-icon-refresh-right"
+                class="input-button"
+                @click="generatePassword"
+                :title="$t('users.generatePassword')"
+              ></el-button>
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="role" :label="$t('users.role')">
+            <el-select v-model="createUserForm.role" :placeholder="$t('users.role')">
+              <el-option value="0" :label="$t('users.roles.admin')" />
+              <el-option value="1" :label="$t('users.roles.assistant')" />
+              <el-option value="2" :label="$t('users.roles.user')" />
+            </el-select>
+            <div class="right">
+              <el-button type="primary" @click="create" icon="el-icon-check">{{$t('general.save')}}</el-button>
+            </div>
+          </el-form-item>
+        </div>
+        <Alert type="error" :description="$t(error)" :show="error !== null" />
+      </el-form>
+    </div>
   </div>
 </template>
 

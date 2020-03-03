@@ -98,6 +98,7 @@
     "generateId": "Generate an ID from the user name.",
     "generatePassword": "Generate a random password.",
     "idTaken": "This user ID is already taken.",
+    "edit": "Edit User `{id}`",
     "created": "User `{id}` was successfully created!",
     "updated": "User with ID `{id}` was updated!",
     "disabled": "User with ID `{id}` was disabled.",

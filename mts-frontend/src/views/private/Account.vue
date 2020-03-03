@@ -1,9 +1,11 @@
 <template>
   <div>
-    <Alert type="success" :description="$t('account.passwordChanged')" :show="passwordChanged" />
+    <!-- Header -->
     <div class="content-section">
       <div class="content-row content-title">{{$t('general.account')}}</div>
     </div>
+
+    <!-- Account Data View -->
     <div class="content-section">
       <div class="content-row content-subtitle">{{$t('account.data')}}</div>
       <div class="content-row">
@@ -14,6 +16,8 @@
         </el-table>
       </div>
     </div>
+
+    <!-- Password Change Form -->
     <div class="content-section">
       <el-form
         :model="changePasswordForm"
@@ -24,6 +28,7 @@
         size="mini"
       >
         <div class="content-row content-subtitle">{{$t('account.changePassword')}}</div>
+        <Alert type="success" :description="$t('account.passwordChanged')" :show="passwordChanged" />
         <div class="content-row">
           <el-form-item prop="oldPassword" :label="$t('account.oldPassword')">
             <el-input
