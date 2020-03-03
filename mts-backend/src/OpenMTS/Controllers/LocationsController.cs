@@ -4,6 +4,7 @@ using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Models;
 using OpenMTS.Services;
+using OpenMTS.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,27 @@ namespace OpenMTS.Controllers
                 }
                 IEnumerable<StorageSite> paginatedSites = sites.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
                 return Ok(new PaginatedResponse(paginatedSites, sites.Count()));
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        /// <summary>
+        /// Attempts to get a storage site by it's ID.
+        /// </summary>
+        /// <returns>Rerturns the storage site, if found..</returns>
+        [HttpGet("{id}")]
+        public IActionResult GetStorageSite(Guid id)
+        {
+            try
+            {
+                return Ok(LocationsService.GetStorageSite(id));
+            }
+            catch (StorageSiteNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
             }
             catch (Exception exception)
             {

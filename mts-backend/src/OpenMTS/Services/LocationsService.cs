@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using OpenMTS.Models;
 using OpenMTS.Repositories;
+using OpenMTS.Services.Exceptions;
+using System;
 using System.Collections.Generic;
 
 namespace OpenMTS.Services
@@ -51,6 +53,16 @@ namespace OpenMTS.Services
         }
 
         /// <summary>
+        /// Gets a storage site by it's unique ID.
+        /// </summary>
+        /// <param name="id">ID of the storage site to get.</param>
+        /// <returns>Returns the storage site or null.</returns>
+        public StorageSite GetStorageSite(Guid id)
+        {
+            return GetStorageSiteOrThrowNotFoundException(id);
+        }
+
+        /// <summary>
         /// Creates a new storage site.
         /// </summary>
         /// <param name="name">Name of the storage site to create.</param>
@@ -59,5 +71,28 @@ namespace OpenMTS.Services
         {
             return LocationsRepository.CreateStorageSite(name);
         }
+
+        #region Private Helpers
+
+        /// <summary>
+        /// Attempts to get a storage site from the underlying repository and throws a <see cref="StorageSiteNotFoundException"/> if no matching site could be found.
+        /// </summary>
+        /// <param name="id">ID of the storage site to get.</param>
+        /// <exception cref="StorageSiteNotFoundException">Thrown if no matching site could be found.</exception>
+        /// <returns>Returns the storage site, if found.</returns>
+        private StorageSite GetStorageSiteOrThrowNotFoundException(Guid id)
+        {
+            StorageSite site = LocationsRepository.GetStorageSite(id);
+
+            // Check for site existence
+            if (site == null)
+            {
+                throw new StorageSiteNotFoundException(id);
+            }
+
+            return site;
+        }
+
+        #endregion
     }
 }
