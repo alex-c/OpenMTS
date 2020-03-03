@@ -53,9 +53,9 @@ namespace OpenMTS.Repositories.Mocking
                 Name = "Pontstr. Keller",
                 Areas = new List<StorageArea>()
                 {
-                    new StorageArea() {Id = Guid.NewGuid(), Name = "Regal links"},
-                    new StorageArea() {Id = Guid.NewGuid(), Name = "Palette rechts"},
-                    new StorageArea() {Id = Guid.NewGuid(), Name = "Palette hinten"}
+                    new StorageArea("Regal links"),
+                    new StorageArea("Palette rechts"),
+                    new StorageArea("Palette hinten")
                 }
             });
 
@@ -66,8 +66,8 @@ namespace OpenMTS.Repositories.Mocking
                 Name = "Pontstr. Empore Maschinenhalle",
                 Areas = new List<StorageArea>()
                 {
-                    new StorageArea() {Id = Guid.NewGuid(), Name = "Abstellplatz links"},
-                    new StorageArea() {Id = Guid.NewGuid(), Name = "Abstellplatz rechts"}
+                    new StorageArea("Abstellplatz links"),
+                    new StorageArea("Abstellplatz rechts")
                 }
             });
 

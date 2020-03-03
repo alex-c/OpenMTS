@@ -33,6 +33,8 @@ namespace OpenMTS.Controllers
             LocationsService = locationsService;
         }
 
+        #region Public getters
+
         /// <summary>
         /// Gets available sites, paginated.
         /// </summary>
@@ -84,6 +86,12 @@ namespace OpenMTS.Controllers
             }
         }
 
+        #endregion
+
+        #region Administrative features
+
+        // TODO: Add auth policies
+
         /// <summary>
         /// Creates a new storage site.
         /// </summary>
@@ -131,5 +139,61 @@ namespace OpenMTS.Controllers
                 return HandleUnexpectedException(exception);
             }
         }
+
+        /// <summary>
+        /// Creates a new storage area for a given storage site.
+        /// </summary>
+        /// <param name="siteId">ID of the site to create an area for.</param>
+        /// <param name="storageAreaCreationRequest">The data for area creation.</param>
+        /// <returns>Returns a `201 Created` response.</returns>
+        [HttpPost("{siteId}/areas")]
+        public IActionResult CreateStorageArea(Guid siteId, [FromBody] StorageAreaCreationRequest storageAreaCreationRequest)
+        {
+            if (storageAreaCreationRequest == null ||
+                string.IsNullOrWhiteSpace(storageAreaCreationRequest.Name))
+            {
+                return HandleBadRequest("A valid storage area name has to be supplied.");
+            }
+
+            StorageArea area = LocationsService.AddAreaToStorageSite(siteId, storageAreaCreationRequest.Name);
+            return Created(GetNewResourceUri(area.Id), area);
+        }
+        
+        /// <summary>
+        /// Updates a given area of a given storage site.
+        /// </summary>
+        /// <param name="siteId">ID of the site for which to update an area.</param>
+        /// <param name="areaId">ID of the area to update.</param>
+        /// <param name="storageAreaUpdateRequest">Data to update.</param>
+        /// <returns>Returns the updated area.</returns>
+        [HttpPatch("{siteId}/areas/{areaId}")]
+        public IActionResult UpdateStorageArea(Guid siteId, Guid areaId, [FromBody] StorageAreaUpdateRequest storageAreaUpdateRequest)
+        {
+            if (siteId == null || areaId == null || storageAreaUpdateRequest == null ||
+                string.IsNullOrWhiteSpace(storageAreaUpdateRequest.Name))
+            {
+                return HandleBadRequest("A valid storage site ID, area ID and name have to be supplied.");
+            }
+
+            try
+            {
+                StorageArea area = LocationsService.UpdateStorageArea(siteId, areaId, storageAreaUpdateRequest.Name);
+                return Ok(area);
+            }
+            catch (StorageSiteNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (StorageAreaNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        #endregion
     }
 }

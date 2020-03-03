@@ -37,11 +37,26 @@ namespace OpenMTS.Repositories
         StorageSite CreateStorageSite(string name);
 
         /// <summary>
-        /// Updates an existing storage site.
+        /// Updates an existing storage site. This does not update associated storage areas.
         /// </summary>
         /// <param name="storageSite">Storage site to update.</param>
         /// <returns>Returns the updated storage site.</returns>
         StorageSite UpdateStorageSite(StorageSite storageSite);
+
+        /// <summary>
+        /// Creates a new area for an existing storage site.
+        /// </summary>
+        /// <param name="storageSite">Site to add an area to.</param>
+        /// <param name="areaName">Name of the area to create.</param>
+        /// <returns>Returns the newly created area.</returns>
+        StorageArea CreateStorageArea(StorageSite storageSite, string areaName);
+
+        /// <summary>
+        /// Updates a storage area.
+        /// </summary>
+        /// <param name="storageArea">Area to update.</param>
+        /// <returns>Returns the updated area.</returns>
+        StorageArea UpdateStorageArea(StorageArea storageArea);
 
         /// <summary>
         /// Delets a storage site.

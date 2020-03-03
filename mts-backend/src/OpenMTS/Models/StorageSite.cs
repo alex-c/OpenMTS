@@ -21,6 +21,6 @@ namespace OpenMTS.Models
         /// <summary>
         /// Areas associated with this storage site.
         /// </summary>
-        public IEnumerable<StorageArea> Areas { get; set; }
+        public ICollection<StorageArea> Areas { get; set; }
     }
 }

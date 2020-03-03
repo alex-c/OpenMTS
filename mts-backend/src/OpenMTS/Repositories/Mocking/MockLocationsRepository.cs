@@ -9,8 +9,11 @@ namespace OpenMTS.Repositories.Mocking
     {
         private Dictionary<Guid, StorageSite> StorageSites { get; }
 
+        private Dictionary<Guid, StorageArea> StorageAreas { get; }
+
         public MockLocationsRepository(MockDataProvider dataProvider = null)
         {
+            StorageAreas = new Dictionary<Guid, StorageArea>();
             if (dataProvider == null)
             {
                 StorageSites = new Dictionary<Guid, StorageSite>();
@@ -18,6 +21,13 @@ namespace OpenMTS.Repositories.Mocking
             else
             {
                 StorageSites = dataProvider.StorageSites;
+                foreach (StorageSite site in StorageSites.Values)
+                {
+                    foreach (StorageArea area in site.Areas)
+                    {
+                        StorageAreas.Add(area.Id, area);
+                    }
+                }
             }
         }
 
@@ -52,6 +62,21 @@ namespace OpenMTS.Repositories.Mocking
         {
             StorageSites[storageSite.Id] = storageSite;
             return storageSite;
+        }
+
+        public StorageArea CreateStorageArea(StorageSite storageSite, string areaName)
+        {
+            StorageArea area = new StorageArea(areaName);
+            storageSite.Areas.Add(area);
+            StorageAreas.Add(area.Id, area);
+            StorageSites[storageSite.Id] = storageSite;
+            return area;
+        }
+
+        public StorageArea UpdateStorageArea(StorageArea storageArea)
+        {
+            StorageAreas[storageArea.Id] = storageArea;
+            return storageArea;
         }
 
         public void DeleteStorageSite(Guid id)
