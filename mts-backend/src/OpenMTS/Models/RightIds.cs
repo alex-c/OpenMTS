@@ -81,5 +81,29 @@ namespace OpenMTS.Models
         public static readonly string KEYS_DELETE = "keys.delete";
 
         #endregion
+
+        #region Locations administration
+
+        /// <summary>
+        /// The right that allows to create a new storage site.
+        /// </summary>
+        public static readonly string STORAGE_SITES_CREATE = "storage_sites.create";
+
+        /// <summary>
+        /// The right that allows to update a storage site.
+        /// </summary>
+        public static readonly string STORAGE_SITES_UPDATE = "storage_sites.update";
+
+        /// <summary>
+        /// The right that allows to create a new storage site.
+        /// </summary>
+        public static readonly string STORAGE_AREAS_CREATE = "storage_areas.create";
+
+        /// <summary>
+        /// The right that allows to update a storage area.
+        /// </summary>
+        public static readonly string STORAGE_AREAS_UPDATE = "storage_areas.update";
+
+        #endregion
     }
 }

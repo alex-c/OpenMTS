@@ -57,5 +57,29 @@
         public const string MAY_DELETE_KEY = "MayDeleteKey";
 
         #endregion
+
+        #region Locations administration
+
+        /// <summary>
+        /// The policy that authorizes storage site creation.
+        /// </summary>
+        public const string MAY_CREATE_STORAGE_SITE = "MayCreateStorageSite";
+
+        /// <summary>
+        /// The policy that authorizes storage site updating.
+        /// </summary>
+        public const string MAY_UPDATE_STORAGE_SITE = "MayUpdateStorageSite";
+
+        /// <summary>
+        /// The policy that authorizes storage area creation.
+        /// </summary>
+        public const string MAY_CREATE_STORAGE_AREA = "MayCreateStorageArea";
+
+        /// <summary>
+        /// The policy that authorizes storage area updating.
+        /// </summary>
+        public const string MAY_UPDATE_STORAGE_AREA = "MayUpdateStorageArea";
+
+        #endregion
     }
 }

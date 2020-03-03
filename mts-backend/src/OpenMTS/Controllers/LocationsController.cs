@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OpenMTS.Authorization;
 using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Models;
@@ -90,14 +92,12 @@ namespace OpenMTS.Controllers
 
         #region Administrative features
 
-        // TODO: Add auth policies
-
         /// <summary>
         /// Creates a new storage site.
         /// </summary>
         /// <param name="storageSiteCreationRequest">The dat needed for creating a site.</param>
         /// <returns>Returns a `201 Created` response.</returns>
-        [HttpPost]
+        [HttpPost, Authorize(Policy = AuthPolicyNames.MAY_CREATE_STORAGE_SITE)]
         public IActionResult CreateStorageSite([FromBody] StorageSiteCreationRequest storageSiteCreationRequest)
         {
             if (storageSiteCreationRequest == null ||
@@ -116,7 +116,7 @@ namespace OpenMTS.Controllers
         /// <param name="id">ID of the storage site to update.</param>
         /// <param name="storageSiteMasterDataUpdateRequest">Data to update.</param>
         /// <returns>Returns the updated storage site on success.</returns>
-        [HttpPatch("{id}")]
+        [HttpPatch("{id}"), Authorize(Policy = AuthPolicyNames.MAY_UPDATE_STORAGE_SITE)]
         public IActionResult UpdateStorageSiteMasterData(Guid id, [FromBody] StorageSiteMasterDataUpdateRequest storageSiteMasterDataUpdateRequest)
         {
             if (id == null || storageSiteMasterDataUpdateRequest == null ||
@@ -146,7 +146,7 @@ namespace OpenMTS.Controllers
         /// <param name="siteId">ID of the site to create an area for.</param>
         /// <param name="storageAreaCreationRequest">The data for area creation.</param>
         /// <returns>Returns a `201 Created` response.</returns>
-        [HttpPost("{siteId}/areas")]
+        [HttpPost("{siteId}/areas"), Authorize(Policy = AuthPolicyNames.MAY_CREATE_STORAGE_AREA)]
         public IActionResult CreateStorageArea(Guid siteId, [FromBody] StorageAreaCreationRequest storageAreaCreationRequest)
         {
             if (storageAreaCreationRequest == null ||
@@ -166,7 +166,7 @@ namespace OpenMTS.Controllers
         /// <param name="areaId">ID of the area to update.</param>
         /// <param name="storageAreaUpdateRequest">Data to update.</param>
         /// <returns>Returns the updated area.</returns>
-        [HttpPatch("{siteId}/areas/{areaId}")]
+        [HttpPatch("{siteId}/areas/{areaId}"), Authorize(Policy = AuthPolicyNames.MAY_UPDATE_STORAGE_AREA)]
         public IActionResult UpdateStorageArea(Guid siteId, Guid areaId, [FromBody] StorageAreaUpdateRequest storageAreaUpdateRequest)
         {
             if (siteId == null || areaId == null || storageAreaUpdateRequest == null ||
