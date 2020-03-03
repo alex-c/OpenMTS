@@ -5,6 +5,7 @@
     "unauthorizedError": "Sie wurden aufgrund fehlender Authorisierung abgemeldet.",
     "forbiddenError": "Dazu fehlt Ihnen die Berechtigung.",
     "noData": "Keine Daten.",
+    "back": "Zurück",
     "account": "Benutzerkonto",
     "logout": "Abmelden",
     "edit": "Editieren",
@@ -23,6 +24,7 @@
     "locations": "Lagerstätten",
     "users": "Benutzer",
     "apiKeys": "API Keys",
+    "masterData": "Stammdaten",
     "disable": "Deaktivieren",
     "enable": "Aktivieren",
     "status": {
@@ -96,6 +98,7 @@
     "generateId": "ID aus dem Benutzernamen generieren.",
     "generatePassword": "Zufälliges passwort generieren.",
     "idTaken": "Diese Benutzer-ID ist bereits vergeben.",
+    "edit": "Benutzer `{id}` Editieren",
     "created": "Benutzer `{id}` wurde angelegt!",
     "updated": "Benutzer mit ID `{id}` wurde aktualisiert!",
     "disabled": "Benutzer mti ID `{id}` wurde deaktiviert.",
@@ -110,6 +113,7 @@
     "validation": {
       "name": "Bitte geben Sie einen Namen ein."
     },
+    "rights": "Rechte",
     "rightsAvailable": "Verfügbar",
     "rightsSelected": "Zugewiesen",
     "filterPlaceholder": "Filtern...",
@@ -120,5 +124,30 @@
     "disabled": "API key `{name}` ({id}) wurde deaktiviert.",
     "deleteConfirm": "Sind Sie sicher, dass Sie den API key `{name}` ({id}) löschen möchten?",
     "deleted": "API key `{name}` ({id}) wurde gelöscht."
+  },
+  "storage": {
+    "locations": "Lagerstätten",
+    "location": "Lagerstätte",
+    "sites": "Lagerorte",
+    "site": "Lagerort",
+    "areas": "Lagerplätze",
+    "area": "Lagerplatz",
+    "createSite": "Neuer Lagerort",
+    "createSitePrompt": "Bitte geben Sie einen Namen für den neuen Lagerort ein:",
+    "createSiteInputError": "Bitte geben Sie einen Namen ein.",
+    "validation": {
+      "name": "Please enter a name."
+    },
+    "filter": "Mit Namen filtern...",
+    "editSite": "Lagerort Editieren",
+    "siteUpdated": "Der Lagerort mit ID `{id}` wurde zu `{name}` umbenannt.",
+    "createArea": "Neuer Lagerplatz",
+    "createAreaPrompt": "Bitte geben Sie einen Namen für den neuen Lagerplatz ein:",
+    "createAreaInputError": "Bitte geben Sie einen Namen ein.",
+    "areaCreated": "Der neue Lagerplatz `{name}` wurde mit ID `{id}` angelegt.",
+    "editArea": "Lagerplatz Editieren",
+    "editAreaPrompt": "Bitte geben Sie einen neuen Namen für den Lagerplatz ein:",
+    "editAreaInputError": "Bitte geben Sie einen Namen ein.",
+    "areaUpdated": "Der Lagerplatz mit ID `{id}` wurde zu `{name}` umbenannt."
   }
 }

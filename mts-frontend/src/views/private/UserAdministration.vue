@@ -6,6 +6,7 @@
       :show="feedback.successMessage !== undefined"
     />
     <div class="content-section">
+      <!-- Header -->
       <div class="content-row">
         <div class="left content-title">{{$t('general.users')}}</div>
         <div class="right">
@@ -16,6 +17,8 @@
           </router-link>
         </div>
       </div>
+
+      <!-- Search Bar -->
       <div class="content-row" id="search-bar">
         <el-input
           :placeholder="$t('users.filter')"
@@ -26,6 +29,8 @@
           @change="setSearch"
         ></el-input>
       </div>
+
+      <!-- User Table -->
       <div class="content-row">
         <el-table
           :data="users"
@@ -49,6 +54,8 @@
           ></el-table-column>
         </el-table>
       </div>
+
+      <!-- Pagination & Buttons -->
       <div class="content-row">
         <div class="left">
           <el-pagination

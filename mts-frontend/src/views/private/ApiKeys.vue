@@ -6,6 +6,7 @@
       :show="feedback.successMessage !== undefined"
     />
     <div class="content-section">
+      <!-- Header -->
       <div class="content-row">
         <div class="left content-title">{{$t('general.apiKeys')}}</div>
         <div class="right">
@@ -17,6 +18,8 @@
           >{{$t('apiKeys.create')}}</el-button>
         </div>
       </div>
+
+      <!-- Keys Table -->
       <div class="content-row">
         <el-table
           :data="keys"
@@ -31,9 +34,9 @@
         >
           <el-table-column type="expand">
             <template slot-scope="props">
-              <p>
-                <b>Rights:</b>
-                {{ props.row.rights.join(", ") }}
+              <p id="rights-tags">
+                <b>{{$t('apiKeys.rights')}}:</b>
+                <el-tag v-for="right in props.row.rights" :key="right" size="mini">{{ right }}</el-tag>
               </p>
             </template>
           </el-table-column>
@@ -46,6 +49,8 @@
           ></el-table-column>
         </el-table>
       </div>
+
+      <!-- Pagination & Buttons -->
       <div class="content-row">
         <div class="left">
           <el-pagination
@@ -238,3 +243,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+#rights-tags .el-tag {
+  margin-left: 4px;
+}
+</style>

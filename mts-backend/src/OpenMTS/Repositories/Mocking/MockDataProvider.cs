@@ -1,5 +1,6 @@
 ﻿using OpenMTS.Models;
 using OpenMTS.Services;
+using System;
 using System.Collections.Generic;
 
 namespace OpenMTS.Repositories.Mocking
@@ -8,10 +9,12 @@ namespace OpenMTS.Repositories.Mocking
     {
         public Dictionary<string, User> Users { get; }
 
-        public string DefaultBlogId { get; } = "main";
+        public Dictionary<Guid, StorageSite> StorageSites { get; }
 
         public MockDataProvider(PasswordHashingService passwordHashingService)
         {
+            #region Users
+
             Users = new Dictionary<string, User>();
 
             (string hash, byte[] salt) = passwordHashingService.HashAndSaltPassword("test");
@@ -36,6 +39,39 @@ namespace OpenMTS.Repositories.Mocking
 
             Users.Add(alex.Id, alex);
             Users.Add(anna.Id, anna);
+
+            #endregion
+
+            #region Locations
+
+            StorageSites = new Dictionary<Guid, StorageSite>();
+
+            Guid id = Guid.NewGuid();
+            StorageSites.Add(id, new StorageSite()
+            {
+                Id = id,
+                Name = "Pontstr. Keller",
+                Areas = new List<StorageArea>()
+                {
+                    new StorageArea("Regal links"),
+                    new StorageArea("Palette rechts"),
+                    new StorageArea("Palette hinten")
+                }
+            });
+
+            id = Guid.NewGuid();
+            StorageSites.Add(id, new StorageSite()
+            {
+                Id = id,
+                Name = "Pontstr. Empore Maschinenhalle",
+                Areas = new List<StorageArea>()
+                {
+                    new StorageArea("Abstellplatz links"),
+                    new StorageArea("Abstellplatz rechts")
+                }
+            });
+
+            #endregion
         }
     }
 }

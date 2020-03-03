@@ -116,6 +116,12 @@ namespace OpenMTS
                 options.AddPolicy(AuthPolicyNames.MAY_UPDATE_KEY, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.KEYS_UPDATE)));
                 options.AddPolicy(AuthPolicyNames.MAY_UPDATE_KEY_STATUS, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.KEYS_UPDATE_STATUS)));
                 options.AddPolicy(AuthPolicyNames.MAY_DELETE_KEY, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.KEYS_DELETE)));
+
+                // Locations administration
+                options.AddPolicy(AuthPolicyNames.MAY_CREATE_STORAGE_SITE, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.STORAGE_SITES_CREATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_STORAGE_SITE, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.STORAGE_SITES_UPDATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_CREATE_STORAGE_AREA, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.STORAGE_AREAS_CREATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_STORAGE_AREA, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.STORAGE_AREAS_UPDATE)));
             });
 
             // Add authorization handler
@@ -134,6 +140,7 @@ namespace OpenMTS
                 services.AddSingleton<IReadOnlyUserRepository>(userRepository);
                 services.AddSingleton<IUserRepository>(userRepository);
                 services.AddSingleton<IApiKeyRepository>(new MockApiKeyRepository());
+                services.AddSingleton<ILocationsRepository>(new MockLocationsRepository(dataProvider));
             }
             else
             {
@@ -162,6 +169,7 @@ namespace OpenMTS
             services.AddSingleton<UserService>();
             services.AddSingleton<ApiKeyService>();
             services.AddSingleton<RightsService>();
+            services.AddSingleton<LocationsService>();
 
             // Configure MVC
             services.AddMvc();

@@ -1,42 +1,59 @@
 <template>
-  <div id="edit-keys" class="content-section">
-    <div class="content-row content-title">{{$t('apiKeys.editTitle', {key: this.id})}}</div>
-    <el-form
-      :model="editKeyForm"
-      :rules="validationRules"
-      ref="editKeyForm"
-      label-position="left"
-      label-width="120px"
-      size="mini"
-    >
+  <div id="edit-keys">
+    <!-- Header -->
+    <div class="content-section">
       <div class="content-row">
-        <el-form-item prop="name" label="Name">
-          <el-input placeholder="Name" v-model="editKeyForm.name"></el-input>
-        </el-form-item>
-      </div>
-      <div class="content-row">
-        <el-form-item prop="rights" label="Rights" style="text-align:center;">
-          <el-transfer
-            style="margin: auto;text-align: left;"
-            v-model="selectedRights"
-            :data="availableRights"
-            :titles="[$t('apiKeys.rightsAvailable'), $t('apiKeys.rightsSelected')]"
-            filterable
-            :filter-placeholder="$t('apiKeys.filterPlaceholder')"
-            empty-text="TEST"
-          ></el-transfer>
-        </el-form-item>
-      </div>
-      <div class="content-row">
-        <el-form-item class="right">
+        <div class="left content-title">{{$t('apiKeys.editTitle', {key: this.id})}}</div>
+        <div class="right">
           <router-link to="/private/keys">
-            <el-button type="warning" plain icon="el-icon-arrow-left">{{$t('general.cancel')}}</el-button>
+            <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{$t('general.back')}}</el-button>
           </router-link>
-          <el-button type="primary" @click="edit" icon="el-icon-check">{{$t('general.save')}}</el-button>
-        </el-form-item>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Key Edit Form -->
+    <div class="content-section">
+      <!-- Form -->
+      <div class="content-row">
+        <el-form
+          :model="editKeyForm"
+          :rules="validationRules"
+          ref="editKeyForm"
+          label-position="left"
+          label-width="120px"
+          size="mini"
+        >
+          <el-form-item prop="name" label="Name">
+            <el-input placeholder="Name" v-model="editKeyForm.name"></el-input>
+          </el-form-item>
+          <el-form-item prop="rights" label="Rights" style="text-align:center;">
+            <el-transfer
+              style="margin: auto;text-align: left;"
+              v-model="selectedRights"
+              :data="availableRights"
+              :titles="[$t('apiKeys.rightsAvailable'), $t('apiKeys.rightsSelected')]"
+              filterable
+              :filter-placeholder="$t('apiKeys.filterPlaceholder')"
+              empty-text="TEST"
+            ></el-transfer>
+          </el-form-item>
+        </el-form>
+      </div>
+
+      <!-- Buttons -->
+      <div class="content-row-nopad">
+        <div class="right">
+          <el-button
+            type="primary"
+            icon="el-icon-check"
+            size="mini"
+            @click="edit"
+          >{{$t('general.save')}}</el-button>
+        </div>
       </div>
       <Alert type="error" :description="$t(error)" :show="error !== null" />
-    </el-form>
+    </div>
   </div>
 </template>
 

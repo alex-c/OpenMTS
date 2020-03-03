@@ -175,4 +175,56 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getStorageSites: (page, elementsPerPage, search) => {
+    return fetch(`http://localhost:5000/api/sites?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  createStorageSite: name => {
+    return fetch(`http://localhost:5000/api/sites`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateStorageSite: (id, name) => {
+    return fetch(`http://localhost:5000/api/sites/${id}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  createStorageArea: (siteId, areaName) => {
+    return fetch(`http://localhost:5000/api/sites/${siteId}/areas`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name: areaName }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateStorageArea: (siteId, areaId, areaName) => {
+    return fetch(`http://localhost:5000/api/sites/${siteId}/areas/${areaId}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name: areaName }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
 };

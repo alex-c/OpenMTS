@@ -45,7 +45,7 @@ namespace OpenMTS.Repositories.Mocking
             {
                 users = Users.Values.Where(u => u.Disabled == false);
             }
-            return users.Where(u => u.Name.ToLowerInvariant().Contains(partialName));
+            return users.Where(u => u.Name.ToLowerInvariant().Contains(partialName.ToLowerInvariant()));
         }
 
         public User GetUser(string id)
