@@ -41,6 +41,16 @@ namespace OpenMTS.Services
         }
 
         /// <summary>
+        /// Searches storage sites using a partial name.
+        /// </summary>
+        /// <param name="partialName">String to search for in site names.</param>
+        /// <returns>Returns filtered storage sites.</returns>
+        public IEnumerable<StorageSite> SearchStorageSitesByName(string partialName)
+        {
+            return LocationsRepository.SearchStorageSitesByName(partialName);
+        }
+
+        /// <summary>
         /// Creates a new storage site.
         /// </summary>
         /// <param name="name">Name of the storage site to create.</param>

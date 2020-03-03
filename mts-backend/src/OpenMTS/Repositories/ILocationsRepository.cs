@@ -14,6 +14,13 @@ namespace OpenMTS.Repositories
         /// </summary>
         /// <returns>Returns all storage sites.</returns>
         IEnumerable<StorageSite> GetAllStorageSites();
+        
+        /// <summary>
+        /// Searches storage sites using a partial name.
+        /// </summary>
+        /// <param name="partialName">String to search for in site names.</param>
+        /// <returns>Returns filtered storage sites.</returns>
+        IEnumerable<StorageSite> SearchStorageSitesByName(string partialName);
 
         /// <summary>
         /// Gets a storage site by it's ID.

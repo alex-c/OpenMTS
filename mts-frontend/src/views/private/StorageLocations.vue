@@ -12,6 +12,16 @@
           >{{$t('storage.createSite')}}</el-button>
         </div>
       </div>
+      <div class="content-row" id="search-bar">
+        <el-input
+          :placeholder="$t('storage.filter')"
+          prefix-icon="el-icon-search"
+          v-model="search"
+          size="mini"
+          clearable
+          @change="setSearch"
+        ></el-input>
+      </div>
       <div class="content-row">
         <el-table
           :data="sites"
@@ -42,16 +52,16 @@
         </el-table>
       </div>
       <div class="content-row">
-        <!--div class="left">
+        <div class="left">
           <el-pagination
             background
             layout="prev, pager, next"
-            :total="totalKeys"
-            :page-size="query.keysPerPage"
+            :total="totalSites"
+            :page-size="query.sitesPerPage"
             :current-page.sync="query.page"
             @current-change="changePage"
           ></el-pagination>
-        </div-->
+        </div>
         <div class="right">
           <el-button
             icon="el-icon-edit"
@@ -77,7 +87,14 @@ export default {
   components: { Alert },
   data() {
     return {
+      search: '',
+      query: {
+        page: 1,
+        sitesPerPage: 10,
+        search: '',
+      },
       sites: [],
+      totalSites: 0,
       selected: {
         id: null,
         name: null,
@@ -87,11 +104,22 @@ export default {
   },
   methods: {
     getStorageSites: function() {
-      Api.getStorageSites()
+      this.resetSelectedStorageSite();
+      Api.getStorageSites(this.query.page, this.query.elementsPerPage, this.query.search)
         .then(result => {
-          this.sites = result.body;
+          this.sites = result.body.data;
+          this.totalSites = result.body.totalElements;
         })
         .catch(error => this.handleHttpError(error));
+    },
+    changePage: function(page) {
+      this.query.page = page;
+      this.getStorageSites();
+    },
+    setSearch: function(value) {
+      this.query.search = value;
+      this.query.page = 1;
+      this.getStorageSites();
     },
     selectStorageSite: function(site) {
       this.selected = {
@@ -99,6 +127,12 @@ export default {
         name: site.name,
         areas: site.areas,
       };
+    },
+    resetSelectedStorageSite: function() {
+      this.$refs['siteTable'].setCurrentRow(1);
+      this.selected.id = null;
+      this.selected.name = null;
+      this.selected.areas = null;
     },
     createStorageSite: function() {
       this.$prompt(this.$t('storage.createSitePrompt'), this.$t('storage.createSite'), {
@@ -131,6 +165,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#search-bar {
+  overflow: hidden;
+}
+
 #area-tags .el-tag {
   margin-left: 4px;
 }

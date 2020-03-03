@@ -1,6 +1,7 @@
 ﻿using OpenMTS.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenMTS.Repositories.Mocking
 {
@@ -23,6 +24,11 @@ namespace OpenMTS.Repositories.Mocking
         public IEnumerable<StorageSite> GetAllStorageSites()
         {
             return StorageSites.Values;
+        }
+
+        public IEnumerable<StorageSite> SearchStorageSitesByName(string partialName)
+        {
+            return StorageSites.Values.Where(s =>s.Name.ToLowerInvariant().Contains(partialName.ToLowerInvariant()));
         }
 
         public StorageSite GetStorageSite(Guid id)

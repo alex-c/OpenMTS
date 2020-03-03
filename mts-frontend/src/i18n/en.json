@@ -131,6 +131,7 @@
     "area": "Storage Area",
     "createSite": "New Site",
     "createSitePrompt": "Please enter a name for the new storage site:",
-    "createSiteInputError": "Please enter a name."
+    "createSiteInputError": "Please enter a name.",
+    "filter": "Filter by storage site name..."
   }
 }

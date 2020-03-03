@@ -175,8 +175,8 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getStorageSites: () => {
-    return fetch(`http://localhost:5000/api/sites`, {
+  getStorageSites: (page, elementsPerPage, search) => {
+    return fetch(`http://localhost:5000/api/sites?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })

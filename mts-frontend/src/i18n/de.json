@@ -131,6 +131,7 @@
     "area": "Lagerplatz",
     "createSite": "Neuer Lagerort",
     "createSitePrompt": "Bitte geben Sie einen Namen für den neuen Lagerort ein:",
-    "createSiteInputError": "Bitte geben Sie einen Namen ein."
+    "createSiteInputError": "Bitte geben Sie einen Namen ein.",
+    "filter": "Mit Namen filtern..."
   }
 }
