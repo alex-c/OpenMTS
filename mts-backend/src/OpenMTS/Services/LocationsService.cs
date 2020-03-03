@@ -72,6 +72,18 @@ namespace OpenMTS.Services
             return LocationsRepository.CreateStorageSite(name);
         }
 
+        /// <summary>
+        /// Updates a storage site.
+        /// </summary>
+        /// <param name="site">Site to update.</param>
+        /// <returns>Returns updated site.</returns>
+        public StorageSite UpdateStorageSiteMasterData(Guid id,string name)
+        {
+            StorageSite site = GetStorageSiteOrThrowNotFoundException(id);
+            site.Name = name;
+            return LocationsRepository.UpdateStorageSite(site);
+        }
+
         #region Private Helpers
 
         /// <summary>

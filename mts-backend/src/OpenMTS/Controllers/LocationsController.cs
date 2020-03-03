@@ -92,8 +92,44 @@ namespace OpenMTS.Controllers
         [HttpPost]
         public IActionResult CreateStorageSite([FromBody] StorageSiteCreationRequest storageSiteCreationRequest)
         {
+            if (storageSiteCreationRequest == null ||
+                string.IsNullOrWhiteSpace(storageSiteCreationRequest.Name))
+            {
+                return HandleBadRequest("A valid storage site name has to be supplied.");
+            }
+
             StorageSite site = LocationsService.CreateStorageSite(storageSiteCreationRequest.Name);
             return Created(GetNewResourceUri(site.Id), site);
+        }
+
+        /// <summary>
+        /// Updates a storage site's master data (name).
+        /// </summary>
+        /// <param name="id">ID of the storage site to update.</param>
+        /// <param name="storageSiteMasterDataUpdateRequest">Data to update.</param>
+        /// <returns>Returns the updated storage site on success.</returns>
+        [HttpPatch("{id}")]
+        public IActionResult UpdateStorageSiteMasterData(Guid id, [FromBody] StorageSiteMasterDataUpdateRequest storageSiteMasterDataUpdateRequest)
+        {
+            if (id == null || storageSiteMasterDataUpdateRequest == null ||
+                string.IsNullOrWhiteSpace(storageSiteMasterDataUpdateRequest.Name))
+            {
+                return HandleBadRequest("A valid storage site ID and name have to be supplied.");
+            }
+
+            try
+            {
+                StorageSite site = LocationsService.UpdateStorageSiteMasterData(id, storageSiteMasterDataUpdateRequest.Name);
+                return Ok(site);
+            }
+            catch (StorageSiteNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
         }
     }
 }
