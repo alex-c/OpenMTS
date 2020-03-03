@@ -1,6 +1,7 @@
 <template>
   <div id="storage-locations">
     <div class="content-section">
+      <!-- Page Title -->
       <div class="content-row">
         <div class="left content-title">{{$t('storage.sites')}}</div>
         <div class="right">
@@ -12,6 +13,8 @@
           >{{$t('storage.createSite')}}</el-button>
         </div>
       </div>
+
+      <!-- Search Bar -->
       <div class="content-row" id="search-bar">
         <el-input
           :placeholder="$t('storage.filter')"
@@ -22,6 +25,8 @@
           @change="setSearch"
         ></el-input>
       </div>
+
+      <!-- Table -->
       <div class="content-row">
         <el-table
           :data="sites"
@@ -51,6 +56,8 @@
           ></el-table-column>
         </el-table>
       </div>
+
+      <!-- Pagination & Buttons -->
       <div class="content-row">
         <div class="left">
           <el-pagination
