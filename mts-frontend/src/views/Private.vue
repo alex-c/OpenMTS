@@ -63,33 +63,44 @@ export default {
 .content-row {
   padding-top: 16px;
   overflow: auto;
-  .left {
-    float: left;
-  }
-  .right {
-    float: right;
-    button {
-      margin-left: 8px;
-    }
-  }
 }
 
 .content-section {
   padding-top: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid lightgray;
   & .content-row {
     padding-top: 8px;
   }
 }
+.content-section:last-child {
+  border: none;
+}
+
+.content-row-nopad {
+  overflow: auto;
+}
 
 .content-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   margin-top: 4px;
 }
 
 .content-subtitle {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+  button {
+    margin-left: 8px;
+  }
 }
 
 table td {

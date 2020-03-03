@@ -1,14 +1,15 @@
 <template>
   <transition name="el-zoom-in-top">
-    <el-alert
-      :closable="false"
-      :title="title"
-      :type="type"
-      :effect="effect"
-      show-icon
-      v-show="show"
-      class="alert"
-    >{{ description }}</el-alert>
+    <div class="content-row" v-show="show">
+      <el-alert
+        :closable="false"
+        :title="title"
+        :type="type"
+        :effect="effect"
+        show-icon
+        class="alert"
+      >{{ description }}</el-alert>
+    </div>
   </transition>
 </template>
 
@@ -23,13 +24,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.alert {
-  margin-top: 16px;
-}
-
-.content-row .alert {
-  margin-top: 8px;
-}
-</style>

@@ -10,8 +10,8 @@
       size="mini"
     >
       <div class="content-row">
-        <el-form-item prop="userName" label="Name">
-          <el-input placeholder="Name" v-model="editUserForm.userName"></el-input>
+        <el-form-item prop="userName" :label="$t('general.name')">
+          <el-input :placeholder="$t('general.name')" v-model="editUserForm.userName"></el-input>
         </el-form-item>
         <el-form-item prop="userRole" :label="$t('users.role')">
           <el-select v-model="editUserForm.userRole" :placeholder="$t('users.role')">

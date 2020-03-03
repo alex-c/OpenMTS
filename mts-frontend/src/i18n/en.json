@@ -5,6 +5,7 @@
     "unauthorizedError": "You have been logged out because of missing authorization.",
     "forbiddenError": "You are not authorized to do that.",
     "noData": "No data.",
+    "back": "Back",
     "account": "Account",
     "logout": "Sign Out",
     "edit": "Edit",
@@ -23,6 +24,7 @@
     "locations": "Locations",
     "users": "Users",
     "apiKeys": "API Keys",
+    "masterData": "Master Data",
     "disable": "Disable",
     "enable": "Enable",
     "status": {
@@ -132,6 +134,19 @@
     "createSite": "New Site",
     "createSitePrompt": "Please enter a name for the new storage site:",
     "createSiteInputError": "Please enter a name.",
-    "filter": "Filter by storage site name..."
+    "validation": {
+      "name": "Please enter a name."
+    },
+    "filter": "Filter by storage site name...",
+    "editSite": "Edit Storage Site",
+    "siteUpdated": "The storage site with ID `{id}` was successfully renamed to `{name}`.",
+    "createArea": "New Area",
+    "createAreaPrompt": "Please enter a name for the new storage area:",
+    "createAreaInputError": "Please enter a name.",
+    "areaCreated": "The new storage `{name}` was successfully created with ID `{id}`.",
+    "editArea": "Edit Storage Area",
+    "editAreaPrompt": "Please enter a new name for the storage area:",
+    "editAreaInputError": "Please enter a name.",
+    "areaUpdated": "The storage area with ID `{id}` was successfully renamed to `{name}`."
   }
 }

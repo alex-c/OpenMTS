@@ -5,6 +5,7 @@
     "unauthorizedError": "Sie wurden aufgrund fehlender Authorisierung abgemeldet.",
     "forbiddenError": "Dazu fehlt Ihnen die Berechtigung.",
     "noData": "Keine Daten.",
+    "back": "Zurück",
     "account": "Benutzerkonto",
     "logout": "Abmelden",
     "edit": "Editieren",
@@ -23,6 +24,7 @@
     "locations": "Lagerstätten",
     "users": "Benutzer",
     "apiKeys": "API Keys",
+    "masterData": "Stammdaten",
     "disable": "Deaktivieren",
     "enable": "Aktivieren",
     "status": {
@@ -132,6 +134,19 @@
     "createSite": "Neuer Lagerort",
     "createSitePrompt": "Bitte geben Sie einen Namen für den neuen Lagerort ein:",
     "createSiteInputError": "Bitte geben Sie einen Namen ein.",
-    "filter": "Mit Namen filtern..."
+    "validation": {
+      "name": "Please enter a name."
+    },
+    "filter": "Mit Namen filtern...",
+    "editSite": "Lagerort Editieren",
+    "siteUpdated": "Der Lagerort mit ID `{id}` wurde zu `{name}` umbenannt.",
+    "createArea": "Neuer Lagerplatz",
+    "createAreaPrompt": "Bitte geben Sie einen Namen für den neuen Lagerplatz ein:",
+    "createAreaInputError": "Bitte geben Sie einen Namen ein.",
+    "areaCreated": "Der neue Lagerplatz `{name}` wurde mit ID `{id}` angelegt.",
+    "editArea": "Lagerplatz Editieren",
+    "editAreaPrompt": "Bitte geben Sie einen neuen Namen für den Lagerplatz ein:",
+    "editAreaInputError": "Bitte geben Sie einen Namen ein.",
+    "areaUpdated": "Der Lagerplatz mit ID `{id}` wurde zu `{name}` umbenannt."
   }
 }
