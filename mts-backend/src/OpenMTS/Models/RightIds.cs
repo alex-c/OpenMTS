@@ -23,7 +23,11 @@ namespace OpenMTS.Models
                 KEYS_CREATE,
                 KEYS_UPDATE,
                 KEYS_UPDATE_STATUS,
-                KEYS_DELETE
+                KEYS_DELETE,
+                STORAGE_SITES_CREATE,
+                STORAGE_SITES_UPDATE,
+                STORAGE_AREAS_CREATE,
+                STORAGE_AREAS_UPDATE
 
                 // TODO: add missing rights
             };
