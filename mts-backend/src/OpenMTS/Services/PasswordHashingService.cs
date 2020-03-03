@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Security.Cryptography;
 
@@ -9,6 +10,20 @@ namespace OpenMTS.Services
     /// </summary>
     public class PasswordHashingService
     {
+        /// <summary>
+        /// A logger for local logging needs.
+        /// </summary>
+        private ILogger Logger { get; }
+
+        /// <summary>
+        /// Instantiaties the service.
+        /// </summary>
+        /// <param name="loggerFactory">A factory to create loggers from.</param>
+        public PasswordHashingService(ILoggerFactory loggerFactory)
+        {
+            Logger = loggerFactory.CreateLogger<PasswordHashingService>();
+        }
+
         /// <summary>
         /// Generates a salt and hashes a password.
         /// </summary>

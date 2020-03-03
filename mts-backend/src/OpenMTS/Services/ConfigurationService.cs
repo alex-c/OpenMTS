@@ -1,4 +1,5 @@
-﻿using OpenMTS.Models;
+﻿using Microsoft.Extensions.Logging;
+using OpenMTS.Models;
 using OpenMTS.Repositories;
 
 namespace OpenMTS.Services
@@ -14,11 +15,18 @@ namespace OpenMTS.Services
         private IConfigurationRepository ConfigurationRepository { get; }
 
         /// <summary>
+        /// A logger for local logging needs.
+        /// </summary>
+        private ILogger Logger { get; }
+
+        /// <summary>
         /// Sets up the configuration service.
         /// </summary>
+        /// <param name="loggerFactory">A factory to create loggers from.</param>
         /// <param name="configurationRepository">A repository for access to configuration.</param>
-        public ConfigurationService(IConfigurationRepository configurationRepository)
+        public ConfigurationService(ILoggerFactory loggerFactory, IConfigurationRepository configurationRepository)
         {
+            Logger = loggerFactory.CreateLogger<ConfigurationService>();
             ConfigurationRepository = configurationRepository;
         }
 

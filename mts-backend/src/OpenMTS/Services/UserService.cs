@@ -1,4 +1,5 @@
-﻿using OpenMTS.Models;
+﻿using Microsoft.Extensions.Logging;
+using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Services.Exceptions;
 using System;
@@ -19,12 +20,19 @@ namespace OpenMTS.Services
         private IUserRepository UserRepository { get; }
 
         /// <summary>
+        /// A logger for local logging needs.
+        /// </summary>
+        private ILogger Logger { get; }
+
+        /// <summary>
         /// Sets up the service.
         /// </summary>
+        /// <param name="loggerFactory">Fasctory to create loggers from.</param>
         /// <param name="passwordHashingService">Provides hashing features.</param>
         /// <param name="userRepository">Repository for user data.</param>
-        public UserService(PasswordHashingService passwordHashingService, IUserRepository userRepository)
+        public UserService(ILoggerFactory loggerFactory, PasswordHashingService passwordHashingService, IUserRepository userRepository)
         {
+            Logger = loggerFactory.CreateLogger<UserService>();
             PasswordHashingService = passwordHashingService;
             UserRepository = userRepository;
         }
