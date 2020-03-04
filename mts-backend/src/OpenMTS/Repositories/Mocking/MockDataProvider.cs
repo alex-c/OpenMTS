@@ -93,9 +93,9 @@ namespace OpenMTS.Repositories.Mocking
             material = new Material()
             {
                 Id = 2,
-                Name = "PP 504 Gestreckt",
-                Manufacturer = "Acme Corporation",
-                ManufacturerSpecificId = "pp-9000",
+                Name = "PP 505 Enhanced Stuff",
+                Manufacturer = "Acme Corporation - New Tech Branch",
+                ManufacturerSpecificId = "pp-over-9000",
                 Type = MaterialType.Polypropylene,
                 CustomProps = new List<CustomMaterialPropValue>()
             };

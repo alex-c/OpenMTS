@@ -33,7 +33,16 @@ namespace OpenMTS.Services
         }
 
         /// <summary>
-        /// Gets materials.
+        /// Gets all available materials.
+        /// </summary>
+        /// <returns>Reutrns all materials.</returns>
+        public IEnumerable<Material> GetAllMaterials()
+        {
+            return MaterialsRepository.GetAllMaterials();
+        }
+
+        /// <summary>
+        /// Gets and filters materials.
         /// </summary>
         /// <param name="partialName">A string to filter material names with.</param>
         /// <param name="partialManufacturerName">A string to filter manufacturers with.</param>
