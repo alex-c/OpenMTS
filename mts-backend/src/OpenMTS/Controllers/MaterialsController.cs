@@ -39,7 +39,7 @@ namespace OpenMTS.Controllers
         /// <param name="elementsPerPage">The number of elements to display per page.</param>
         /// <param name="search">A string to search in materials names.</param>
         /// <param name="manufacturer">The manufacturer to filter with.</param>
-        /// <param name="materialType">Type of the material to filter with.</param>
+        /// <param name="type">Type of the material to filter with.</param>
         /// <returns>Returns a filtered, paginated list of materials.</returns>
         [HttpGet]
         public IActionResult GetMaterials(
@@ -47,15 +47,15 @@ namespace OpenMTS.Controllers
             [FromQuery] int elementsPerPage = 10,
             [FromQuery] string search = null,
             [FromQuery] string manufacturer = null,
-            [FromQuery] int? materialType = null)
+            [FromQuery] int? type = null)
         {
             // Attempt to parse type, if submitted
-            MaterialType? type = null;
-            if (materialType != null)
+            MaterialType? materialType = null;
+            if (type != null)
             {
-                if (Enum.IsDefined(typeof(MaterialType), materialType))
+                if (Enum.IsDefined(typeof(MaterialType), type))
                 {
-                    type = (MaterialType)materialType;
+                    materialType = (MaterialType)type;
                 }
                 else
                 {
@@ -66,7 +66,7 @@ namespace OpenMTS.Controllers
             // Get, filter and paginate materials
             try
             {
-                IEnumerable<Material> materials = MaterialsService.GetMaterials(search, manufacturer, type);
+                IEnumerable<Material> materials = MaterialsService.GetMaterials(search, manufacturer, materialType);
                 IEnumerable<Material> paginatedMaterials = materials.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
                 return Ok(new PaginatedResponse(paginatedMaterials, materials.Count()));
             }
