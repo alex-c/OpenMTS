@@ -11,6 +11,7 @@ import StorageSites from '../views/private/StorageSites.vue';
 import Inventory from '../views/private/Inventory.vue';
 import Materials from '../views/private/Materials.vue';
 import CreateMaterial from '../views/private/Materials/CreateMaterial.vue';
+import EditMaterial from '../views/private/Materials/EditMaterial.vue';
 import ApiKeys from '../views/private/ApiKeys.vue';
 import EditKey from '../views/private/ApiKeys/EditKey.vue';
 import Configuration from '../views/private/Configuration.vue';
@@ -92,6 +93,12 @@ const routes = [
         component: CreateMaterial,
       },
       {
+        path: 'materials/edit',
+        name: 'editMaterial',
+        component: EditMaterial,
+        props: true,
+      },
+      {
         path: 'config',
         name: 'configuration',
         component: Configuration,
@@ -102,6 +109,7 @@ const routes = [
         path: 'config/crate-material-prop',
         name: 'createMaterialProp',
         component: CreateMaterialProp,
+        beforeEnter: userIsAdministrator,
       },
       {
         path: 'users',

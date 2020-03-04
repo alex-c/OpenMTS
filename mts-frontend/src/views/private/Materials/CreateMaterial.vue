@@ -21,9 +21,12 @@
         size="mini"
       >
         <div class="content-row">
+          <!-- Material Name -->
           <el-form-item prop="name" :label="$t('general.name')">
             <el-input :placeholder="$t('general.name')" v-model="createMaterialForm.name"></el-input>
           </el-form-item>
+
+          <!-- Manufacturer -->
           <el-form-item prop="manufacturer" :label="$t('materials.manufacturer')">
             <el-select
               v-model="createMaterialForm.manufacturer"
@@ -42,12 +45,16 @@
               ></el-option>
             </el-select>
           </el-form-item>
+
+          <!-- Manufacturer's ID -->
           <el-form-item prop="manufacturerId" :label="$t('materials.manufacturerId')">
             <el-input
               :placeholder="$t('materials.manufacturerId')"
               v-model="createMaterialForm.manufacturerId"
             ></el-input>
           </el-form-item>
+
+          <!-- Material Type & Save -->
           <el-form-item prop="type" :label="$t('materials.type')">
             <el-select v-model="createMaterialForm.type" :placeholder="$t('materials.type')">
               <el-option
@@ -111,6 +118,7 @@ export default {
     createMaterial: function() {
       this.$refs['createMaterialForm'].validate(valid => {
         if (valid) {
+          // TODO: call API, redirect on success
         }
       });
     },

@@ -69,11 +69,13 @@
     "badPassword": "Das alte Passwort stimmt nicht."
   },
   "materials": {
+    "material": "Werkstoff",
     "create": "Neuer Werkstoff",
     "manufacturer": "Hersteller",
     "manufacturerId": "ID beim Hersteller",
     "filter": "Namen filtern...",
     "type": "Typ",
+    "props": "Anwendungsspeuifische Eigenschaften",
     "types": {
       "pp": "Polypropylen",
       "spice": "Spice Melange"

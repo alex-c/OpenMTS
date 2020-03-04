@@ -185,7 +185,7 @@ export default {
       this.getMaterials();
     },
     editMaterial: function() {
-      // TODO
+      this.$router.push({ name: 'editMaterial', params: { ...this.selectedMaterial } });
     },
   },
   mounted() {

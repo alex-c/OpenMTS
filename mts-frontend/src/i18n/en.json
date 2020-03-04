@@ -69,11 +69,13 @@
     "badPassword": "You submitted a bad old password."
   },
   "materials": {
+    "material": "Material",
     "create": "New Material",
     "manufacturer": "Manufacturer",
     "manufacturerId": "Manufacturer's ID",
     "filter": "Filter names...",
     "type": "Type",
+    "props": "Custom Properties",
     "types": {
       "pp": "Polypropylene",
       "spice": "Spice Melange"
