@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenMTS.Models
 {
@@ -30,11 +31,11 @@ namespace OpenMTS.Models
         /// <summary>
         /// The type of the material.
         /// </summary>
-        public MaterialType MaterialType { get; set; }
+        public MaterialType Type { get; set; }
 
         /// <summary>
         /// Custom material properties.
         /// </summary>
-        public ICollection<CustomMaterialProp> CustomProps { get; set; }
+        public ICollection<CustomMaterialPropValue> CustomProps { get; set; }
     }
 }

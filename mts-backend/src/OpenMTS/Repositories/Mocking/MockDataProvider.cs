@@ -11,6 +11,8 @@ namespace OpenMTS.Repositories.Mocking
 
         public Dictionary<Guid, StorageSite> StorageSites { get; }
 
+        public Dictionary<int, Material> Materials { get; }
+
         public MockDataProvider(PasswordHashingService passwordHashingService)
         {
             #region Users
@@ -70,6 +72,45 @@ namespace OpenMTS.Repositories.Mocking
                     new StorageArea("Abstellplatz rechts")
                 }
             });
+
+            #endregion
+
+            #region Materials
+
+            Materials = new Dictionary<int, Material>();
+
+            Material material = new Material()
+            {
+                Id = 1,
+                Name = "PP 505 Standard",
+                Manufacturer = "Acme Corporation",
+                ManufacturerSpecificId = "10004837",
+                Type = MaterialType.Polypropylene,
+                CustomProps = new List<CustomMaterialPropValue>()
+            };
+            Materials.Add(material.Id, material);
+
+            material = new Material()
+            {
+                Id = 2,
+                Name = "PP 504 Gestreckt",
+                Manufacturer = "Acme Corporation",
+                ManufacturerSpecificId = "pp-9000",
+                Type = MaterialType.Polypropylene,
+                CustomProps = new List<CustomMaterialPropValue>()
+            };
+            Materials.Add(material.Id, material);
+
+            material = new Material()
+            {
+                Id = 3,
+                Name = "Spice",
+                Manufacturer = "CHOAM",
+                ManufacturerSpecificId = "0001",
+                Type = MaterialType.Spice,
+                CustomProps = new List<CustomMaterialPropValue>()
+            };
+            Materials.Add(material.Id, material);
 
             #endregion
         }
