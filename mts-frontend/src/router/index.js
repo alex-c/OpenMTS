@@ -13,6 +13,7 @@ import Materials from '../views/private/Materials.vue';
 import ApiKeys from '../views/private/ApiKeys.vue';
 import EditKey from '../views/private/ApiKeys/EditKey.vue';
 import Configuration from '../views/private/Configuration.vue';
+import CreateMaterialProp from '../views/private/Configuration/CreateMaterialProp.vue';
 import UserAdministration from '../views/private/UserAdministration.vue';
 import CreateUser from '../views/private/UserAdministration/CreateUser.vue';
 import EditUser from '../views/private/UserAdministration/EditUser.vue';
@@ -87,8 +88,15 @@ const routes = [
       },
       {
         path: 'config',
+        name: 'configuration',
         component: Configuration,
+        props: true,
         beforeEnter: userIsAdministrator,
+      },
+      {
+        path: 'config/crate-material-prop',
+        name: 'createMaterialProp',
+        component: CreateMaterialProp,
       },
       {
         path: 'users',

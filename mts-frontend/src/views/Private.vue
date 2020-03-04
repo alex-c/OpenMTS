@@ -63,6 +63,12 @@ export default {
 .content-row {
   padding-top: 16px;
   overflow: auto;
+  .left.content-title {
+    padding-top: 4px;
+  }
+  .left.content-subtitle {
+    padding-top: 8px;
+  }
 }
 
 .content-section {
@@ -84,7 +90,6 @@ export default {
 .content-title {
   font-size: 18px;
   font-weight: bold;
-  margin-top: 4px;
 }
 
 .content-subtitle {

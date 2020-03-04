@@ -15,6 +15,7 @@
     "repeat": "Repeat",
     "id": "ID",
     "name": "Name",
+    "type": "Type",
     "material": "Material",
     "sites": "Storage Sites",
     "inventory": "Inventory",
@@ -68,6 +69,7 @@
     "badPassword": "You submitted a bad old password."
   },
   "config": {
+    "guestLogin": "Guest Login",
     "allowGuestLogin": "Allow guest login:",
     "guestLoginWarning": "Allowing guest logins implies that users will be able to login to OpenMTS with full user rights without an account or password. Use with care!",
     "allowGuestLoginConfirm": "Are you sure you want to allow guest logins?",
@@ -75,7 +77,24 @@
     "allow": "Allow",
     "disallow": "Disallow",
     "guestLoginAllowed": "Guest logins were allowed.",
-    "guestLoginDisallowed": "Guest logins were disallowed."
+    "guestLoginDisallowed": "Guest logins were disallowed.",
+    "materialProps": "Custom Material Properties",
+    "createProp": "New Property",
+    "editProp": "Edit Property",
+    "editPropPrompt": "Please enter a new property name:",
+    "editPropInputError": "Please enter a name.",
+    "propUpdated": "Property with ID `{id}` was renamed to `{name}`.",
+    "confirmMaterialPropDeletion": "Are you sure you want to delete the `{name}` ({id}) property? This may lead to data loss.",
+    "materialPropDeleted": "The property `{name}` ({id}) was successfully deleted.",
+    "validation": {
+      "propName": "Please enter a property name.",
+      "propType": "Please select a property type."
+    },
+    "materialPropCreated": "Successfully created property `{name}` with ID `{id}`."
+  },
+  "types": {
+    "text": "Text",
+    "file": "File"
   },
   "users": {
     "role": "Role",

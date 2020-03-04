@@ -15,6 +15,7 @@
     "repeat": "Wiederholen",
     "id": "ID",
     "name": "Name",
+    "type": "Typ",
     "material": "Material",
     "sites": "Lagerorte",
     "inventory": "Lagerbestand",
@@ -68,6 +69,7 @@
     "badPassword": "Das alte Passwort stimmt nicht."
   },
   "config": {
+    "guestLogin": "Gastzugang",
     "allowGuestLogin": "Gastzugang aktivieren:",
     "guestLoginWarning": "Bei aktiviertem Gastzugang können sich Nutzer ohne Account oder Passwort anmelden und erhalten dabei volle Benutzerberechtigungen. Benutzen Sie diese Option mit Bedacht!",
     "allowGuestLoginConfirm": "Sind Sie sicher, dass sie den Gastzugang aktivieren wollen?",
@@ -75,7 +77,24 @@
     "allow": "Aktivieren",
     "disallow": "Deaktivieren",
     "guestLoginAllowed": "Der Gastzugang wurde aktiviert.",
-    "guestLoginDisallowed": "Der Gastzugang wurde deaktiviert.."
+    "guestLoginDisallowed": "Der Gastzugang wurde deaktiviert..",
+    "materialProps": "Anwendungsspezifische Materialeigenschaften",
+    "createProp": "Neue Eigenschaft",
+    "editProp": "Eigenschaft Editieren",
+    "editPropPrompt": "Bitte geben Sie einen neuen Namen für die Eigenschaft ein:",
+    "editPropInputError": "Bitte geben Sie einen Namen ein.",
+    "propUpdated": "Die Eigenschaft mit ID `{id}` wurde zu `{name}` umbenannt.",
+    "confirmMaterialPropDeletion": "Sind Sie sicher, dass Sie die Eigenschaft `{name}` ({id}) löschen möchten? Dies kann zu Datenverlust führen.",
+    "materialPropDeleted": "Die Eigenschaft `{name}` ({id}) wurde gelöscht.",
+    "validation": {
+      "propName": "Bitte geben Sie einen Namen ein.",
+      "propType": "Bitte wählen Sie einen Typen aus."
+    },
+    "materialPropCreated": "Die Eigenschaft `{name}` wurde mit ID `{id}` erstellt."
+  },
+  "types": {
+    "text": "Text",
+    "file": "Datei"
   },
   "users": {
     "role": "Rolle",

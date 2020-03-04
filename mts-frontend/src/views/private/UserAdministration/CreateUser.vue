@@ -23,11 +23,11 @@
         size="mini"
       >
         <div class="content-row">
-          <el-form-item prop="name" label="Name">
-            <el-input placeholder="Name" v-model="createUserForm.name"></el-input>
+          <el-form-item prop="name" :label="$t('general.name')">
+            <el-input :placeholder="$t('general.name')" v-model="createUserForm.name"></el-input>
           </el-form-item>
-          <el-form-item prop="id" label="ID">
-            <el-input placeholder="ID" v-model="createUserForm.id" autofocus>
+          <el-form-item prop="id" :label="$t('general.id')">
+            <el-input :placeholder="$t('general.id')" v-model="createUserForm.id" autofocus>
               <el-button
                 slot="append"
                 icon="el-icon-refresh-right"

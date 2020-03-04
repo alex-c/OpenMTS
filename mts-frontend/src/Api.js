@@ -81,6 +81,46 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getCustomMaterialProps: () => {
+    return fetch(`http://localhost:5000/api/configuration/material-props`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  createCustomMaterialProp: (name, type) => {
+    return fetch(`http://localhost:5000/api/configuration/material-props/`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name, type }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateCustomMaterialProp: (id, name) => {
+    return fetch(`http://localhost:5000/api/configuration/material-props/${id}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  deleteCustomMaterialProp: id => {
+    return fetch(`http://localhost:5000/api/configuration/material-props/${id}`, {
+      method: 'DELETE',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   getUsers: (page, elementsPerPage, search, showDisabled) => {
     return fetch(`http://localhost:5000/api/users?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&showDisabled=${showDisabled}`, {
       method: 'GET',
