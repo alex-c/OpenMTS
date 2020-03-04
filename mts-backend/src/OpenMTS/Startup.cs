@@ -15,7 +15,6 @@ using OpenMTS.Services;
 using OpenMTS.Services.Authentication;
 using OpenMTS.Services.Authentication.Providers;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace OpenMTS
@@ -135,6 +134,7 @@ namespace OpenMTS
                     services.AddSingleton<MockDataProvider>();
                 }
                 services.AddSingleton<IConfigurationRepository, MockConfigurationRepository>();
+                services.AddSingleton<ICustomMaterialPropRepository, MockCustomMaterialPropRepository>();
                 services.AddSingleton<IUserRepository, MockUserRepository>();
                 services.AddSingleton<IReadOnlyUserRepository, MockUserRepository>();
                 services.AddSingleton<IApiKeyRepository, MockApiKeyRepository>();
@@ -161,9 +161,10 @@ namespace OpenMTS
             services.AddSingleton<IAuthenticationProvider, ApiKeyAuthenticationProvider>();
 
             // Register services
+            services.AddSingleton<AuthService>();
             services.AddSingleton<PasswordHashingService>();
             services.AddSingleton<ConfigurationService>();
-            services.AddSingleton<AuthService>();
+            services.AddSingleton<CustomMaterialPropService>();
             services.AddSingleton<UserService>();
             services.AddSingleton<ApiKeyService>();
             services.AddSingleton<RightsService>();
