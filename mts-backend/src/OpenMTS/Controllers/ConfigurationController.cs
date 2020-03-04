@@ -5,6 +5,7 @@ using OpenMTS.Authorization;
 using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Models;
 using OpenMTS.Services;
+using OpenMTS.Services.Exceptions;
 using System;
 
 namespace OpenMTS.Controllers
@@ -130,6 +131,44 @@ namespace OpenMTS.Controllers
             {
                 return HandleUnexpectedException(exception);
             }
+        }
+
+        /// <summary>
+        /// Updates a custom material property.
+        /// </summary>
+        /// <param name="id">The ID of the prop to update.</param>
+        /// <param name="customMaterialPropUpdateRequest">The custom material property update request.</param>
+        /// <returns>Returns the updated prop.</returns>
+        [HttpPatch("material-props/{id}")] // TODO - auth policy
+        public IActionResult UpdateCustomMaterialProp(Guid id, [FromBody] CustomMaterialPropUpdateRequest customMaterialPropUpdateRequest)
+        {
+            if (customMaterialPropUpdateRequest == null ||
+                string.IsNullOrWhiteSpace(customMaterialPropUpdateRequest.Name))
+            {
+                return HandleBadRequest("A valid prop name needs tu be supplied.");
+            }
+
+            try
+            {
+                CustomMaterialProp prop = CustomPropService.UpdateCustomMaterialProp(id, customMaterialPropUpdateRequest.Name);
+                return Ok(prop);
+            }
+            catch (CustomPropNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+
+        }
+
+        [HttpDelete("material-props/{id}")] // TODO - auth policy
+        public IActionResult DeleteCustomMaterialProp(Guid id)
+        {
+            CustomPropService.DeleteCustomMaterialProp(id);
+            return NoContent();
         }
 
         #endregion
