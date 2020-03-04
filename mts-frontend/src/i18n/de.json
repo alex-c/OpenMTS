@@ -71,11 +71,18 @@
   "materials": {
     "create": "Neuer Werkstoff",
     "manufacturer": "Hersteller",
+    "manufacturerId": "ID beim Hersteller",
     "filter": "Namen filtern...",
     "type": "Typ",
     "types": {
       "pp": "Polypropylen",
       "spice": "Spice Melange"
+    },
+    "validation": {
+      "name": "Bitte geben Sie einen Namen ein.",
+      "manufacturer": "Bitte wählen Sie einen Hersteller aus oder geben Sie einen neuen ein.",
+      "manufacturerId": "Please geben Sie die ID des Materials beim Hersteller ein.",
+      "type": "Bitte wählen Sie einen Typen aus."
     }
   },
   "config": {

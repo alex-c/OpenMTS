@@ -1,7 +1,7 @@
 <template>
   <div id="create-user">
-    <!-- Header -->
     <div class="content-section">
+      <!-- Header -->
       <div class="content-row">
         <div class="left content-title">{{$t('users.create')}}</div>
         <div class="right">
@@ -10,10 +10,8 @@
           </router-link>
         </div>
       </div>
-    </div>
 
-    <!-- Create User Form -->
-    <div class="content-section">
+      <!-- Create User Form -->
       <el-form
         :model="createUserForm"
         :rules="validationRules"

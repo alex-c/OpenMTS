@@ -10,6 +10,7 @@ import Dashboard from '../views/private/Dashboard.vue';
 import StorageSites from '../views/private/StorageSites.vue';
 import Inventory from '../views/private/Inventory.vue';
 import Materials from '../views/private/Materials.vue';
+import CreateMaterial from '../views/private/Materials/CreateMaterial.vue';
 import ApiKeys from '../views/private/ApiKeys.vue';
 import EditKey from '../views/private/ApiKeys/EditKey.vue';
 import Configuration from '../views/private/Configuration.vue';
@@ -85,6 +86,10 @@ const routes = [
       {
         path: 'materials',
         component: Materials,
+      },
+      {
+        path: 'materials/create',
+        component: CreateMaterial,
       },
       {
         path: 'config',

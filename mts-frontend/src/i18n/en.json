@@ -71,11 +71,18 @@
   "materials": {
     "create": "New Material",
     "manufacturer": "Manufacturer",
+    "manufacturerId": "Manufacturer's ID",
     "filter": "Filter names...",
     "type": "Type",
     "types": {
       "pp": "Polypropylene",
       "spice": "Spice Melange"
+    },
+    "validation": {
+      "name": "Please enter a name.",
+      "manufacturer": "Please select or enter a manufacturer.",
+      "manufacturerId": "Please enter the manufacturer's material ID.",
+      "type": "Plesae select a type."
     }
   },
   "config": {
