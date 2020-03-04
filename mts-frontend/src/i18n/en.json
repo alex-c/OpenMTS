@@ -68,6 +68,16 @@
     },
     "badPassword": "You submitted a bad old password."
   },
+  "materials": {
+    "create": "New Material",
+    "manufacturer": "Manufacturer",
+    "filter": "Filter names...",
+    "type": "Type",
+    "types": {
+      "pp": "Polypropylene",
+      "spice": "Spice Melange"
+    }
+  },
   "config": {
     "guestLogin": "Guest Login",
     "allowGuestLogin": "Allow guest login:",

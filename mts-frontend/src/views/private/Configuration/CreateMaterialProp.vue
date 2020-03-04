@@ -27,7 +27,11 @@
             <el-input v-model="createPropForm.name" :placeholder="$t('general.name')"></el-input>
           </el-form-item>
           <el-form-item prop="type" :label="$t('general.type')">
-            <el-select v-model="createPropForm.type" :placeholder="$t('general.type')">
+            <el-select
+              v-model="createPropForm.type"
+              :placeholder="$t('general.type')"
+              :no-data-text="$t('general.noData')"
+            >
               <el-option value="0" :label="$t('types.text')" />
               <el-option value="1" :label="$t('types.file')" />
             </el-select>

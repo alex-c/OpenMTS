@@ -62,6 +62,22 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getMaterials: (page, elementsPerPage, search, manufacturer, type) => {
+    return fetch(`http://localhost:5000/api/materials?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&manufacturer=${manufacturer}&type=${type}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getManufacturers: () => {
+    return fetch(`http://localhost:5000/api/manufacturers`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   getConfiguration: () => {
     return fetch(`http://localhost:5000/api/configuration`, {
       method: 'GET',

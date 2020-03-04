@@ -68,6 +68,16 @@
     },
     "badPassword": "Das alte Passwort stimmt nicht."
   },
+  "materials": {
+    "create": "Neuer Werkstoff",
+    "manufacturer": "Hersteller",
+    "filter": "Namen filtern...",
+    "type": "Typ",
+    "types": {
+      "pp": "Polypropylen",
+      "spice": "Spice Melange"
+    }
+  },
   "config": {
     "guestLogin": "Gastzugang",
     "allowGuestLogin": "Gastzugang aktivieren:",

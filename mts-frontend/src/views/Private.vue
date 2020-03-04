@@ -79,6 +79,7 @@ export default {
     padding-top: 8px;
   }
 }
+
 .content-section:last-child {
   border: none;
 }
@@ -95,6 +96,16 @@ export default {
 .content-subtitle {
   font-size: 16px;
   font-weight: 600;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.grow {
+  flex-grow: 1;
 }
 
 .left {
