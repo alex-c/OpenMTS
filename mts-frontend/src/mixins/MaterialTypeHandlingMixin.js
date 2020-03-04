@@ -1,4 +1,16 @@
 export default {
+  data() {
+    return {
+      materialTypes: [
+        {
+          type: 0,
+        },
+        {
+          type: 1,
+        },
+      ],
+    };
+  },
   methods: {
     materialTypeIdToText: function(material) {
       switch (material.type) {

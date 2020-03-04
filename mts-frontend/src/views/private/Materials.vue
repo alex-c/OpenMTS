@@ -13,6 +13,7 @@
 
       <!-- Filtering Options -->
       <div id="filter-options" class="content-row flex">
+        <!-- Manufacturer Filter -->
         <div>
           <el-select
             v-model="query.manufacturer"
@@ -32,6 +33,8 @@
             ></el-option>
           </el-select>
         </div>
+
+        <!-- Material Type Filter -->
         <div style="margin: 0px 8px">
           <el-select
             v-model="query.type"
@@ -43,13 +46,15 @@
             filterable
           >
             <el-option
-              v-for="type in materialTypes"
-              :key="type.id"
-              :label="type.label"
-              :value="type.id"
+              v-for="materialType in materialTypes"
+              :key="materialType.type"
+              :label="materialTypeIdToText(materialType)"
+              :value="materialType.type"
             ></el-option>
           </el-select>
         </div>
+
+        <!-- Name Search -->
         <div class="grow">
           <el-input
             :placeholder="$t('materials.filter')"
@@ -81,7 +86,7 @@
           <el-table-column
             prop="type"
             :label="$t('materials.type')"
-            :formatter="this.materialTypeIdToText"
+            :formatter="materialTypeIdToText"
           ></el-table-column>
         </el-table>
       </div>
@@ -98,7 +103,15 @@
             @current-change="changePage"
           ></el-pagination>
         </div>
-        <div class="right"></div>
+        <div class="right">
+          <el-button
+            icon="el-icon-edit"
+            type="info"
+            size="mini"
+            :disabled="selectedMaterial.id === null"
+            @click="editMaterial"
+          >{{$t('general.edit')}}</el-button>
+        </div>
       </div>
     </div>
   </div>
@@ -127,7 +140,6 @@ export default {
       materials: [],
       totalMaterials: 0,
       manufacturers: [],
-      materialTypes: this.getMaterialTypes(),
       selectedMaterial: { id: null },
     };
   },
@@ -148,19 +160,6 @@ export default {
         })
         .catch(this.handleHttpError);
     },
-    getMaterialTypes: function() {
-      return [
-        {
-          id: 0,
-          label: this.$t('materials.types.pp'),
-        },
-        {
-          id: 1,
-          label: this.$t('materials.types.spice'),
-        },
-      ];
-    },
-    createMaterial: function() {},
     setManufacturer: function(value) {
       this.query.page = 1;
       this.getMaterials();
@@ -184,6 +183,9 @@ export default {
     changePage: function(page) {
       this.query.page = page;
       this.getMaterials();
+    },
+    editMaterial: function() {
+      // TODO
     },
   },
   mounted() {

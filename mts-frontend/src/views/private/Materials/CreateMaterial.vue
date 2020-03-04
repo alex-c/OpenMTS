@@ -50,8 +50,12 @@
           </el-form-item>
           <el-form-item prop="type" :label="$t('materials.type')">
             <el-select v-model="createMaterialForm.type" :placeholder="$t('materials.type')">
-              <el-option value="0" :label="$t('materials.types.pp')" />
-              <el-option value="1" :label="$t('materials.types.spice')" />
+              <el-option
+                v-for="materialType in materialTypes"
+                :key="materialType.type"
+                :label="materialTypeIdToText(materialType)"
+                :value="materialType.type"
+              ></el-option>
             </el-select>
             <div class="right">
               <el-button
@@ -70,10 +74,11 @@
 <script>
 import Api from '../../../Api.js';
 import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
+import MaterialTypeHandlingMixin from '@/mixins/MaterialTypeHandlingMixin.js';
 
 export default {
   name: 'CreateMaterial',
-  mixins: [GenericErrorHandlingMixin],
+  mixins: [GenericErrorHandlingMixin, MaterialTypeHandlingMixin],
   data() {
     return {
       createMaterialForm: {
