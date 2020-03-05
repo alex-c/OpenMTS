@@ -68,7 +68,9 @@ export default {
   getMaterialTypes: (page, elementsPerPage, search, getAll = false) => {
     return fetch(`http://localhost:5000/api/material-types?getAll=${getAll}&page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
     })
       .catch(catchNetworkError)
       .then(processResponse);
@@ -98,7 +100,9 @@ export default {
   getMaterials: (page, elementsPerPage, search, manufacturer, type) => {
     return fetch(`http://localhost:5000/api/materials?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&manufacturer=${manufacturer}&type=${type}`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
     })
       .catch(catchNetworkError)
       .then(processResponse);
@@ -106,7 +110,9 @@ export default {
   getManufacturers: () => {
     return fetch(`http://localhost:5000/api/manufacturers`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
     })
       .catch(catchNetworkError)
       .then(processResponse);
@@ -133,7 +139,9 @@ export default {
   getCustomMaterialProps: () => {
     return fetch(`http://localhost:5000/api/configuration/material-props`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
     })
       .catch(catchNetworkError)
       .then(processResponse);
@@ -173,7 +181,9 @@ export default {
   getUsers: (page, elementsPerPage, search, showDisabled) => {
     return fetch(`http://localhost:5000/api/users?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&showDisabled=${showDisabled}`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
     })
       .catch(catchNetworkError)
       .then(processResponse);
@@ -267,7 +277,9 @@ export default {
   getStorageSites: (page, elementsPerPage, search) => {
     return fetch(`http://localhost:5000/api/sites?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
     })
       .catch(catchNetworkError)
       .then(processResponse);
