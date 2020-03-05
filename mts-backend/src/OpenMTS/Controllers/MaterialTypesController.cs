@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Controllers.Contracts.Responses;
@@ -15,7 +16,7 @@ namespace OpenMTS.Controllers
     /// Endpoint for data access and administration of types of materials.
     /// </summary>
     /// <seealso cref="OpenMTS.Controllers.ControllerBase" />
-    [Route("api/material-types")]
+    [Route("api/material-types"), Authorize]
     public class MaterialTypesController : ControllerBase
     {
         /// <summary>
@@ -86,7 +87,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="createMaterialTypeRequest">The request to create a new material type.</param>
         /// <returns>Returns a `201 Created` response on success.</returns>
-        [HttpPost]
+        [HttpPost] // TODO - auth policy
         public IActionResult CreateMaterialType([FromBody] CreateMaterialTypeRequest createMaterialTypeRequest)
         {
             if (createMaterialTypeRequest == null ||
@@ -117,7 +118,7 @@ namespace OpenMTS.Controllers
         /// <param name="id">The ID of the type to update.</param>
         /// <param name="updateMaterialTypeRequest">The data to update.</param>
         /// <returns>Returns the updated type.</returns>
-        [HttpPatch("{id}")]
+        [HttpPatch("{id}")] // TODO - auth policy
         public IActionResult UpdateMaterialType(string id, [FromBody] UpdateMaterialTypeRequest updateMaterialTypeRequest)
         {
             if (updateMaterialTypeRequest == null ||

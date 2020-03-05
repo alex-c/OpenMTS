@@ -83,7 +83,7 @@ namespace OpenMTS.Controllers
         /// Gets all available custom material props.
         /// </summary>
         /// <returns>Returns all props.</returns>
-        [HttpGet("material-props")]
+        [HttpGet("material-props"), Authorize]
         public IActionResult GetCustomMaterialProps()
         {
             try

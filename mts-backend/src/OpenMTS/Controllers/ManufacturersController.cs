@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OpenMTS.Services;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace OpenMTS.Controllers
     /// Router for data and functionality related to material manufacturers.
     /// </summary>
     /// <seealso cref="OpenMTS.Controllers.ControllerBase" />
-    [Route("api/manufacturers")]
+    [Route("api/manufacturers"), Authorize]
     public class ManufacturersController : ControllerBase
     {
         /// <summary>

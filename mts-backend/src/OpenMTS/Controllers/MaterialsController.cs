@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Models;
@@ -14,7 +15,7 @@ namespace OpenMTS.Controllers
     /// A route granting access to materials data and administration.
     /// </summary>
     /// <seealso cref="OpenMTS.Controllers.ControllerBase" />
-    [Route("api/materials")]
+    [Route("api/materials"), Authorize]
     public class MaterialsController : ControllerBase
     {
         /// <summary>
@@ -82,5 +83,7 @@ namespace OpenMTS.Controllers
                 return HandleUnexpectedException(exception);
             }
         }
+
+        // TODO: create, update materials, set custom fields
     }
 }

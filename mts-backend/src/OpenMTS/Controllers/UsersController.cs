@@ -16,8 +16,8 @@ namespace OpenMTS.Controllers
     /// <summary>
     /// API route for user data.
     /// </summary>
-    [Route("api/users")]
-    public class UserController : ControllerBase
+    [Route("api/users"), Authorize]
+    public class UsersController : ControllerBase
     {
         /// <summary>
         /// The service providing user-related CRUD functionality.
@@ -29,9 +29,9 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="loggerFactory">Factory to create loggers from.</param>
         /// <param name="userService">Service providing user-related functionality.</param>
-        public UserController(ILoggerFactory loggerFactory, UserService userService)
+        public UsersController(ILoggerFactory loggerFactory, UserService userService)
         {
-            Logger = loggerFactory.CreateLogger<UserController>();
+            Logger = loggerFactory.CreateLogger<UsersController>();
             UserService = userService;
         }
 
