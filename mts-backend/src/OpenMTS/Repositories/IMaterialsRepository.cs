@@ -21,6 +21,6 @@ namespace OpenMTS.Repositories
         /// <param name="partialManufacturerName">A string to filter manufacturers with.</param>
         /// <param name="type">The type to filter with.</param>
         /// <returns>Returns the matching materials.</returns>
-        IEnumerable<Material> GetFilteredMaterials(string partialName = null, string partialManufacturerName = null, MaterialType? type = null);
+        IEnumerable<Material> GetFilteredMaterials(string partialName = null, string partialManufacturerName = null, MaterialType type = null);
     }
 }

@@ -3,16 +3,16 @@
     /// <summary>
     /// Represents a type of material.
     /// </summary>
-    public enum MaterialType
+    public class MaterialType
     {
         /// <summary>
-        /// The material is a polypropylene.
+        /// The ID of the material type, which is an abbreviation.
         /// </summary>
-        Polypropylene = 0,
+        public string Id { get; set; }
 
         /// <summary>
-        /// The spice must flow.
+        /// The full name of the material type.
         /// </summary>
-        Spice = 1 // TODO
+        public string Name { get; set; }
     }
 }

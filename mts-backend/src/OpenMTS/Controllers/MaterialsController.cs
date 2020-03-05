@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Models;
 using OpenMTS.Services;
+using OpenMTS.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,11 @@ namespace OpenMTS.Controllers
     public class MaterialsController : ControllerBase
     {
         /// <summary>
+        /// A service for material type functionality.
+        /// </summary>
+        private MaterialTypeService MaterialTypeService { get; }
+
+        /// <summary>
         /// The underlying service for materials functionality.
         /// </summary>
         private MaterialsService MaterialsService { get; }
@@ -26,9 +32,10 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="loggerFactory">A factory to create loggers from.</param>
         /// <param name="materialsService">The materials service.</param>
-        public MaterialsController(ILoggerFactory loggerFactory, MaterialsService materialsService)
+        public MaterialsController(ILoggerFactory loggerFactory, MaterialTypeService materialTypeService, MaterialsService materialsService)
         {
             Logger = loggerFactory.CreateLogger<MaterialsController>();
+            MaterialTypeService = materialTypeService;
             MaterialsService = materialsService;
         }
 
@@ -47,19 +54,19 @@ namespace OpenMTS.Controllers
             [FromQuery] int elementsPerPage = 10,
             [FromQuery] string search = null,
             [FromQuery] string manufacturer = null,
-            [FromQuery] int? type = null)
+            [FromQuery] string type = null)
         {
-            // Attempt to parse type, if submitted
-            MaterialType? materialType = null;
+            // Check for material type validity
+            MaterialType materialType = null;
             if (type != null)
             {
-                if (Enum.IsDefined(typeof(MaterialType), type))
+                try
                 {
-                    materialType = (MaterialType)type;
+                    materialType = MaterialTypeService.GetMaterialType(type);
                 }
-                else
+                catch (MaterialTypeNotFoundException exception)
                 {
-                    return HandleBadRequest("An invalid material type was submitted.");
+                    return HandleBadRequest(exception.Message);
                 }
             }
 

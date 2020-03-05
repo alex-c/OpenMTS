@@ -102,7 +102,9 @@ namespace OpenMTS
             // Configure authorization policies
             services.AddAuthorization(options =>
             {
+                // Configuration administration
                 options.AddPolicy(AuthPolicyNames.MAY_SET_CONFIGURATION, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CONFIGFURATION_SET)));
+                // TODO: policies for managing custom material props
 
                 // User administration
                 options.AddPolicy(AuthPolicyNames.MAY_CREATE_USER, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.USERS_CREATE)));
@@ -133,6 +135,7 @@ namespace OpenMTS
                 {
                     services.AddSingleton<MockDataProvider>();
                 }
+                services.AddSingleton<IMaterialTypeRepository, MockMaterialTypeRepository>();
                 services.AddSingleton<IMaterialsRepository, MockMaterialsRepository>();
                 services.AddSingleton<IConfigurationRepository, MockConfigurationRepository>();
                 services.AddSingleton<ICustomMaterialPropRepository, MockCustomMaterialPropRepository>();
@@ -164,6 +167,7 @@ namespace OpenMTS
             // Register services
             services.AddSingleton<AuthService>();
             services.AddSingleton<PasswordHashingService>();
+            services.AddSingleton<MaterialTypeService>();
             services.AddSingleton<MaterialsService>();
             services.AddSingleton<ConfigurationService>();
             services.AddSingleton<CustomMaterialPropService>();

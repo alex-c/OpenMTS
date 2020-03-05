@@ -48,7 +48,7 @@ namespace OpenMTS.Services
         /// <param name="partialManufacturerName">A string to filter manufacturers with.</param>
         /// <param name="materialType">Type of the material to filter with.</param>
         /// <returns>Returns a filtered list of materials</returns>
-        public IEnumerable<Material> GetMaterials(string partialName, string partialManufacturerName, MaterialType? materialType)
+        public IEnumerable<Material> GetMaterials(string partialName, string partialManufacturerName, MaterialType materialType)
         {
             return MaterialsRepository.GetFilteredMaterials(partialName, partialManufacturerName, materialType);
         }

@@ -26,7 +26,7 @@ namespace OpenMTS.Repositories.Mocking
             return Materials.Values;
         }
 
-        public IEnumerable<Material> GetFilteredMaterials(string partialName, string partialManufacturerName, MaterialType? type)
+        public IEnumerable<Material> GetFilteredMaterials(string partialName, string partialManufacturerName, MaterialType type)
         {
             IEnumerable<Material> materials = Materials.Values;
             if (partialName != null)
@@ -39,7 +39,7 @@ namespace OpenMTS.Repositories.Mocking
             }
             if (type != null)
             {
-                materials = materials.Where(m => m.Type == type);
+                materials = materials.Where(m => m.Type.Id == type.Id);
             }
             return materials;
         }
