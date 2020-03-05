@@ -4,7 +4,11 @@
       <!-- Header -->
       <div class="content-row">
         <div class="left content-title">{{$t('materialTypes.create')}}</div>
-        <div class="right"></div>
+        <div class="right">
+          <router-link to="/private/material-types">
+            <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{$t('general.back')}}</el-button>
+          </router-link>
+        </div>
       </div>
 
       <!-- Form -->
