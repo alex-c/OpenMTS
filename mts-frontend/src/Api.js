@@ -62,8 +62,11 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getMaterialTypes: (page, elementsPerPage, search) => {
-    return fetch(`http://localhost:5000/api/material-types?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
+  getAllMaterialTypes: function() {
+    return this.getMaterialTypes(0, 0, '', true);
+  },
+  getMaterialTypes: (page, elementsPerPage, search, getAll = false) => {
+    return fetch(`http://localhost:5000/api/material-types?getAll=${getAll}&page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })

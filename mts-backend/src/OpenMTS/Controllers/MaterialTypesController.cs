@@ -37,26 +37,41 @@ namespace OpenMTS.Controllers
         /// <summary>
         /// Gets paginated material types.
         /// </summary>
+        /// <param name="getAll">Disables pagination - all elements will be returned.</param>
         /// <param name="page">The page to display.</param>
         /// <param name="elementsPerPage">The number of elements to display per page.</param>
         /// <param name="search">An optional search string to filter material type names with.</param>
         /// <returns>Returns the filtered and paginated material types.</returns>
         [HttpGet]
-        public IActionResult GetMaterialTypes([FromQuery] int page = 1, [FromQuery] int elementsPerPage = 10, [FromQuery] string search = null)
+        public IActionResult GetMaterialTypes([FromQuery] bool getAll = false, [FromQuery] int page = 0, [FromQuery] int elementsPerPage = 10, [FromQuery] string search = null)
         {
+            if (!getAll && (page < 1 || elementsPerPage < 1))
+            {
+                return HandleBadRequest("Bad pagination parameters.");
+            }
+
             try
             {
+                // Get (potentially filtered) types and order alphabetically by ID
                 IEnumerable<MaterialType> materialTypes = null;
                 if (search == null)
                 {
-                    materialTypes = MaterialTypeService.GetMaterialTypes().OrderBy(m => m.Id);
+                    materialTypes = MaterialTypeService.GetMaterialTypes();
                 }
                 else
                 {
                     materialTypes = MaterialTypeService.GetMaterialTypes(search);
                 }
+                materialTypes = materialTypes.OrderBy(m => m.Id);
+
+                // Paginate if needed
+                IEnumerable<MaterialType> paginatedMaterialTypes = materialTypes;
+                if (!getAll)
+                {
+                    paginatedMaterialTypes = materialTypes.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
+                }
                 
-                IEnumerable<MaterialType> paginatedMaterialTypes = materialTypes.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
+                // Done!
                 return Ok(new PaginatedResponse(paginatedMaterialTypes, materialTypes.Count()));
             }
             catch (Exception exception)

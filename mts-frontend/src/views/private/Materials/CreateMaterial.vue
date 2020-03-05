@@ -121,7 +121,7 @@ export default {
         .catch(this.handleHttpError);
     },
     getMaterialTypes: function() {
-      Api.getMaterialTypes()
+      Api.getAllMaterialTypes()
         .then(response => {
           this.materialTypes = response.body.data;
         })
