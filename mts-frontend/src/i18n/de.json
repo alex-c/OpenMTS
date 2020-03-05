@@ -17,6 +17,7 @@
     "name": "Name",
     "type": "Typ",
     "material": "Material",
+    "materialTypes": "Materialtypen",
     "sites": "Lagerorte",
     "inventory": "Lagerbestand",
     "materials": "Werkstoffe",
@@ -86,6 +87,19 @@
       "manufacturerId": "Please geben Sie die ID des Materials beim Hersteller ein.",
       "type": "Bitte wählen Sie einen Typen aus."
     }
+  },
+  "materialTypes": {
+    "create": "Neuer Materialtyp",
+    "edit": "Typ Bearbeiten",
+    "editPrompt": "Geben Sie bitte einen neuen Namen ein:",
+    "editInputError": "Bitte geben Sie einen neuen Namen ein.",
+    "created": "Der Materialtyp mit `{id} - {name}` wurde angelegt.",
+    "updated": "Der Materialtyp mit ID `{id}` wurde zu `{name}` umbenannt.",
+    "validation": {
+      "id": "Bitte geben Sie als ID ein Kürzel an (z.B. `PP` für Polypropylen).",
+      "name": "Bitte geben Sie einen Namen ein."
+    },
+    "conflict": "Die ID `{id}` ist bereits vergeben."
   },
   "config": {
     "guestLogin": "Gastzugang",

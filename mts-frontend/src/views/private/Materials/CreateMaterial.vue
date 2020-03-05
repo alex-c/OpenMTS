@@ -125,7 +125,7 @@ export default {
         .then(response => {
           this.materialTypes = response.body.data;
         })
-        .catch(error => this.handleHttpError(error));
+        .catch(this.handleHttpError);
     },
     createMaterial: function() {
       this.$refs['createMaterialForm'].validate(valid => {

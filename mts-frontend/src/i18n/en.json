@@ -20,6 +20,7 @@
     "sites": "Storage Sites",
     "inventory": "Inventory",
     "materials": "Materials",
+    "materialTypes": "Material Types",
     "administration": "Administration",
     "configuration": "Configuration",
     "locations": "Locations",
@@ -86,6 +87,19 @@
       "manufacturerId": "Please enter the manufacturer's material ID.",
       "type": "Plesae select a type."
     }
+  },
+  "materialTypes": {
+    "create": "New Material Type",
+    "edit": "Edit Type",
+    "editPrompt": "Please enter a new name:",
+    "editInputError": "Please enter a new name.",
+    "created": "The material type `{id} - {name}` was successfully created.",
+    "updated": "The material type with ID `{id}` was renamed to `{name}`.",
+    "validation": {
+      "id": "Please enter an ID that is an abbreviation (eg. `PP` for Polypropylene).",
+      "name": "Please enter a name."
+    },
+    "conflict": "The ID `{id}` is already taken."
   },
   "config": {
     "guestLogin": "Guest Login",

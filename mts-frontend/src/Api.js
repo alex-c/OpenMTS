@@ -62,10 +62,32 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getMaterialTypes: () => {
-    return fetch(`http://localhost:5000/api/material-types`, {
+  getMaterialTypes: (page, elementsPerPage, search) => {
+    return fetch(`http://localhost:5000/api/material-types?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  createMaterialType: (id, name) => {
+    return fetch(`http://localhost:5000/api/material-types`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ id, name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateMaterialType: (id, name) => {
+    return fetch(`http://localhost:5000/api/material-types/${id}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name }),
     })
       .catch(catchNetworkError)
       .then(processResponse);

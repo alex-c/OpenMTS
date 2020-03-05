@@ -180,6 +180,7 @@ export default {
           Api.updateStorageArea(this.id, this.selectedArea.id, value)
             .then(result => {
               this.feedback.storageAreas = this.$t('storage.areaUpdated', result.body);
+              // TODO: update view
             })
             .catch(this.handleHttpError);
         })
