@@ -70,6 +70,10 @@ namespace OpenMTS.Services
         /// <returns>Returns the newly created material type.</returns>
         public MaterialType CreateMaterialType(string id, string name)
         {
+            if (IsMaterialTypeIdTaken(id))
+            {
+                throw new MaterialTypeAlreadyExistsException(id);
+            }
             return MaterialTypeRepository.CreateMaterialType(id, name);
         }
 
@@ -88,6 +92,17 @@ namespace OpenMTS.Services
         }
 
         #region Private helpers
+
+        /// <summary>
+        /// Determines whether a material type ID is taken.
+        /// </summary>
+        /// <param name="id">The ID to check.</param>
+        /// <returns>Returns whether the ID is taken.</returns>
+        private bool IsMaterialTypeIdTaken(string id)
+        {
+            MaterialType type = MaterialTypeRepository.GetMaterialType(id);
+            return type != null;
+        }
 
         /// <summary>
         /// Attempts to get a material type from the underlying repository and throws a <see cref="MaterialTypeNotFoundException"/> if no matching type could be found.

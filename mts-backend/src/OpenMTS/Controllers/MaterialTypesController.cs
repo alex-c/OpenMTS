@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Models;
 using OpenMTS.Services;
+using OpenMTS.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +64,65 @@ namespace OpenMTS.Controllers
                 return HandleUnexpectedException(exception);
             }
 
+        }
+
+        /// <summary>
+        /// Creates a new type of the material.
+        /// </summary>
+        /// <param name="createMaterialTypeRequest">The request to create a new material type.</param>
+        /// <returns>Returns a `201 Created` response on success.</returns>
+        [HttpPost]
+        public IActionResult CreateMaterialType([FromBody] CreateMaterialTypeRequest createMaterialTypeRequest)
+        {
+            if (createMaterialTypeRequest == null ||
+                string.IsNullOrWhiteSpace(createMaterialTypeRequest.Id) ||
+                string.IsNullOrWhiteSpace(createMaterialTypeRequest.Name))
+            {
+                return HandleBadRequest("A valid material type creation request with an ID and name must be supplied.");
+            }
+
+            try
+            {
+                MaterialType type = MaterialTypeService.CreateMaterialType(createMaterialTypeRequest.Id, createMaterialTypeRequest.Name);
+                return Created(GetNewResourceUri(createMaterialTypeRequest.Id), type);
+            }
+            catch (MaterialTypeAlreadyExistsException exception)
+            {
+                return HandleResourceAlreadyExistsException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        /// <summary>
+        /// Updates a material type.
+        /// </summary>
+        /// <param name="id">The ID of the type to update.</param>
+        /// <param name="updateMaterialTypeRequest">The data to update.</param>
+        /// <returns>Returns the updated type.</returns>
+        [HttpPatch("{id}")]
+        public IActionResult UpdateMaterialType(string id, [FromBody] UpdateMaterialTypeRequest updateMaterialTypeRequest)
+        {
+            if (updateMaterialTypeRequest == null ||
+                string.IsNullOrWhiteSpace(updateMaterialTypeRequest.Name))
+            {
+                return HandleBadRequest("A valid material type update request with a name must be supplied.");
+            }
+
+            try
+            {
+                return Ok(MaterialTypeService.UpdateMaterialType(id, updateMaterialTypeRequest.Name));
+            }
+            catch (MaterialTypeNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
         }
     }
 }
