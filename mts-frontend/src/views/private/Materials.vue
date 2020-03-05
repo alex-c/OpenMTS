@@ -46,10 +46,10 @@
             filterable
           >
             <el-option
-              v-for="materialType in materialTypes"
-              :key="materialType.type"
-              :label="materialTypeIdToText(materialType)"
-              :value="materialType.type"
+              v-for="type in materialTypes"
+              :key="type.id"
+              :label="type.id + ' - ' + type.name"
+              :value="type.id"
             ></el-option>
           </el-select>
         </div>
@@ -64,6 +64,11 @@
             clearable
             @change="setSearch"
           ></el-input>
+        </div>
+
+        <!-- Reset Filters -->
+        <div style="margin-left: 8px;">
+          <el-button icon="el-icon-close" size="mini" plain @click="resetFilters" />
         </div>
       </div>
 
@@ -83,11 +88,16 @@
           <el-table-column prop="id" :label="$t('general.id')" width="60"></el-table-column>
           <el-table-column prop="name" :label="$t('general.name')"></el-table-column>
           <el-table-column prop="manufacturer" :label="$t('materials.manufacturer')"></el-table-column>
-          <el-table-column
-            prop="type"
-            :label="$t('materials.type')"
-            :formatter="materialTypeIdToText"
-          ></el-table-column>
+          <el-table-column prop="type" :label="$t('materials.type')" width="60">
+            <template slot-scope="scope">
+              <el-popover trigger="hover" placement="left">
+                {{ scope.row.type.name }}
+                <div slot="reference">
+                  <el-tag type="info" size="mini">{{ scope.row.type.id }}</el-tag>
+                </div>
+              </el-popover>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
 
@@ -120,12 +130,11 @@
 <script>
 import Api from '../../Api.js';
 import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
-import MaterialTypeHandlingMixin from '@/mixins/MaterialTypeHandlingMixin.js';
 import Alert from '@/components/Alert.vue';
 
 export default {
   name: 'Materials',
-  mixins: [GenericErrorHandlingMixin, MaterialTypeHandlingMixin],
+  mixins: [GenericErrorHandlingMixin],
   components: { Alert },
   data() {
     return {
@@ -140,6 +149,7 @@ export default {
       materials: [],
       totalMaterials: 0,
       manufacturers: [],
+      materialTypes: [],
       selectedMaterial: { id: null },
     };
   },
@@ -150,6 +160,13 @@ export default {
         .then(response => {
           this.materials = response.body.data;
           this.totalMaterials = response.body.totalElements;
+        })
+        .catch(error => this.handleHttpError(error));
+    },
+    getMaterialTypes: function() {
+      Api.getMaterialTypes()
+        .then(response => {
+          this.materialTypes = response.body.data;
         })
         .catch(error => this.handleHttpError(error));
     },
@@ -173,6 +190,14 @@ export default {
       this.query.page = 1;
       this.getMaterials();
     },
+    resetFilters: function() {
+      this.query.manufacturer = '';
+      this.query.type = '';
+      this.search = '';
+      this.query.search = '';
+      this.query.page = 1;
+      this.getMaterials();
+    },
     selectMaterial: function(material) {
       this.selectedMaterial = { ...material };
     },
@@ -189,8 +214,9 @@ export default {
     },
   },
   mounted() {
-    this.getMaterials();
     this.getManufacturers();
+    this.getMaterialTypes();
+    this.getMaterials();
   },
 };
 </script>

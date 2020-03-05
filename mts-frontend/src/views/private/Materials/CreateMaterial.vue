@@ -56,12 +56,17 @@
 
           <!-- Material Type & Save -->
           <el-form-item prop="type" :label="$t('materials.type')">
-            <el-select v-model="createMaterialForm.type" :placeholder="$t('materials.type')">
+            <el-select
+              v-model="createMaterialForm.type"
+              :placeholder="$t('materials.type')"
+              :no-data-text="$t('general.noData')"
+              filterable
+            >
               <el-option
-                v-for="materialType in materialTypes"
-                :key="materialType.type"
-                :label="materialTypeIdToText(materialType)"
-                :value="materialType.type"
+                v-for="type in materialTypes"
+                :key="type.id"
+                :label="type.id + ' - ' + type.name"
+                :value="type.id"
               ></el-option>
             </el-select>
             <div class="right">
@@ -81,11 +86,10 @@
 <script>
 import Api from '../../../Api.js';
 import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
-import MaterialTypeHandlingMixin from '@/mixins/MaterialTypeHandlingMixin.js';
 
 export default {
   name: 'CreateMaterial',
-  mixins: [GenericErrorHandlingMixin, MaterialTypeHandlingMixin],
+  mixins: [GenericErrorHandlingMixin],
   data() {
     return {
       createMaterialForm: {
@@ -95,6 +99,7 @@ export default {
         type: null,
       },
       manufacturers: [],
+      materialTypes: [],
     };
   },
   computed: {
@@ -115,6 +120,13 @@ export default {
         })
         .catch(this.handleHttpError);
     },
+    getMaterialTypes: function() {
+      Api.getMaterialTypes()
+        .then(response => {
+          this.materialTypes = response.body.data;
+        })
+        .catch(error => this.handleHttpError(error));
+    },
     createMaterial: function() {
       this.$refs['createMaterialForm'].validate(valid => {
         if (valid) {
@@ -125,6 +137,7 @@ export default {
   },
   mounted() {
     this.getManufacturers();
+    this.getMaterialTypes();
   },
 };
 </script>
