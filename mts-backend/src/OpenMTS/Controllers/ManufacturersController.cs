@@ -36,7 +36,7 @@ namespace OpenMTS.Controllers
         [HttpGet]
         public IActionResult GetManufacturers()
         {
-            IEnumerable<string> manufacturers = MaterialsService.GetAllMaterials().Select(m => m.Manufacturer);
+            IEnumerable<string> manufacturers = MaterialsService.GetAllMaterials().Select(m => m.Manufacturer).OrderBy(m => m);
             ISet<string> uniqueManufactuers = new HashSet<string>(manufacturers);
             return Ok(uniqueManufactuers);
         }

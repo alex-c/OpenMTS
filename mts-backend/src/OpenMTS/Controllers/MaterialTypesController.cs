@@ -47,7 +47,7 @@ namespace OpenMTS.Controllers
                 IEnumerable<MaterialType> materialTypes = null;
                 if (search == null)
                 {
-                    materialTypes = MaterialTypeService.GetMaterialTypes();
+                    materialTypes = MaterialTypeService.GetMaterialTypes().OrderBy(m => m.Id);
                 }
                 else
                 {
