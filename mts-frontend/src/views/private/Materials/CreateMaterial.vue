@@ -132,8 +132,7 @@ export default {
         if (valid) {
           Api.createMaterial(this.createMaterialForm.name, this.createMaterialForm.manufacturer, this.createMaterialForm.manufacturerId, this.createMaterialForm.type)
             .then(response => {
-              this.$router.push({ path: '/private/materials' });
-              // TODO: route to edit screen for custom fields!
+              this.$router.push({ name: 'editMaterial', params: { ...response.body } });
             })
             .catch(this.handleHttpError);
         }
