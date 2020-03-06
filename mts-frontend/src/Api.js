@@ -97,6 +97,16 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getManufacturers: () => {
+    return fetch(`http://localhost:5000/api/manufacturers`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   getMaterials: (page, elementsPerPage, search, manufacturer, type) => {
     return fetch(`http://localhost:5000/api/materials?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&manufacturer=${manufacturer}&type=${type}`, {
       method: 'GET',
@@ -107,12 +117,13 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getManufacturers: () => {
-    return fetch(`http://localhost:5000/api/manufacturers`, {
-      method: 'GET',
+  createMaterial: (name, manufacturer, manufacturerId, type) => {
+    return fetch(`http://localhost:5000/api/materials`, {
+      method: 'POST',
       withCredentials: true,
       credentials: 'include',
       headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name, manufacturer, manufacturerId, type }),
     })
       .catch(catchNetworkError)
       .then(processResponse);

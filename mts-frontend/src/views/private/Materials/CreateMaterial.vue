@@ -130,7 +130,12 @@ export default {
     createMaterial: function() {
       this.$refs['createMaterialForm'].validate(valid => {
         if (valid) {
-          // TODO: call API, redirect on success
+          Api.createMaterial(this.createMaterialForm.name, this.createMaterialForm.manufacturer, this.createMaterialForm.manufacturerId, this.createMaterialForm.type)
+            .then(response => {
+              this.$router.push({ path: '/private/materials' });
+              // TODO: route to edit screen for custom fields!
+            })
+            .catch(this.handleHttpError);
         }
       });
     },
