@@ -134,6 +134,7 @@ export default {
               for (let i = 0; i < this.materialTypes.length; i++) {
                 if (this.materialTypes[i].id === this.selectedMaterialType.id) {
                   this.materialTypes[i].name = value;
+                  this.selectedMaterialType.name = value;
                   break;
                 }
               }

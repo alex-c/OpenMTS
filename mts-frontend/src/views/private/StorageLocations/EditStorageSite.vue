@@ -180,7 +180,13 @@ export default {
           Api.updateStorageArea(this.id, this.selectedArea.id, value)
             .then(result => {
               this.feedback.storageAreas = this.$t('storage.areaUpdated', result.body);
-              // TODO: update view
+              for (let i = 0; i < this.editStorageSiteForm.siteAreas.length; i++) {
+                if (this.editStorageSiteForm.siteAreas[i].id === this.selectedArea.id) {
+                  this.editStorageSiteForm.siteAreas[i].name = result.body.name;
+                  this.selectedArea.name = result.body.name;
+                  break;
+                }
+              }
             })
             .catch(this.handleHttpError);
         })
