@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Models;
 using OpenMTS.Services;
@@ -84,6 +85,46 @@ namespace OpenMTS.Controllers
             }
         }
 
-        // TODO: create, update materials, set custom fields
+        /// <summary>
+        /// Creates a new material.
+        /// </summary>
+        /// <param name="materialCreationRequest">The material creation request.</param>
+        /// <returns>Returns a `201 Created` response on success.</returns>
+        [HttpPost] // TODO - auth policy
+        public IActionResult CreateMaterial([FromBody] MaterialCreationRequest materialCreationRequest)
+        {
+            if (materialCreationRequest == null ||
+                string.IsNullOrWhiteSpace(materialCreationRequest.Name) ||
+                string.IsNullOrWhiteSpace(materialCreationRequest.Manufacturer) ||
+                string.IsNullOrWhiteSpace(materialCreationRequest.ManufacturerId) ||
+                string.IsNullOrWhiteSpace(materialCreationRequest.Type))
+            {
+                return HandleBadRequest("Incomplete or invalid material data submitted for creation.");
+            }
+
+            // Check for material type validity
+            MaterialType materialType = null;
+            try
+            {
+                materialType = MaterialTypeService.GetMaterialType(materialCreationRequest.Type);
+            }
+            catch (MaterialTypeNotFoundException exception)
+            {
+                return HandleBadRequest(exception.Message);
+            }
+
+            // Proceed with creation
+            try
+            {
+                Material material = MaterialsService.CreateMaterial(materialCreationRequest.Name, materialCreationRequest.Manufacturer, materialCreationRequest.ManufacturerId, materialType);
+                return Created(GetNewResourceUri(material.Id), material);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        // TODO: update materials, set custom fields
     }
 }

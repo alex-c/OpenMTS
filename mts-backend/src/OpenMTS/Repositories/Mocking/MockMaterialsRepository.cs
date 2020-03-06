@@ -9,15 +9,19 @@ namespace OpenMTS.Repositories.Mocking
     {
         private Dictionary<int, Material> Materials { get; }
 
+        private int LastId { get; set; }
+
         public MockMaterialsRepository(MockDataProvider mockDataProvider)
         {
             if (mockDataProvider == null)
             {
                 Materials = new Dictionary<int, Material>();
+                LastId = 0;
             }
             else
             {
                 Materials = mockDataProvider.Materials;
+                LastId = Materials.Keys.Max();
             }
         }
 
@@ -42,6 +46,26 @@ namespace OpenMTS.Repositories.Mocking
                 materials = materials.Where(m => m.Type.Id == type.Id);
             }
             return materials;
+        }
+
+        public Material CreateMaterial(string name, string manufacturerName, string manufacturerSpecificId, MaterialType materialType)
+        {
+            Material material = new Material()
+            {
+                Id = GetNextId(),
+                Name = name,
+                Manufacturer = manufacturerName,
+                ManufacturerSpecificId = manufacturerSpecificId,
+                Type = materialType,
+                CustomProps = new List<CustomMaterialPropValue>()
+            };
+            Materials.Add(material.Id, material);
+            return material;
+        }
+
+        private int GetNextId()
+        {
+            return ++LastId;
         }
     }
 }

@@ -52,5 +52,18 @@ namespace OpenMTS.Services
         {
             return MaterialsRepository.GetFilteredMaterials(partialName, partialManufacturerName, materialType);
         }
+
+        /// <summary>
+        /// Creates a new material.
+        /// </summary>
+        /// <param name="name">The new material's name.</param>
+        /// <param name="manufacturerName">Name of the manufacturer.</param>
+        /// <param name="manufacturerSpecificId">The manufacturer's ID for this material.</param>
+        /// <param name="materialType">Type of the material.</param>
+        /// <returns>Retursn the newly created material.</returns>
+        public Material CreateMaterial(string name, string manufacturerName, string manufacturerSpecificId, MaterialType materialType)
+        {
+            return MaterialsRepository.CreateMaterial(name, manufacturerName, manufacturerSpecificId, materialType);
+        }
     }
 }
