@@ -88,6 +88,10 @@ export default {
   overflow: auto;
 }
 
+.content-row-inputs {
+  overflow: hidden;
+}
+
 .content-title {
   font-size: 18px;
   font-weight: bold;

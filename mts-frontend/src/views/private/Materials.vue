@@ -12,7 +12,7 @@
       </div>
 
       <!-- Filtering Options -->
-      <div id="filter-options" class="content-row flex">
+      <div class="content-row content-row-inputs flex">
         <!-- Manufacturer Filter -->
         <div>
           <el-select
@@ -93,7 +93,7 @@
               <el-popover trigger="hover" placement="left">
                 {{ scope.row.type.name }}
                 <div slot="reference">
-                  <el-tag type="info" size="mini">{{ scope.row.type.id }}</el-tag>
+                  <el-tag type="primary" plain size="mini">{{ scope.row.type.id }}</el-tag>
                 </div>
               </el-popover>
             </template>
@@ -220,9 +220,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-#filter-options {
-  overflow: hidden;
-}
-</style>

@@ -11,7 +11,20 @@
         </div>
       </div>
 
+      <!-- Feedback -->
       <Alert type="success" :description="feedback" :show="feedback !== null" />
+
+      <!-- Search Bar -->
+      <div class="content-row content-row-inputs">
+        <el-input
+          :placeholder="$t('materialTypes.filter')"
+          prefix-icon="el-icon-search"
+          v-model="search"
+          size="mini"
+          clearable
+          @change="setSearch"
+        ></el-input>
+      </div>
 
       <!-- Materiyl Type Table -->
       <div class="content-row">
@@ -97,6 +110,11 @@ export default {
     resetSelectedMaterialType: function() {
       this.$refs['materialTypesTable'].setCurrentRow(1);
       this.selectedMaterialType = { id: null };
+    },
+    setSearch: function(value) {
+      this.query.search = value;
+      this.query.page = 1;
+      this.getMaterialTypes();
     },
     changePage: function(page) {
       this.query.page = page;
