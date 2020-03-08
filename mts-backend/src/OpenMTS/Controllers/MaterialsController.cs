@@ -86,6 +86,29 @@ namespace OpenMTS.Controllers
         }
 
         /// <summary>
+        /// Gets an existing material.
+        /// </summary>
+        /// <param name="id">The ID of the material to get.</param>
+        /// <returns>Returns the material</returns>
+        [HttpGet("{id}")]
+        public IActionResult GetMaterial(int id)
+        {
+            try
+            {
+                Material material = MaterialsService.GetMaterial(id);
+                return Ok(material);
+            }
+            catch (MaterialNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        /// <summary>
         /// Creates a new material.
         /// </summary>
         /// <param name="materialCreationRequest">The material creation request.</param>
