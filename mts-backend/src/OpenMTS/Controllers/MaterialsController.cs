@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OpenMTS.Controllers.Contracts.Requests;
@@ -30,15 +31,26 @@ namespace OpenMTS.Controllers
         private MaterialsService MaterialsService { get; }
 
         /// <summary>
+        /// Allows to get configured custom material properties.
+        /// </summar
+        private CustomMaterialPropService CustomMaterialPropService { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MaterialsController"/> class.
         /// </summary>
         /// <param name="loggerFactory">A factory to create loggers from.</param>
+        /// <param name="materialTypeService">Grants access to known material types.</param>
         /// <param name="materialsService">The materials service.</param>
-        public MaterialsController(ILoggerFactory loggerFactory, MaterialTypeService materialTypeService, MaterialsService materialsService)
+        /// <param name="customMaterialPropService">Grants access to custom material props.</param>
+        public MaterialsController(ILoggerFactory loggerFactory,
+            MaterialTypeService materialTypeService,
+            MaterialsService materialsService,
+            CustomMaterialPropService customMaterialPropService)
         {
             Logger = loggerFactory.CreateLogger<MaterialsController>();
             MaterialTypeService = materialTypeService;
             MaterialsService = materialsService;
+            CustomMaterialPropService = customMaterialPropService;
         }
 
         /// <summary>
@@ -194,6 +206,22 @@ namespace OpenMTS.Controllers
 
         }
 
-        // TODO: set custom fields
+        #region Custom properties
+
+        [HttpPut("{materialId}/props/{propId}")] // TODO - auth policy
+        public IActionResult SetCustomTextMaterialProp(int materialId, Guid propId)
+        {
+            // TODO - implement
+            throw new NotImplementedException();
+        }
+
+        [HttpPut("{materialId}/props/{propId}")] // TODO - auth policy
+        public IActionResult SetCustomFileMaterialProp(int materialId, Guid propId, IFormFile file)
+        {
+            // TODO - implement
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

@@ -12,5 +12,11 @@ export default {
           return 'error';
       }
     },
+    propIsTextProp: function(prop) {
+      return prop.type == 0;
+    },
+    propIsFileProp: function(prop) {
+      return prop.type == 1;
+    },
   },
 };

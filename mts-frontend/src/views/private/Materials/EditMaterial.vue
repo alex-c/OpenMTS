@@ -102,6 +102,24 @@
         :description="feedback.customProps"
         :show="feedback.customProps !== null"
       />
+      <div class="content-row" v-for="prop in customMaterialProps" v-bind:key="prop.id">
+        <div class="prop">
+          <div class="prop-header">
+            <div class="prop-title">
+              {{prop.name}}
+              <span class="prop-id">({{prop.id}})</span>
+            </div>
+            <div class="right">
+              <el-tag type="danger" effect="dark">Status: Not Set</el-tag>
+            </div>
+          </div>
+          <div class="prop-content">
+            <div class="prop-t-text" v-if="propIsTextProp(prop)">Text</div>
+            <div class="prop-t-file" v-else-if="propIsFileProp(prop)">Datei</div>
+            <div class="prop-t-error" v-else>Error</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -109,13 +127,14 @@
 <script>
 import Api from '../../../Api.js';
 import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
+import PropTypeHandlingMixin from '@/mixins/PropTypeHandlingMixin.js';
 import Alert from '@/components/Alert.vue';
 
 export default {
   name: 'EditMaterial',
-  mixins: [GenericErrorHandlingMixin],
+  mixins: [GenericErrorHandlingMixin, PropTypeHandlingMixin],
   components: { Alert },
-  props: ['id', 'name', 'manufacturer', 'manufacturerSpecificId', 'type'],
+  props: ['id', 'name', 'manufacturer', 'manufacturerSpecificId', 'type', 'customProps'],
   data() {
     return {
       updateMaterialForm: {
@@ -127,6 +146,7 @@ export default {
       },
       manufacturers: [],
       materialTypes: [],
+      customMaterialProps: [],
       feedback: {
         masterData: null,
         customProps: null,
@@ -159,6 +179,13 @@ export default {
         })
         .catch(this.handleHttpError);
     },
+    getCustomMaterialProps: function() {
+      Api.getCustomMaterialProps()
+        .then(result => {
+          this.customMaterialProps = result.body;
+        })
+        .catch(this.handleHttpError);
+    },
     editMaterial: function() {
       this.$refs['updateMaterialForm'].validate(valid => {
         if (valid) {
@@ -180,6 +207,44 @@ export default {
   mounted() {
     this.getManufacturers();
     this.getMaterialTypes();
+    this.getCustomMaterialProps();
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '../../../theme/colors.scss';
+
+.prop {
+  margin: 8px 4px;
+  border: 1px solid $color-menu-light-accent;
+  border-radius: 4px;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+.prop-header {
+  padding: 8px;
+  border-bottom: 1px solid $color-menu-light-accent;
+  overflow: auto;
+}
+
+.prop-title {
+  float: left;
+  margin-top: 8px;
+  margin-left: 8px;
+  font-size: 16px;
+}
+
+.prop-id {
+  font-style: italic;
+  color: darkgray;
+}
+
+.prop-content {
+  padding: 16px;
+}
+
+.prop-t-file {
+  text-align: center;
+}
+</style>
