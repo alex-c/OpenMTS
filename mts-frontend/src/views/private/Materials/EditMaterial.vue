@@ -15,6 +15,11 @@
     <!-- Master Data -->
     <div class="content-section">
       <div class="content-row content-subtitle">{{$t('general.masterData')}}</div>
+      <Alert
+        type="success"
+        :description="feedback.masterData"
+        :show="feedback.masterData !== null"
+      />
       <el-form
         :model="updateMaterialForm"
         :rules="validationRules"
@@ -92,6 +97,11 @@
     <!-- Custom Props -->
     <div class="content-section">
       <div class="content-row content-subtitle">{{$t('materials.props')}}</div>
+      <Alert
+        type="success"
+        :description="feedback.customProps"
+        :show="feedback.customProps !== null"
+      />
     </div>
   </div>
 </template>
@@ -99,10 +109,12 @@
 <script>
 import Api from '../../../Api.js';
 import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
+import Alert from '@/components/Alert.vue';
 
 export default {
   name: 'EditMaterial',
   mixins: [GenericErrorHandlingMixin],
+  components: { Alert },
   props: ['id', 'name', 'manufacturer', 'manufacturerSpecificId', 'type'],
   data() {
     return {
@@ -115,6 +127,10 @@ export default {
       },
       manufacturers: [],
       materialTypes: [],
+      feedback: {
+        masterData: null,
+        customProps: null,
+      },
     };
   },
   computed: {
@@ -146,6 +162,17 @@ export default {
     editMaterial: function() {
       this.$refs['updateMaterialForm'].validate(valid => {
         if (valid) {
+          Api.updateMaterial(
+            this.updateMaterialForm.id,
+            this.updateMaterialForm.name,
+            this.updateMaterialForm.manufacturer,
+            this.updateMaterialForm.manufacturerSpecificId,
+            this.updateMaterialForm.type,
+          )
+            .then(result => {
+              this.feedback.masterData = this.$t('materials.updated', { id: this.updateMaterialForm.id });
+            })
+            .catch(this.handleHttpError);
         }
       });
     },

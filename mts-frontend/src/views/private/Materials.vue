@@ -130,12 +130,10 @@
 <script>
 import Api from '../../Api.js';
 import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
-import Alert from '@/components/Alert.vue';
 
 export default {
   name: 'Materials',
   mixins: [GenericErrorHandlingMixin],
-  components: { Alert },
   data() {
     return {
       search: '',

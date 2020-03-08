@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using OpenMTS.Models;
 using OpenMTS.Repositories;
+using OpenMTS.Services.Exceptions;
 using System.Collections.Generic;
 
 namespace OpenMTS.Services
@@ -54,6 +55,17 @@ namespace OpenMTS.Services
         }
 
         /// <summary>
+        /// Gets a material by its ID.
+        /// </summary>
+        /// <param name="id">ID of the material to get.</param>
+        /// <returns>Returns the material or null.</returns>
+        /// <exception cref="MaterialNotFoundException">Thrown if no matching material could be found.</exception>
+        public Material GetMaterial(int id)
+        {
+            return GetMaterialOrThrowNotFoundException(id);
+        }
+
+        /// <summary>
         /// Creates a new material.
         /// </summary>
         /// <param name="name">The new material's name.</param>
@@ -65,5 +77,49 @@ namespace OpenMTS.Services
         {
             return MaterialsRepository.CreateMaterial(name, manufacturerName, manufacturerSpecificId, materialType);
         }
+
+        /// <summary>
+        /// Updates an existing material's master data.
+        /// </summary>
+        /// <param name="id">ID of the material to update.</param>
+        /// <param name="name">The material's name.</param>
+        /// <param name="manufacturerName">Name of the manufacturer.</param>
+        /// <param name="manufacturerSpecificId">The manufacturer's ID for this material.</param>
+        /// <param name="materialType">Type of the material.</param>
+        /// <returns>Retursn the updated material.</returns>
+        /// <exception cref="MaterialNotFoundException">Thrown if no matching material could be found.</exception>
+        public Material UpdateMaterial(int id, string name, string manufacturerName, string manufacturerSpecificId, MaterialType materialType)
+        {
+            Material material = GetMaterialOrThrowNotFoundException(id);
+            material.Name = name;
+            material.Manufacturer = manufacturerName;
+            material.ManufacturerSpecificId = manufacturerSpecificId;
+            material.Type = materialType;
+            MaterialsRepository.UpdateMaterial(material);
+            return material;
+        }
+
+        #region Private Helpers
+
+        /// <summary>
+        /// Attempts to get a material from the underlying repository and throws a <see cref="MaterialNotFoundException"/> if no matching material could be found.
+        /// </summary>
+        /// <param name="id">ID of the material to get.</param>
+        /// <exception cref="MaterialNotFoundException">Thrown if no matching material could be found.</exception>
+        /// <returns>Returns the material, if found.</returns>
+        private Material GetMaterialOrThrowNotFoundException(int id)
+        {
+            Material material = MaterialsRepository.GetMaterial(id);
+
+            // Check for material existence
+            if (material == null)
+            {
+                throw new MaterialNotFoundException(id);
+            }
+
+            return material;
+        }
+
+        #endregion
     }
 }

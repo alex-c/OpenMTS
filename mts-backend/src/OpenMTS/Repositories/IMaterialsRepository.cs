@@ -24,6 +24,13 @@ namespace OpenMTS.Repositories
         IEnumerable<Material> GetFilteredMaterials(string partialName = null, string partialManufacturerName = null, MaterialType type = null);
 
         /// <summary>
+        /// Gets a material by it's ID.
+        /// </summary>
+        /// <param name="id">The ID of the material to get.</param>
+        /// <returns>Returns the material or null.</returns>
+        Material GetMaterial(int id);
+
+        /// <summary>
         /// Creates a new material.
         /// </summary>
         /// <param name="name">The new material's name.</param>
@@ -32,5 +39,11 @@ namespace OpenMTS.Repositories
         /// <param name="materialType">Type of the material.</param>
         /// <returns>Retursn the newly created material.</returns>
         Material CreateMaterial(string name, string manufacturerName, string manufacturerSpecificId, MaterialType materialType);
+
+        /// <summary>
+        /// Updates an existing material.
+        /// </summary>
+        /// <param name="material">The material to update.</param>
+        void UpdateMaterial(Material material);
     }
 }

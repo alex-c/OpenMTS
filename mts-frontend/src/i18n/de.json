@@ -86,7 +86,8 @@
       "manufacturer": "Bitte wählen Sie einen Hersteller aus oder geben Sie einen neuen ein.",
       "manufacturerId": "Please geben Sie die ID des Materials beim Hersteller ein.",
       "type": "Bitte wählen Sie einen Typen aus."
-    }
+    },
+    "updated": "Der Werkstoff mit ID `{id}` wurde aktualisiert."
   },
   "materialTypes": {
     "create": "Neuer Materialtyp",

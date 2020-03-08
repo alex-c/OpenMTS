@@ -125,6 +125,52 @@ namespace OpenMTS.Controllers
             }
         }
 
-        // TODO: update materials, set custom fields
+        /// <summary>
+        /// Updates an existing material's master data.
+        /// </summary>
+        /// <param name="id">The ID of the material to update.</param>
+        /// <param name="materialUpdateRequest">The material update request data.</param>
+        /// <returns>Returns the updated material on success.</returns>
+        [HttpPatch("{id}")] // TODO - auth policy
+        public IActionResult UpdateMaterialMasterData(int id, [FromBody] MaterialUpdateRequest materialUpdateRequest)
+        {
+            if (materialUpdateRequest == null ||
+                string.IsNullOrWhiteSpace(materialUpdateRequest.Name) ||
+                string.IsNullOrWhiteSpace(materialUpdateRequest.Manufacturer) ||
+                string.IsNullOrWhiteSpace(materialUpdateRequest.ManufacturerId) ||
+                string.IsNullOrWhiteSpace(materialUpdateRequest.Type))
+            {
+                return HandleBadRequest("Incomplete or invalid material data submitted for update.");
+            }
+
+            // Check for material type validity
+            MaterialType materialType = null;
+            try
+            {
+                materialType = MaterialTypeService.GetMaterialType(materialUpdateRequest.Type);
+            }
+            catch (MaterialTypeNotFoundException exception)
+            {
+                return HandleBadRequest(exception.Message);
+            }
+            
+            // Proceed with updating
+            try
+            {
+                Material material = MaterialsService.UpdateMaterial(id, materialUpdateRequest.Name, materialUpdateRequest.Manufacturer, materialUpdateRequest.ManufacturerId, materialType);
+                return Ok(material);
+            }
+            catch (MaterialNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+
+        }
+
+        // TODO: set custom fields
     }
 }

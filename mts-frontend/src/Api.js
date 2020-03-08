@@ -128,6 +128,17 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  updateMaterial: (id, name, manufacturer, manufacturerId, type) => {
+    return fetch(`http://localhost:5000/api/materials/${id}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name, manufacturer, manufacturerId, type }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   getConfiguration: () => {
     return fetch(`http://localhost:5000/api/configuration`, {
       method: 'GET',

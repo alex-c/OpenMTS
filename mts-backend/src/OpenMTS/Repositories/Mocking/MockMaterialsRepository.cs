@@ -48,6 +48,11 @@ namespace OpenMTS.Repositories.Mocking
             return materials;
         }
 
+        public Material GetMaterial(int id)
+        {
+            return Materials.GetValueOrDefault(id);
+        }
+
         public Material CreateMaterial(string name, string manufacturerName, string manufacturerSpecificId, MaterialType materialType)
         {
             Material material = new Material()
@@ -61,6 +66,11 @@ namespace OpenMTS.Repositories.Mocking
             };
             Materials.Add(material.Id, material);
             return material;
+        }
+
+        public void UpdateMaterial(Material material)
+        {
+            Materials[material.Id] = material;
         }
 
         private int GetNextId()

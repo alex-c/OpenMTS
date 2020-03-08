@@ -86,7 +86,8 @@
       "manufacturer": "Please select or enter a manufacturer.",
       "manufacturerId": "Please enter the manufacturer's material ID.",
       "type": "Plesae select a type."
-    }
+    },
+    "updated": "The material with ID `{id}` was successfully updated."
   },
   "materialTypes": {
     "create": "New Material Type",
