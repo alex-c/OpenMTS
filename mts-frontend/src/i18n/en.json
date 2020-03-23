@@ -13,6 +13,7 @@
     "delete": "Delete",
     "cancel": "Cancel",
     "repeat": "Repeat",
+    "details": "Details",
     "id": "ID",
     "name": "Name",
     "type": "Type",
@@ -81,6 +82,8 @@
       "pp": "Polypropylene",
       "spice": "Spice Melange"
     },
+    "editMaterialWithId": "Edit Material `{id}`",
+    "materialDetailsWithId": "Material `{id}`",
     "validation": {
       "name": "Please enter a name.",
       "manufacturer": "Please select or enter a manufacturer.",

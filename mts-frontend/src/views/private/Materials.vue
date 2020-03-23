@@ -115,6 +115,13 @@
         </div>
         <div class="right">
           <el-button
+            icon="el-icon-view"
+            type="primary"
+            size="mini"
+            :disabled="selectedMaterial.id === null"
+            @click="viewMaterialDetails"
+          >{{$t('general.details')}}</el-button>
+          <el-button
             icon="el-icon-edit"
             type="info"
             size="mini"
@@ -209,6 +216,9 @@ export default {
     },
     editMaterial: function() {
       this.$router.push({ name: 'editMaterial', params: { ...this.selectedMaterial } });
+    },
+    viewMaterialDetails: function() {
+      this.$router.push({ name: 'materialDetails', params: { ...this.selectedMaterial } });
     },
   },
   mounted() {

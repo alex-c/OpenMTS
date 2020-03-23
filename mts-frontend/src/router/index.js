@@ -14,6 +14,7 @@ import Inventory from '../views/private/Inventory.vue';
 import Materials from '../views/private/Materials.vue';
 import CreateMaterial from '../views/private/Materials/CreateMaterial.vue';
 import EditMaterial from '../views/private/Materials/EditMaterial.vue';
+import MaterialDetails from '../views/private/Materials/MaterialDetails.vue';
 import MaterialTypes from '../views/private/MaterialTypes.vue';
 import CreateMaterialType from '../views/private/MaterialTypes/CreateMaterialType.vue';
 
@@ -102,6 +103,12 @@ const routes = [
         path: 'materials/edit',
         name: 'editMaterial',
         component: EditMaterial,
+        props: true,
+      },
+      {
+        path: 'materials/details',
+        name: 'materialDetails',
+        component: MaterialDetails,
         props: true,
       },
       {

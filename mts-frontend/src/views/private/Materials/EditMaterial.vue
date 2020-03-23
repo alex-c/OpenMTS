@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="content-section">
       <div class="content-row">
-        <div class="left content-title">{{$t('materials.material')}}</div>
+        <div class="left content-title">{{$t('materials.editMaterialWithId', {id})}}</div>
         <div class="right">
           <router-link to="/private/materials">
             <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{$t('general.back')}}</el-button>

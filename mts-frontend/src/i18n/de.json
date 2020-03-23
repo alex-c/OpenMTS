@@ -13,6 +13,7 @@
     "delete": "Löschen",
     "cancel": "Abbrechen",
     "repeat": "Wiederholen",
+    "details": "Details",
     "id": "ID",
     "name": "Name",
     "type": "Typ",
@@ -76,15 +77,17 @@
     "manufacturerId": "ID beim Hersteller",
     "filter": "Namen filtern...",
     "type": "Typ",
-    "props": "Anwendungsspeuifische Eigenschaften",
+    "props": "Anwendungsspezifische Eigenschaften",
     "types": {
       "pp": "Polypropylen",
       "spice": "Spice Melange"
     },
+    "editMaterialWithId": "Werkstoff `{id}` Editieren",
+    "materialDetailsWithId": "Werkstoff `{id}`",
     "validation": {
       "name": "Bitte geben Sie einen Namen ein.",
       "manufacturer": "Bitte wählen Sie einen Hersteller aus oder geben Sie einen neuen ein.",
-      "manufacturerId": "Please geben Sie die ID des Materials beim Hersteller ein.",
+      "manufacturerId": "Bitte geben Sie die ID des Werkstoff beim Hersteller ein.",
       "type": "Bitte wählen Sie einen Typen aus."
     },
     "updated": "Der Werkstoff mit ID `{id}` wurde aktualisiert."
