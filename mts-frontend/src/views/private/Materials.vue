@@ -215,7 +215,7 @@ export default {
       this.getMaterials();
     },
     editMaterial: function() {
-      this.$router.push({ name: 'editMaterial', params: { ...this.selectedMaterial } });
+      this.$router.push({ name: 'editMaterial', params: { id: this.selectedMaterial.id } });
     },
     viewMaterialDetails: function() {
       this.$router.push({ name: 'materialDetails', params: { ...this.selectedMaterial } });

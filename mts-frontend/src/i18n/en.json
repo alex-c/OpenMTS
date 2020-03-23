@@ -77,7 +77,6 @@
     "manufacturerId": "Manufacturer's ID",
     "filter": "Filter names...",
     "type": "Type",
-    "props": "Custom Properties",
     "types": {
       "pp": "Polypropylene",
       "spice": "Spice Melange"
@@ -88,13 +87,21 @@
       "name": "Please enter a name.",
       "manufacturer": "Please select or enter a manufacturer.",
       "manufacturerId": "Please enter the manufacturer's material ID.",
-      "type": "Plesae select a type."
+      "type": "Plesae select a type.",
+      "propText": "Please enter a text."
     },
-    "updated": "The material with ID `{id}` was successfully updated."
+    "updated": "The material with ID `{id}` was successfully updated.",
+    "props": "Custom Properties",
+    "invalidProp": "Invalid property.",
+    "propSet": "Status: Set",
+    "propNotSet": "Status: Not Set",
+    "noPropsSet": "No property set.",
+    "noPropsDefined": "No properties defined."
   },
   "materialTypes": {
     "create": "New Material Type",
     "edit": "Edit Type",
+    "filter": "Filter types...",
     "editPrompt": "Please enter a new name:",
     "editInputError": "Please enter a new name.",
     "created": "The material type `{id} - {name}` was successfully created.",

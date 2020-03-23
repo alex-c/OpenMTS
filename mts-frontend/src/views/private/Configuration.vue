@@ -54,7 +54,7 @@
           stripe
           border
           size="mini"
-          :empty-text="$t('general.noData')"
+          :empty-text="$t('materials.noPropsDefined')"
           ref="materialPropTable"
           row-key="id"
           highlight-current-row

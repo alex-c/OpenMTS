@@ -77,7 +77,6 @@
     "manufacturerId": "ID beim Hersteller",
     "filter": "Namen filtern...",
     "type": "Typ",
-    "props": "Anwendungsspezifische Eigenschaften",
     "types": {
       "pp": "Polypropylen",
       "spice": "Spice Melange"
@@ -88,13 +87,21 @@
       "name": "Bitte geben Sie einen Namen ein.",
       "manufacturer": "Bitte wählen Sie einen Hersteller aus oder geben Sie einen neuen ein.",
       "manufacturerId": "Bitte geben Sie die ID des Werkstoff beim Hersteller ein.",
-      "type": "Bitte wählen Sie einen Typen aus."
+      "type": "Bitte wählen Sie einen Typen aus.",
+      "propText": "Bitte geben Sie einen Text ein."
     },
-    "updated": "Der Werkstoff mit ID `{id}` wurde aktualisiert."
+    "updated": "Der Werkstoff mit ID `{id}` wurde aktualisiert.",
+    "props": "Anwendungsspezifische Eigenschaften",
+    "invalidProp": "Ungültige Eigenschaft.",
+    "propSet": "Status: Gesetzt",
+    "propNotSet": "Status: Nicht Gesetzt",
+    "noPropsSet": "Keine Eigenschaften gesetzt.",
+    "noPropsDefined": "Keine Eigenschaften definiert."
   },
   "materialTypes": {
     "create": "Neuer Materialtyp",
     "edit": "Typ Bearbeiten",
+    "filter": "Materialtypen filtern...",
     "editPrompt": "Geben Sie bitte einen neuen Namen ein:",
     "editInputError": "Bitte geben Sie einen neuen Namen ein.",
     "created": "Der Materialtyp mit `{id} - {name}` wurde angelegt.",

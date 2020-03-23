@@ -8,6 +8,9 @@
           <router-link to="/private/materials">
             <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{$t('general.back')}}</el-button>
           </router-link>
+          <router-link :to="{ name: 'editMaterial', params: {id: this.id} }">
+            <el-button type="info" size="mini" icon="el-icon-edit">{{$t('general.edit')}}</el-button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -31,8 +34,17 @@
 
     <!-- Custom Props -->
     <div class="content-section">
-      <div class="content-row content-subtitle">{{$t('materials.props')}}</div>TODO: Display custom material props, allow download of file.
-      <div class="content-row" v-for="prop in customMaterialProps" v-bind:key="prop.id">TODO</div>
+      <div class="content-row content-subtitle">{{$t('materials.props')}}</div>
+      <div class="content-row" v-for="prop in customMaterialProps" v-bind:key="prop.id">
+        <CustomProp :prop="prop">
+          <div v-if="propIsTextProp(prop)">{{prop.value}}</div>
+          <div v-else-if="propIsFileProp(prop)">TODO</div>
+          <Alert type="error" :description="$t('materials.invalidProp')" :show="true" v-else />
+        </CustomProp>
+      </div>
+      <div class="content-row" v-if="customMaterialProps.length==0">
+        <Empty>{{$t('materials.noPropsSet')}}</Empty>
+      </div>
     </div>
   </div>
 </template>
@@ -41,10 +53,14 @@
 import Api from '../../../Api.js';
 import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
 import PropTypeHandlingMixin from '@/mixins/PropTypeHandlingMixin.js';
+import Alert from '@/components/Alert.vue';
+import CustomProp from '@/components/CustomProp.vue';
+import Empty from '@/components/Empty.vue';
 
 export default {
   name: 'MaterialDetails',
   mixins: [GenericErrorHandlingMixin, PropTypeHandlingMixin],
+  components: { Alert, CustomProp, Empty },
   props: ['id', 'name', 'manufacturer', 'manufacturerSpecificId', 'type', 'customProps'],
   data() {
     return {
@@ -63,6 +79,33 @@ export default {
     materialTypeFormatter: function(material) {
       return material.type.id + ' - ' + material.type.name;
     },
+    getCustomMaterialProps: function() {
+      Api.getCustomMaterialProps()
+        .then(result => {
+          let props = [];
+          for (let i = 0; i < result.body.length; i++) {
+            const customProp = result.body[i];
+            const propValue = this.customProps.find(pv => pv.propId == customProp.id);
+            if (propValue !== undefined) {
+              props.push({
+                ...customProp,
+                value: propValue.value,
+              });
+            }
+          }
+          this.customMaterialProps = props;
+        })
+        .catch(this.handleHttpError);
+    },
+  },
+  mounted() {
+    this.getCustomMaterialProps();
   },
 };
 </script>
+
+<style lang="scss" scoped>
+textarea {
+  margin-bottom: 8px;
+}
+</style>

@@ -102,23 +102,61 @@
         :description="feedback.customProps"
         :show="feedback.customProps !== null"
       />
-      <div class="content-row" v-for="prop in customMaterialProps" v-bind:key="prop.id">
-        <div class="prop">
-          <div class="prop-header">
-            <div class="prop-title">
-              {{prop.name}}
-              <span class="prop-id">({{prop.id}})</span>
-            </div>
+      <div class="content-row" v-for="(prop, i) in customMaterialProps" v-bind:key="prop.id">
+        <CustomProp :prop="prop">
+          <template #right>
             <div class="right">
-              <el-tag type="danger" effect="dark">Status: Not Set</el-tag>
+              <el-tag
+                type="success"
+                effect="dark"
+                size="mini"
+                v-if="prop.set"
+              >{{$t('materials.propSet')}}</el-tag>
+              <el-tag type="danger" effect="dark" size="mini" v-else>{{$t('materials.propNotSet')}}</el-tag>
+            </div>
+          </template>
+
+          <!-- Text props -->
+          <div v-if="propIsTextProp(prop)">
+            <div v-if="prop.set">
+              <div class="row">{{prop.value}}</div>
+              <div class="row">
+                <el-button
+                  @click="deleteMaterialCustomTextProp(prop)"
+                  icon="el-icon-close"
+                  type="danger"
+                  theme="dark"
+                  size="mini"
+                  class="right"
+                >{{$t('general.delete')}}</el-button>
+              </div>
+            </div>
+            <div v-else>
+              <el-form :model="prop" :rules="propValidationRules">
+                <el-form-item prop="value">
+                  <el-input type="textarea" v-model="customMaterialProps[i].value"></el-input>
+                </el-form-item>
+                <div class="row">
+                  <el-button
+                    @click="setMaterialCustomTextProp(prop)"
+                    icon="el-icon-check"
+                    type="primary"
+                    theme="dark"
+                    size="mini"
+                    class="right"
+                  >{{$t('general.save')}}</el-button>
+                </div>
+              </el-form>
             </div>
           </div>
-          <div class="prop-content">
-            <div class="prop-t-text" v-if="propIsTextProp(prop)">Text</div>
-            <div class="prop-t-file" v-else-if="propIsFileProp(prop)">Datei</div>
-            <div class="prop-t-error" v-else>Error</div>
-          </div>
-        </div>
+
+          <!-- File props -->
+          <div v-else-if="propIsFileProp(prop)">TODO</div>
+          <Alert type="error" :description="$t('materials.invalidProp')" :show="true" v-else />
+        </CustomProp>
+      </div>
+      <div class="content-row" v-if="customMaterialProps.length==0">
+        <Empty>{{$t('materials.noPropsDefined')}}</Empty>
       </div>
     </div>
   </div>
@@ -129,21 +167,24 @@ import Api from '../../../Api.js';
 import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
 import PropTypeHandlingMixin from '@/mixins/PropTypeHandlingMixin.js';
 import Alert from '@/components/Alert.vue';
+import CustomProp from '@/components/CustomProp.vue';
+import Empty from '@/components/Empty.vue';
 
 export default {
   name: 'EditMaterial',
   mixins: [GenericErrorHandlingMixin, PropTypeHandlingMixin],
-  components: { Alert },
-  props: ['id', 'name', 'manufacturer', 'manufacturerSpecificId', 'type', 'customProps'],
+  components: { Alert, CustomProp, Empty },
+  props: ['id'],
   data() {
     return {
       updateMaterialForm: {
         id: this.id,
-        name: this.name,
-        manufacturer: this.manufacturer,
-        manufacturerSpecificId: this.manufacturerSpecificId,
-        type: this.type.id,
+        name: null,
+        manufacturer: null,
+        manufacturerSpecificId: null,
+        type: null,
       },
+      customProps: [],
       manufacturers: [],
       materialTypes: [],
       customMaterialProps: [],
@@ -163,8 +204,24 @@ export default {
         type: { required: true, message: this.$t('materials.validation.type'), trigger: ['change', 'blur'] },
       };
     },
+    propValidationRules() {
+      return {
+        value: { required: true, message: this.$t('materials.validation.propText'), trigger: 'blur' },
+      };
+    },
   },
   methods: {
+    getMaterial: function(callback) {
+      Api.getMaterial(this.id)
+        .then(response => {
+          this.updateMaterialForm = { ...response.body };
+          this.customProps = response.body.customProps;
+          if (callback !== undefined) {
+            callback();
+          }
+        })
+        .catch(this.handleHttpError);
+    },
     getManufacturers: function() {
       Api.getManufacturers()
         .then(response => {
@@ -182,7 +239,18 @@ export default {
     getCustomMaterialProps: function() {
       Api.getCustomMaterialProps()
         .then(result => {
-          this.customMaterialProps = result.body;
+          let props = [];
+          for (let i = 0; i < result.body.length; i++) {
+            const customProp = result.body[i];
+            const propValue = this.customProps.find(pv => pv.propId == customProp.id);
+            const prop = { ...customProp, set: false, value: '' };
+            if (propValue !== undefined) {
+              prop.set = true;
+              prop.value = propValue.value;
+            }
+            props.push(prop);
+          }
+          this.customMaterialProps = props;
         })
         .catch(this.handleHttpError);
     },
@@ -203,48 +271,35 @@ export default {
         }
       });
     },
+    setMaterialCustomTextProp: function(prop) {
+      Api.setMaterialCustomTextProp(this.id, prop.id, prop.value)
+        .then(result => {
+          this.getMaterial(() => {
+            this.getCustomMaterialProps();
+          });
+        })
+        .catch(error => {
+          if (error.status != 400) {
+            this.handleHttpError(error);
+          }
+        });
+    },
+    deleteMaterialCustomTextProp: function(prop) {
+      Api.deleteMaterialCustomTextProp(this.id, prop.id)
+        .then(result => {
+          this.getMaterial(() => {
+            this.getCustomMaterialProps();
+          });
+        })
+        .catch(this.handleHttpError);
+    },
   },
   mounted() {
+    this.getMaterial(() => {
+      this.getCustomMaterialProps();
+    });
     this.getManufacturers();
     this.getMaterialTypes();
-    this.getCustomMaterialProps();
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import '../../../theme/colors.scss';
-
-.prop {
-  margin: 8px 4px;
-  border: 1px solid $color-menu-light-accent;
-  border-radius: 4px;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
-}
-
-.prop-header {
-  padding: 8px;
-  border-bottom: 1px solid $color-menu-light-accent;
-  overflow: auto;
-}
-
-.prop-title {
-  float: left;
-  margin-top: 8px;
-  margin-left: 8px;
-  font-size: 16px;
-}
-
-.prop-id {
-  font-style: italic;
-  color: darkgray;
-}
-
-.prop-content {
-  padding: 16px;
-}
-
-.prop-t-file {
-  text-align: center;
-}
-</style>

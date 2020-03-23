@@ -117,6 +117,16 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getMaterial: id => {
+    return fetch(`http://localhost:5000/api/materials/${id}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   createMaterial: (name, manufacturer, manufacturerId, type) => {
     return fetch(`http://localhost:5000/api/materials`, {
       method: 'POST',
@@ -135,6 +145,27 @@ export default {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
       body: JSON.stringify({ name, manufacturer, manufacturerId, type }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  setMaterialCustomTextProp: (materialId, propId, text) => {
+    return fetch(`http://localhost:5000/api/materials/${materialId}/text-props/${propId}`, {
+      method: 'PUT',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ materialId, propId, text }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  deleteMaterialCustomTextProp: (materialId, propId) => {
+    return fetch(`http://localhost:5000/api/materials/${materialId}/text-props/${propId}`, {
+      method: 'DELETE',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
     })
       .catch(catchNetworkError)
       .then(processResponse);
