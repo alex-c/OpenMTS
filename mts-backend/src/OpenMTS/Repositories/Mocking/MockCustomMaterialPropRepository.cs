@@ -8,9 +8,16 @@ namespace OpenMTS.Repositories.Mocking
     {
         private Dictionary<Guid, CustomMaterialProp> Props { get; }
 
-        public MockCustomMaterialPropRepository()
+        public MockCustomMaterialPropRepository(MockDataProvider mockDataProvider = null)
         {
-            Props = new Dictionary<Guid, CustomMaterialProp>();
+            if (mockDataProvider == null)
+            {
+                Props = new Dictionary<Guid, CustomMaterialProp>();
+            }
+            else
+            {
+                Props = mockDataProvider.CustomMaterialProps;
+            }
         }
 
         public IEnumerable<CustomMaterialProp> GetAllCustomMaterialProps()

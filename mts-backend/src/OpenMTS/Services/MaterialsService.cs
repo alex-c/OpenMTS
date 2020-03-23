@@ -17,6 +17,11 @@ namespace OpenMTS.Services
         private IMaterialsRepository MaterialsRepository { get; }
 
         /// <summary>
+        /// Persistence of custom material prop values.
+        /// </summary>
+        private ICustomMaterialPropValueRepository CustomMaterialPropValueRepository { get; }
+
+        /// <summary>
         /// A logger for local logging needs.
         /// </summary>
         /// <value>
@@ -27,10 +32,13 @@ namespace OpenMTS.Services
         /// </summary>
         /// <param name="loggerFactory">A factory to create loggers from.</param>
         /// <param name="materialsRepository">A materials repository.</param>
-        public MaterialsService(ILoggerFactory loggerFactory, IMaterialsRepository materialsRepository)
+        public MaterialsService(ILoggerFactory loggerFactory,
+            IMaterialsRepository materialsRepository,
+            ICustomMaterialPropValueRepository customMaterialPropValueRepository)
         {
             Logger = loggerFactory.CreateLogger<MaterialsService>();
             MaterialsRepository = materialsRepository;
+            CustomMaterialPropValueRepository = customMaterialPropValueRepository;
         }
 
         /// <summary>
@@ -98,6 +106,32 @@ namespace OpenMTS.Services
             MaterialsRepository.UpdateMaterial(material);
             return material;
         }
+
+        #region Custom props
+
+        /// <summary>
+        /// Sets or removes a custom material prop value of the text type.
+        /// </summary>
+        /// <param name="id">The material ID.</param>
+        /// <param name="prop">The custom prop ID.</param>
+        /// <param name="text">The text to set, or null.</param>
+        public void UpdateCustomTextMaterialProp(int id, CustomMaterialProp prop, string text)
+        {
+            // Make sure the material exists
+            GetMaterialOrThrowNotFoundException(id);
+
+            // Proceed
+            if (text == null)
+            {
+                CustomMaterialPropValueRepository.RemoveCustomTextMaterialProp(id, prop.Id);
+            }
+            else
+            {
+                CustomMaterialPropValueRepository.SetCustomTextMaterialProp(id, prop.Id, text);
+            }
+        }
+
+        #endregion
 
         #region Private Helpers
 

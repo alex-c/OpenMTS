@@ -8,7 +8,7 @@ namespace OpenMTS.Repositories.Mocking
     {
         private Dictionary<string, MaterialType> MaterialTypes { get; }
 
-        public MockMaterialTypeRepository(MockDataProvider mockDataProvider)
+        public MockMaterialTypeRepository(MockDataProvider mockDataProvider = null)
         {
             if (mockDataProvider == null)
             {

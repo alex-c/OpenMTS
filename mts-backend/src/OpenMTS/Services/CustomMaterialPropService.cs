@@ -47,6 +47,7 @@ namespace OpenMTS.Services
         /// </summary>
         /// <param name="id">The property's ID.</param>
         /// <returns>Returns the property or null.</returns>
+        /// <exception cref="CustomPropNotFoundException">Thrown if no matching prop could be found.</exception>
         public CustomMaterialProp GetCustomMaterialProp(Guid id)
         {
             return GetApiKeyOrThrowNotFoundException(id);
@@ -68,6 +69,7 @@ namespace OpenMTS.Services
         /// </summary>
         /// <param name="name">The new name to set.</param>
         /// <returns>Returns the updated prop.</returns>
+        /// <exception cref="CustomPropNotFoundException">Thrown if no matching prop could be found.</exception>
         public CustomMaterialProp UpdateCustomMaterialProp(Guid id, string name)
         {
             CustomMaterialProp prop = GetApiKeyOrThrowNotFoundException(id);

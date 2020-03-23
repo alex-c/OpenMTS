@@ -143,6 +143,9 @@ namespace OpenMTS
                 services.AddSingleton<IReadOnlyUserRepository, MockUserRepository>();
                 services.AddSingleton<IApiKeyRepository, MockApiKeyRepository>();
                 services.AddSingleton<ILocationsRepository, MockLocationsRepository>();
+                MockCustomMaterialPropValueRepository mockCustomMaterialPropValueRepository = new MockCustomMaterialPropValueRepository();
+                services.AddSingleton<ICustomMaterialPropValueRepository>(mockCustomMaterialPropValueRepository);
+                services.AddSingleton<MockCustomMaterialPropValueRepository>(mockCustomMaterialPropValueRepository);
             }
             else
             {

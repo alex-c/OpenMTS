@@ -8,7 +8,7 @@
         /// <summary>
         /// The property is a string.
         /// </summary>
-        String = 0,
+        Text = 0,
 
         /// <summary>
         /// The property is a file.

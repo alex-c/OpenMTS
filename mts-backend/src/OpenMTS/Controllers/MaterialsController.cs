@@ -188,7 +188,7 @@ namespace OpenMTS.Controllers
             {
                 return HandleBadRequest(exception.Message);
             }
-            
+
             // Proceed with updating
             try
             {
@@ -208,15 +208,100 @@ namespace OpenMTS.Controllers
 
         #region Custom properties
 
-        [HttpPut("{materialId}/props/{propId}")] // TODO - auth policy
-        public IActionResult SetCustomTextMaterialProp(int materialId, Guid propId)
+        /// <summary>
+        /// Sets a custom material prop value of the text type.
+        /// </summary>
+        /// <param name="materialId">The ID of the material.</param>
+        /// <param name="propId">The ID of the prop to set.</param>
+        /// <param name="setCustomTextMaterialPropRequest">Contains the prop value to set.</param>
+        /// <returns>Returns a `204 No Content` response on success.</returns>
+        [HttpPut("{materialId}/text-props/{propId}")] // TODO - auth policy
+        public IActionResult SetCustomTextMaterialProp(int materialId, Guid propId, [FromBody] SetCustomTextMaterialPropRequest setCustomTextMaterialPropRequest)
+        {
+            if (setCustomTextMaterialPropRequest == null ||
+                string.IsNullOrWhiteSpace(setCustomTextMaterialPropRequest.Text))
+            {
+                return HandleBadRequest("A text to set for the custom material prop has to be provided.");
+            }
+
+            try
+            {
+                // Get custom prop and validate type
+                CustomMaterialProp prop = CustomMaterialPropService.GetCustomMaterialProp(propId);
+                if (prop.Type != PropType.Text)
+                {
+                    return HandleBadRequest("The submitted prop is not of the type `text`.");
+                }
+
+                // Update material - set prop
+                MaterialsService.UpdateCustomTextMaterialProp(materialId, prop, setCustomTextMaterialPropRequest.Text);
+
+                // Done!
+                return NoContent();
+            }
+            catch (CustomPropNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (MaterialNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        /// <summary>
+        /// Deletes a custom material prop value of the text type.
+        /// </summary>
+        /// <param name="materialId">The ID of the material.</param>
+        /// <param name="propId">The ID of the prop to unset.</param>
+        /// <returns>Returns a `204 No Content` response on success.</returns>
+        [HttpDelete("{materialId}/text-props/{propId}")] // TODO - auth policy
+        public IActionResult DeleteCustomTextMaterialProp(int materialId, Guid propId)
+        {
+            try
+            {
+                // Get custom prop and validate type
+                CustomMaterialProp prop = CustomMaterialPropService.GetCustomMaterialProp(propId);
+                if (prop.Type != PropType.Text)
+                {
+                    return HandleBadRequest("The submitted prop is not of the type `text`.");
+                }
+
+                // Update material - remove prop
+                MaterialsService.UpdateCustomTextMaterialProp(materialId, prop, null);
+
+                // Done!
+                return NoContent();
+            }
+            catch (CustomPropNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (MaterialNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        // TODO: comment
+        [HttpPut("{materialId}/file-props/{propId}")] // TODO - auth policy
+        public IActionResult SetCustomFileMaterialProp(int materialId, Guid propId, IFormFile file)
         {
             // TODO - implement
             throw new NotImplementedException();
         }
 
-        [HttpPut("{materialId}/props/{propId}")] // TODO - auth policy
-        public IActionResult SetCustomFileMaterialProp(int materialId, Guid propId, IFormFile file)
+        // TODO: comment
+        [HttpDelete("{materialId}/file-props/{propId}")] // TODO - auth policy
+        public IActionResult DeleteCustomFileMaterialProp(int materialId, Guid propId)
         {
             // TODO - implement
             throw new NotImplementedException();

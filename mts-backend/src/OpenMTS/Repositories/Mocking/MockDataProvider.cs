@@ -14,6 +14,8 @@ namespace OpenMTS.Repositories.Mocking
         public Dictionary<string, MaterialType> MaterialTypes { get; }
         public Dictionary<int, Material> Materials { get; }
 
+        public Dictionary<Guid, CustomMaterialProp> CustomMaterialProps { get; }
+
         public MockDataProvider(PasswordHashingService passwordHashingService)
         {
             PasswordHashingService = passwordHashingService;
@@ -22,11 +24,13 @@ namespace OpenMTS.Repositories.Mocking
             StorageSites = new Dictionary<Guid, StorageSite>();
             MaterialTypes = new Dictionary<string, MaterialType>();
             Materials = new Dictionary<int, Material>();
+            CustomMaterialProps = new Dictionary<Guid, CustomMaterialProp>();
 
             GenerateUsers();
             GenerateLocations();
             GenerateMaterialTypes();
             GenerateMaterials();
+            GenerateCustomMaterialProps();
         }
 
         #region Users
@@ -80,7 +84,7 @@ namespace OpenMTS.Repositories.Mocking
 
         #endregion
 
-        #region MaterialTypes
+        #region Material types
 
         private void GenerateMaterialTypes()
         {
@@ -133,6 +137,26 @@ namespace OpenMTS.Repositories.Mocking
             };
             Materials.Add(material.Id, material);
         }
+        #endregion
+
+        #region Custom material props
+
+        void GenerateCustomMaterialProps()
+        {
+            GenerateCustomMaterialProp(new Guid("03003820-fcf4-4a50-bba8-e55488ffac23"), "Datenblatt", PropType.File);
+            GenerateCustomMaterialProp(new Guid("c478334c-48ce-4b9a-8e7a-4e01474f3fba"), "Notizen", PropType.Text);
+        }
+
+        void GenerateCustomMaterialProp(Guid id, string name, PropType type)
+        {
+            CustomMaterialProps.Add(id, new CustomMaterialProp()
+            {
+                Id = id,
+                Name = name,
+                Type = type
+            });
+        }
+
         #endregion
     }
 }

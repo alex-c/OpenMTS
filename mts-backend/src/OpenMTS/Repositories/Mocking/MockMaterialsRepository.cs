@@ -7,12 +7,15 @@ namespace OpenMTS.Repositories.Mocking
 {
     public class MockMaterialsRepository : IMaterialsRepository
     {
+        private MockCustomMaterialPropValueRepository CustomMaterialPropValueRepository { get; }
+
         private Dictionary<int, Material> Materials { get; }
 
         private int LastId { get; set; }
 
-        public MockMaterialsRepository(MockDataProvider mockDataProvider)
+        public MockMaterialsRepository(MockCustomMaterialPropValueRepository customMaterialPropValueRepository, MockDataProvider mockDataProvider = null)
         {
+            CustomMaterialPropValueRepository = customMaterialPropValueRepository;
             if (mockDataProvider == null)
             {
                 Materials = new Dictionary<int, Material>();
@@ -27,7 +30,11 @@ namespace OpenMTS.Repositories.Mocking
 
         public IEnumerable<Material> GetAllMaterials()
         {
-            return Materials.Values;
+            return Materials.Values.Select(m =>
+            {
+                m.CustomProps = CustomMaterialPropValueRepository.PropValues.Where(pv => pv.MaterialId == m.Id).ToList();
+                return m;
+            });
         }
 
         public IEnumerable<Material> GetFilteredMaterials(string partialName, string partialManufacturerName, MaterialType type)
@@ -45,12 +52,18 @@ namespace OpenMTS.Repositories.Mocking
             {
                 materials = materials.Where(m => m.Type.Id == type.Id);
             }
-            return materials;
+            return materials.Select(m =>
+            {
+                m.CustomProps = CustomMaterialPropValueRepository.PropValues.Where(pv => pv.MaterialId == m.Id).ToList();
+                return m;
+            });
         }
 
         public Material GetMaterial(int id)
         {
-            return Materials.GetValueOrDefault(id);
+            Material material = Materials.GetValueOrDefault(id);
+            material.CustomProps = CustomMaterialPropValueRepository.PropValues.Where(pv => pv.MaterialId == material.Id).ToList();
+            return material;
         }
 
         public Material CreateMaterial(string name, string manufacturerName, string manufacturerSpecificId, MaterialType materialType)
