@@ -79,7 +79,9 @@ namespace OpenMTS
                         builder.WithOrigins("http://localhost:8080")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
-                          .AllowCredentials();
+                          .AllowCredentials()
+                          // Header needed on client-side to access a file download file name
+                          .WithExposedHeaders("Content-Disposition");
                     });
                 }
             });
