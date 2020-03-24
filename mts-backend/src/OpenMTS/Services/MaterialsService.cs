@@ -1,8 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Services.Exceptions;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace OpenMTS.Services
 {
@@ -28,17 +32,24 @@ namespace OpenMTS.Services
         private ILogger Logger { get; }
 
         /// <summary>
+        /// App confguration.
+        /// </summary>
+        private IConfiguration Confguration { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MaterialsService"/> class.
         /// </summary>
         /// <param name="loggerFactory">A factory to create loggers from.</param>
         /// <param name="materialsRepository">A materials repository.</param>
         public MaterialsService(ILoggerFactory loggerFactory,
             IMaterialsRepository materialsRepository,
-            ICustomMaterialPropValueRepository customMaterialPropValueRepository)
+            ICustomMaterialPropValueRepository customMaterialPropValueRepository,
+            IConfiguration confguration)
         {
             Logger = loggerFactory.CreateLogger<MaterialsService>();
             MaterialsRepository = materialsRepository;
             CustomMaterialPropValueRepository = customMaterialPropValueRepository;
+            Confguration = confguration;
         }
 
         /// <summary>
@@ -128,6 +139,84 @@ namespace OpenMTS.Services
             else
             {
                 CustomMaterialPropValueRepository.SetCustomTextMaterialProp(id, prop.Id, text);
+            }
+        }
+
+        /// <summary>
+        /// Sets or removes a custom material prop value of the file type.
+        /// This stores the file in the file system and persists the file path as a custom material prop value.
+        /// </summary>
+        /// <param name="id">The material ID.</param>
+        /// <param name="prop">The custom prop ID.</param>
+        /// <param name="file">The file to set, or null.</param>
+        public void UpdateCustomFileMaterialProp(int id, CustomMaterialProp prop, IFormFile file)
+        {
+            // Make sure the material exists
+            Material material = GetMaterialOrThrowNotFoundException(id);
+
+            // Get and validate target directory
+            string basePath = Path.Combine(Confguration.GetValue<string>("Files:Path"), id.ToString());
+            if (!Directory.Exists(basePath))
+            {
+                Directory.CreateDirectory(basePath);
+            }
+
+            if (file == null)
+            {
+                // Get file path
+                CustomMaterialPropValue propValue = material.CustomProps.FirstOrDefault(p => p.PropId == prop.Id);
+                string filePath = (string)propValue.Value;
+
+                // Delete file
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+                CustomMaterialPropValueRepository.RemoveCustomFileMaterialProp(id, prop.Id);
+            }
+            else
+            {
+                // Write file
+                string filePath = Path.Combine(basePath, file.FileName);
+                using (FileStream stream = File.Create(filePath))
+                {
+                    file.CopyTo(stream);
+                }
+                CustomMaterialPropValueRepository.SetCustomFileMaterialProp(id, prop.Id, filePath);
+            }
+        }
+
+        /// <summary>
+        /// Gets the file associated with a custom material property - or null if the file could not be found.
+        /// </summary>
+        /// <param name="id">The ID of the material to get a file for.</param>
+        /// <param name="prop">The custom prop to get the file from.</param>
+        /// <returns>Returns the file path or null</returns>
+        public string GetCustomPropFilePath(int id, CustomMaterialProp prop)
+        {
+            // Make sure the material exists
+            Material material = GetMaterialOrThrowNotFoundException(id);
+
+            // Get and validate target directory
+            string basePath = Path.Combine(Confguration.GetValue<string>("Files:Path"), id.ToString());
+            if (!Directory.Exists(basePath))
+            {
+                Directory.CreateDirectory(basePath);
+                return null;
+            }
+
+            // Get file path
+            CustomMaterialPropValue propValue = material.CustomProps.FirstOrDefault(p => p.PropId == prop.Id);
+            string filePath = (string)propValue.Value;
+
+            // Validate file and return path (or null)
+            if (File.Exists(filePath))
+            {
+                return filePath;
+            }
+            else
+            {
+                return null;
             }
         }
 

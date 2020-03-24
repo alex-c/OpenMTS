@@ -44,14 +44,33 @@ namespace OpenMTS.Repositories.Mocking
             }
         }
 
-        public void SetCustomFileMaterialProp(int materialId, Guid propId)
+        public void SetCustomFileMaterialProp(int materialId, Guid propId, string filePath)
         {
-            throw new NotImplementedException();
+            CustomMaterialPropValue propValue = GetPropValue(materialId, propId);
+
+            if (propValue == null)
+            {
+                PropValues.Add(new CustomMaterialPropValue()
+                {
+                    MaterialId = materialId,
+                    PropId = propId,
+                    Value = filePath
+                });
+            }
+            else
+            {
+                propValue.Value = filePath;
+            }
         }
 
         public void RemoveCustomFileMaterialProp(int materialId, Guid propId)
         {
-            throw new NotImplementedException();
+            CustomMaterialPropValue propValue = GetPropValue(materialId, propId);
+
+            if (propValue != null)
+            {
+                PropValues.Remove(propValue);
+            }
         }
 
         #region Private helpers

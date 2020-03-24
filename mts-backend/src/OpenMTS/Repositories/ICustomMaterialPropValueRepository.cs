@@ -22,9 +22,20 @@ namespace OpenMTS.Repositories
         /// <param name="propId">The ID of the prop to unset.</param>
         void RemoveCustomTextMaterialProp(int materialId, Guid propId);
 
-        // TODO: file format?
-        void SetCustomFileMaterialProp(int materialId, Guid propId);
+        /// <summary>
+        /// Sets a custom file material prop of the file type. This just persists the file path of a file already persisted to the FS by the
+        /// <see cref="OpenMTS.Services.MaterialsService"/>.
+        /// </summary>
+        /// <param name="materialId">The ID of the material to set the prop value for.</param>
+        /// <param name="propId">The ID of the prop to set.</param>
+        /// <param name="filePath">The file path to set.</param>
+        void SetCustomFileMaterialProp(int materialId, Guid propId, string filePath);
 
+        /// <summary>
+        /// Deletes a custom material property of the file type.
+        /// </summary>
+        /// <param name="materialId">The ID of the material to delete the prop value for.</param>
+        /// <param name="propId">The ID of the prop to unset.</param>
         void RemoveCustomFileMaterialProp(int materialId, Guid propId);
     }
 }

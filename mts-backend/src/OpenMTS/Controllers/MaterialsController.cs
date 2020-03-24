@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Logging;
 using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Controllers.Contracts.Responses;
@@ -9,6 +10,7 @@ using OpenMTS.Services;
 using OpenMTS.Services.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace OpenMTS.Controllers
@@ -291,20 +293,129 @@ namespace OpenMTS.Controllers
             }
         }
 
-        // TODO: comment
+        /// <summary>
+        /// Sets a custom material property of the file type.
+        /// </summary>
+        /// <param name="materialId">The ID of the material to set a value for.</param>
+        /// <param name="propId">The ID of the prop to set.</param>
+        /// <param name="file">The file to set.</param>
+        /// <returns>Returns a `204 No Content` response on success.</returns>
         [HttpPut("{materialId}/file-props/{propId}")] // TODO - auth policy
         public IActionResult SetCustomFileMaterialProp(int materialId, Guid propId, IFormFile file)
         {
-            // TODO - implement
-            throw new NotImplementedException();
+            if (file.Length <= 0)
+            {
+                return HandleBadRequest("No file content found.");
+            }
+
+            try
+            {
+                // Get custom prop and validate type
+                CustomMaterialProp prop = CustomMaterialPropService.GetCustomMaterialProp(propId);
+                if (prop.Type != PropType.File)
+                {
+                    return HandleBadRequest("The submitted prop is not of the type `file`.");
+                }
+                MaterialsService.UpdateCustomFileMaterialProp(materialId, prop, file);
+
+                // Done!
+                return NoContent();
+            }
+            catch (CustomPropNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (MaterialNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
         }
 
-        // TODO: comment
+        /// <summary>
+        /// Deletes a custom material prop value of the file type.
+        /// </summary>
+        /// <param name="materialId">The ID of the material.</param>
+        /// <param name="propId">The ID of the prop to unset.</param>
+        /// <returns>Returns a `204 No Content` response on success.</returns>
         [HttpDelete("{materialId}/file-props/{propId}")] // TODO - auth policy
         public IActionResult DeleteCustomFileMaterialProp(int materialId, Guid propId)
         {
-            // TODO - implement
-            throw new NotImplementedException();
+            try
+            {
+                // Get custom prop and validate type
+                CustomMaterialProp prop = CustomMaterialPropService.GetCustomMaterialProp(propId);
+                if (prop.Type != PropType.File)
+                {
+                    return HandleBadRequest("The submitted prop is not of the type `file`.");
+                }
+
+                // Update material - remove prop
+                MaterialsService.UpdateCustomFileMaterialProp(materialId, prop, null);
+
+                // Done!
+                return NoContent();
+            }
+            catch (CustomPropNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (MaterialNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        /// <summary>
+        /// Downloads a file associated with a custom material prop.
+        /// </summary>
+        /// <param name="materialId">The ID of the material to get the file for.</param>
+        /// <param name="propId">The ID of the prop to get the file from.</param>
+        /// <returns>Returns a `204 No Content` response on success.</returns>
+        [HttpGet("{materialId}/file-props/{propId}/download")] // TODO - auth policy
+        public IActionResult DownloadCustomPropFile(int materialId, Guid propId)
+        {
+            try
+            {
+                // Get custom prop and validate type
+                CustomMaterialProp prop = CustomMaterialPropService.GetCustomMaterialProp(propId);
+                if (prop.Type != PropType.File)
+                {
+                    return HandleBadRequest("The submitted prop is not of the type `file`.");
+                }
+
+                // Get and validate file path
+                string path = MaterialsService.GetCustomPropFilePath(materialId, prop);
+                if (string.IsNullOrWhiteSpace(path))
+                {
+                    return NotFound(new ClientErrorResponse("File could not be found!"));
+                }
+
+                string fileName = Path.GetFileName(path);
+                byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+                string contentType = "application/octet-stream";
+                new FileExtensionContentTypeProvider().TryGetContentType(fileName, out contentType);
+                return File(fileBytes, contentType, fileName);
+            }
+            catch (CustomPropNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (MaterialNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
         }
 
         #endregion
