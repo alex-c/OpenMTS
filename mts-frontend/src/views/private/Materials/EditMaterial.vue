@@ -120,14 +120,13 @@
           <div v-if="propIsTextProp(prop)">
             <div v-if="prop.set">
               <div class="row">{{prop.value}}</div>
-              <div class="row">
+              <div class="row center">
                 <el-button
                   @click="deleteMaterialCustomTextProp(prop)"
                   icon="el-icon-close"
                   type="danger"
                   theme="dark"
                   size="mini"
-                  class="right"
                 >{{$t('general.delete')}}</el-button>
               </div>
             </div>
@@ -136,14 +135,13 @@
                 <el-form-item prop="value">
                   <el-input type="textarea" v-model="customMaterialProps[i].value"></el-input>
                 </el-form-item>
-                <div class="row">
+                <div class="row center">
                   <el-button
                     @click="setMaterialCustomTextProp(prop)"
                     icon="el-icon-check"
                     type="primary"
                     theme="dark"
                     size="mini"
-                    class="right"
                   >{{$t('general.save')}}</el-button>
                 </div>
               </el-form>
@@ -151,7 +149,44 @@
           </div>
 
           <!-- File props -->
-          <div v-else-if="propIsFileProp(prop)">TODO</div>
+          <div v-else-if="propIsFileProp(prop)">
+            <div v-if="prop.set">
+              <div class="row center">
+                <el-button
+                  @click="deleteMaterialCustomFileProp(prop)"
+                  icon="el-icon-close"
+                  type="danger"
+                  theme="dark"
+                  size="mini"
+                >{{$t('general.delete')}}</el-button>
+              </div>
+            </div>
+            <div v-else>
+              <el-upload
+                :http-request="function(data) {uploadFile(data, prop)}"
+                :ref="'upload-' + prop.id"
+                class="upload-container"
+                :auto-upload="false"
+                :multiple="false"
+                :limit="1"
+                action
+              >
+                <el-button
+                  slot="trigger"
+                  size="small"
+                  type="info"
+                  icon="el-icon-document"
+                >{{$t('general.selectFile')}}</el-button>
+                <el-button
+                  style="margin-left: 10px;"
+                  size="small"
+                  type="primary"
+                  icon="el-icon-upload"
+                  @click="submitUpload(prop.id)"
+                >{{$t('general.upload')}}</el-button>
+              </el-upload>
+            </div>
+          </div>
           <Alert type="error" :description="$t('materials.invalidProp')" :show="true" v-else />
         </CustomProp>
       </div>
@@ -293,6 +328,27 @@ export default {
         })
         .catch(this.handleHttpError);
     },
+    submitUpload: function(id) {
+      this.$refs['upload-' + id][0].submit();
+    },
+    uploadFile: function(data, prop) {
+      Api.setMaterialCustomFileProp(this.id, prop.id, data.file)
+        .then(response => {
+          this.getMaterial(() => {
+            this.getCustomMaterialProps();
+          });
+        })
+        .catch(this.handleHttpError);
+    },
+    deleteMaterialCustomFileProp: function(prop) {
+      Api.deleteMaterialCustomFileProp(this.id, prop.id)
+        .then(result => {
+          this.getMaterial(() => {
+            this.getCustomMaterialProps();
+          });
+        })
+        .catch(this.handleHttpError);
+    },
   },
   mounted() {
     this.getMaterial(() => {
@@ -303,3 +359,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.upload-container {
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}
+</style>

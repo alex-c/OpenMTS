@@ -25,7 +25,7 @@ export default {
   props: ['prop'],
   data() {
     return {
-      collapsed: true,
+      collapsed: false,
     };
   },
 };

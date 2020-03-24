@@ -12,6 +12,23 @@ function processResponse(response) {
   });
 }
 
+function processFileDownload(response) {
+  return new Promise((resolve, reject) => {
+    if (response.status === 200) {
+      const contentDisposition = response.headers.get('Content-Disposition');
+      let offset = contentDisposition.indexOf('filename=');
+      let fileName = 'unknown';
+      if (offset != -1) {
+        offset += 9;
+        fileName = contentDisposition.substring(offset, contentDisposition.indexOf(';', offset));
+      }
+      response.blob().then(blob => resolve({ blob, fileName }));
+    } else {
+      reject(response);
+    }
+  });
+}
+
 function catchNetworkError(response) {
   return new Promise((_, reject) => {
     reject({ status: null, message: 'general.networkError' });
@@ -169,6 +186,39 @@ export default {
     })
       .catch(catchNetworkError)
       .then(processResponse);
+  },
+  setMaterialCustomFileProp: (materialId, propId, file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return fetch(`http://localhost:5000/api/materials/${materialId}/file-props/${propId}`, {
+      method: 'PUT',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { Authorization: getAuthorizationHeader() },
+      body: formData,
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  deleteMaterialCustomFileProp: (materialId, propId) => {
+    return fetch(`http://localhost:5000/api/materials/${materialId}/file-props/${propId}`, {
+      method: 'DELETE',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  downloadFile: (materialId, propId) => {
+    return fetch(`http://localhost:5000/api/materials/${materialId}/file-props/${propId}/download`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { Authorization: getAuthorizationHeader(), 'Access-Control-Request-Headers': 'Content-Disposition' },
+    })
+      .catch(catchNetworkError)
+      .then(processFileDownload);
   },
   getConfiguration: () => {
     return fetch(`http://localhost:5000/api/configuration`, {

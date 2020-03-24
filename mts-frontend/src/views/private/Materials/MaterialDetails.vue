@@ -38,7 +38,15 @@
       <div class="content-row" v-for="prop in customMaterialProps" v-bind:key="prop.id">
         <CustomProp :prop="prop">
           <div v-if="propIsTextProp(prop)">{{prop.value}}</div>
-          <div v-else-if="propIsFileProp(prop)">TODO</div>
+          <div v-else-if="propIsFileProp(prop)" style="text-align:center;">
+            <el-button
+              @click="download(prop)"
+              type="primary"
+              size="small"
+              theme="dark"
+              icon="el-icon-download"
+            >{{$t('general.download')}}</el-button>
+          </div>
           <Alert type="error" :description="$t('materials.invalidProp')" :show="true" v-else />
         </CustomProp>
       </div>
@@ -94,6 +102,20 @@ export default {
             }
           }
           this.customMaterialProps = props;
+        })
+        .catch(this.handleHttpError);
+    },
+    download: function(prop) {
+      Api.downloadFile(this.id, prop.id)
+        .then(({ blob, fileName }) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
         })
         .catch(this.handleHttpError);
     },

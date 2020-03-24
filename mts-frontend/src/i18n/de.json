@@ -34,7 +34,10 @@
       "label": "Status",
       "disabled": "Deaktiviert",
       "enabled": "Aktiv"
-    }
+    },
+    "selectFile": "Datei auswählen",
+    "upload": "Hochladen",
+    "download": "Herunterladen"
   },
   "login": {
     "header": "Benutzeranmeldung",

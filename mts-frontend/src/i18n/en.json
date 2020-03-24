@@ -34,7 +34,10 @@
       "label": "Status",
       "disabled": "Disabled",
       "enabled": "Enabled"
-    }
+    },
+    "selectFile": "Select file",
+    "upload": "Upload",
+    "download": "Download"
   },
   "login": {
     "header": "User Login",
