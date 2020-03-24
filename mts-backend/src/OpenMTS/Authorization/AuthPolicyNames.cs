@@ -5,10 +5,29 @@
     /// </summary>
     public static class AuthPolicyNames
     {
+        #region OpenMTS configuration
+
         /// <summary>
         /// The policy that authorizes configuration setting.
         /// </summary>
         public const string MAY_SET_CONFIGURATION = "MaySetConfiguration";
+
+        /// <summary>
+        /// The policy that authorizes the creation of custom material props.
+        /// </summary>
+        public const string MAY_CREATE_CUSTOM_MATERIAL_PROP = "MayCreateCustomMaterialProp";
+
+        /// <summary>
+        /// The policy that authorizes the uptating of custom material props.
+        /// </summary>
+        public const string MAY_UPDATE_CUSTOM_MATERIAL_PROP = "MayUpdateCustomMaterialProp";
+
+        /// <summary>
+        /// The policy that authorizes the deletion of custom material props.
+        /// </summary>
+        public const string MAY_DELETE_CUSTOM_MATERIAL_PROP = "MayDeleteCustomMaterialProp";
+
+        #endregion
 
         #region User administration
 
@@ -81,5 +100,9 @@
         public const string MAY_UPDATE_STORAGE_AREA = "MayUpdateStorageArea";
 
         #endregion
+
+        // TODO: add missing policy names
+        //  - material types (do with 'plastics' renaming)
+        //  - materials
     }
 }
