@@ -104,9 +104,15 @@ namespace OpenMTS
             // Configure authorization policies
             services.AddAuthorization(options =>
             {
+                // TODO: add policies for materials
+
+                // TODO: add policies for material types (do with 'plastics' renaming)
+
                 // Configuration administration
                 options.AddPolicy(AuthPolicyNames.MAY_SET_CONFIGURATION, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CONFIGFURATION_SET)));
-                // TODO: policies for managing custom material props
+                options.AddPolicy(AuthPolicyNames.MAY_CREATE_CUSTOM_MATERIAL_PROP, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_CREATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_CUSTOM_MATERIAL_PROP, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_UPDATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_DELETE)));
 
                 // User administration
                 options.AddPolicy(AuthPolicyNames.MAY_CREATE_USER, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.USERS_CREATE)));
@@ -147,7 +153,7 @@ namespace OpenMTS
                 services.AddSingleton<ILocationsRepository, MockLocationsRepository>();
                 MockCustomMaterialPropValueRepository mockCustomMaterialPropValueRepository = new MockCustomMaterialPropValueRepository();
                 services.AddSingleton<ICustomMaterialPropValueRepository>(mockCustomMaterialPropValueRepository);
-                services.AddSingleton<MockCustomMaterialPropValueRepository>(mockCustomMaterialPropValueRepository);
+                services.AddSingleton(mockCustomMaterialPropValueRepository);
             }
             else
             {

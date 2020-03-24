@@ -101,7 +101,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="customMaterialPropCreationRequest">The custom material property creation request.</param>
         /// <returns>Returns a `201 Created` response on success.</returns>
-        [HttpPost("material-props")] // TODO - auth policy
+        [HttpPost("material-props"), Authorize(Policy = AuthPolicyNames.MAY_CREATE_CUSTOM_MATERIAL_PROP)]
         public IActionResult CreateCustomMaterialProp([FromBody] CustomMaterialPropCreationRequest customMaterialPropCreationRequest)
         {
             if (customMaterialPropCreationRequest == null ||
@@ -139,7 +139,7 @@ namespace OpenMTS.Controllers
         /// <param name="id">The ID of the prop to update.</param>
         /// <param name="customMaterialPropUpdateRequest">The custom material property update request.</param>
         /// <returns>Returns the updated prop.</returns>
-        [HttpPatch("material-props/{id}")] // TODO - auth policy
+        [HttpPatch("material-props/{id}"), Authorize(Policy = AuthPolicyNames.MAY_UPDATE_CUSTOM_MATERIAL_PROP)]
         public IActionResult UpdateCustomMaterialProp(Guid id, [FromBody] CustomMaterialPropUpdateRequest customMaterialPropUpdateRequest)
         {
             if (customMaterialPropUpdateRequest == null ||
@@ -164,7 +164,7 @@ namespace OpenMTS.Controllers
 
         }
 
-        [HttpDelete("material-props/{id}")] // TODO - auth policy
+        [HttpDelete("material-props/{id}"),Authorize(Policy = AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP)]
         public IActionResult DeleteCustomMaterialProp(Guid id)
         {
             CustomPropService.DeleteCustomMaterialProp(id);
