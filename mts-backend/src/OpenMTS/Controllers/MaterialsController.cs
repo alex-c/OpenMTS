@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Logging;
+using OpenMTS.Authorization;
 using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Models;
@@ -127,7 +128,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="materialCreationRequest">The material creation request.</param>
         /// <returns>Returns a `201 Created` response on success.</returns>
-        [HttpPost] // TODO - auth policy
+        [HttpPost, Authorize(Policy = AuthPolicyNames.MAY_CREATE_MATERIAL)]
         public IActionResult CreateMaterial([FromBody] MaterialCreationRequest materialCreationRequest)
         {
             if (materialCreationRequest == null ||
@@ -168,7 +169,7 @@ namespace OpenMTS.Controllers
         /// <param name="id">The ID of the material to update.</param>
         /// <param name="materialUpdateRequest">The material update request data.</param>
         /// <returns>Returns the updated material on success.</returns>
-        [HttpPatch("{id}")] // TODO - auth policy
+        [HttpPatch("{id}"), Authorize(Policy = AuthPolicyNames.MAY_UPDATE_MATERIAL)]
         public IActionResult UpdateMaterialMasterData(int id, [FromBody] MaterialUpdateRequest materialUpdateRequest)
         {
             if (materialUpdateRequest == null ||
@@ -217,7 +218,7 @@ namespace OpenMTS.Controllers
         /// <param name="propId">The ID of the prop to set.</param>
         /// <param name="setCustomTextMaterialPropRequest">Contains the prop value to set.</param>
         /// <returns>Returns a `204 No Content` response on success.</returns>
-        [HttpPut("{materialId}/text-props/{propId}")] // TODO - auth policy
+        [HttpPut("{materialId}/text-props/{propId}"), Authorize(Policy = AuthPolicyNames.MAY_SET_CUSTOM_MATERIAL_PROP_VALUE)]
         public IActionResult SetCustomTextMaterialProp(int materialId, Guid propId, [FromBody] SetCustomTextMaterialPropRequest setCustomTextMaterialPropRequest)
         {
             if (setCustomTextMaterialPropRequest == null ||
@@ -261,7 +262,7 @@ namespace OpenMTS.Controllers
         /// <param name="materialId">The ID of the material.</param>
         /// <param name="propId">The ID of the prop to unset.</param>
         /// <returns>Returns a `204 No Content` response on success.</returns>
-        [HttpDelete("{materialId}/text-props/{propId}")] // TODO - auth policy
+        [HttpDelete("{materialId}/text-props/{propId}"), Authorize(Policy = AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP_VALUE)]
         public IActionResult DeleteCustomTextMaterialProp(int materialId, Guid propId)
         {
             try
@@ -300,7 +301,7 @@ namespace OpenMTS.Controllers
         /// <param name="propId">The ID of the prop to set.</param>
         /// <param name="file">The file to set.</param>
         /// <returns>Returns a `204 No Content` response on success.</returns>
-        [HttpPut("{materialId}/file-props/{propId}")] // TODO - auth policy
+        [HttpPut("{materialId}/file-props/{propId}"), Authorize(Policy = AuthPolicyNames.MAY_SET_CUSTOM_MATERIAL_PROP_VALUE)]
         public IActionResult SetCustomFileMaterialProp(int materialId, Guid propId, IFormFile file)
         {
             if (file.Length <= 0)
@@ -341,7 +342,7 @@ namespace OpenMTS.Controllers
         /// <param name="materialId">The ID of the material.</param>
         /// <param name="propId">The ID of the prop to unset.</param>
         /// <returns>Returns a `204 No Content` response on success.</returns>
-        [HttpDelete("{materialId}/file-props/{propId}")] // TODO - auth policy
+        [HttpDelete("{materialId}/file-props/{propId}"), Authorize(Policy = AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP_VALUE)]
         public IActionResult DeleteCustomFileMaterialProp(int materialId, Guid propId)
         {
             try
@@ -379,7 +380,7 @@ namespace OpenMTS.Controllers
         /// <param name="materialId">The ID of the material to get the file for.</param>
         /// <param name="propId">The ID of the prop to get the file from.</param>
         /// <returns>Returns a `204 No Content` response on success.</returns>
-        [HttpGet("{materialId}/file-props/{propId}/download")] // TODO - auth policy
+        [HttpGet("{materialId}/file-props/{propId}/download")]
         public IActionResult DownloadCustomPropFile(int materialId, Guid propId)
         {
             try

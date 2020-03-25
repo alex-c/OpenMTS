@@ -16,6 +16,14 @@ namespace OpenMTS.Models
         {
             return new List<string>()
             {
+                // Materials
+                MATERIALS_CREATE,
+                MATERIALS_UPDATE,
+                MATERIAL_CUSTOM_PROPS_SET,
+                MATERIAL_CUSTOM_PROPS_DELETE,
+
+                // TODO: add rights for material types
+
                 // OpenMTS configuration
                 CONFIGFURATION_SET,
                 CUSTOM_MATERIAL_PROPS_CREATE,
@@ -38,12 +46,32 @@ namespace OpenMTS.Models
                 STORAGE_SITES_UPDATE,
                 STORAGE_AREAS_CREATE,
                 STORAGE_AREAS_UPDATE
-
-                // TODO: add missing rights
-                //  - material types (do with 'plastics' renaming)
-                //  - materials
             };
         }
+
+        #region Materials
+
+        /// <summary>
+        /// The right that allows to create a new material.
+        /// </summary>
+        public static readonly string MATERIALS_CREATE = "materials.create";
+
+        /// <summary>
+        /// The right that allows to update a new material.
+        /// </summary>
+        public static readonly string MATERIALS_UPDATE = "materials.update";
+
+        /// <summary>
+        /// The right that allows to set a custom material prop value.
+        /// </summary>
+        public static readonly string MATERIAL_CUSTOM_PROPS_SET = "materials.custom_props.set";
+
+        /// <summary>
+        /// The right that allows to delete a custom material prop value.
+        /// </summary>
+        public static readonly string MATERIAL_CUSTOM_PROPS_DELETE = "materials.custom_props.delete";
+
+        #endregion
 
         #region OpenMTS configuration
 
