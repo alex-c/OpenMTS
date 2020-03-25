@@ -13,9 +13,12 @@
     "delete": "Löschen",
     "cancel": "Abbrechen",
     "repeat": "Wiederholen",
+    "details": "Details",
     "id": "ID",
     "name": "Name",
+    "type": "Typ",
     "material": "Material",
+    "materialTypes": "Materialtypen",
     "sites": "Lagerorte",
     "inventory": "Lagerbestand",
     "materials": "Werkstoffe",
@@ -31,7 +34,10 @@
       "label": "Status",
       "disabled": "Deaktiviert",
       "enabled": "Aktiv"
-    }
+    },
+    "selectFile": "Datei auswählen",
+    "upload": "Hochladen",
+    "download": "Herunterladen"
   },
   "login": {
     "header": "Benutzeranmeldung",
@@ -67,7 +73,50 @@
     },
     "badPassword": "Das alte Passwort stimmt nicht."
   },
+  "materials": {
+    "material": "Werkstoff",
+    "create": "Neuer Werkstoff",
+    "manufacturer": "Hersteller",
+    "manufacturerId": "ID beim Hersteller",
+    "filter": "Namen filtern...",
+    "type": "Typ",
+    "types": {
+      "pp": "Polypropylen",
+      "spice": "Spice Melange"
+    },
+    "editMaterialWithId": "Werkstoff `{id}` Editieren",
+    "materialDetailsWithId": "Werkstoff `{id}`",
+    "validation": {
+      "name": "Bitte geben Sie einen Namen ein.",
+      "manufacturer": "Bitte wählen Sie einen Hersteller aus oder geben Sie einen neuen ein.",
+      "manufacturerId": "Bitte geben Sie die ID des Werkstoff beim Hersteller ein.",
+      "type": "Bitte wählen Sie einen Typen aus.",
+      "propText": "Bitte geben Sie einen Text ein."
+    },
+    "updated": "Der Werkstoff mit ID `{id}` wurde aktualisiert.",
+    "props": "Anwendungsspezifische Eigenschaften",
+    "invalidProp": "Ungültige Eigenschaft.",
+    "propSet": "Status: Gesetzt",
+    "propNotSet": "Status: Nicht Gesetzt",
+    "noPropsSet": "Keine Eigenschaften gesetzt.",
+    "noPropsDefined": "Keine Eigenschaften definiert."
+  },
+  "materialTypes": {
+    "create": "Neuer Materialtyp",
+    "edit": "Typ Bearbeiten",
+    "filter": "Materialtypen filtern...",
+    "editPrompt": "Geben Sie bitte einen neuen Namen ein:",
+    "editInputError": "Bitte geben Sie einen neuen Namen ein.",
+    "created": "Der Materialtyp mit `{id} - {name}` wurde angelegt.",
+    "updated": "Der Materialtyp mit ID `{id}` wurde zu `{name}` umbenannt.",
+    "validation": {
+      "id": "Bitte geben Sie als ID ein Kürzel an (z.B. `PP` für Polypropylen).",
+      "name": "Bitte geben Sie einen Namen ein."
+    },
+    "conflict": "Die ID `{id}` ist bereits vergeben."
+  },
   "config": {
+    "guestLogin": "Gastzugang",
     "allowGuestLogin": "Gastzugang aktivieren:",
     "guestLoginWarning": "Bei aktiviertem Gastzugang können sich Nutzer ohne Account oder Passwort anmelden und erhalten dabei volle Benutzerberechtigungen. Benutzen Sie diese Option mit Bedacht!",
     "allowGuestLoginConfirm": "Sind Sie sicher, dass sie den Gastzugang aktivieren wollen?",
@@ -75,7 +124,24 @@
     "allow": "Aktivieren",
     "disallow": "Deaktivieren",
     "guestLoginAllowed": "Der Gastzugang wurde aktiviert.",
-    "guestLoginDisallowed": "Der Gastzugang wurde deaktiviert.."
+    "guestLoginDisallowed": "Der Gastzugang wurde deaktiviert..",
+    "materialProps": "Anwendungsspezifische Materialeigenschaften",
+    "createProp": "Neue Eigenschaft",
+    "editProp": "Eigenschaft Editieren",
+    "editPropPrompt": "Bitte geben Sie einen neuen Namen für die Eigenschaft ein:",
+    "editPropInputError": "Bitte geben Sie einen Namen ein.",
+    "propUpdated": "Die Eigenschaft mit ID `{id}` wurde zu `{name}` umbenannt.",
+    "confirmMaterialPropDeletion": "Sind Sie sicher, dass Sie die Eigenschaft `{name}` ({id}) löschen möchten? Dies kann zu Datenverlust führen.",
+    "materialPropDeleted": "Die Eigenschaft `{name}` ({id}) wurde gelöscht.",
+    "validation": {
+      "propName": "Bitte geben Sie einen Namen ein.",
+      "propType": "Bitte wählen Sie einen Typen aus."
+    },
+    "materialPropCreated": "Die Eigenschaft `{name}` wurde mit ID `{id}` erstellt."
+  },
+  "types": {
+    "text": "Text",
+    "file": "Datei"
   },
   "users": {
     "role": "Rolle",

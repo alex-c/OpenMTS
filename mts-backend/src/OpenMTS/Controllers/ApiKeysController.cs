@@ -17,7 +17,7 @@ namespace OpenMTS.Controllers
     /// API route for the management of API keys.
     /// </summary>
     [Route("api/keys"), Authorize]
-    public class ApiKeyController : ControllerBase
+    public class ApiKeysController : ControllerBase
     {
         /// <summary>
         /// The service granting API key functionality.
@@ -34,11 +34,11 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="loggerFactory">A factory to create loggers from.</param>
         /// <param name="apiKeyService">The API key service.</param>
-        public ApiKeyController(ILoggerFactory loggerFactory, ApiKeyService apiKeyService, RightsService rightsService)
+        public ApiKeysController(ILoggerFactory loggerFactory, ApiKeyService apiKeyService, RightsService rightsService)
         {
             ApiKeyService = apiKeyService;
             RightsService = rightsService;
-            Logger = loggerFactory.CreateLogger<ApiKeyController>();
+            Logger = loggerFactory.CreateLogger<ApiKeysController>();
         }
 
         /// <summary>

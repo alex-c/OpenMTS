@@ -13,12 +13,15 @@
     "delete": "Delete",
     "cancel": "Cancel",
     "repeat": "Repeat",
+    "details": "Details",
     "id": "ID",
     "name": "Name",
+    "type": "Type",
     "material": "Material",
     "sites": "Storage Sites",
     "inventory": "Inventory",
     "materials": "Materials",
+    "materialTypes": "Material Types",
     "administration": "Administration",
     "configuration": "Configuration",
     "locations": "Locations",
@@ -31,7 +34,10 @@
       "label": "Status",
       "disabled": "Disabled",
       "enabled": "Enabled"
-    }
+    },
+    "selectFile": "Select file",
+    "upload": "Upload",
+    "download": "Download"
   },
   "login": {
     "header": "User Login",
@@ -67,7 +73,50 @@
     },
     "badPassword": "You submitted a bad old password."
   },
+  "materials": {
+    "material": "Material",
+    "create": "New Material",
+    "manufacturer": "Manufacturer",
+    "manufacturerId": "Manufacturer's ID",
+    "filter": "Filter names...",
+    "type": "Type",
+    "types": {
+      "pp": "Polypropylene",
+      "spice": "Spice Melange"
+    },
+    "editMaterialWithId": "Edit Material `{id}`",
+    "materialDetailsWithId": "Material `{id}`",
+    "validation": {
+      "name": "Please enter a name.",
+      "manufacturer": "Please select or enter a manufacturer.",
+      "manufacturerId": "Please enter the manufacturer's material ID.",
+      "type": "Plesae select a type.",
+      "propText": "Please enter a text."
+    },
+    "updated": "The material with ID `{id}` was successfully updated.",
+    "props": "Custom Properties",
+    "invalidProp": "Invalid property.",
+    "propSet": "Status: Set",
+    "propNotSet": "Status: Not Set",
+    "noPropsSet": "No property set.",
+    "noPropsDefined": "No properties defined."
+  },
+  "materialTypes": {
+    "create": "New Material Type",
+    "edit": "Edit Type",
+    "filter": "Filter types...",
+    "editPrompt": "Please enter a new name:",
+    "editInputError": "Please enter a new name.",
+    "created": "The material type `{id} - {name}` was successfully created.",
+    "updated": "The material type with ID `{id}` was renamed to `{name}`.",
+    "validation": {
+      "id": "Please enter an ID that is an abbreviation (eg. `PP` for Polypropylene).",
+      "name": "Please enter a name."
+    },
+    "conflict": "The ID `{id}` is already taken."
+  },
   "config": {
+    "guestLogin": "Guest Login",
     "allowGuestLogin": "Allow guest login:",
     "guestLoginWarning": "Allowing guest logins implies that users will be able to login to OpenMTS with full user rights without an account or password. Use with care!",
     "allowGuestLoginConfirm": "Are you sure you want to allow guest logins?",
@@ -75,7 +124,24 @@
     "allow": "Allow",
     "disallow": "Disallow",
     "guestLoginAllowed": "Guest logins were allowed.",
-    "guestLoginDisallowed": "Guest logins were disallowed."
+    "guestLoginDisallowed": "Guest logins were disallowed.",
+    "materialProps": "Custom Material Properties",
+    "createProp": "New Property",
+    "editProp": "Edit Property",
+    "editPropPrompt": "Please enter a new property name:",
+    "editPropInputError": "Please enter a name.",
+    "propUpdated": "Property with ID `{id}` was renamed to `{name}`.",
+    "confirmMaterialPropDeletion": "Are you sure you want to delete the `{name}` ({id}) property? This may lead to data loss.",
+    "materialPropDeleted": "The property `{name}` ({id}) was successfully deleted.",
+    "validation": {
+      "propName": "Please enter a property name.",
+      "propType": "Please select a property type."
+    },
+    "materialPropCreated": "Successfully created property `{name}` with ID `{id}`."
+  },
+  "types": {
+    "text": "Text",
+    "file": "File"
   },
   "users": {
     "role": "Role",

@@ -26,7 +26,7 @@ namespace OpenMTS.Controllers
         /// <param name="userService">Service providing user-related functionality.</param>
         public SelfController(ILoggerFactory loggerFactory, UserService userService)
         {
-            Logger = loggerFactory.CreateLogger<UserController>();
+            Logger = loggerFactory.CreateLogger<UsersController>();
             UserService = userService;
         }
 

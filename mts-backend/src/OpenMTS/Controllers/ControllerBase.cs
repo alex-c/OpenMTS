@@ -24,17 +24,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="resourceId">The ID of the newly created resource.</param>
         /// <returns>Returns the newly created resource's URI.</returns>
-        protected Uri GetNewResourceUri(string resourceId)
-        {
-            return new Uri($"{Request.Scheme}://{Request.Host}{Request.Path}/{resourceId}");
-        }
-
-        /// <summary>
-        /// Get's the URI of a newly created resource, to be included in `201 Created` responses.
-        /// </summary>
-        /// <param name="resourceId">The ID of the newly created resource.</param>
-        /// <returns>Returns the newly created resource's URI.</returns>
-        protected Uri GetNewResourceUri(Guid resourceId)
+        protected Uri GetNewResourceUri<T>(T resourceId)
         {
             return new Uri($"{Request.Scheme}://{Request.Host}{Request.Path}/{resourceId}");
         }

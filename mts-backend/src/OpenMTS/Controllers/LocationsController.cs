@@ -16,7 +16,7 @@ namespace OpenMTS.Controllers
     /// <summary>
     /// Route for getting and administrationg storage locations: storage sites and areas.
     /// </summary>
-    [Route("api/sites")]
+    [Route("api/sites"), Authorize]
     public class LocationsController : ControllerBase
     {
         /// <summary>

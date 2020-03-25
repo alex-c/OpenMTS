@@ -5,6 +5,11 @@
       <MenuButton :label="$t('general.sites')" icon="el-icon-office-building" to="/private/sites" />
       <MenuButton :label="$t('general.inventory')" icon="el-icon-box" to="/private/inventory" />
       <MenuButton :label="$t('general.materials')" icon="el-icon-document" to="/private/materials" />
+      <MenuButton
+        :label="$t('general.materialTypes')"
+        icon="el-icon-notebook-2"
+        to="/private/material-types"
+      />
       <div v-if="userIsAuthenticated && userIsAdmin">
         <MenuHeader :label="$t('general.administration')" :collapsed="menuCollapsed" />
         <MenuButton

@@ -5,10 +5,55 @@
     /// </summary>
     public static class AuthPolicyNames
     {
+        #region Materials
+
+        /// <summary>
+        /// The policy that authorizes the creation of materials.
+        /// </summary>
+        public const string MAY_CREATE_MATERIAL = "MayCreateMaterial";
+
+        /// <summary>
+        /// The policy that authorizes the updating of materials.
+        /// </summary>
+        public const string MAY_UPDATE_MATERIAL = "MayUpdateMaterial";
+
+        /// <summary>
+        /// The policy that authorizes the setting of custom material prop values.
+        /// </summary>
+        public const string MAY_SET_CUSTOM_MATERIAL_PROP_VALUE = "MaySetCustomMaterialPropValue";
+
+        /// <summary>
+        /// The policy that authorizes the deletion of custom material prop values.
+        /// </summary>
+        public const string MAY_DELETE_CUSTOM_MATERIAL_PROP_VALUE = "MayDeleteCustomMaterialPropValue";
+
+        #endregion
+
+        // TODO: add policy names for material types
+
+        #region OpenMTS configuration
+
         /// <summary>
         /// The policy that authorizes configuration setting.
         /// </summary>
         public const string MAY_SET_CONFIGURATION = "MaySetConfiguration";
+
+        /// <summary>
+        /// The policy that authorizes the creation of custom material props.
+        /// </summary>
+        public const string MAY_CREATE_CUSTOM_MATERIAL_PROP = "MayCreateCustomMaterialProp";
+
+        /// <summary>
+        /// The policy that authorizes the uptating of custom material props.
+        /// </summary>
+        public const string MAY_UPDATE_CUSTOM_MATERIAL_PROP = "MayUpdateCustomMaterialProp";
+
+        /// <summary>
+        /// The policy that authorizes the deletion of custom material props.
+        /// </summary>
+        public const string MAY_DELETE_CUSTOM_MATERIAL_PROP = "MayDeleteCustomMaterialProp";
+
+        #endregion
 
         #region User administration
 

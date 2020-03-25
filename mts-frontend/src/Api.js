@@ -12,6 +12,23 @@ function processResponse(response) {
   });
 }
 
+function processFileDownload(response) {
+  return new Promise((resolve, reject) => {
+    if (response.status === 200) {
+      const contentDisposition = response.headers.get('Content-Disposition');
+      let offset = contentDisposition.indexOf('filename=');
+      let fileName = 'unknown';
+      if (offset != -1) {
+        offset += 9;
+        fileName = contentDisposition.substring(offset, contentDisposition.indexOf(';', offset));
+      }
+      response.blob().then(blob => resolve({ blob, fileName }));
+    } else {
+      reject(response);
+    }
+  });
+}
+
 function catchNetworkError(response) {
   return new Promise((_, reject) => {
     reject({ status: null, message: 'general.networkError' });
@@ -62,6 +79,147 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getAllMaterialTypes: function() {
+    return this.getMaterialTypes(0, 0, '', true);
+  },
+  getMaterialTypes: (page, elementsPerPage, search, getAll = false) => {
+    return fetch(`http://localhost:5000/api/material-types?getAll=${getAll}&page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  createMaterialType: (id, name) => {
+    return fetch(`http://localhost:5000/api/material-types`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ id, name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateMaterialType: (id, name) => {
+    return fetch(`http://localhost:5000/api/material-types/${id}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getManufacturers: () => {
+    return fetch(`http://localhost:5000/api/manufacturers`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getMaterials: (page, elementsPerPage, search, manufacturer, type) => {
+    return fetch(`http://localhost:5000/api/materials?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&manufacturer=${manufacturer}&type=${type}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getMaterial: id => {
+    return fetch(`http://localhost:5000/api/materials/${id}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  createMaterial: (name, manufacturer, manufacturerId, type) => {
+    return fetch(`http://localhost:5000/api/materials`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name, manufacturer, manufacturerId, type }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateMaterial: (id, name, manufacturer, manufacturerId, type) => {
+    return fetch(`http://localhost:5000/api/materials/${id}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name, manufacturer, manufacturerId, type }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  setMaterialCustomTextProp: (materialId, propId, text) => {
+    return fetch(`http://localhost:5000/api/materials/${materialId}/text-props/${propId}`, {
+      method: 'PUT',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ materialId, propId, text }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  deleteMaterialCustomTextProp: (materialId, propId) => {
+    return fetch(`http://localhost:5000/api/materials/${materialId}/text-props/${propId}`, {
+      method: 'DELETE',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  setMaterialCustomFileProp: (materialId, propId, file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return fetch(`http://localhost:5000/api/materials/${materialId}/file-props/${propId}`, {
+      method: 'PUT',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { Authorization: getAuthorizationHeader() },
+      body: formData,
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  deleteMaterialCustomFileProp: (materialId, propId) => {
+    return fetch(`http://localhost:5000/api/materials/${materialId}/file-props/${propId}`, {
+      method: 'DELETE',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  downloadFile: (materialId, propId) => {
+    return fetch(`http://localhost:5000/api/materials/${materialId}/file-props/${propId}/download`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { Authorization: getAuthorizationHeader(), 'Access-Control-Request-Headers': 'Content-Disposition' },
+    })
+      .catch(catchNetworkError)
+      .then(processFileDownload);
+  },
   getConfiguration: () => {
     return fetch(`http://localhost:5000/api/configuration`, {
       method: 'GET',
@@ -81,10 +239,54 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getCustomMaterialProps: () => {
+    return fetch(`http://localhost:5000/api/configuration/material-props`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  createCustomMaterialProp: (name, type) => {
+    return fetch(`http://localhost:5000/api/configuration/material-props/`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name, type }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateCustomMaterialProp: (id, name) => {
+    return fetch(`http://localhost:5000/api/configuration/material-props/${id}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  deleteCustomMaterialProp: id => {
+    return fetch(`http://localhost:5000/api/configuration/material-props/${id}`, {
+      method: 'DELETE',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   getUsers: (page, elementsPerPage, search, showDisabled) => {
     return fetch(`http://localhost:5000/api/users?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&showDisabled=${showDisabled}`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
     })
       .catch(catchNetworkError)
       .then(processResponse);
@@ -178,7 +380,9 @@ export default {
   getStorageSites: (page, elementsPerPage, search) => {
     return fetch(`http://localhost:5000/api/sites?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
     })
       .catch(catchNetworkError)
       .then(processResponse);

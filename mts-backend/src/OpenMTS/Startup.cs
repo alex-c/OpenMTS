@@ -15,7 +15,6 @@ using OpenMTS.Services;
 using OpenMTS.Services.Authentication;
 using OpenMTS.Services.Authentication.Providers;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace OpenMTS
@@ -80,7 +79,9 @@ namespace OpenMTS
                         builder.WithOrigins("http://localhost:8080")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
-                          .AllowCredentials();
+                          .AllowCredentials()
+                          // Header needed on client-side to access a file download file name
+                          .WithExposedHeaders("Content-Disposition");
                     });
                 }
             });
@@ -103,7 +104,19 @@ namespace OpenMTS
             // Configure authorization policies
             services.AddAuthorization(options =>
             {
+                // Materials
+                options.AddPolicy(AuthPolicyNames.MAY_CREATE_MATERIAL, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.MATERIALS_CREATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_MATERIAL, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.MATERIALS_UPDATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_SET_CUSTOM_MATERIAL_PROP_VALUE, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.MATERIAL_CUSTOM_PROPS_SET)));
+                options.AddPolicy(AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP_VALUE, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.MATERIAL_CUSTOM_PROPS_DELETE)));
+
+                // TODO: add policies for material types (do with 'plastics' renaming)
+
+                // Configuration administration
                 options.AddPolicy(AuthPolicyNames.MAY_SET_CONFIGURATION, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CONFIGFURATION_SET)));
+                options.AddPolicy(AuthPolicyNames.MAY_CREATE_CUSTOM_MATERIAL_PROP, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_CREATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_CUSTOM_MATERIAL_PROP, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_UPDATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_DELETE)));
 
                 // User administration
                 options.AddPolicy(AuthPolicyNames.MAY_CREATE_USER, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.USERS_CREATE)));
@@ -134,11 +147,17 @@ namespace OpenMTS
                 {
                     services.AddSingleton<MockDataProvider>();
                 }
+                services.AddSingleton<IMaterialTypeRepository, MockMaterialTypeRepository>();
+                services.AddSingleton<IMaterialsRepository, MockMaterialsRepository>();
                 services.AddSingleton<IConfigurationRepository, MockConfigurationRepository>();
+                services.AddSingleton<ICustomMaterialPropRepository, MockCustomMaterialPropRepository>();
                 services.AddSingleton<IUserRepository, MockUserRepository>();
                 services.AddSingleton<IReadOnlyUserRepository, MockUserRepository>();
                 services.AddSingleton<IApiKeyRepository, MockApiKeyRepository>();
                 services.AddSingleton<ILocationsRepository, MockLocationsRepository>();
+                MockCustomMaterialPropValueRepository mockCustomMaterialPropValueRepository = new MockCustomMaterialPropValueRepository();
+                services.AddSingleton<ICustomMaterialPropValueRepository>(mockCustomMaterialPropValueRepository);
+                services.AddSingleton(mockCustomMaterialPropValueRepository);
             }
             else
             {
@@ -161,9 +180,12 @@ namespace OpenMTS
             services.AddSingleton<IAuthenticationProvider, ApiKeyAuthenticationProvider>();
 
             // Register services
-            services.AddSingleton<PasswordHashingService>();
-            services.AddSingleton<ConfigurationService>();
             services.AddSingleton<AuthService>();
+            services.AddSingleton<PasswordHashingService>();
+            services.AddSingleton<MaterialTypeService>();
+            services.AddSingleton<MaterialsService>();
+            services.AddSingleton<ConfigurationService>();
+            services.AddSingleton<CustomMaterialPropService>();
             services.AddSingleton<UserService>();
             services.AddSingleton<ApiKeyService>();
             services.AddSingleton<RightsService>();

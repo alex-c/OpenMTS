@@ -9,7 +9,7 @@
     <div class="content-section">
       <div class="content-row content-subtitle">{{$t('account.data')}}</div>
       <div class="content-row">
-        <el-table :data="tableData" border size="mini">
+        <el-table :data="tableData" border size="mini" :empty-text="$t('general.noData')">
           <el-table-column prop="id" :label="$t('general.id')"></el-table-column>
           <el-table-column prop="name" :label="$t('general.name')"></el-table-column>
           <el-table-column prop="role" :label="$t('users.role')" :formatter="roleIdToText"></el-table-column>

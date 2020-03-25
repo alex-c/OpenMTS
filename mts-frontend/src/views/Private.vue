@@ -63,6 +63,12 @@ export default {
 .content-row {
   padding-top: 16px;
   overflow: auto;
+  .left.content-title {
+    padding-top: 4px;
+  }
+  .left.content-subtitle {
+    padding-top: 8px;
+  }
 }
 
 .content-section {
@@ -73,6 +79,7 @@ export default {
     padding-top: 8px;
   }
 }
+
 .content-section:last-child {
   border: none;
 }
@@ -81,15 +88,28 @@ export default {
   overflow: auto;
 }
 
+.content-row-inputs {
+  overflow: hidden;
+}
+
 .content-title {
   font-size: 18px;
   font-weight: bold;
-  margin-top: 4px;
 }
 
 .content-subtitle {
   font-size: 16px;
   font-weight: 600;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.grow {
+  flex-grow: 1;
 }
 
 .left {

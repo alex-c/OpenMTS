@@ -15,7 +15,7 @@
       </div>
 
       <!-- Search Bar -->
-      <div class="content-row" id="search-bar">
+      <div class="content-row content-row-inputs">
         <el-input
           :placeholder="$t('storage.filter')"
           prefix-icon="el-icon-search"
@@ -172,10 +172,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#search-bar {
-  overflow: hidden;
-}
-
 #area-tags .el-tag {
   margin-left: 4px;
 }

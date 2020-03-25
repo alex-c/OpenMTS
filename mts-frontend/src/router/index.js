@@ -2,17 +2,27 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
-// Components
+// Views - General
 import Public from '../views/Public.vue';
 import Private from '../views/Private.vue';
 import Account from '../views/private/Account.vue';
 import Dashboard from '../views/private/Dashboard.vue';
+
+// Views - Material
 import StorageSites from '../views/private/StorageSites.vue';
 import Inventory from '../views/private/Inventory.vue';
 import Materials from '../views/private/Materials.vue';
+import CreateMaterial from '../views/private/Materials/CreateMaterial.vue';
+import EditMaterial from '../views/private/Materials/EditMaterial.vue';
+import MaterialDetails from '../views/private/Materials/MaterialDetails.vue';
+import MaterialTypes from '../views/private/MaterialTypes.vue';
+import CreateMaterialType from '../views/private/MaterialTypes/CreateMaterialType.vue';
+
+// Views - Administration
+import Configuration from '../views/private/Configuration.vue';
+import CreateMaterialProp from '../views/private/Configuration/CreateMaterialProp.vue';
 import ApiKeys from '../views/private/ApiKeys.vue';
 import EditKey from '../views/private/ApiKeys/EditKey.vue';
-import Configuration from '../views/private/Configuration.vue';
 import UserAdministration from '../views/private/UserAdministration.vue';
 import CreateUser from '../views/private/UserAdministration/CreateUser.vue';
 import EditUser from '../views/private/UserAdministration/EditUser.vue';
@@ -86,8 +96,42 @@ const routes = [
         component: Materials,
       },
       {
+        path: 'materials/create',
+        component: CreateMaterial,
+      },
+      {
+        path: 'materials/edit',
+        name: 'editMaterial',
+        component: EditMaterial,
+        props: true,
+      },
+      {
+        path: 'materials/details',
+        name: 'materialDetails',
+        component: MaterialDetails,
+        props: true,
+      },
+      {
+        path: 'material-types',
+        name: 'materialTypes',
+        component: MaterialTypes,
+        props: true,
+      },
+      {
+        path: 'material-types/create',
+        component: CreateMaterialType,
+      },
+      {
         path: 'config',
+        name: 'configuration',
         component: Configuration,
+        props: true,
+        beforeEnter: userIsAdministrator,
+      },
+      {
+        path: 'config/crate-material-prop',
+        name: 'createMaterialProp',
+        component: CreateMaterialProp,
         beforeEnter: userIsAdministrator,
       },
       {

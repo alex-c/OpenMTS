@@ -29,8 +29,8 @@
           :show="feedback.masterData !== null"
         />
         <div class="content-row">
-          <el-form-item prop="id" :label="$t('general.id')">
-            <el-input :placeholder="$t('general.id')" v-model="id" disabled></el-input>
+          <el-form-item prop="siteId" :label="$t('general.id')">
+            <el-input :placeholder="$t('general.id')" v-model="editStorageSiteForm.siteId" disabled></el-input>
           </el-form-item>
           <el-form-item prop="siteName" :label="$t('general.name')">
             <el-input :placeholder="$t('general.name')" v-model="editStorageSiteForm.siteName"></el-input>
@@ -110,6 +110,7 @@ export default {
   data() {
     return {
       editStorageSiteForm: {
+        siteId: this.id,
         siteName: this.name,
         siteAreas: this.areas,
       },
@@ -126,7 +127,7 @@ export default {
   computed: {
     validationRules() {
       return {
-        siteId: { required: true, message: '' },
+        siteId: { required: true },
         siteName: { required: true, message: this.$t('storage.validation.name'), trigger: 'blur' },
       };
     },
@@ -180,6 +181,13 @@ export default {
           Api.updateStorageArea(this.id, this.selectedArea.id, value)
             .then(result => {
               this.feedback.storageAreas = this.$t('storage.areaUpdated', result.body);
+              for (let i = 0; i < this.editStorageSiteForm.siteAreas.length; i++) {
+                if (this.editStorageSiteForm.siteAreas[i].id === this.selectedArea.id) {
+                  this.editStorageSiteForm.siteAreas[i].name = result.body.name;
+                  this.selectedArea.name = result.body.name;
+                  break;
+                }
+              }
             })
             .catch(this.handleHttpError);
         })
