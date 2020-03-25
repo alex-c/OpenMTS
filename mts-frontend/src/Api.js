@@ -124,13 +124,19 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getMaterials: (page, elementsPerPage, search, manufacturer, type) => {
-    return fetch(`http://localhost:5000/api/materials?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&manufacturer=${manufacturer}&type=${type}`, {
-      method: 'GET',
-      withCredentials: true,
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
-    })
+  getAllMaterials: function() {
+    return this.getMaterials(0, 0, '', '', '', true);
+  },
+  getMaterials: (page, elementsPerPage, search, manufacturer, type, getAll = false) => {
+    return fetch(
+      `http://localhost:5000/api/materials?getAll=${getAll}&page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&manufacturer=${manufacturer}&type=${type}`,
+      {
+        method: 'GET',
+        withCredentials: true,
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      },
+    )
       .catch(catchNetworkError)
       .then(processResponse);
   },
@@ -377,8 +383,11 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getStorageSites: (page, elementsPerPage, search) => {
-    return fetch(`http://localhost:5000/api/sites?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
+  getAllStorageSites: function() {
+    return this.getStorageSites(0, 0, '', true);
+  },
+  getStorageSites: (page, elementsPerPage, search, getAll = false) => {
+    return fetch(`http://localhost:5000/api/sites?getAll=${getAll}&page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
       method: 'GET',
       withCredentials: true,
       credentials: 'include',
