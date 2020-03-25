@@ -1,17 +1,17 @@
 ﻿namespace OpenMTS.Models
 {
     /// <summary>
-    /// Represents a type of material.
+    /// Represents a plastic - a type of material.
     /// </summary>
-    public class MaterialType
+    public class Plastic
     {
         /// <summary>
-        /// The ID of the material type, which is an abbreviation.
+        /// The ID of the plastic, which is an abbreviation.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// The full name of the material type.
+        /// The full name of the plastic.
         /// </summary>
         public string Name { get; set; }
     }

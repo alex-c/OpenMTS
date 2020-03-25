@@ -110,7 +110,9 @@ namespace OpenMTS
                 options.AddPolicy(AuthPolicyNames.MAY_SET_CUSTOM_MATERIAL_PROP_VALUE, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.MATERIAL_CUSTOM_PROPS_SET)));
                 options.AddPolicy(AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP_VALUE, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.MATERIAL_CUSTOM_PROPS_DELETE)));
 
-                // TODO: add policies for material types (do with 'plastics' renaming)
+                // Plastics
+                options.AddPolicy(AuthPolicyNames.MAY_CREATE_PLASTIC, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.PLASTICS_CREATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_PLASTIC, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.PLASTICS_UPDATE)));
 
                 // Configuration administration
                 options.AddPolicy(AuthPolicyNames.MAY_SET_CONFIGURATION, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CONFIGFURATION_SET)));
@@ -147,7 +149,7 @@ namespace OpenMTS
                 {
                     services.AddSingleton<MockDataProvider>();
                 }
-                services.AddSingleton<IMaterialTypeRepository, MockMaterialTypeRepository>();
+                services.AddSingleton<IPlasticsRepository, MockPlasticsRepository>();
                 services.AddSingleton<IMaterialsRepository, MockMaterialsRepository>();
                 services.AddSingleton<IConfigurationRepository, MockConfigurationRepository>();
                 services.AddSingleton<ICustomMaterialPropRepository, MockCustomMaterialPropRepository>();
@@ -183,7 +185,7 @@ namespace OpenMTS
             // Register services
             services.AddSingleton<AuthService>();
             services.AddSingleton<PasswordHashingService>();
-            services.AddSingleton<MaterialTypeService>();
+            services.AddSingleton<PlasticsService>();
             services.AddSingleton<MaterialsService>();
             services.AddSingleton<ConfigurationService>();
             services.AddSingleton<CustomMaterialPropService>();

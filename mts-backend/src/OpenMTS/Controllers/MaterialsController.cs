@@ -24,9 +24,9 @@ namespace OpenMTS.Controllers
     public class MaterialsController : ControllerBase
     {
         /// <summary>
-        /// A service for material type functionality.
+        /// A service for plastics functionality.
         /// </summary>
-        private MaterialTypeService MaterialTypeService { get; }
+        private PlasticsService PlasticsService { get; }
 
         /// <summary>
         /// The underlying service for materials functionality.
@@ -42,16 +42,16 @@ namespace OpenMTS.Controllers
         /// Initializes a new instance of the <see cref="MaterialsController"/> class.
         /// </summary>
         /// <param name="loggerFactory">A factory to create loggers from.</param>
-        /// <param name="materialTypeService">Grants access to known material types.</param>
+        /// <param name="plasticsService">Grants access to known plastics.</param>
         /// <param name="materialsService">The materials service.</param>
         /// <param name="customMaterialPropService">Grants access to custom material props.</param>
         public MaterialsController(ILoggerFactory loggerFactory,
-            MaterialTypeService materialTypeService,
+            PlasticsService plasticsService,
             MaterialsService materialsService,
             CustomMaterialPropService customMaterialPropService)
         {
             Logger = loggerFactory.CreateLogger<MaterialsController>();
-            MaterialTypeService = materialTypeService;
+            PlasticsService = plasticsService;
             MaterialsService = materialsService;
             CustomMaterialPropService = customMaterialPropService;
         }
@@ -74,14 +74,14 @@ namespace OpenMTS.Controllers
             [FromQuery] string type = null)
         {
             // Check for material type validity
-            MaterialType materialType = null;
+            Plastic plastic = null;
             if (type != null)
             {
                 try
                 {
-                    materialType = MaterialTypeService.GetMaterialType(type);
+                    plastic = PlasticsService.GetPlastic(type);
                 }
-                catch (MaterialTypeNotFoundException exception)
+                catch (PlasticNotFoundException exception)
                 {
                     return HandleBadRequest(exception.Message);
                 }
@@ -90,7 +90,7 @@ namespace OpenMTS.Controllers
             // Get, filter and paginate materials
             try
             {
-                IEnumerable<Material> materials = MaterialsService.GetMaterials(search, manufacturer, materialType);
+                IEnumerable<Material> materials = MaterialsService.GetMaterials(search, manufacturer, plastic);
                 IEnumerable<Material> paginatedMaterials = materials.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
                 return Ok(new PaginatedResponse(paginatedMaterials, materials.Count()));
             }
@@ -141,12 +141,12 @@ namespace OpenMTS.Controllers
             }
 
             // Check for material type validity
-            MaterialType materialType = null;
+            Plastic plastic = null;
             try
             {
-                materialType = MaterialTypeService.GetMaterialType(materialCreationRequest.Type);
+                plastic = PlasticsService.GetPlastic(materialCreationRequest.Type);
             }
-            catch (MaterialTypeNotFoundException exception)
+            catch (PlasticNotFoundException exception)
             {
                 return HandleBadRequest(exception.Message);
             }
@@ -154,7 +154,7 @@ namespace OpenMTS.Controllers
             // Proceed with creation
             try
             {
-                Material material = MaterialsService.CreateMaterial(materialCreationRequest.Name, materialCreationRequest.Manufacturer, materialCreationRequest.ManufacturerId, materialType);
+                Material material = MaterialsService.CreateMaterial(materialCreationRequest.Name, materialCreationRequest.Manufacturer, materialCreationRequest.ManufacturerId, plastic);
                 return Created(GetNewResourceUri(material.Id), material);
             }
             catch (Exception exception)
@@ -182,12 +182,12 @@ namespace OpenMTS.Controllers
             }
 
             // Check for material type validity
-            MaterialType materialType = null;
+            Plastic plastic = null;
             try
             {
-                materialType = MaterialTypeService.GetMaterialType(materialUpdateRequest.Type);
+                plastic = PlasticsService.GetPlastic(materialUpdateRequest.Type);
             }
-            catch (MaterialTypeNotFoundException exception)
+            catch (PlasticNotFoundException exception)
             {
                 return HandleBadRequest(exception.Message);
             }
@@ -195,7 +195,7 @@ namespace OpenMTS.Controllers
             // Proceed with updating
             try
             {
-                Material material = MaterialsService.UpdateMaterial(id, materialUpdateRequest.Name, materialUpdateRequest.Manufacturer, materialUpdateRequest.ManufacturerId, materialType);
+                Material material = MaterialsService.UpdateMaterial(id, materialUpdateRequest.Name, materialUpdateRequest.Manufacturer, materialUpdateRequest.ManufacturerId, plastic);
                 return Ok(material);
             }
             catch (MaterialNotFoundException exception)

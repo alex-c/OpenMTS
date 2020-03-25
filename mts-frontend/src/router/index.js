@@ -15,8 +15,8 @@ import Materials from '../views/private/Materials.vue';
 import CreateMaterial from '../views/private/Materials/CreateMaterial.vue';
 import EditMaterial from '../views/private/Materials/EditMaterial.vue';
 import MaterialDetails from '../views/private/Materials/MaterialDetails.vue';
-import MaterialTypes from '../views/private/MaterialTypes.vue';
-import CreateMaterialType from '../views/private/MaterialTypes/CreateMaterialType.vue';
+import Plastics from '../views/private/Plastics.vue';
+import CreatePlastic from '../views/private/Plastics/CreatePlastic.vue';
 
 // Views - Administration
 import Configuration from '../views/private/Configuration.vue';
@@ -112,14 +112,14 @@ const routes = [
         props: true,
       },
       {
-        path: 'material-types',
-        name: 'materialTypes',
-        component: MaterialTypes,
+        path: 'plastics',
+        name: 'plastics',
+        component: Plastics,
         props: true,
       },
       {
-        path: 'material-types/create',
-        component: CreateMaterialType,
+        path: 'plastics/create',
+        component: CreatePlastic,
       },
       {
         path: 'config',
