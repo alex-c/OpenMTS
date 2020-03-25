@@ -1,9 +1,9 @@
 ﻿namespace OpenMTS.Controllers.Contracts.Requests
 {
     /// <summary>
-    /// A contract for a request to update a material type.
+    /// A contract for a request to update a plastic.
     /// </summary>
-    public class UpdateMaterialTypeRequest
+    public class PlasticUpdateRequest
     {
         /// <summary>
         /// The new name to set.

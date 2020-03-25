@@ -3,21 +3,21 @@
 namespace OpenMTS.Services.Exceptions
 {
     /// <summary>
-    /// Indicates that a material type could not be found.
+    /// Indicates that a plastic could not be found.
     /// </summary>
     /// <seealso cref="System.Exception" />
     /// <seealso cref="OpenMTS.Services.Exceptions.IResourceNotFoundException" />
-    public class MaterialTypeNotFoundException : Exception, IResourceNotFoundException
+    public class PlasticNotFoundException : Exception, IResourceNotFoundException
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MaterialTypeNotFoundException"/> class.
+        /// Initializes a new instance of the <see cref="PlasticNotFoundException"/> class.
         /// </summary>
-        public MaterialTypeNotFoundException() : base("No matching material type found.") { }
+        public PlasticNotFoundException() : base("No matching plastic found.") { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MaterialTypeNotFoundException"/> class.
+        /// Initializes a new instance of the <see cref="PlasticNotFoundException"/> class.
         /// </summary>
-        /// <param name="id">The ID that oculd not be found.</param>
-        public MaterialTypeNotFoundException(string id) : base($"No material type with ID `{id}` found.") { }
+        /// <param name="id">The ID that could not be found.</param>
+        public PlasticNotFoundException(string id) : base($"No plasctic with ID `{id}` found.") { }
     }
 }

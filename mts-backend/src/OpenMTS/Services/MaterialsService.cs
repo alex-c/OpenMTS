@@ -66,11 +66,11 @@ namespace OpenMTS.Services
         /// </summary>
         /// <param name="partialName">A string to filter material names with.</param>
         /// <param name="partialManufacturerName">A string to filter manufacturers with.</param>
-        /// <param name="materialType">Type of the material to filter with.</param>
+        /// <param name="plastic">Type of the material to filter with.</param>
         /// <returns>Returns a filtered list of materials</returns>
-        public IEnumerable<Material> GetMaterials(string partialName, string partialManufacturerName, MaterialType materialType)
+        public IEnumerable<Material> GetMaterials(string partialName, string partialManufacturerName, Plastic plastic)
         {
-            return MaterialsRepository.GetFilteredMaterials(partialName, partialManufacturerName, materialType);
+            return MaterialsRepository.GetFilteredMaterials(partialName, partialManufacturerName, plastic);
         }
 
         /// <summary>
@@ -90,11 +90,11 @@ namespace OpenMTS.Services
         /// <param name="name">The new material's name.</param>
         /// <param name="manufacturerName">Name of the manufacturer.</param>
         /// <param name="manufacturerSpecificId">The manufacturer's ID for this material.</param>
-        /// <param name="materialType">Type of the material.</param>
+        /// <param name="plastic">Type of the material.</param>
         /// <returns>Retursn the newly created material.</returns>
-        public Material CreateMaterial(string name, string manufacturerName, string manufacturerSpecificId, MaterialType materialType)
+        public Material CreateMaterial(string name, string manufacturerName, string manufacturerSpecificId, Plastic plastic)
         {
-            return MaterialsRepository.CreateMaterial(name, manufacturerName, manufacturerSpecificId, materialType);
+            return MaterialsRepository.CreateMaterial(name, manufacturerName, manufacturerSpecificId, plastic);
         }
 
         /// <summary>
@@ -104,16 +104,16 @@ namespace OpenMTS.Services
         /// <param name="name">The material's name.</param>
         /// <param name="manufacturerName">Name of the manufacturer.</param>
         /// <param name="manufacturerSpecificId">The manufacturer's ID for this material.</param>
-        /// <param name="materialType">Type of the material.</param>
+        /// <param name="plastic">Type of the material.</param>
         /// <returns>Retursn the updated material.</returns>
         /// <exception cref="MaterialNotFoundException">Thrown if no matching material could be found.</exception>
-        public Material UpdateMaterial(int id, string name, string manufacturerName, string manufacturerSpecificId, MaterialType materialType)
+        public Material UpdateMaterial(int id, string name, string manufacturerName, string manufacturerSpecificId, Plastic plastic)
         {
             Material material = GetMaterialOrThrowNotFoundException(id);
             material.Name = name;
             material.Manufacturer = manufacturerName;
             material.ManufacturerSpecificId = manufacturerSpecificId;
-            material.Type = materialType;
+            material.Type = plastic;
             MaterialsRepository.UpdateMaterial(material);
             return material;
         }

@@ -37,7 +37,7 @@ namespace OpenMTS.Repositories.Mocking
             });
         }
 
-        public IEnumerable<Material> GetFilteredMaterials(string partialName, string partialManufacturerName, MaterialType type)
+        public IEnumerable<Material> GetFilteredMaterials(string partialName, string partialManufacturerName, Plastic plastic)
         {
             IEnumerable<Material> materials = Materials.Values;
             if (partialName != null)
@@ -48,9 +48,9 @@ namespace OpenMTS.Repositories.Mocking
             {
                 materials = materials.Where(m => m.Manufacturer.ToLowerInvariant().Contains(partialManufacturerName.ToLowerInvariant()));
             }
-            if (type != null)
+            if (plastic != null)
             {
-                materials = materials.Where(m => m.Type.Id == type.Id);
+                materials = materials.Where(m => m.Type.Id == plastic.Id);
             }
             return materials.Select(m =>
             {
@@ -66,7 +66,7 @@ namespace OpenMTS.Repositories.Mocking
             return material;
         }
 
-        public Material CreateMaterial(string name, string manufacturerName, string manufacturerSpecificId, MaterialType materialType)
+        public Material CreateMaterial(string name, string manufacturerName, string manufacturerSpecificId, Plastic plastic)
         {
             Material material = new Material()
             {
@@ -74,7 +74,7 @@ namespace OpenMTS.Repositories.Mocking
                 Name = name,
                 Manufacturer = manufacturerName,
                 ManufacturerSpecificId = manufacturerSpecificId,
-                Type = materialType,
+                Type = plastic,
                 CustomProps = new List<CustomMaterialPropValue>()
             };
             Materials.Add(material.Id, material);

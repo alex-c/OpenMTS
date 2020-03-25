@@ -11,7 +11,7 @@ namespace OpenMTS.Repositories.Mocking
 
         public Dictionary<string, User> Users { get; }
         public Dictionary<Guid, StorageSite> StorageSites { get; }
-        public Dictionary<string, MaterialType> MaterialTypes { get; }
+        public Dictionary<string, Plastic> Plastics { get; }
         public Dictionary<int, Material> Materials { get; }
         public Dictionary<Guid, CustomMaterialProp> CustomMaterialProps { get; }
         public Dictionary<Guid, ApiKey> ApiKeys { get; }
@@ -22,14 +22,14 @@ namespace OpenMTS.Repositories.Mocking
 
             Users = new Dictionary<string, User>();
             StorageSites = new Dictionary<Guid, StorageSite>();
-            MaterialTypes = new Dictionary<string, MaterialType>();
+            Plastics = new Dictionary<string, Plastic>();
             Materials = new Dictionary<int, Material>();
             CustomMaterialProps = new Dictionary<Guid, CustomMaterialProp>();
             ApiKeys = new Dictionary<Guid, ApiKey>();
 
             GenerateUsers();
             GenerateLocations();
-            GenerateMaterialTypes();
+            GeneratePlastics();
             GenerateMaterials();
             GenerateCustomMaterialProps();
         }
@@ -85,27 +85,26 @@ namespace OpenMTS.Repositories.Mocking
 
         #endregion
 
-        #region Material types
-
-        private void GenerateMaterialTypes()
+        #region Plastics
+        private void GeneratePlastics()
         {
-            GenerateMaterialType("EP", "Epoxy");
-            GenerateMaterialType("IR", "Polyisoprene");
-            GenerateMaterialType("MN", "Phenol formaldehyde resin");
-            GenerateMaterialType("NR", "Natural rubber");
-            GenerateMaterialType("PA", "Polyamid");
-            GenerateMaterialType("PC", "Polycarbonate");
-            GenerateMaterialType("PE", "Polyethylen");
-            GenerateMaterialType("PP", "Polypropylene");
-            GenerateMaterialType("PUR", "Polyurethane");
-            GenerateMaterialType("PVP", "Polyvinylpyrrolidone");
-            GenerateMaterialType("S", "Spice");
-            GenerateMaterialType("UP", "Unsaturated Polyester");
+            GeneratePlastic("EP", "Epoxy");
+            GeneratePlastic("IR", "Polyisoprene");
+            GeneratePlastic("MN", "Phenol formaldehyde resin");
+            GeneratePlastic("NR", "Natural rubber");
+            GeneratePlastic("PA", "Polyamid");
+            GeneratePlastic("PC", "Polycarbonate");
+            GeneratePlastic("PE", "Polyethylen");
+            GeneratePlastic("PP", "Polypropylene");
+            GeneratePlastic("PUR", "Polyurethane");
+            GeneratePlastic("PVP", "Polyvinylpyrrolidone");
+            GeneratePlastic("S", "Spice");
+            GeneratePlastic("UP", "Unsaturated Polyester");
         }
 
-        private void GenerateMaterialType(string id, string name)
+        private void GeneratePlastic(string id, string name)
         {
-            MaterialTypes.Add(id, new MaterialType()
+            Plastics.Add(id, new Plastic()
             {
                 Id = id,
                 Name = name
@@ -133,7 +132,7 @@ namespace OpenMTS.Repositories.Mocking
                 Name = name,
                 Manufacturer = manufacturer,
                 ManufacturerSpecificId = manufacturerId,
-                Type = MaterialTypes.GetValueOrDefault(type),
+                Type = Plastics.GetValueOrDefault(type),
                 CustomProps = new List<CustomMaterialPropValue>()
             };
             Materials.Add(material.Id, material);

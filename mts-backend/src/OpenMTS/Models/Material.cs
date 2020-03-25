@@ -30,7 +30,7 @@ namespace OpenMTS.Models
         /// <summary>
         /// The type of the material.
         /// </summary>
-        public MaterialType Type { get; set; }
+        public Plastic Type { get; set; }
 
         /// <summary>
         /// Custom material properties.
