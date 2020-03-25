@@ -22,7 +22,9 @@ namespace OpenMTS.Models
                 MATERIAL_CUSTOM_PROPS_SET,
                 MATERIAL_CUSTOM_PROPS_DELETE,
 
-                // TODO: add rights for material types
+                // Plastics
+                PLASTICS_CREATE,
+                PLASTICS_UPDATE,
 
                 // OpenMTS configuration
                 CONFIGFURATION_SET,
@@ -57,7 +59,7 @@ namespace OpenMTS.Models
         public static readonly string MATERIALS_CREATE = "materials.create";
 
         /// <summary>
-        /// The right that allows to update a new material.
+        /// The right that allows to update a material.
         /// </summary>
         public static readonly string MATERIALS_UPDATE = "materials.update";
 
@@ -70,6 +72,20 @@ namespace OpenMTS.Models
         /// The right that allows to delete a custom material prop value.
         /// </summary>
         public static readonly string MATERIAL_CUSTOM_PROPS_DELETE = "materials.custom_props.delete";
+
+        #endregion
+
+        #region Plastics
+
+        /// <summary>
+        /// The right that allows to create a plastic.
+        /// </summary>
+        public static readonly string PLASTICS_CREATE = "plastics.create";
+
+        /// <summary>
+        /// The right that allows to update a plastic.
+        /// </summary>
+        public static readonly string PLASTICS_UPDATE = "plastics.update";
 
         #endregion
 

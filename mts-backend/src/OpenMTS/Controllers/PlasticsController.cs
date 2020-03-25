@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OpenMTS.Authorization;
 using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Models;
@@ -87,7 +88,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="plasticCreationRequest">The request to create a new plastic.</param>
         /// <returns>Returns a `201 Created` response on success.</returns>
-        [HttpPost] // TODO - auth policy
+        [HttpPost, Authorize(Policy = AuthPolicyNames.MAY_CREATE_PLASTIC)]
         public IActionResult CreatePlastic([FromBody] PlasticCreationRequest plasticCreationRequest)
         {
             if (plasticCreationRequest == null ||
@@ -118,7 +119,7 @@ namespace OpenMTS.Controllers
         /// <param name="id">The ID of the plastic to update.</param>
         /// <param name="plasticUpdateRequest">The data to update.</param>
         /// <returns>Returns the updated plastic.</returns>
-        [HttpPatch("{id}")] // TODO - auth policy
+        [HttpPatch("{id}"), Authorize(Policy = AuthPolicyNames.MAY_UPDATE_PLASTIC)]
         public IActionResult UpdatePlastic(string id, [FromBody] PlasticUpdateRequest plasticUpdateRequest)
         {
             if (plasticUpdateRequest == null ||

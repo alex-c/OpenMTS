@@ -110,7 +110,9 @@ namespace OpenMTS
                 options.AddPolicy(AuthPolicyNames.MAY_SET_CUSTOM_MATERIAL_PROP_VALUE, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.MATERIAL_CUSTOM_PROPS_SET)));
                 options.AddPolicy(AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP_VALUE, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.MATERIAL_CUSTOM_PROPS_DELETE)));
 
-                // TODO: add policies for material types (do with 'plastics' renaming)
+                // Plastics
+                options.AddPolicy(AuthPolicyNames.MAY_CREATE_PLASTIC, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.PLASTICS_CREATE)));
+                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_PLASTIC, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.PLASTICS_UPDATE)));
 
                 // Configuration administration
                 options.AddPolicy(AuthPolicyNames.MAY_SET_CONFIGURATION, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CONFIGFURATION_SET)));

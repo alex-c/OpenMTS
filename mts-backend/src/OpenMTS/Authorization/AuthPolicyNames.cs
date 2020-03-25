@@ -29,7 +29,19 @@
 
         #endregion
 
-        // TODO: add policy names for material types
+        #region Plastics
+        
+        /// <summary>
+        /// The policy that authorizes the creation of plastics.
+        /// </summary>
+        public const string MAY_CREATE_PLASTIC = "MayCreatePlastic";
+
+        /// <summary>
+        /// The policy that authorizes the updating of plastics.
+        /// </summary>
+        public const string MAY_UPDATE_PLASTIC = "MayUpdatePlastic";
+
+        #endregion
 
         #region OpenMTS configuration
 
