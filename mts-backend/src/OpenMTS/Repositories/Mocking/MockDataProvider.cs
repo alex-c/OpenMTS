@@ -13,8 +13,8 @@ namespace OpenMTS.Repositories.Mocking
         public Dictionary<Guid, StorageSite> StorageSites { get; }
         public Dictionary<string, MaterialType> MaterialTypes { get; }
         public Dictionary<int, Material> Materials { get; }
-
         public Dictionary<Guid, CustomMaterialProp> CustomMaterialProps { get; }
+        public Dictionary<Guid, ApiKey> ApiKeys { get; }
 
         public MockDataProvider(PasswordHashingService passwordHashingService)
         {
@@ -25,6 +25,7 @@ namespace OpenMTS.Repositories.Mocking
             MaterialTypes = new Dictionary<string, MaterialType>();
             Materials = new Dictionary<int, Material>();
             CustomMaterialProps = new Dictionary<Guid, CustomMaterialProp>();
+            ApiKeys = new Dictionary<Guid, ApiKey>();
 
             GenerateUsers();
             GenerateLocations();
