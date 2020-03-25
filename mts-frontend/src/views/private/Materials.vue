@@ -3,10 +3,10 @@
     <div class="content-section">
       <!-- Header -->
       <div class="content-row">
-        <div class="left content-title">{{$t('general.materials')}}</div>
+        <div class="left content-title">{{ $t('general.materials') }}</div>
         <div class="right">
           <router-link to="/private/materials/create">
-            <el-button icon="el-icon-plus" type="primary" size="mini">{{$t('materials.create')}}</el-button>
+            <el-button icon="el-icon-plus" type="primary" size="mini">{{ $t('materials.create') }}</el-button>
           </router-link>
         </div>
       </div>
@@ -25,45 +25,20 @@
             clearable
             filterable
           >
-            <el-option
-              v-for="manufacturer in manufacturers"
-              :key="manufacturer"
-              :label="manufacturer"
-              :value="manufacturer"
-            ></el-option>
+            <el-option v-for="manufacturer in manufacturers" :key="manufacturer" :label="manufacturer" :value="manufacturer"></el-option>
           </el-select>
         </div>
 
-        <!-- Material Type Filter -->
+        <!-- Plastics Filter -->
         <div style="margin: 0px 8px">
-          <el-select
-            v-model="query.type"
-            :placeholder="$t('materials.type')"
-            :no-data-text="$t('general.noData')"
-            @change="setMaterialType"
-            size="mini"
-            clearable
-            filterable
-          >
-            <el-option
-              v-for="type in materialTypes"
-              :key="type.id"
-              :label="type.id + ' - ' + type.name"
-              :value="type.id"
-            ></el-option>
+          <el-select v-model="query.type" :placeholder="$t('materials.type')" :no-data-text="$t('general.noData')" @change="setPlastic" size="mini" clearable filterable>
+            <el-option v-for="plastic in plastics" :key="plastic.id" :label="plastic.id + ' - ' + plastic.name" :value="plastic.id"></el-option>
           </el-select>
         </div>
 
         <!-- Name Search -->
         <div class="grow">
-          <el-input
-            :placeholder="$t('materials.filter')"
-            prefix-icon="el-icon-search"
-            v-model="search"
-            size="mini"
-            clearable
-            @change="setSearch"
-          ></el-input>
+          <el-input :placeholder="$t('materials.filter')" prefix-icon="el-icon-search" v-model="search" size="mini" clearable @change="setSearch"></el-input>
         </div>
 
         <!-- Reset Filters -->
@@ -114,20 +89,8 @@
           ></el-pagination>
         </div>
         <div class="right">
-          <el-button
-            icon="el-icon-view"
-            type="primary"
-            size="mini"
-            :disabled="selectedMaterial.id === null"
-            @click="viewMaterialDetails"
-          >{{$t('general.details')}}</el-button>
-          <el-button
-            icon="el-icon-edit"
-            type="info"
-            size="mini"
-            :disabled="selectedMaterial.id === null"
-            @click="editMaterial"
-          >{{$t('general.edit')}}</el-button>
+          <el-button icon="el-icon-view" type="primary" size="mini" :disabled="selectedMaterial.id === null" @click="viewMaterialDetails">{{ $t('general.details') }}</el-button>
+          <el-button icon="el-icon-edit" type="info" size="mini" :disabled="selectedMaterial.id === null" @click="editMaterial">{{ $t('general.edit') }}</el-button>
         </div>
       </div>
     </div>
@@ -154,7 +117,7 @@ export default {
       materials: [],
       totalMaterials: 0,
       manufacturers: [],
-      materialTypes: [],
+      plastics: [],
       selectedMaterial: { id: null },
     };
   },
@@ -168,10 +131,10 @@ export default {
         })
         .catch(error => this.handleHttpError(error));
     },
-    getMaterialTypes: function() {
-      Api.getAllMaterialTypes()
+    getPlastics: function() {
+      Api.getAllPlastics()
         .then(response => {
-          this.materialTypes = response.body.data;
+          this.plastics = response.body.data;
         })
         .catch(error => this.handleHttpError(error));
     },
@@ -186,7 +149,7 @@ export default {
       this.query.page = 1;
       this.getMaterials();
     },
-    setMaterialType: function(value) {
+    setPlastic: function(value) {
       this.query.page = 1;
       this.getMaterials();
     },
@@ -223,7 +186,7 @@ export default {
   },
   mounted() {
     this.getManufacturers();
-    this.getMaterialTypes();
+    this.getPlastics();
     this.getMaterials();
   },
 };

@@ -79,8 +79,8 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getAllMaterialTypes: function() {
-    return this.getMaterialTypes(0, 0, '', true);
+  getAllPlastics: function() {
+    return this.getPlastics(0, 0, '', true);
   },
   getPlastics: (page, elementsPerPage, search, getAll = false) => {
     return fetch(`http://localhost:5000/api/plastics?getAll=${getAll}&page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
