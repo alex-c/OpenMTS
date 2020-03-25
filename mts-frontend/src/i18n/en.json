@@ -73,6 +73,20 @@
     },
     "badPassword": "You submitted a bad old password."
   },
+  "inventory": {
+    "batchNumber": "Batch",
+    "expirationDate": "Expiration Date",
+    "quantity": "Quantity",
+    "status": {
+      "label": "Status",
+      "locked": "Locked",
+      "unlocked": "Unlocked"
+    },
+    "create": "Check-in New Batch",
+    "log": "Transaction Log",
+    "timestamp": "Timestamp",
+    "userId": "User ID"
+  },
   "materials": {
     "material": "Material",
     "create": "New Material",

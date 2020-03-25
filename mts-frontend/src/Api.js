@@ -79,6 +79,26 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getBatches: (page, elementsPerPage, materialId, siteId) => {
+    return fetch(`http://localhost:5000/api/inventory?page=${page}&elementsPerPage=${elementsPerPage}&materialId=${materialId}&siteId=${siteId}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getTransactionLog: (page, elementsPerPage, batchId) => {
+    return fetch(`http://localhost:5000/api/inventory/${batchId}/log?page=${page}&elementsPerPage=${elementsPerPage}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   getAllPlastics: function() {
     return this.getPlastics(0, 0, '', true);
   },

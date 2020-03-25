@@ -11,6 +11,7 @@ import Dashboard from '../views/private/Dashboard.vue';
 // Views - Material
 import StorageSites from '../views/private/StorageSites.vue';
 import Inventory from '../views/private/Inventory.vue';
+import TransactionLog from '../views/private/Inventory/TransactionLog.vue';
 import Materials from '../views/private/Materials.vue';
 import CreateMaterial from '../views/private/Materials/CreateMaterial.vue';
 import EditMaterial from '../views/private/Materials/EditMaterial.vue';
@@ -90,6 +91,12 @@ const routes = [
       {
         path: 'inventory',
         component: Inventory,
+      },
+      {
+        path: 'inventory/log',
+        name: 'transactionLog',
+        component: TransactionLog,
+        props: true,
       },
       {
         path: 'materials',

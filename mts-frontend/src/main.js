@@ -29,7 +29,8 @@ const messages = {
 let language = localStorage.getItem('language') || 'en';
 const i18n = new VueI18n({
   locale: language,
-  fallbackLocale: 'en',
+  // TODO: uncomment the next line!
+  //fallbackLocale: 'en',
   messages,
 });
 
