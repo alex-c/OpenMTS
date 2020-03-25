@@ -40,12 +40,17 @@ namespace OpenMTS.Controllers
         /// <summary>
         /// Gets available sites, paginated.
         /// </summary>
+        /// <param name="getAll">Disables pagination - all elements will be returned.</param>
         /// <param name="page">Page to display, starting at 1.</param>
         /// <param name="elementsPerPage">Elements to display per page.</param>
         /// <param name="search">String to filter site names with.</param>
         /// <returns>Returns a paginated list of sites.</returns>
         [HttpGet]
-        public IActionResult GetStorageSites([FromQuery] int page = 1, [FromQuery] int elementsPerPage = 10, [FromQuery] string search = null)
+        public IActionResult GetStorageSites(
+            [FromQuery] bool getAll = false,
+            [FromQuery] int page = 1,
+            [FromQuery] int elementsPerPage = 10,
+            [FromQuery] string search = null)
         {
             try
             {
@@ -58,7 +63,11 @@ namespace OpenMTS.Controllers
                 {
                     sites = LocationsService.SearchStorageSitesByName(search);
                 }
-                IEnumerable<StorageSite> paginatedSites = sites.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
+                IEnumerable<StorageSite> paginatedSites = sites;
+                if (!getAll)
+                {
+                    paginatedSites = sites.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
+                }
                 return Ok(new PaginatedResponse(paginatedSites, sites.Count()));
             }
             catch (Exception exception)
