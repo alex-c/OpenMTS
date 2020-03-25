@@ -149,8 +149,10 @@ namespace OpenMTS
                 {
                     services.AddSingleton<MockDataProvider>();
                 }
-                services.AddSingleton<IPlasticsRepository, MockPlasticsRepository>();
+                services.AddSingleton<IMaterialBatchRepository, MockMaterialBatchRepository>();
+                services.AddSingleton<ITransactionRepository, MockTransactionRepository>();
                 services.AddSingleton<IMaterialsRepository, MockMaterialsRepository>();
+                services.AddSingleton<IPlasticsRepository, MockPlasticsRepository>();
                 services.AddSingleton<IConfigurationRepository, MockConfigurationRepository>();
                 services.AddSingleton<ICustomMaterialPropRepository, MockCustomMaterialPropRepository>();
                 services.AddSingleton<IUserRepository, MockUserRepository>();
@@ -185,8 +187,10 @@ namespace OpenMTS
             // Register services
             services.AddSingleton<AuthService>();
             services.AddSingleton<PasswordHashingService>();
-            services.AddSingleton<PlasticsService>();
+            services.AddSingleton<InventoryService>();
+            services.AddSingleton<TransactionLogService>();
             services.AddSingleton<MaterialsService>();
+            services.AddSingleton<PlasticsService>();
             services.AddSingleton<ConfigurationService>();
             services.AddSingleton<CustomMaterialPropService>();
             services.AddSingleton<UserService>();
