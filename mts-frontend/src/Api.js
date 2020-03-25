@@ -82,8 +82,8 @@ export default {
   getAllMaterialTypes: function() {
     return this.getMaterialTypes(0, 0, '', true);
   },
-  getMaterialTypes: (page, elementsPerPage, search, getAll = false) => {
-    return fetch(`http://localhost:5000/api/material-types?getAll=${getAll}&page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
+  getPlastics: (page, elementsPerPage, search, getAll = false) => {
+    return fetch(`http://localhost:5000/api/plastics?getAll=${getAll}&page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
       method: 'GET',
       withCredentials: true,
       credentials: 'include',
@@ -92,8 +92,8 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  createMaterialType: (id, name) => {
-    return fetch(`http://localhost:5000/api/material-types`, {
+  createPlastic: (id, name) => {
+    return fetch(`http://localhost:5000/api/plastics`, {
       method: 'POST',
       withCredentials: true,
       credentials: 'include',
@@ -103,8 +103,8 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  updateMaterialType: (id, name) => {
-    return fetch(`http://localhost:5000/api/material-types/${id}`, {
+  updatePlastic: (id, name) => {
+    return fetch(`http://localhost:5000/api/plastics/${id}`, {
       method: 'PATCH',
       withCredentials: true,
       credentials: 'include',

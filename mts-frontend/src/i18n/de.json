@@ -18,7 +18,7 @@
     "name": "Name",
     "type": "Typ",
     "material": "Material",
-    "materialTypes": "Materialtypen",
+    "plastics": "Kunststoffe",
     "sites": "Lagerorte",
     "inventory": "Lagerbestand",
     "materials": "Werkstoffe",
@@ -101,14 +101,14 @@
     "noPropsSet": "Keine Eigenschaften gesetzt.",
     "noPropsDefined": "Keine Eigenschaften definiert."
   },
-  "materialTypes": {
-    "create": "Neuer Materialtyp",
-    "edit": "Typ Bearbeiten",
-    "filter": "Materialtypen filtern...",
+  "plastics": {
+    "create": "Neuer Kunststoff",
+    "edit": "Kunststoff Editieren",
+    "filter": "Kunststoffe filtern...",
     "editPrompt": "Geben Sie bitte einen neuen Namen ein:",
     "editInputError": "Bitte geben Sie einen neuen Namen ein.",
-    "created": "Der Materialtyp mit `{id} - {name}` wurde angelegt.",
-    "updated": "Der Materialtyp mit ID `{id}` wurde zu `{name}` umbenannt.",
+    "created": "Der Kunststoff mit `{id} - {name}` wurde angelegt.",
+    "updated": "Der Kunststoff mit ID `{id}` wurde zu `{name}` umbenannt.",
     "validation": {
       "id": "Bitte geben Sie als ID ein Kürzel an (z.B. `PP` für Polypropylen).",
       "name": "Bitte geben Sie einen Namen ein."
