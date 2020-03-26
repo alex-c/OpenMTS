@@ -18,6 +18,7 @@ namespace OpenMTS.Repositories.Mocking
         public Dictionary<Guid, List<Transaction>> BatchTransactions { get; }
         public Dictionary<Guid, MaterialBatch> MaterialBatches { get; }
         public Dictionary<Guid, CustomMaterialProp> CustomMaterialProps { get; }
+        public Dictionary<Guid, CustomBatchProp> CustomBatchProps { get; }
         public Dictionary<string, User> Users { get; }
         public Dictionary<Guid, ApiKey> ApiKeys { get; }
 
@@ -32,6 +33,7 @@ namespace OpenMTS.Repositories.Mocking
             BatchTransactions = new Dictionary<Guid, List<Transaction>>();
             MaterialBatches = new Dictionary<Guid, MaterialBatch>();
             CustomMaterialProps = new Dictionary<Guid, CustomMaterialProp>();
+            CustomBatchProps = new Dictionary<Guid, CustomBatchProp>();
             Users = new Dictionary<string, User>();
             ApiKeys = new Dictionary<Guid, ApiKey>();
 
