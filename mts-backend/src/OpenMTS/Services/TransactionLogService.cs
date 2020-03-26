@@ -3,6 +3,7 @@ using OpenMTS.Models;
 using OpenMTS.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenMTS.Services
 {
@@ -39,7 +40,16 @@ namespace OpenMTS.Services
         /// <returns>Returns the transaction log.</returns>
         public IEnumerable<Transaction> GetTransactionLog(Guid materialBatchId)
         {
-            return TransactionRepository.GetTransactionsForBatch(materialBatchId);
+            return TransactionRepository.GetTransactionsForBatch(materialBatchId).OrderByDescending(t => t.Timestamp);
+        }
+
+        /// <summary>
+        /// Logs a new  transaction.
+        /// </summary>
+        /// <param name="transaction">The transaction to log.</param>
+        public void LogTransaction(Transaction transaction)
+        {
+            TransactionRepository.LogTransaction(transaction);
         }
     }
 }

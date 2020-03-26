@@ -15,7 +15,7 @@ namespace OpenMTS.Repositories.Mocking
         public Dictionary<string, Plastic> Plastics { get; }
         public Dictionary<int, Material> Materials { get; }
         public Dictionary<Guid, StorageSite> StorageSites { get; }
-        public Dictionary<Guid, IEnumerable<Transaction>> BatchTransactions { get; }
+        public Dictionary<Guid, List<Transaction>> BatchTransactions { get; }
         public Dictionary<Guid, MaterialBatch> MaterialBatches { get; }
         public Dictionary<Guid, CustomMaterialProp> CustomMaterialProps { get; }
         public Dictionary<string, User> Users { get; }
@@ -29,7 +29,7 @@ namespace OpenMTS.Repositories.Mocking
             Plastics = new Dictionary<string, Plastic>();
             Materials = new Dictionary<int, Material>();
             StorageSites = new Dictionary<Guid, StorageSite>();
-            BatchTransactions = new Dictionary<Guid, IEnumerable<Transaction>>();
+            BatchTransactions = new Dictionary<Guid, List<Transaction>>();
             MaterialBatches = new Dictionary<Guid, MaterialBatch>();
             CustomMaterialProps = new Dictionary<Guid, CustomMaterialProp>();
             Users = new Dictionary<string, User>();
@@ -105,7 +105,7 @@ namespace OpenMTS.Repositories.Mocking
         {
             GenerateLocation("2f02b4f2-fc8c-455f-b05f-869d6ab9408c", "Pontstr. Keller", new string[] { "Regal links open", "Regal links unten", "Palette rechts", "Palette hinten" });
             GenerateLocation("caf0520c-74b4-43ba-96b8-06635c25e919", "Pontstr. Empore Maschinenhalle", new string[] { "Abstellplatz links", "Abstellplatz rechts" });
-            GenerateLocation("825ff2e8-a057-4434-8279-60a9f4ddbbdf", "Melatten Raum 007", new string[] { "Regal 1", "Regal 2", "Regal 3", "Regal 4" });
+            GenerateLocation("825ff2e8-a057-4434-8279-60a9f4ddbbdf", "Melaten Raum 007", new string[] { "Regal 1", "Regal 2", "Regal 3", "Regal 4" });
         }
 
         private void GenerateLocation(string guid, string name, string[] areas)

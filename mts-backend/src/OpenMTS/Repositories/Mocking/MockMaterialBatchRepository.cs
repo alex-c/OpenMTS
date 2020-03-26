@@ -50,9 +50,9 @@ namespace OpenMTS.Repositories.Mocking
             throw new NotImplementedException();
         }
 
-        public void UpdateMaterialBatch()
+        public void UpdateMaterialBatch(MaterialBatch batch)
         {
-            throw new NotImplementedException();
+            MaterialBatches[batch.Id] = batch;
         }
     }
 }

@@ -6,13 +6,13 @@ namespace OpenMTS.Repositories.Mocking
 {
     public class MockTransactionRepository : ITransactionRepository
     {
-        private Dictionary<Guid, IEnumerable<Transaction>> BatchTransactions { get; }
+        private Dictionary<Guid, List<Transaction>> BatchTransactions { get; }
 
         public MockTransactionRepository(MockDataProvider mockDataProvider = null)
         {
             if (mockDataProvider == null)
             {
-                BatchTransactions = new Dictionary<Guid, IEnumerable<Transaction>>();
+                BatchTransactions = new Dictionary<Guid, List<Transaction>>();
             }
             else
             {
@@ -23,6 +23,18 @@ namespace OpenMTS.Repositories.Mocking
         public IEnumerable<Transaction> GetTransactionsForBatch(Guid materialBatchId)
         {
             return BatchTransactions.GetValueOrDefault(materialBatchId);
+        }
+
+        public void LogTransaction(Transaction transaction)
+        {
+            if (!BatchTransactions.ContainsKey(transaction.MaterialBatchId))
+            {
+                BatchTransactions.Add(transaction.MaterialBatchId, new List<Transaction>() { transaction });
+            }
+            else
+            {
+                BatchTransactions[transaction.MaterialBatchId].Add(transaction);
+            }
         }
     }
 }

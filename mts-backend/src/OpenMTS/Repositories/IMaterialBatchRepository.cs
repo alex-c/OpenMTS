@@ -33,7 +33,10 @@ namespace OpenMTS.Repositories
         // TODO: params and comment
         MaterialBatch CreateMaterialBatch();
 
-        // TODO: params and comment
-        void UpdateMaterialBatch();
+        /// <summary>
+        /// Updates an existing material batch.
+        /// </summary>
+        /// <param name="batch">The batch to update.</param>
+        void UpdateMaterialBatch(MaterialBatch batch);
     }
 }
