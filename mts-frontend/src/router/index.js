@@ -90,7 +90,9 @@ const routes = [
       },
       {
         path: 'inventory',
+        name: 'inventory',
         component: Inventory,
+        props: true,
       },
       {
         path: 'inventory/log',

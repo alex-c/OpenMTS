@@ -74,6 +74,7 @@
     "badPassword": "You submitted a bad old password."
   },
   "inventory": {
+    "view": "view",
     "batchNumber": "Batch",
     "expirationDate": "Expiration Date",
     "quantity": "Quantity",
@@ -83,6 +84,8 @@
       "unlocked": "Unlocked"
     },
     "create": "Check-in New Batch",
+    "checkOut": "Check-out",
+    "checkIn": "Check-in",
     "log": "Transaction Log",
     "timestamp": "Timestamp",
     "userId": "User ID"

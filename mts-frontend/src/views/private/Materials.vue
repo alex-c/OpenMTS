@@ -64,11 +64,11 @@
           <el-table-column prop="name" :label="$t('general.name')"></el-table-column>
           <el-table-column prop="manufacturer" :label="$t('materials.manufacturer')"></el-table-column>
           <el-table-column prop="type" :label="$t('materials.type')" width="60">
-            <template slot-scope="scope">
+            <template slot-scope="material">
               <el-popover trigger="hover" placement="left">
-                {{ scope.row.type.name }}
+                {{ material.row.type.name }}
                 <div slot="reference">
-                  <el-tag type="primary" plain size="mini">{{ scope.row.type.id }}</el-tag>
+                  <el-tag type="primary" plain size="mini">{{ material.row.type.id }}</el-tag>
                 </div>
               </el-popover>
             </template>
@@ -89,8 +89,15 @@
           ></el-pagination>
         </div>
         <div class="right">
-          <el-button icon="el-icon-view" type="primary" size="mini" :disabled="selectedMaterial.id === null" @click="viewMaterialDetails">{{ $t('general.details') }}</el-button>
-          <el-button icon="el-icon-edit" type="info" size="mini" :disabled="selectedMaterial.id === null" @click="editMaterial">{{ $t('general.edit') }}</el-button>
+          <router-link :to="{ name: 'inventory', params: { materialFilter: selectedMaterial.id } }">
+            <el-button icon="el-icon-box" type="success" size="mini" :disabled="selectedMaterial.id === null">{{ $t('general.inventory') }}</el-button>
+          </router-link>
+          <router-link :to="{ name: 'editMaterial', params: { id: selectedMaterial.id } }">
+            <el-button icon="el-icon-edit" type="info" size="mini" :disabled="selectedMaterial.id === null">{{ $t('general.edit') }}</el-button>
+          </router-link>
+          <router-link :to="{ name: 'materialDetails', params: { ...selectedMaterial } }">
+            <el-button icon="el-icon-view" type="primary" size="mini" :disabled="selectedMaterial.id === null">{{ $t('general.details') }}</el-button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -176,12 +183,6 @@ export default {
     changePage: function(page) {
       this.query.page = page;
       this.getMaterials();
-    },
-    editMaterial: function() {
-      this.$router.push({ name: 'editMaterial', params: { id: this.selectedMaterial.id } });
-    },
-    viewMaterialDetails: function() {
-      this.$router.push({ name: 'materialDetails', params: { ...this.selectedMaterial } });
     },
   },
   mounted() {

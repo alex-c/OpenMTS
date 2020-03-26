@@ -56,7 +56,6 @@ export default {
     },
   },
   mounted() {
-    console.log('test');
     this.getTransactionLog();
   },
 };

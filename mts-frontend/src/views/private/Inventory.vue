@@ -86,8 +86,10 @@
           ></el-pagination>
         </div>
         <div class="right">
-          <el-button icon="el-icon-view" type="primary" size="mini" :disabled="selectedBatch.id === null" @click="viewLog">{{ $t('inventory.log') }}</el-button>
+          <!--el-button icon="el-icon-download" type="success" size="mini" :disabled="selectedBatch.id === null" @click="checkIn">{{ $t('inventory.checkIn') }}</el-button>
+          <el-button icon="el-icon-upload2" type="success" size="mini" :disabled="selectedBatch.id === null" @click="checkOut">{{ $t('inventory.checkOut') }}</el-button-->
           <el-button icon="el-icon-edit" type="info" size="mini" :disabled="selectedBatch.id === null" @click="editBatch">{{ $t('general.edit') }}</el-button>
+          <el-button icon="el-icon-view" type="primary" size="mini" :disabled="selectedBatch.id === null" @click="viewLog">{{ $t('inventory.log') }}</el-button>
         </div>
       </div>
     </div>
@@ -101,14 +103,15 @@ import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
 export default {
   name: 'Inventory',
   mixins: [GenericErrorHandlingMixin],
+  props: ['materialFilter', 'storageSiteFilter'],
   data() {
     return {
       search: '',
       query: {
         page: 1,
         elementsPerPage: 10,
-        material: '',
-        storageSite: '',
+        material: this.materialFilter || '',
+        storageSite: this.storageSiteFilter || '',
       },
       batches: [],
       totalBatches: 0,
@@ -183,6 +186,12 @@ export default {
     },
     formatStatus: function(batch) {
       return batch.locked ? this.$t('inventory.status.locked') : this.$t('inventory.status.unlocked');
+    },
+    checkOut: function() {
+      console.log('Check out!');
+    },
+    checkIn: function() {
+      console.log('Check in!');
     },
   },
   mounted() {
