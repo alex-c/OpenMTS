@@ -22,6 +22,7 @@ import CreatePlastic from '../views/private/Plastics/CreatePlastic.vue';
 // Views - Administration
 import Configuration from '../views/private/Configuration.vue';
 import CreateMaterialProp from '../views/private/Configuration/CreateMaterialProp.vue';
+import CreateBatchProp from '../views/private/Configuration/CreateBatchProp.vue';
 import ApiKeys from '../views/private/ApiKeys.vue';
 import EditKey from '../views/private/ApiKeys/EditKey.vue';
 import UserAdministration from '../views/private/UserAdministration.vue';
@@ -138,9 +139,13 @@ const routes = [
         beforeEnter: userIsAdministrator,
       },
       {
-        path: 'config/crate-material-prop',
-        name: 'createMaterialProp',
+        path: 'config/create-material-prop',
         component: CreateMaterialProp,
+        beforeEnter: userIsAdministrator,
+      },
+      {
+        path: 'config/create-batch-prop',
+        component: CreateBatchProp,
         beforeEnter: userIsAdministrator,
       },
       {

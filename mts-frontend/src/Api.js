@@ -325,6 +325,48 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getCustomBatchProps: () => {
+    return fetch(`http://localhost:5000/api/configuration/batch-props`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  createCustomBatchProp: name => {
+    return fetch(`http://localhost:5000/api/configuration/batch-props/`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateCustomBatchProp: (id, name) => {
+    return fetch(`http://localhost:5000/api/configuration/batch-props/${id}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  deleteCustomBatchProp: id => {
+    return fetch(`http://localhost:5000/api/configuration/batch-props/${id}`, {
+      method: 'DELETE',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   getUsers: (page, elementsPerPage, search, showDisabled) => {
     return fetch(`http://localhost:5000/api/users?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&showDisabled=${showDisabled}`, {
       method: 'GET',

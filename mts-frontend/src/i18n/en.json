@@ -98,7 +98,8 @@
     "checkOutSuccessMessage": "You checked out {quantity} kg of material. The transaction ID is: {id}",
     "checkInSuccessMessage": "You checked in {quantity} kg of material.",
     "checkOutFailTitle": "Check-out failed!",
-    "checkOutFailMessage": "Please make sure that you do not attempt to check-out more material than there is in the batch!"
+    "checkOutFailMessage": "Please make sure that you do not attempt to check-out more material than there is in the batch!",
+    "noPropsDefined": "No properties defined."
   },
   "materials": {
     "material": "Material",
@@ -153,18 +154,22 @@
     "guestLoginAllowed": "Guest logins were allowed.",
     "guestLoginDisallowed": "Guest logins were disallowed.",
     "materialProps": "Custom Material Properties",
+    "batchProps": "Custom Batch Properties",
     "createProp": "New Property",
+    "createMaterialProp": "New Material Property",
+    "createBatchProp": "Nea Batch Property",
     "editProp": "Edit Property",
     "editPropPrompt": "Please enter a new property name:",
     "editPropInputError": "Please enter a name.",
     "propUpdated": "Property with ID `{id}` was renamed to `{name}`.",
-    "confirmMaterialPropDeletion": "Are you sure you want to delete the `{name}` ({id}) property? This may lead to data loss.",
-    "materialPropDeleted": "The property `{name}` ({id}) was successfully deleted.",
+    "confirmPropDeletion": "Are you sure you want to delete the `{name}` ({id}) property? This may lead to data loss.",
+    "propDeleted": "The property `{name}` ({id}) was successfully deleted.",
     "validation": {
       "propName": "Please enter a property name.",
       "propType": "Please select a property type."
     },
-    "materialPropCreated": "Successfully created property `{name}` with ID `{id}`."
+    "materialPropCreated": "Successfully created material property `{name}` with ID `{id}`.",
+    "batchPropCreated": "Successfully created batch property `{name}` with ID `{id}`."
   },
   "types": {
     "text": "Text",
