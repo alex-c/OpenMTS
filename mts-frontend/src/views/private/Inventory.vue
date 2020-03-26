@@ -68,6 +68,7 @@
           <el-table-column prop="storageLocation" :label="$t('storage.location')" :formatter="formatLocation"></el-table-column>
           <el-table-column prop="batchNumber" :label="$t('inventory.batchNumber')"></el-table-column>
           <el-table-column prop="expirationDate" :label="$t('inventory.expirationDate')" :formatter="formatDate"></el-table-column>
+          <el-table-column v-for="prop in customProps" v-bind:key="prop.id" :prop="prop.id" :label="prop.name"></el-table-column>
           <el-table-column prop="locked" :label="$t('general.status.label')" :formatter="formatStatus"></el-table-column>
           <el-table-column prop="quantity" :label="$t('inventory.quantity') + ' (kg)'"></el-table-column>
         </el-table>
@@ -113,6 +114,7 @@ export default {
         material: this.materialFilter || '',
         storageSite: this.storageSiteFilter || '',
       },
+      customProps: [],
       batches: [],
       totalBatches: 0,
       materials: [],
@@ -121,12 +123,29 @@ export default {
     };
   },
   methods: {
+    getCustomBatchProps: function(callback) {
+      Api.getCustomBatchProps()
+        .then(result => {
+          this.customProps = result.body;
+          callback();
+        })
+        .catch(this.handleHttpError);
+    },
     getInventory: function() {
       this.resetSelectedBatch();
       Api.getBatches(this.query.page, this.query.elementsPerPage, this.query.material, this.query.storageSite)
         .then(response => {
-          this.batches = response.body.data;
+          this.batches.length = 0;
           this.totalBatches = response.body.totalElements;
+          for (let i = 0; i < response.body.data.length; i++) {
+            const batch = response.body.data[i];
+            for (let j = 0; j < this.customProps.length; j++) {
+              const id = this.customProps[j].id;
+              const name = this.customProps[j].name;
+              batch[id] = batch.customProps[id];
+            }
+            this.batches.push(batch);
+          }
         })
         .catch(this.handleHttpError);
     },
@@ -244,7 +263,9 @@ export default {
   mounted() {
     this.getMaterials();
     this.getStorageSites();
-    this.getInventory();
+    this.getCustomBatchProps(() => {
+      this.getInventory();
+    });
   },
 };
 </script>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace OpenMTS.Models
 {
@@ -41,5 +42,10 @@ namespace OpenMTS.Models
         /// Quantity of material in the batch.
         /// </summary>
         public double Quantity { get; set; }
+
+        /// <summary>
+        /// Values of custom material batch properties.
+        /// </summary>
+        public Dictionary<Guid, string> CustomProps { get; set; }
     }
 }

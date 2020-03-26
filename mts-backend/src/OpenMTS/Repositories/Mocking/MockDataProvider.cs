@@ -40,6 +40,7 @@ namespace OpenMTS.Repositories.Mocking
             GeneratePlastics();
             GenerateMaterials();
             GenerateLocations();
+            GenerateCustomBatchProps();
             GenerateBatches();
             GenerateCustomMaterialProps();
             GenerateUsers();
@@ -128,6 +129,24 @@ namespace OpenMTS.Repositories.Mocking
 
         #endregion
 
+        #region Custom batch props
+
+        void GenerateCustomBatchProps()
+        {
+            GenerateCustomBatchProp(new Guid("512eb3cc-6691-4377-bdcc-3fb7280513f8"), "Verantwortlicher");
+        }
+
+        void GenerateCustomBatchProp(Guid id, string name)
+        {
+            CustomBatchProps.Add(id, new CustomBatchProp()
+            {
+                Id = id,
+                Name = name
+            });
+        }
+
+        #endregion
+
         #region Material batches
 
         private void GenerateBatches()
@@ -148,17 +167,19 @@ namespace OpenMTS.Repositories.Mocking
                 StorageAreaId = melatenRaum07.Areas.First().Id,
                 StorageAreaName = melatenRaum07.Areas.First().Name
             };
-            GenerateBatch(1, loc1, 34);
-            GenerateBatch(1, loc1, 35);
-            GenerateBatch(1, loc2, 36);
-            GenerateBatch(2, loc1, 42);
-            GenerateBatch(3, loc2, 1);
-            GenerateBatch(4, loc2, 203);
-            GenerateBatch(5, loc1, 22);
-            GenerateBatch(5, loc2, 9000);
+            string pat = "Patrick Sapel";
+            string ann = "Anna A. Annamann";
+            GenerateBatch(1, loc1, 34, pat);
+            GenerateBatch(1, loc1, 35, pat);
+            GenerateBatch(1, loc2, 36, ann);
+            GenerateBatch(2, loc1, 42, pat);
+            GenerateBatch(3, loc2, 1, "Obelix");
+            GenerateBatch(4, loc2, 203, "Obelix");
+            GenerateBatch(5, loc1, 22, pat);
+            GenerateBatch(5, loc2, 9000, pat);
         }
 
-        private void GenerateBatch(int materialId, StorageLocation storageLocation, long batchNumber)
+        private void GenerateBatch(int materialId, StorageLocation storageLocation, long batchNumber, string verantwortlicher)
         {
             MaterialBatch batch = new MaterialBatch()
             {
@@ -168,7 +189,11 @@ namespace OpenMTS.Repositories.Mocking
                 BatchNumber = batchNumber,
                 ExpirationDate = DateTime.UtcNow.AddDays(Random.Next(3, 50)),
                 Quantity = Random.Next(35, 500),
-                IsLocked = false
+                IsLocked = false,
+                CustomProps = new Dictionary<Guid, string>()
+                {
+                    { new Guid("512eb3cc-6691-4377-bdcc-3fb7280513f8"), verantwortlicher }
+                }
             };
             MaterialBatches.Add(batch.Id, batch);
             BatchTransactions.Add(batch.Id, new List<Transaction>()
