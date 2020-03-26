@@ -20,6 +20,18 @@
           <el-table-column prop="userId" :label="$t('inventory.userId')"></el-table-column>
         </el-table>
       </div>
+
+      <!-- Pagination -->
+      <div class="content-row">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="totalTransactions"
+          :page-size="query.elementsPerPage"
+          :current-page.sync="query.page"
+          @current-change="changePage"
+        ></el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -36,7 +48,7 @@ export default {
     return {
       query: {
         page: 1,
-        elementsPerPage: 25,
+        elementsPerPage: 10,
       },
       transactions: [],
       totalTransactions: 0,
@@ -50,6 +62,10 @@ export default {
           this.totalTransactions = result.body.totalElements;
         })
         .catch(this.handleHttpError);
+    },
+    changePage: function(page) {
+      this.query.page = page;
+      this.getTransactionLog();
     },
     formatTimestamp: function(transaction) {
       return new Date(transaction.timestamp).toLocaleString(this.$i18n.locale, { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });

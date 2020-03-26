@@ -86,8 +86,8 @@
           ></el-pagination>
         </div>
         <div class="right">
-          <!--el-button icon="el-icon-download" type="success" size="mini" :disabled="selectedBatch.id === null" @click="checkIn">{{ $t('inventory.checkIn') }}</el-button>
-          <el-button icon="el-icon-upload2" type="success" size="mini" :disabled="selectedBatch.id === null" @click="checkOut">{{ $t('inventory.checkOut') }}</el-button-->
+          <el-button icon="el-icon-download" type="success" size="mini" :disabled="selectedBatch.id === null" @click="checkIn">{{ $t('inventory.checkIn') }}</el-button>
+          <el-button icon="el-icon-upload2" type="success" size="mini" :disabled="selectedBatch.id === null" @click="checkOut">{{ $t('inventory.checkOut') }}</el-button>
           <el-button icon="el-icon-edit" type="info" size="mini" :disabled="selectedBatch.id === null" @click="editBatch">{{ $t('general.edit') }}</el-button>
           <el-button icon="el-icon-view" type="primary" size="mini" :disabled="selectedBatch.id === null" @click="viewLog">{{ $t('inventory.log') }}</el-button>
         </div>
@@ -188,10 +188,57 @@ export default {
       return batch.locked ? this.$t('inventory.status.locked') : this.$t('inventory.status.unlocked');
     },
     checkOut: function() {
-      console.log('Check out!');
+      this.$prompt(this.$t('inventory.checkOutPrompt'), this.$t('inventory.checkOut'), {
+        confirmButtonText: this.$t('inventory.checkOut'),
+        cancelButtonText: this.$t('general.cancel'),
+        inputPattern: /^[0-9]+(\.[0-9]+)?$/,
+        inputErrorMessage: this.$t('inventory.transactionInputError'),
+      })
+        .then(({ value }) => {
+          Api.checkOut(this.selectedBatch.id, value)
+            .then(result => {
+              this.$alert(this.$t('inventory.checkOutSuccessMessage', { quantity: value, id: result.body.id }), this.$t('inventory.checkOutSuccessTitle'), {
+                confirmButtonText: this.$t('general.ok'),
+                showClose: false,
+                type: 'success',
+              }).then(() => {
+                this.getInventory();
+              });
+            })
+            .catch(error => {
+              if (error.status === 400) {
+                this.$alert(this.$t('inventory.checkOutFailMessage'), this.$t('inventory.checkOutFailTitle'), {
+                  confirmButtonText: this.$t('general.ok'),
+                  type: 'error',
+                });
+              } else {
+                this.handleHttpError(error);
+              }
+            });
+        })
+        .catch(() => {});
     },
     checkIn: function() {
-      console.log('Check in!');
+      this.$prompt(this.$t('inventory.checkInPrompt'), this.$t('inventory.checkIn'), {
+        confirmButtonText: this.$t('inventory.checkIn'),
+        cancelButtonText: this.$t('general.cancel'),
+        inputPattern: /^[0-9]+(\.[0-9]+)?$/,
+        inputErrorMessage: this.$t('inventory.transactionInputError'),
+      })
+        .then(({ value }) => {
+          Api.checkIn(this.selectedBatch.id, value)
+            .then(result => {
+              this.$alert(this.$t('inventory.checkInSuccessMessage', { quantity: value }), this.$t('inventory.checkInSuccessTitle'), {
+                confirmButtonText: this.$t('general.ok'),
+                showClose: false,
+                type: 'success',
+              }).then(() => {
+                this.getInventory();
+              });
+            })
+            .catch(this.handleHttpError);
+        })
+        .catch(() => {});
     },
   },
   mounted() {

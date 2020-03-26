@@ -11,6 +11,7 @@
     "edit": "Edit",
     "save": "Save",
     "delete": "Delete",
+    "ok": "Ok",
     "cancel": "Cancel",
     "repeat": "Repeat",
     "details": "Details",
@@ -88,7 +89,16 @@
     "checkIn": "Check-in",
     "log": "Transaction Log",
     "timestamp": "Timestamp",
-    "userId": "User ID"
+    "userId": "User ID",
+    "checkOutPrompt": "Please enter a quantity of material to check-out:",
+    "checkInPrompt": "Please enter a quantity of material to check-in:",
+    "transactionInputError": "Please enter a valid ingeger or floating-point number.",
+    "checkOutSuccessTitle": "Check-out successful!",
+    "checkInSuccessTitle": "Check-in successful!",
+    "checkOutSuccessMessage": "You checked out {quantity} kg of material. The transaction ID is: {id}",
+    "checkInSuccessMessage": "You checked in {quantity} kg of material.",
+    "checkOutFailTitle": "Check-out failed!",
+    "checkOutFailMessage": "Please make sure that you do not attempt to check-out more material than there is in the batch!"
   },
   "materials": {
     "material": "Material",

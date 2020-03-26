@@ -99,6 +99,24 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  checkOut: function(batchId, quantity) {
+    return this.performMaterialTransaction(batchId, quantity, true);
+  },
+  checkIn: function(batchId, quantity) {
+    return this.performMaterialTransaction(batchId, quantity, false);
+  },
+  performMaterialTransaction: (batchId, quantity, isCheckout) => {
+    console.log(quantity);
+    return fetch(`http://localhost:5000/api/inventory/${batchId}/log`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ quantity, isCheckout }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   getAllPlastics: function() {
     return this.getPlastics(0, 0, '', true);
   },
