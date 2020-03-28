@@ -85,6 +85,7 @@
       "unlocked": "Unlocked"
     },
     "create": "Check-in New Batch",
+    "edit": "Edit Batch `{id}`",
     "checkOut": "Check-out",
     "checkIn": "Check-in",
     "log": "Transaction Log",
