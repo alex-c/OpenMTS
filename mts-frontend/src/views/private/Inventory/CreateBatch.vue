@@ -12,18 +12,18 @@
       </div>
 
       <!-- Create batch form -->
-      <el-form :model="createBatchForm" :rules="validationRules" ref="createBatchForm" label-position="left" label-width="140px" size="mini">
+      <el-form :model="createBatchForm" :rules="validationRules" ref="createBatchForm" label-position="left" label-width="180px" size="mini">
         <div class="content-row">
           <!-- Material -->
           <el-form-item prop="material" :label="$t('general.material')">
-            <el-select v-model="createBatchForm.material" :placeholder="$t('general.material')" :no-data-text="$t('general.noData')" size="mini" filterable>
+            <el-select v-model="createBatchForm.material" :placeholder="$t('general.material')" :no-data-text="$t('general.noData')" size="mini" filterable style="width: 300px;">
               <el-option v-for="material in materials" :key="material.id" :label="`${material.id} - ${material.name}`" :value="material.id"></el-option>
             </el-select>
           </el-form-item>
 
           <!-- Expiration date -->
           <el-form-item prop="expirationDate" :label="$t('inventory.expirationDate')">
-            <el-date-picker v-model="createBatchForm.expirationDate" type="date" :placeholder="$t('inventory.expirationDate')" />
+            <el-date-picker v-model="createBatchForm.expirationDate" type="date" :placeholder="$t('inventory.expirationDate')" style="width: 300px;" />
           </el-form-item>
 
           <!-- Storage site & area -->
@@ -35,6 +35,7 @@
               size="mini"
               filterable
               @change="selectStorageSite"
+              style="width: 300px;"
             >
               <el-option v-for="storageSite in storageSites" :key="storageSite.id" :label="storageSite.name" :value="storageSite.id"></el-option>
             </el-select>
@@ -45,10 +46,25 @@
               size="mini"
               filterable
               :disabled="selectedStorageSite.id === null"
-              style="margin-left: 16px;"
+              style="width: 300px; margin-left: 16px;"
             >
               <el-option v-for="storageArea in selectedStorageSite.areas" :key="storageArea.id" :label="storageArea.name" :value="storageArea.id"></el-option>
             </el-select>
+          </el-form-item>
+
+          <!-- Batch number -->
+          <el-form-item prop="batchNumber" :label="$t('inventory.batchNumber')">
+            <el-input-number v-model="createBatchForm.batchNumber" size="mini" style="width: 300px;" />
+          </el-form-item>
+
+          <!-- Quantity -->
+          <el-form-item prop="quantity" :label="$t('inventory.quantity')">
+            <el-input-number v-model="createBatchForm.quantity" :precision="3" :step="25" size="mini" style="width: 300px;" />
+          </el-form-item>
+
+          <!-- Custom props -->
+          <el-form-item v-for="prop in customProps" :key="prop.id" :prop="prop.id" :label="prop.name">
+            <el-input :placeholder="prop.name" v-model="createBatchForm[prop.id]"></el-input>
           </el-form-item>
         </div>
 
@@ -76,9 +92,10 @@ export default {
         expirationDate: '',
         storageSite: '',
         storageArea: '',
-        batchNumber: '',
-        quantity: '',
+        batchNumber: 0,
+        quantity: 0,
       },
+      customProps: [],
       materials: [],
       storageSites: [],
       selectedStorageSite: { id: null, areas: [] },
@@ -86,15 +103,33 @@ export default {
   },
   computed: {
     validationRules() {
-      return {
-        name: { required: true, message: this.$t('materials.validation.name'), trigger: 'blur' },
+      let rules = {
         material: { required: true, message: this.$t('inventory.validation.material'), trigger: ['change', 'blur'] },
-        expirationDate: { required: true, message: this.$t('inventory.validation.expirationDate'), trigger: ['change', 'blur'] },
+        expirationDate: [
+          { required: true, message: this.$t('inventory.validation.expirationDate'), trigger: ['change', 'blur'] },
+          { validator: this.validateExpirationDate, trigger: ['change', 'blur'] },
+        ],
         storageArea: { required: true, message: this.$t('inventory.validation.location'), trigger: ['change', 'blur'] },
+        batchNumber: { required: true, validator: this.validatePositiveNumber, trigger: 'blur' },
+        quantity: { required: true, validator: this.validatePositiveNumber, trigger: 'blur' },
       };
+      for (let prop of this.customProps) {
+        rules[prop.id] = { required: true, message: this.$t('inventory.validation.customProp'), trigger: 'blur' };
+      }
+      return rules;
     },
   },
   methods: {
+    getCustomBatchProps: function() {
+      Api.getCustomBatchProps()
+        .then(result => {
+          for (let prop of this.customProps) {
+            this.createBatchForm[prop.id] = '';
+          }
+          this.customProps = result.body;
+        })
+        .catch(this.handleHttpError);
+    },
     getMaterials: function() {
       Api.getAllMaterials()
         .then(response => {
@@ -115,11 +150,34 @@ export default {
     },
     createBatch: function() {
       this.$refs['createBatchForm'].validate();
+      // TODO
+    },
+    validatePositiveNumber: function(_, value, callback) {
+      if (value <= 0) {
+        callback(new Error(this.$t('inventory.validation.number')));
+      } else {
+        callback();
+      }
+    },
+    validateExpirationDate: function(_, value, callback) {
+      if (value <= new Date().setHours(0, 0, 0, 0)) {
+        callback(new Error(this.$t('inventory.validation.expirationDateFuture')));
+      } else {
+        callback();
+      }
     },
   },
   mounted() {
+    this.getCustomBatchProps();
     this.getMaterials();
     this.getStorageSites();
   },
 };
 </script>
+
+<style lang="scss" scoped>
+#view-create-batch {
+  width: 800px;
+  margin: auto;
+}
+</style>
