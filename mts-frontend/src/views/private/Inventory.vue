@@ -46,7 +46,7 @@
         </div>
 
         <!-- Reset Filters -->
-        <div style="margin-left: 8px;">
+        <div>
           <el-button icon="el-icon-close" size="mini" plain @click="resetFilters" />
         </div>
       </div>

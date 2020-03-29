@@ -11,7 +11,9 @@ import 'element-ui/lib/theme-chalk/reset.css';
 import './theme/element-theme.scss';
 import enLocale from 'element-ui/lib/locale/lang/en';
 import deLocale from 'element-ui/lib/locale/lang/de';
-Vue.use(ElementUI);
+Vue.use(ElementUI, {
+  i18n: (key, value) => i18n.t(key, value),
+});
 
 // Internationalization
 import VueI18n from 'vue-i18n';
