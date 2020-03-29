@@ -85,6 +85,7 @@
       "unlocked": "Unlocked"
     },
     "create": "Check-in New Batch",
+    "created": "The new batch has successfully been created with ID `{id}`.",
     "edit": "Edit Batch `{id}`",
     "checkOut": "Check-out",
     "checkIn": "Check-in",
@@ -100,7 +101,15 @@
     "checkInSuccessMessage": "You checked in {quantity} kg of material.",
     "checkOutFailTitle": "Check-out failed!",
     "checkOutFailMessage": "Please make sure that you do not attempt to check-out more material than there is in the batch!",
-    "noPropsDefined": "No properties defined."
+    "noPropsDefined": "No properties defined.",
+    "validation": {
+      "material": "Please select a material.",
+      "expirationDate": "Please set an expiration date.",
+      "expirationDateFuture": "Please select a date in the future.",
+      "location": "Please select a storage site and area.",
+      "number": "Please enter a positive number.",
+      "customProp": "Please enter a value."
+    }
   },
   "materials": {
     "material": "Material",

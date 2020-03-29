@@ -58,7 +58,7 @@
           </el-form-item>
 
           <!-- Quantity -->
-          <el-form-item prop="quantity" :label="$t('inventory.quantity')">
+          <el-form-item prop="quantity" :label="$t('inventory.quantity') + ' (kg)'">
             <el-input-number v-model="createBatchForm.quantity" :precision="3" :step="25" size="mini" style="width: 300px;" />
           </el-form-item>
 
@@ -149,8 +149,27 @@ export default {
       this.createBatchForm.storageArea = '';
     },
     createBatch: function() {
-      this.$refs['createBatchForm'].validate();
-      // TODO
+      this.$refs['createBatchForm'].validate(valid => {
+        if (valid) {
+          let customProps = {};
+          for (let prop of this.customProps) {
+            customProps[prop.id] = this.createBatchForm[prop.id];
+          }
+          Api.createBatch(
+            this.createBatchForm.material,
+            this.createBatchForm.expirationDate,
+            this.createBatchForm.storageSite,
+            this.createBatchForm.storageArea,
+            this.createBatchForm.batchNumber,
+            this.createBatchForm.quantity,
+            customProps,
+          )
+            .then(response => {
+              this.$router.push({ name: 'inventory', params: { successMessage: this.$t('inventory.created', response.body) } });
+            })
+            .catch(this.handleHttpError);
+        }
+      });
     },
     validatePositiveNumber: function(_, value, callback) {
       if (value <= 0) {

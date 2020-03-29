@@ -89,6 +89,17 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  createBatch: (materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, quantity, customProps) => {
+    return fetch(`http://localhost:5000/api/inventory`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, quantity, customProps }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   getTransactionLog: (page, elementsPerPage, batchId) => {
     return fetch(`http://localhost:5000/api/inventory/${batchId}/log?page=${page}&elementsPerPage=${elementsPerPage}`, {
       method: 'GET',

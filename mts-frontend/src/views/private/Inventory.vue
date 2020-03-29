@@ -1,5 +1,6 @@
 <template>
   <div id="inventory">
+    <Alert type="success" :description="successMessage" :show="successMessage !== undefined" />
     <div class="content-section">
       <!-- Header -->
       <div class="content-row">
@@ -102,11 +103,13 @@
 <script>
 import Api from '../../Api.js';
 import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
+import Alert from '@/components/Alert.vue';
 
 export default {
   name: 'Inventory',
   mixins: [GenericErrorHandlingMixin],
-  props: ['materialFilter', 'storageSiteFilter'],
+  components: { Alert },
+  props: ['materialFilter', 'storageSiteFilter', 'successMessage'],
   data() {
     return {
       search: '',
