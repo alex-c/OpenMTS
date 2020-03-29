@@ -60,6 +60,45 @@ namespace OpenMTS.Services
         }
 
         /// <summary>
+        /// Creates a new material batch.
+        /// </summary>
+        /// <param name="material">The material the batch is composed of..</param>
+        /// <param name="expirationDate">The expiration date of the material.</param>
+        /// <param name="storageLocation">The storage location of the material.</param>
+        /// <param name="batchNumber">The manufacturer provided batch number.</param>
+        /// <param name="quantity">The quantity of the batch.</param>
+        /// <param name="customProps">The custom prop values fot this batch.</param>
+        /// <param name="userId">The ID of the user checking in the new batch..</param>
+        /// <returns>Returns the newly created batch.</returns>
+        public MaterialBatch CreateMaterialBatch(Material material,
+            DateTime expirationDate,
+            StorageLocation storageLocation,
+            long batchNumber,
+            double quantity,
+            Dictionary<Guid, string> customProps,
+            string userId)
+        {
+            // Create batch
+            MaterialBatch batch = MaterialBatchRepository.CreateMaterialBatch(material, expirationDate, storageLocation, batchNumber, quantity, customProps);
+
+            // Log transaction
+            Transaction transaction = new Transaction()
+            {
+                Id = Guid.NewGuid(),
+                MaterialBatchId = batch.Id,
+                Quantity = batch.Quantity,
+                Timestamp = DateTime.UtcNow,
+                UserId = userId
+            };
+            TransactionLogService.LogTransaction(transaction);
+
+            // Done - return newly create batch!
+            return batch;
+        }
+
+        #region Transactions & log
+
+        /// <summary>
         /// Gets the full transaction log of a material batch.
         /// </summary>
         /// <param name="batchId">The ID of the batch to get the log for..</param>
@@ -110,6 +149,8 @@ namespace OpenMTS.Services
             // Done - return transaction!
             return transaction;
         }
+
+        #endregion
 
         #region Private Helpers
 

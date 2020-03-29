@@ -45,9 +45,26 @@ namespace OpenMTS.Repositories.Mocking
             return MaterialBatches.GetValueOrDefault(id);
         }
 
-        public MaterialBatch CreateMaterialBatch()
+        public MaterialBatch CreateMaterialBatch(Material material,
+            DateTime expirationDate,
+            StorageLocation storageLocation,
+            long batchNumber,
+            double quantity,
+            Dictionary<Guid, string> customProps)
         {
-            throw new NotImplementedException();
+            MaterialBatch batch = new MaterialBatch()
+            {
+                Id = Guid.NewGuid(),
+                Material = material,
+                ExpirationDate = expirationDate,
+                StorageLocation = storageLocation,
+                BatchNumber = batchNumber,
+                Quantity = quantity,
+                CustomProps = customProps,
+                IsLocked = false
+            };
+            MaterialBatches.Add(batch.Id, batch);
+            return batch;
         }
 
         public void UpdateMaterialBatch(MaterialBatch batch)

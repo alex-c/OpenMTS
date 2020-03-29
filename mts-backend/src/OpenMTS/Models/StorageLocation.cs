@@ -26,5 +26,23 @@ namespace OpenMTS.Models
         /// Name of the storage area.
         /// </summary>
         public string StorageAreaName { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StorageLocation"/> class.
+        /// </summary>
+        public StorageLocation() { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StorageLocation"/> class.
+        /// </summary>
+        /// <param name="site">The storage site.</param>
+        /// <param name="area">The storage area.</param>
+        public StorageLocation(StorageSite site, StorageArea area)
+        {
+            StorageSiteId = site.Id;
+            StorageAreaId = area.Id;
+            StorageSiteName = site.Name;
+            StorageAreaName = area.Name;
+        }
     }
 }

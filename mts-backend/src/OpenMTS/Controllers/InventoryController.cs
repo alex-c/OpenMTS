@@ -25,14 +25,31 @@ namespace OpenMTS.Controllers
         private InventoryService InventoryService { get; }
 
         /// <summary>
+        /// A service providing material data.
+        /// </summary>
+        private MaterialsService MaterialsService { get; }
+
+        /// <summary>
+        /// A service providing locations data.
+        /// </summary>
+        private LocationsService LocationsService { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="InventoryController"/> class.
         /// </summary>
         /// <param name="loggerFactory">A factory to create loggers from.</param>
         /// <param name="inventoryService">The service providing inventory functionality.</param>
-        public InventoryController(ILoggerFactory loggerFactory, InventoryService inventoryService)
+        /// <param name="materialsService">A service providing material data.</param>
+        /// <param name="locationsService">A service providing locations data.</param>
+        public InventoryController(ILoggerFactory loggerFactory,
+            InventoryService inventoryService,
+            MaterialsService materialsService,
+            LocationsService locationsService)
         {
             Logger = loggerFactory.CreateLogger<InventoryController>();
             InventoryService = inventoryService;
+            MaterialsService = materialsService;
+            LocationsService = locationsService;
         }
 
         /// <summary>
@@ -85,7 +102,114 @@ namespace OpenMTS.Controllers
             }
         }
 
-        #region Transaction log
+        /// <summary>
+        /// Creates a new material batch.
+        /// </summary>
+        /// <param name="batchCreationRequest">The batch creation request.</param>
+        /// <returns>Returns the newly created batch.</returns>
+        [HttpPost] // TODO: auth policy
+        public IActionResult CreateMaterialBatch([FromBody] BatchCreationRequest batchCreationRequest)
+        {
+            if (batchCreationRequest == null ||
+                batchCreationRequest.ExpirationDate == null ||
+                batchCreationRequest.StorageSiteId == null ||
+                batchCreationRequest.StorageAreaId == null ||
+                batchCreationRequest.CustomProps == null)
+            {
+                return HandleBadRequest("Batch data missing for batch creation.");
+            }
+
+            // Validate expiration date
+            if (batchCreationRequest.ExpirationDate.Date <= DateTime.UtcNow.Date)
+            {
+                return HandleBadRequest("A batch expiration date must be in the future.");
+            }
+
+            // Validate batch number and quantity
+            if (batchCreationRequest.BatchNumber <= 0 || batchCreationRequest.Quantity <= 0)
+            {
+                return HandleBadRequest("The batch number and quantity need to be greater than 0!");
+            }
+
+            try
+            {
+                string userId = GetSubject();
+
+                // Get material
+                Material material = MaterialsService.GetMaterial(batchCreationRequest.MaterialId);
+
+                // Get storage location
+                StorageSite site = LocationsService.GetStorageSite(batchCreationRequest.StorageSiteId);
+                StorageArea area = site.Areas.FirstOrDefault(a => a.Id == batchCreationRequest.StorageAreaId);
+                if (area == null)
+                {
+                    throw new StorageAreaNotFoundException(site.Id, batchCreationRequest.StorageAreaId);
+                }
+                StorageLocation storageLocation = new StorageLocation(site, area);
+
+                // Proceed with creation and return new batch!
+                MaterialBatch batch = InventoryService.CreateMaterialBatch(material,
+                    batchCreationRequest.ExpirationDate,
+                    storageLocation,
+                    batchCreationRequest.BatchNumber,
+                    batchCreationRequest.Quantity,
+                    batchCreationRequest.CustomProps,
+                    userId);
+                return Created(GetNewResourceUri(batch), batch);
+            }
+            catch (MaterialNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (StorageSiteNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (StorageAreaNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        #region Transactions & log
+
+        /// <summary>
+        /// Gets the paginated transaction log for a specific material batch.
+        /// </summary>
+        /// <param name="batchId">The ID of the batch.</param>
+        /// <param name="getAll">Disables pagination if <c>true</c>.</param>
+        /// <param name="page">The page to display.</param>
+        /// <param name="elementsPerPage">The number of elements to display per page.</param>
+        /// <returns></returns>
+        [HttpGet("{batchId}/log")]
+        public IActionResult GetMaterialBatchTransactionLog(Guid batchId,
+            [FromQuery] bool getAll = false,
+            [FromQuery] int page = 0,
+            [FromQuery] int elementsPerPage = 50)
+        {
+            try
+            {
+                IEnumerable<Transaction> transactions = InventoryService.GetMaterialBatchTransactionLog(batchId);
+                IEnumerable<Transaction> paginatedTransactions = transactions;
+                if (!getAll)
+                {
+                    paginatedTransactions = transactions.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
+                }
+                return Ok(new PaginatedResponse(paginatedTransactions, transactions.Count()));
+            }
+            catch (MaterialBatchNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
 
         /// <summary>
         /// Performs a material transaction: checking material in or out of storage.
@@ -122,40 +246,6 @@ namespace OpenMTS.Controllers
             catch (ArgumentException exception)
             {
                 return HandleBadRequest(exception.Message);
-            }
-            catch (Exception exception)
-            {
-                return HandleUnexpectedException(exception);
-            }
-        }
-
-        /// <summary>
-        /// Gets the paginated transaction log for a specific material batch.
-        /// </summary>
-        /// <param name="batchId">The ID of the batch.</param>
-        /// <param name="getAll">Disables pagination if <c>true</c>.</param>
-        /// <param name="page">The page to display.</param>
-        /// <param name="elementsPerPage">The number of elements to display per page.</param>
-        /// <returns></returns>
-        [HttpGet("{batchId}/log")]
-        public IActionResult GetMaterialBatchTransactionLog(Guid batchId,
-            [FromQuery] bool getAll = false,
-            [FromQuery] int page = 0,
-            [FromQuery] int elementsPerPage = 50)
-        {
-            try
-            {
-                IEnumerable<Transaction> transactions = InventoryService.GetMaterialBatchTransactionLog(batchId);
-                IEnumerable<Transaction> paginatedTransactions = transactions;
-                if (!getAll)
-                {
-                    paginatedTransactions = transactions.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
-                }
-                return Ok(new PaginatedResponse(paginatedTransactions, transactions.Count()));
-            }
-            catch (MaterialBatchNotFoundException exception)
-            {
-                return HandleResourceNotFoundException(exception);
             }
             catch (Exception exception)
             {

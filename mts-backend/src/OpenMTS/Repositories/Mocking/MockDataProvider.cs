@@ -153,20 +153,8 @@ namespace OpenMTS.Repositories.Mocking
         {
             StorageSite pontStrKeller = StorageSites[new Guid("2f02b4f2-fc8c-455f-b05f-869d6ab9408c")];
             StorageSite melatenRaum07 = StorageSites[new Guid("825ff2e8-a057-4434-8279-60a9f4ddbbdf")];
-            StorageLocation loc1 = new StorageLocation()
-            {
-                StorageSiteId = pontStrKeller.Id,
-                StorageSiteName = pontStrKeller.Name,
-                StorageAreaId = pontStrKeller.Areas.First().Id,
-                StorageAreaName = pontStrKeller.Areas.First().Name
-            };
-            StorageLocation loc2 = new StorageLocation()
-            {
-                StorageSiteId = melatenRaum07.Id,
-                StorageSiteName = melatenRaum07.Name,
-                StorageAreaId = melatenRaum07.Areas.First().Id,
-                StorageAreaName = melatenRaum07.Areas.First().Name
-            };
+            StorageLocation loc1 = new StorageLocation(pontStrKeller, pontStrKeller.Areas.First());
+            StorageLocation loc2 = new StorageLocation(melatenRaum07, melatenRaum07.Areas.First());
             string pat = "Patrick Sapel";
             string ann = "Anna A. Annamann";
             GenerateBatch(1, loc1, 34, pat);
