@@ -30,7 +30,7 @@ namespace OpenMTS.Controllers
         }
 
         /// <summary>
-        /// Get's the request subject's ID as pasrsed from the JWT, which is the user ID for users.
+        /// Get's the request subject's ID as parsed from the JWT, which is the user ID for users.
         /// </summary>
         /// <returns>Returns the subject's ID.</returns>
         /// <exception cref="Exception">Thrown if no valid subject ID was found.</exception>
@@ -42,6 +42,21 @@ namespace OpenMTS.Controllers
                 throw new Exception("No subject available.");
             }
             return subject.Value;
+        }
+
+        /// <summary>
+        /// Get's the request subject's role as parsed from the JWT, which is the user role for users.
+        /// </summary>
+        /// <returns>Returns the subject's role.</returns>
+        /// <exception cref="Exception">Thrown if no valid subject role was found.</exception>
+        protected Role GetRole()
+        {
+            Claim role = User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault();
+            if (role == null)
+            {
+                throw new Exception("No role available.");
+            }
+            return (Role)int.Parse(role.Value);
         }
 
         #region Error Handling

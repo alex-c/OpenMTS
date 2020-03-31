@@ -117,7 +117,8 @@
     "unlock": "Unlock Batch",
     "updateStatusConfirmTitle": "Please Confirm",
     "lockConfirm": "Are you sure you want to lock this batch? Material cannot be checked in or out of a locked batch.",
-    "unlockConfirm": "Are you sure you want to unlock this batch? Users will be able to check material in or out of this batch."
+    "unlockConfirm": "Are you sure you want to unlock this batch? Users will be able to check material in or out of this batch.",
+    "lockBatchWarning": "Please note that material cannot be checked in or out of a locked batch. Only administrators or scientific assistants can unlock a batch."
   },
   "materials": {
     "material": "Material",

@@ -39,14 +39,15 @@ namespace OpenMTS.Repositories
         /// <param name="batchNumber">The manufacturer provided batch number.</param>
         /// <param name="quantity">The quantity of the batch.</param>
         /// <param name="customProps">The custom prop values fot this batch.</param>
-        /// <param name="userId">The ID of the user checking in the new batch..</param>
+        /// <param name="isLocked">Whether the batch is locked.</param>
         /// <returns>Returns the newly created batch.</returns>
         MaterialBatch CreateMaterialBatch(Material material,
             DateTime expirationDate,
             StorageLocation storageLocation,
             long batchNumber,
             double quantity,
-            Dictionary<Guid, string> customProps);
+            Dictionary<Guid, string> customProps,
+            bool isLocked);
 
         /// <summary>
         /// Updates an existing material batch.

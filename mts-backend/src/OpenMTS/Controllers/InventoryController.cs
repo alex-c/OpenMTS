@@ -131,6 +131,17 @@ namespace OpenMTS.Controllers
                 return HandleBadRequest("The batch number and quantity need to be greater than 0!");
             }
 
+            // Batch locking on creation validation
+            bool lockBatch = batchCreationRequest.IsLocked;
+            if (lockBatch)
+            {
+                Role role = GetRole();
+                if (role != Role.Administrator && role != Role.ScientificAssistant)
+                {
+                    return Forbid();
+                }
+            }
+
             try
             {
                 string userId = GetSubject();
@@ -154,6 +165,7 @@ namespace OpenMTS.Controllers
                     batchCreationRequest.BatchNumber,
                     batchCreationRequest.Quantity,
                     batchCreationRequest.CustomProps,
+                    lockBatch,
                     userId);
                 return Created(GetNewResourceUri(batch), batch);
             }

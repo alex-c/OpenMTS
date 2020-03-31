@@ -70,10 +70,15 @@
 
         <!-- Save button -->
         <div class="content-row-nopad">
+          <div class="left" v-if="userMayLockBatches">
+            {{ $t('inventory.lock') }}:
+            <el-switch v-model="lockNewBatch" />
+          </div>
           <div class="right">
             <el-button type="primary" size="mini" icon="el-icon-check" @click="createBatch">{{ $t('general.save') }}</el-button>
           </div>
         </div>
+        <Alert type="warning" :description="$t('inventory.lockBatchWarning')" :show="true" :dark="true" v-if="userMayLockBatches && lockNewBatch" />
       </el-form>
     </div>
   </div>
@@ -82,10 +87,12 @@
 <script>
 import Api from '../../../Api.js';
 import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
+import Alert from '@/components/Alert.vue';
 
 export default {
   name: 'CreateBatch',
   mixins: [GenericErrorHandlingMixin],
+  components: { Alert },
   data() {
     return {
       createBatchForm: {
@@ -100,6 +107,7 @@ export default {
       materials: [],
       storageSites: [],
       selectedStorageSite: { id: null, areas: [] },
+      lockNewBatch: false,
     };
   },
   computed: {
@@ -118,6 +126,10 @@ export default {
         rules[prop.id] = { required: true, message: this.$t('inventory.validation.customProp'), trigger: 'blur' };
       }
       return rules;
+    },
+    userMayLockBatches() {
+      const role = this.$store.state.role;
+      return role == 0 || role == 1;
     },
   },
   methods: {
@@ -164,6 +176,7 @@ export default {
             this.createBatchForm.batchNumber,
             this.createBatchForm.quantity,
             customProps,
+            this.lockNewBatch,
           )
             .then(response => {
               this.$router.push({ name: 'inventory', params: { successMessage: this.$t('inventory.created', response.body) } });

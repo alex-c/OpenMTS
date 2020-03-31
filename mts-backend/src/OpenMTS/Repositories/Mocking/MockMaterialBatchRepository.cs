@@ -50,7 +50,8 @@ namespace OpenMTS.Repositories.Mocking
             StorageLocation storageLocation,
             long batchNumber,
             double quantity,
-            Dictionary<Guid, string> customProps)
+            Dictionary<Guid, string> customProps,
+            bool isLocked)
         {
             MaterialBatch batch = new MaterialBatch()
             {
@@ -61,7 +62,7 @@ namespace OpenMTS.Repositories.Mocking
                 BatchNumber = batchNumber,
                 Quantity = quantity,
                 CustomProps = customProps,
-                IsLocked = false,
+                IsLocked = isLocked,
                 IsArchived = false
             };
             MaterialBatches.Add(batch.Id, batch);

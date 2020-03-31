@@ -69,6 +69,7 @@ namespace OpenMTS.Services
         /// <param name="batchNumber">The manufacturer provided batch number.</param>
         /// <param name="quantity">The quantity of the batch.</param>
         /// <param name="customProps">The custom prop values for this batch.</param>
+        /// <param name="isLocked">Whether the batch should be locked.</param>
         /// <param name="userId">The ID of the user checking in the new batch..</param>
         /// <returns>Returns the newly created batch.</returns>
         public MaterialBatch CreateMaterialBatch(Material material,
@@ -77,10 +78,11 @@ namespace OpenMTS.Services
             long batchNumber,
             double quantity,
             Dictionary<Guid, string> customProps,
+            bool isLocked,
             string userId)
         {
             // Create batch
-            MaterialBatch batch = MaterialBatchRepository.CreateMaterialBatch(material, expirationDate, storageLocation, batchNumber, quantity, customProps);
+            MaterialBatch batch = MaterialBatchRepository.CreateMaterialBatch(material, expirationDate, storageLocation, batchNumber, quantity, customProps, isLocked);
 
             // Log transaction
             Transaction transaction = new Transaction()

@@ -99,13 +99,13 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  createBatch: (materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, quantity, customProps) => {
+  createBatch: (materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, quantity, customProps, isLocked) => {
     return fetch(`http://localhost:5000/api/inventory`, {
       method: 'POST',
       withCredentials: true,
       credentials: 'include',
       headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
-      body: JSON.stringify({ materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, quantity, customProps }),
+      body: JSON.stringify({ materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, quantity, customProps, isLocked }),
     })
       .catch(catchNetworkError)
       .then(processResponse);

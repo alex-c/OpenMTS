@@ -42,5 +42,10 @@ namespace OpenMTS.Controllers.Contracts.Requests
         /// A mapping of custom property IDs and values.
         /// </summary>
         public Dictionary<Guid, string> CustomProps { get; set; }
+
+        /// <summary>
+        /// Whether to lock the new material batch.
+        /// </summary>
+        public bool IsLocked { get; set; }
     }
 }
