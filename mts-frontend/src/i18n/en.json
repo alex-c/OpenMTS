@@ -101,7 +101,9 @@
     "checkOutSuccessMessage": "You checked out {quantity} kg of material. The transaction ID is: {id}",
     "checkInSuccessMessage": "You checked in {quantity} kg of material.",
     "checkOutFailTitle": "Check-out failed!",
+    "checkInFailTitle": "Check-in failed!",
     "checkOutFailMessage": "Please make sure that you do not attempt to check-out more material than there is in the batch!",
+    "transactionFailLockedMessage": "This batch is locked! You cannot check material in or out of a locked batch.",
     "noPropsDefined": "No properties defined.",
     "validation": {
       "material": "Please select a material.",
@@ -110,7 +112,12 @@
       "location": "Please select a storage site and area.",
       "number": "Please enter a positive number.",
       "customProp": "Please enter a value."
-    }
+    },
+    "lock": "Lock Batch",
+    "unlock": "Unlock Batch",
+    "updateStatusConfirmTitle": "Please Confirm",
+    "lockConfirm": "Are you sure you want to lock this batch? Material cannot be checked in or out of a locked batch.",
+    "unlockConfirm": "Are you sure you want to unlock this batch? Users will be able to check material in or out of this batch."
   },
   "materials": {
     "material": "Material",

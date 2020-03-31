@@ -88,8 +88,20 @@
           ></el-pagination>
         </div>
         <div class="right">
-          <el-button icon="el-icon-download" type="success" size="mini" :disabled="selectedBatch.id === null" @click="checkIn">{{ $t('inventory.checkIn') }}</el-button>
-          <el-button icon="el-icon-upload2" type="success" size="mini" :disabled="selectedBatch.id === null" @click="checkOut">{{ $t('inventory.checkOut') }}</el-button>
+          <span v-if="userMayLockBatches">
+            <el-button icon="el-icon-lock" type="warning" size="mini" v-if="selectedBatch.id !== null && selectedBatch.isLocked === false" @click="lockBatch">{{
+              $t('inventory.lock')
+            }}</el-button>
+            <el-button icon="el-icon-unlock" type="warning" size="mini" v-if="selectedBatch.id !== null && selectedBatch.isLocked === true" @click="unlockBatch">{{
+              $t('inventory.unlock')
+            }}</el-button>
+          </span>
+          <el-button icon="el-icon-download" type="success" size="mini" :disabled="selectedBatch.id === null || selectedBatch.isLocked" @click="checkIn">{{
+            $t('inventory.checkIn')
+          }}</el-button>
+          <el-button icon="el-icon-upload2" type="success" size="mini" :disabled="selectedBatch.id === null || selectedBatch.isLocked" @click="checkOut">{{
+            $t('inventory.checkOut')
+          }}</el-button>
           <router-link :to="{ name: 'editBatch', params: { id: selectedBatch.id } }">
             <el-button icon="el-icon-edit" type="info" size="mini" :disabled="selectedBatch.id === null">{{ $t('general.edit') }}</el-button>
           </router-link>
@@ -126,6 +138,12 @@ export default {
       storageSites: [],
       selectedBatch: { id: null },
     };
+  },
+  computed: {
+    userMayLockBatches() {
+      const role = this.$store.state.role;
+      return role == 0 || role == 1;
+    },
   },
   methods: {
     getCustomBatchProps: function(callback) {
@@ -209,7 +227,7 @@ export default {
       return new Date(batch.expirationDate).toLocaleDateString(this.$i18n.locale, { year: 'numeric', month: 'long', day: 'numeric' });
     },
     formatStatus: function(batch) {
-      return batch.locked ? this.$t('inventory.status.locked') : this.$t('inventory.status.unlocked');
+      return batch.isLocked ? this.$t('inventory.status.locked') : this.$t('inventory.status.unlocked');
     },
     checkOut: function() {
       this.$prompt(this.$t('inventory.checkOutPrompt'), this.$t('inventory.checkOut'), {
@@ -232,6 +250,11 @@ export default {
             .catch(error => {
               if (error.status === 400) {
                 this.$alert(this.$t('inventory.checkOutFailMessage'), this.$t('inventory.checkOutFailTitle'), {
+                  confirmButtonText: this.$t('general.ok'),
+                  type: 'error',
+                });
+              } else if (error.status === 403) {
+                this.$alert(this.$t('inventory.transactionFailLockedMessage'), this.$t('inventory.checkOutFailTitle'), {
                   confirmButtonText: this.$t('general.ok'),
                   type: 'error',
                 });
@@ -260,9 +283,48 @@ export default {
                 this.getInventory();
               });
             })
-            .catch(this.handleHttpError);
+            .catch(erorr => {
+              if (error.status === 403) {
+                this.$alert(this.$t('inventory.transactionFailLockedMessage'), this.$t('inventory.checkInFailTitle'), {
+                  confirmButtonText: this.$t('general.ok'),
+                  type: 'error',
+                });
+              } else {
+                this.handleHttpError(error);
+              }
+            });
         })
         .catch(() => {});
+    },
+    lockBatch: function() {
+      this.$confirm(this.$t('inventory.lockConfirm'), this.$t('inventory.updateStatusConfirmTitle'), {
+        confirmButtonText: this.$t('general.ok'),
+        cancelButtonText: this.$t('general.cancel'),
+        type: 'warning',
+      })
+        .then(() => {
+          Api.updateBatchStatus(this.selectedBatch.id, true)
+            .then(result => {
+              this.getInventory();
+            })
+            .catch(this.handleHttpError);
+        })
+        .catch(e => {});
+    },
+    unlockBatch: function() {
+      this.$confirm(this.$t('inventory.unlockConfirm'), this.$t('inventory.updateStatusConfirmTitle'), {
+        confirmButtonText: this.$t('general.ok'),
+        cancelButtonText: this.$t('general.cancel'),
+        type: 'warning',
+      })
+        .then(() => {
+          Api.updateBatchStatus(this.selectedBatch.id, false)
+            .then(result => {
+              this.getInventory();
+            })
+            .catch(this.handleHttpError);
+        })
+        .catch(e => {});
     },
   },
   mounted() {

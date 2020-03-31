@@ -121,6 +121,17 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  updateBatchStatus: (batchId, isLocked) => {
+    return fetch(`http://localhost:5000/api/inventory/${batchId}/status`, {
+      method: 'PUT',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ isLocked }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   getTransactionLog: (page, elementsPerPage, batchId) => {
     return fetch(`http://localhost:5000/api/inventory/${batchId}/log?page=${page}&elementsPerPage=${elementsPerPage}`, {
       method: 'GET',
