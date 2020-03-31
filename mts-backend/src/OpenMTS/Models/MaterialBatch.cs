@@ -34,11 +34,6 @@ namespace OpenMTS.Models
         public DateTime ExpirationDate { get; set; }
 
         /// <summary>
-        /// Whether the batch has been locked.
-        /// </summary>
-        public bool IsLocked { get; set; }
-
-        /// <summary>
         /// Quantity of material in the batch.
         /// </summary>
         public double Quantity { get; set; }
@@ -47,5 +42,15 @@ namespace OpenMTS.Models
         /// Values of custom material batch properties.
         /// </summary>
         public Dictionary<Guid, string> CustomProps { get; set; }
+
+        /// <summary>
+        /// Whether the batch has been locked. No material can be checked in or out of a locked batch.
+        /// </summary>
+        public bool IsLocked { get; set; }
+
+        /// <summary>
+        /// Whether the batch is archived. A batch is archived when the last bit of material is checked out.
+        /// </summary>
+        public bool IsArchived { get; set; }
     }
 }

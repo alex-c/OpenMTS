@@ -10,13 +10,13 @@ namespace OpenMTS.Repositories
     public interface IMaterialBatchRepository
     {
         /// <summary>
-        /// Gets all material batches.
+        /// Gets all non-archived material batches.  
         /// </summary>
         /// <returns>Returns all material batches</returns>
         IEnumerable<MaterialBatch> GetAllMaterialBatches();
 
         /// <summary>
-        /// Gets and filters material batches.
+        /// Gets and filters material batches. Archived batches are not returned.
         /// </summary>
         /// <param name="materialId">The ID of a material to otionally fitler with.</param>
         /// <param name="siteId">The ID of a storage site to optionally filter with.</param>

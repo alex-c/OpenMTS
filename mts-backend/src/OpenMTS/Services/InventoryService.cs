@@ -136,6 +136,19 @@ namespace OpenMTS.Services
             return batch;
         }
 
+        /// <summary>
+        /// Updates the status of a material batch (whether it is locked or not).
+        /// </summary>
+        /// <param name="batchId">The ID of the batch to lock or unlock.</param>
+        /// <param name="isLocked">Whether the batch should be locked..</param>
+        /// <exception cref="MaterialBatchNotFoundException">Thrown if no matching batch could be found.</exception>
+        public void UpdateBatchStatus(Guid batchId, bool isLocked)
+        {
+            MaterialBatch batch = GetBatchOrThrowNotFoundException(batchId);
+            batch.IsLocked = isLocked;
+            MaterialBatchRepository.UpdateMaterialBatch(batch);
+        }
+
         #region Transactions & log
 
         /// <summary>
@@ -162,6 +175,12 @@ namespace OpenMTS.Services
         {
             MaterialBatch batch = GetBatchOrThrowNotFoundException(batchId);
 
+            // Check whether batch is locked
+            if (batch.IsLocked)
+            {
+                throw new UnauthorizedAccessException("This batch is locked!");
+            }
+
             // Compute and validate new quantity
             double newQuantity = Math.Round(batch.Quantity + quantity, 3, MidpointRounding.AwayFromZero);
             if (newQuantity < 0)
@@ -171,6 +190,9 @@ namespace OpenMTS.Services
 
             // Update quantity
             batch.Quantity = newQuantity;
+            if (batch.Quantity == 0) {
+                batch.IsArchived = true;
+            }
 
             // Generate transaction
             Transaction transaction = new Transaction()

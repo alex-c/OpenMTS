@@ -245,6 +245,36 @@ namespace OpenMTS.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the status of a material batch (whether it is locked). Material can't be checked in or out of a locked batch. 
+        /// </summary>
+        /// <param name="batchId">ID of the batch to lock or unlock.</param>
+        /// <param name="batchStatusUpdateRequest">The data to update.</param>
+        /// <returns>Returns a `204 No Content` response on success.</returns>
+        [HttpPut("{batchId}/status")] // TODO: auth policy
+        public IActionResult UpdateMaterialBatchStatus(Guid batchId, [FromBody] BatchStatusUpdateRequest batchStatusUpdateRequest)
+        {
+            if (batchStatusUpdateRequest == null)
+            {
+                return HandleBadRequest("Missing status data.");
+            }
+
+            // Attempt to update status
+            try
+            {
+                InventoryService.UpdateBatchStatus(batchId, batchStatusUpdateRequest.IsLocked);
+                return NoContent();
+            }
+            catch (MaterialBatchNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
         #region Transactions & log
 
         /// <summary>
@@ -312,6 +342,10 @@ namespace OpenMTS.Controllers
             catch (MaterialBatchNotFoundException exception)
             {
                 return HandleResourceNotFoundException(exception);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Forbid();
             }
             catch (ArgumentException exception)
             {

@@ -178,6 +178,7 @@ namespace OpenMTS.Repositories.Mocking
                 ExpirationDate = DateTime.UtcNow.AddDays(Random.Next(3, 50)),
                 Quantity = Random.Next(35, 500),
                 IsLocked = false,
+                IsArchived = false,
                 CustomProps = new Dictionary<Guid, string>()
                 {
                     { new Guid("512eb3cc-6691-4377-bdcc-3fb7280513f8"), verantwortlicher }

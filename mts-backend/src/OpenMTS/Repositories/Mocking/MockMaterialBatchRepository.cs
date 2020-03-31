@@ -23,7 +23,7 @@ namespace OpenMTS.Repositories.Mocking
 
         public IEnumerable<MaterialBatch> GetAllMaterialBatches()
         {
-            return MaterialBatches.Values;
+            return MaterialBatches.Values.Where(b => !b.IsArchived);
         }
 
         public IEnumerable<MaterialBatch> GetMaterialBatches(int? materialId = null, Guid? siteId = null)
@@ -37,7 +37,7 @@ namespace OpenMTS.Repositories.Mocking
             {
                 batches = batches.Where(b => b.StorageLocation.StorageSiteId == siteId.Value);
             }
-            return batches;
+            return batches.Where(b => !b.IsArchived);
         }
 
         public MaterialBatch GetMaterialBatch(Guid id)
@@ -61,7 +61,8 @@ namespace OpenMTS.Repositories.Mocking
                 BatchNumber = batchNumber,
                 Quantity = quantity,
                 CustomProps = customProps,
-                IsLocked = false
+                IsLocked = false,
+                IsArchived = false
             };
             MaterialBatches.Add(batch.Id, batch);
             return batch;
