@@ -5,6 +5,30 @@
     /// </summary>
     public static class AuthPolicyNames
     {
+        #region Material batches
+
+        /// <summary>
+        /// The policy that authorizes the creation of material batches.
+        /// </summary>
+        public const string MAY_CREATE_BATCH = "MayCreateMaterialBatch";
+
+        /// <summary>
+        /// The policy that authorizes the updating of existing material batches.
+        /// </summary>
+        public const string MAY_UPDATE_BATCH = "MayUpdateMaterialBatch";
+
+        /// <summary>
+        /// The policy that authorizes the updating of material batches' status.
+        /// </summary>
+        public const string MAY_UPDATE_BATCH_STATUS = "MayUpdateMaterialBatchStatus";
+
+        /// <summary>
+        /// The policy that authorizes the performing of batch transactions (check-in or check-out of material).
+        /// </summary>
+        public const string MAY_PERFORM_BATCH_TRANSACTION = "MayPerformBatchTransaction";
+
+        #endregion
+
         #region Materials
 
         /// <summary>

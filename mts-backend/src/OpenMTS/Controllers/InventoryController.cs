@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OpenMTS.Authorization;
 using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Models;
@@ -107,7 +108,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="batchCreationRequest">The batch creation request.</param>
         /// <returns>Returns the newly created batch.</returns>
-        [HttpPost] // TODO: auth policy
+        [HttpPost, Authorize(Policy = AuthPolicyNames.MAY_CREATE_BATCH)]
         public IActionResult CreateMaterialBatch([FromBody] BatchCreationRequest batchCreationRequest)
         {
             if (batchCreationRequest == null ||
@@ -194,7 +195,7 @@ namespace OpenMTS.Controllers
         /// <param name="batchId">ID of the batch to update.</param>
         /// <param name="batchUpdateRequest">The data to update.</param>
         /// <returns>Returns the updated batch on success.</returns>
-        [HttpPatch("{batchId}")] // TODO: auth policy
+        [HttpPatch("{batchId}"), Authorize(Policy = AuthPolicyNames.MAY_UPDATE_BATCH)]
         public IActionResult UpdateMaterialBatch(Guid batchId, [FromBody] BatchUpdateRequest batchUpdateRequest)
         {
             if (batchUpdateRequest == null ||
@@ -263,7 +264,7 @@ namespace OpenMTS.Controllers
         /// <param name="batchId">ID of the batch to lock or unlock.</param>
         /// <param name="batchStatusUpdateRequest">The data to update.</param>
         /// <returns>Returns a `204 No Content` response on success.</returns>
-        [HttpPut("{batchId}/status")] // TODO: auth policy
+        [HttpPut("{batchId}/status"), Authorize(Policy = AuthPolicyNames.MAY_UPDATE_BATCH_STATUS)]
         public IActionResult UpdateMaterialBatchStatus(Guid batchId, [FromBody] BatchStatusUpdateRequest batchStatusUpdateRequest)
         {
             if (batchStatusUpdateRequest == null)
@@ -329,7 +330,7 @@ namespace OpenMTS.Controllers
         /// <param name="batchId">The ID of the batch to perform a transaction on.</param>
         /// <param name="transactionRequest">The transaction request.</param>
         /// <returns>Returns the transcation</returns>
-        [HttpPost("{batchId}/log")] // TODO: auth policy
+        [HttpPost("{batchId}/log"), Authorize(Policy = AuthPolicyNames.MAY_PERFORM_BATCH_TRANSACTION)]
         public IActionResult PerformMaterialTransaction(Guid batchId, [FromBody] TransactionRequest transactionRequest)
         {
             if (transactionRequest == null)

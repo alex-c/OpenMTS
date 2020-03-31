@@ -16,6 +16,12 @@ namespace OpenMTS.Models
         {
             return new List<string>()
             {
+                // Material batches
+                BATCHES_CREATE,
+                BATCHES_UPDATE,
+                BATCHES_UPDATE_STATUS,
+                BATCHES_PERFORM_TRANSACTION,
+
                 // Materials
                 MATERIALS_CREATE,
                 MATERIALS_UPDATE,
@@ -53,6 +59,30 @@ namespace OpenMTS.Models
                 STORAGE_AREAS_UPDATE
             };
         }
+
+        #region Material batches
+
+        /// <summary>
+        /// The right that allows to create a new material batch.
+        /// </summary>
+        public static readonly string BATCHES_CREATE = "batches.create";
+
+        /// <summary>
+        /// The right that allows to update an existing material batch.
+        /// </summary>
+        public static readonly string BATCHES_UPDATE = "batches.update";
+
+        /// <summary>
+        /// The right that allows to update an existing material batch's status.
+        /// </summary>
+        public static readonly string BATCHES_UPDATE_STATUS = "batches.update_status";
+
+        /// <summary>
+        /// The right that allows to perform a transaction (check-in or check-out) on a material batch..
+        /// </summary>
+        public static readonly string BATCHES_PERFORM_TRANSACTION = "batches.perform_transaction";
+
+        #endregion
 
         #region Materials
 

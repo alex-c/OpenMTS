@@ -103,17 +103,24 @@ namespace OpenMTS
                 });
 
             // Configure authorization policies
+            IEnumerable<Role> allRoles = new Role[] { Role.Administrator, Role.ScientificAssistant, Role.User };
             services.AddAuthorization(options =>
             {
+                // Material batches
+                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_BATCH, allRoles, RightIds.BATCHES_CREATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_BATCH, allRoles, RightIds.BATCHES_UPDATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_BATCH_STATUS, new Role[] { Role.Administrator, Role.ScientificAssistant }, RightIds.BATCHES_UPDATE_STATUS);
+                RegisterPolicy(options, AuthPolicyNames.MAY_PERFORM_BATCH_TRANSACTION, allRoles, RightIds.BATCHES_PERFORM_TRANSACTION);
+
                 // Materials
-                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_MATERIAL, Role.Administrator, RightIds.MATERIALS_CREATE);
-                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_MATERIAL, Role.Administrator, RightIds.MATERIALS_UPDATE);
-                RegisterPolicy(options, AuthPolicyNames.MAY_SET_CUSTOM_MATERIAL_PROP_VALUE, Role.Administrator, RightIds.MATERIAL_CUSTOM_PROPS_SET);
-                RegisterPolicy(options, AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP_VALUE, Role.Administrator, RightIds.MATERIAL_CUSTOM_PROPS_DELETE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_MATERIAL, allRoles, RightIds.MATERIALS_CREATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_MATERIAL, allRoles, RightIds.MATERIALS_UPDATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_SET_CUSTOM_MATERIAL_PROP_VALUE, allRoles, RightIds.MATERIAL_CUSTOM_PROPS_SET);
+                RegisterPolicy(options, AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP_VALUE, allRoles, RightIds.MATERIAL_CUSTOM_PROPS_DELETE);
 
                 // Plastics
-                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_PLASTIC, Role.Administrator, RightIds.PLASTICS_CREATE);
-                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_PLASTIC, Role.Administrator, RightIds.PLASTICS_UPDATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_PLASTIC, allRoles, RightIds.PLASTICS_CREATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_PLASTIC, allRoles, RightIds.PLASTICS_UPDATE);
 
                 // Configuration administration
                 RegisterPolicy(options, AuthPolicyNames.MAY_SET_CONFIGURATION, Role.Administrator, RightIds.CONFIGFURATION_SET);
@@ -220,7 +227,7 @@ namespace OpenMTS
                 app.UseCors(LOCAL_DEVELOPMENT_CORS_POLICY);
                 Logger.LogInformation("Local development CORS policy for 'localhost:8080' enabled.");
             }
-            
+
             // Use JWT-based auth
             app.UseAuthentication();
 
