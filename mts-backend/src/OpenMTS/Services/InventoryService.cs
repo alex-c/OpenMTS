@@ -4,6 +4,7 @@ using OpenMTS.Repositories;
 using OpenMTS.Services.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenMTS.Services
 {
@@ -67,7 +68,7 @@ namespace OpenMTS.Services
         /// <param name="storageLocation">The storage location of the material.</param>
         /// <param name="batchNumber">The manufacturer provided batch number.</param>
         /// <param name="quantity">The quantity of the batch.</param>
-        /// <param name="customProps">The custom prop values fot this batch.</param>
+        /// <param name="customProps">The custom prop values for this batch.</param>
         /// <param name="userId">The ID of the user checking in the new batch..</param>
         /// <returns>Returns the newly created batch.</returns>
         public MaterialBatch CreateMaterialBatch(Material material,
@@ -93,6 +94,45 @@ namespace OpenMTS.Services
             TransactionLogService.LogTransaction(transaction);
 
             // Done - return newly create batch!
+            return batch;
+        }
+
+        /// <summary>
+        /// Updates a material batch.
+        /// </summary>
+        /// <param name="batchId">The ID of the batch to update.</param>
+        /// <param name="material">The material this batch consists of.</param>
+        /// <param name="expirationDate">The expiration date of the material.</param>
+        /// <param name="storageLocation">The storage location of the batch.</param>
+        /// <param name="batchNumber">The batch number.</param>
+        /// <param name="customProps">The custom prop values for this batch.</param>
+        /// <exception cref="MaterialBatchNotFoundException">Thrown if no matching batch could be found.</exception>
+        /// <returns>Returns the updated batch.</returns>
+        public MaterialBatch UpdateMaterialBatch(Guid batchId,
+            Material material,
+            DateTime expirationDate,
+            StorageLocation storageLocation,
+            long batchNumber,
+            Dictionary<Guid, string> customProps)
+        {
+            // Get batch
+            MaterialBatch batch = GetBatchOrThrowNotFoundException(batchId);
+
+            // Validate expirationd date
+            IEnumerable<Transaction> log = TransactionLogService.GetTransactionLog(batchId);
+            DateTime originalCheckIn = log.Last().Timestamp.Date;
+            if (expirationDate <= originalCheckIn)
+            {
+                throw new ArgumentException("The expiration date cannot be set prior to the original check in date of the material batch.");
+            }
+
+            // Proceed with update
+            batch.Material = material;
+            batch.ExpirationDate = expirationDate;
+            batch.StorageLocation = storageLocation;
+            batch.BatchNumber = batchNumber;
+            batch.CustomProps = customProps;
+            MaterialBatchRepository.UpdateMaterialBatch(batch);
             return batch;
         }
 

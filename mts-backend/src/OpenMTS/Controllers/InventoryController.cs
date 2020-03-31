@@ -175,6 +175,76 @@ namespace OpenMTS.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates an existing material batche's information. Batch quantity cannot be set this way - it can only
+        /// be changed by check-in/check-out, or by amending a log entry.
+        /// </summary>
+        /// <param name="batchId">ID of the batch to update.</param>
+        /// <param name="batchUpdateRequest">The data to update.</param>
+        /// <returns>Returns the updated batch on success.</returns>
+        [HttpPatch("{batchId}")] // TODO: auth policy
+        public IActionResult UpdateMaterialBatch(Guid batchId, [FromBody] BatchUpdateRequest batchUpdateRequest)
+        {
+            if (batchUpdateRequest == null ||
+                batchUpdateRequest.ExpirationDate == null ||
+                batchUpdateRequest.StorageSiteId == null ||
+                batchUpdateRequest.StorageAreaId == null ||
+                batchUpdateRequest.CustomProps == null)
+            {
+                return HandleBadRequest("Batch data missing for batch update.");
+            }
+
+            // Validate batch number
+            if (batchUpdateRequest.BatchNumber <= 0)
+            {
+                return HandleBadRequest("The batch number must be greater than 0!");
+            }
+
+            try
+            {
+                // Get material
+                Material material = MaterialsService.GetMaterial(batchUpdateRequest.MaterialId);
+
+                // Get storage location
+                StorageSite site = LocationsService.GetStorageSite(batchUpdateRequest.StorageSiteId);
+                StorageArea area = site.Areas.FirstOrDefault(a => a.Id == batchUpdateRequest.StorageAreaId);
+                if (area == null)
+                {
+                    throw new StorageAreaNotFoundException(site.Id, batchUpdateRequest.StorageAreaId);
+                }
+                StorageLocation storageLocation = new StorageLocation(site, area);
+
+                // Proceed with creation and return new batch!
+                MaterialBatch batch = InventoryService.UpdateMaterialBatch(batchId,
+                    material,
+                    batchUpdateRequest.ExpirationDate,
+                    storageLocation,
+                    batchUpdateRequest.BatchNumber,
+                    batchUpdateRequest.CustomProps);
+                return Ok(batch);
+            }
+            catch (MaterialNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (StorageSiteNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (StorageAreaNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (ArgumentException exception)
+            {
+                return HandleBadRequest(exception.Message);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
         #region Transactions & log
 
         /// <summary>
