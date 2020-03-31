@@ -87,6 +87,7 @@
     "create": "Check-in New Batch",
     "created": "The new batch has successfully been created with ID `{id}`.",
     "edit": "Edit Batch `{id}`",
+    "updated": "The batch with ID `{id}` has successfully been updated.",
     "checkOut": "Check-out",
     "checkIn": "Check-in",
     "log": "Transaction Log",

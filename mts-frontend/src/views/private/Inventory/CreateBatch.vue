@@ -68,6 +68,7 @@
           </el-form-item>
         </div>
 
+        <!-- Save button -->
         <div class="content-row-nopad">
           <div class="right">
             <el-button type="primary" size="mini" icon="el-icon-check" @click="createBatch">{{ $t('general.save') }}</el-button>
@@ -110,8 +111,8 @@ export default {
           { validator: this.validateExpirationDate, trigger: ['change', 'blur'] },
         ],
         storageArea: { required: true, message: this.$t('inventory.validation.location'), trigger: ['change', 'blur'] },
-        batchNumber: { required: true, validator: this.validatePositiveNumber, trigger: 'blur' },
-        quantity: { required: true, validator: this.validatePositiveNumber, trigger: 'blur' },
+        batchNumber: { required: true, validator: this.validatePositiveNumber, trigger: ['change', 'blur'] },
+        quantity: { required: true, validator: this.validatePositiveNumber, trigger: ['change', 'blur'] },
       };
       for (let prop of this.customProps) {
         rules[prop.id] = { required: true, message: this.$t('inventory.validation.customProp'), trigger: 'blur' };

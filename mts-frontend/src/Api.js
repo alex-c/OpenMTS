@@ -89,6 +89,16 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getBatch: id => {
+    return fetch(`http://localhost:5000/api/inventory/${id}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   createBatch: (materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, quantity, customProps) => {
     return fetch(`http://localhost:5000/api/inventory`, {
       method: 'POST',
@@ -96,6 +106,17 @@ export default {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
       body: JSON.stringify({ materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, quantity, customProps }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateBatch: (batchId, materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, customProps) => {
+    return fetch(`http://localhost:5000/api/inventory/${batchId}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, customProps }),
     })
       .catch(catchNetworkError)
       .then(processResponse);
