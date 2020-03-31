@@ -31,6 +31,9 @@ namespace OpenMTS.Models
                 CUSTOM_MATERIAL_PROPS_CREATE,
                 CUSTOM_MATERIAL_PROPS_UPDATE,
                 CUSTOM_MATERIAL_PROPS_DELETE,
+                CUSTOM_BATCH_PROPS_CREATE,
+                CUSTOM_BATCH_PROPS_UPDATE,
+                CUSTOM_BATCH_PROPS_DELETE,
 
                 // User administration
                 USERS_CREATE,
@@ -110,6 +113,21 @@ namespace OpenMTS.Models
         /// The right that allows to delete custom material props.
         /// </summary>
         public static readonly string CUSTOM_MATERIAL_PROPS_DELETE = "custom_material_props.delete";
+
+        /// <summary>
+        /// The right that allows to create custom batch props.
+        /// </summary>
+        public static readonly string CUSTOM_BATCH_PROPS_CREATE = "custom_batch_props.create";
+
+        /// <summary>
+        /// The right that allows to update custom batch props.
+        /// </summary>
+        public static readonly string CUSTOM_BATCH_PROPS_UPDATE = "custom_batch_props.update";
+
+        /// <summary>
+        /// The right that allows to delete custom batch props.
+        /// </summary>
+        public static readonly string CUSTOM_BATCH_PROPS_DELETE = "custom_batch_props.delete";
 
         #endregion
 

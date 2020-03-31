@@ -210,7 +210,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="customBatchPropCreationRequest">The custom batch property creation request.</param>
         /// <returns>Returns a `201 Created` response on success.</returns>
-        [HttpPost("batch-props")] // TODO: auth policy
+        [HttpPost("batch-props"), Authorize(Policy = AuthPolicyNames.MAY_CREATE_CUSTOM_BATCH_PROP)]
         public IActionResult CreateCustomBatchProp([FromBody] CustomBatchPropCreationRequest customBatchPropCreationRequest)
         {
             if (customBatchPropCreationRequest == null ||
@@ -236,7 +236,7 @@ namespace OpenMTS.Controllers
         /// <param name="id">The ID of the prop to update.</param>
         /// <param name="customBatchPropUpdateRequest">The custom batch property update request.</param>
         /// <returns>Returns the updated prop.</returns>
-        [HttpPatch("batch-props/{id}")] // TODO: auth policy
+        [HttpPatch("batch-props/{id}"), Authorize(Policy = AuthPolicyNames.MAY_UPDATE_CUSTOM_BATCH_PROP)]
         public IActionResult UpdateCustomBatchProp(Guid id, [FromBody] CustomBatchPropUpdateRequest customBatchPropUpdateRequest)
         {
             if (customBatchPropUpdateRequest == null ||
@@ -266,7 +266,7 @@ namespace OpenMTS.Controllers
         /// </summary>
         /// <param name="id">The ID of the property to delete.</param>
         /// <returns>Returns a `204 No Content` response.</returns>
-        [HttpDelete("batch-props/{id}")] // TODO: auth policy
+        [HttpDelete("batch-props/{id}"), Authorize(Policy = AuthPolicyNames.MAY_DELETE_CUSTOM_BATCH_PROP)]
         public IActionResult DeleteCustomBatchProp(Guid id)
         {
             CustomBatchPropService.DeleteCustomBatchProp(id);

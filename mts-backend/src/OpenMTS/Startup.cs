@@ -120,6 +120,9 @@ namespace OpenMTS
                 RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_CUSTOM_MATERIAL_PROP, Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_CREATE);
                 RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_CUSTOM_MATERIAL_PROP, Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_UPDATE);
                 RegisterPolicy(options, AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP, Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_DELETE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_CUSTOM_BATCH_PROP, Role.Administrator, RightIds.CUSTOM_BATCH_PROPS_CREATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_CUSTOM_BATCH_PROP, Role.Administrator, RightIds.CUSTOM_BATCH_PROPS_UPDATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_DELETE_CUSTOM_BATCH_PROP, Role.Administrator, RightIds.CUSTOM_BATCH_PROPS_DELETE);
 
                 // User administration
                 RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_USER, Role.Administrator, RightIds.USERS_CREATE);

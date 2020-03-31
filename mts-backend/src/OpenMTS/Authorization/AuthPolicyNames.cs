@@ -65,6 +65,21 @@
         /// </summary>
         public const string MAY_DELETE_CUSTOM_MATERIAL_PROP = "MayDeleteCustomMaterialProp";
 
+        /// <summary>
+        /// The policy that authorizes the creation of custom batch props.
+        /// </summary>
+        public const string MAY_CREATE_CUSTOM_BATCH_PROP = "MayCreateCustomBatchProp";
+
+        /// <summary>
+        /// The policy that authorizes the uptating of custom batch props.
+        /// </summary>
+        public const string MAY_UPDATE_CUSTOM_BATCH_PROP = "MayUpdateCustomBatchProp";
+
+        /// <summary>
+        /// The policy that authorizes the deletion of custom batch props.
+        /// </summary>
+        public const string MAY_DELETE_CUSTOM_BATCH_PROP = "MayDeleteCustomBatchProp";
+
         #endregion
 
         #region User administration
