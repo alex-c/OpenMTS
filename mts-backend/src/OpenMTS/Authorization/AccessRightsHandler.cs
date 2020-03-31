@@ -24,7 +24,7 @@ namespace OpenMTS.Authorization
             Claim role = context.User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault();
             IEnumerable<Claim> rights = context.User.Claims.Where(c => c.Type == "rights");
 
-            if (role != null && Enum.Parse<Role>(role.Value) == requirement.Role)
+            if (role != null && requirement.Roles.Contains(Enum.Parse<Role>(role.Value)))
             {
                 context.Succeed(requirement);
             }

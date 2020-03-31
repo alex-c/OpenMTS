@@ -326,11 +326,11 @@ namespace OpenMTS.Controllers
         /// <summary>
         /// Performs a material transaction: checking material in or out of storage.
         /// </summary>
-        /// <param name="id">The ID of the batch to perform a transaction on.</param>
+        /// <param name="batchId">The ID of the batch to perform a transaction on.</param>
         /// <param name="transactionRequest">The transaction request.</param>
         /// <returns>Returns the transcation</returns>
-        [HttpPost("{id}/log")] // TODO: auth policy
-        public IActionResult PerformMaterialTransaction(Guid id, [FromBody] TransactionRequest transactionRequest)
+        [HttpPost("{batchId}/log")] // TODO: auth policy
+        public IActionResult PerformMaterialTransaction(Guid batchId, [FromBody] TransactionRequest transactionRequest)
         {
             if (transactionRequest == null)
             {
@@ -348,7 +348,7 @@ namespace OpenMTS.Controllers
             {
                 string userId = GetSubject();
                 double quantity = transactionRequest.IsCheckout ? transactionRequest.Quantity * -1 : transactionRequest.Quantity;
-                Transaction transaction = InventoryService.PerformMaterialTransaction(id, quantity, userId);
+                Transaction transaction = InventoryService.PerformMaterialTransaction(batchId, quantity, userId);
                 return Ok(transaction);
             }
             catch (MaterialBatchNotFoundException exception)
