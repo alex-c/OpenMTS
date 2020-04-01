@@ -1,6 +1,6 @@
 <template>
   <header id="navbar">
-    <div id="navbar-title" :class="{collapsed : menuCollapsed}" @click="navigateHome">
+    <div id="navbar-title" :class="{ collapsed: menuCollapsed }" @click="navigateHome">
       <i class="el-icon-s-home" v-if="menuCollapsed" />
       <span id="navbar-title-text" v-else>OpenMTS</span>
     </div>
@@ -13,31 +13,19 @@
     <div class="navbar-button navbar-right" @click="drawer = true">
       <i class="el-icon-s-tools"></i>
     </div>
-    <el-dropdown
-      class="navbar-right"
-      style="color:white;"
-      trigger="click"
-      placement="bottom"
-      @command="userMenuAction"
-      v-if="userIsAuthenticated && !userIsGuest"
-    >
+    <el-dropdown class="navbar-right" style="color:white;" trigger="click" placement="bottom" @command="userMenuAction" v-if="userIsAuthenticated && !userIsGuest">
       <div id="user-menu" class="navbar-button">
         <i class="el-icon-user-solid"></i>
-        <div id="user-menu-title" :class="{collapsed : menuCollapsed}">{{userName}}</div>
+        <div id="user-menu-title" :class="{ collapsed: menuCollapsed }">{{ userName }}</div>
       </div>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item icon="el-icon-user-solid" command="account">{{$t('general.account')}}</el-dropdown-item>
-        <el-dropdown-item icon="el-icon-close" command="logout">{{$t('general.logout')}}</el-dropdown-item>
+        <el-dropdown-item icon="el-icon-user-solid" command="account">{{ $t('general.account') }}</el-dropdown-item>
+        <el-dropdown-item icon="el-icon-close" command="logout">{{ $t('general.logout') }}</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <div
-      id="user-menu"
-      class="navbar-right navbar-button"
-      v-if="userIsAuthenticated && userIsGuest"
-      @click="userMenuAction('logout')"
-    >
+    <div id="user-menu" class="navbar-right navbar-button" v-if="userIsAuthenticated && userIsGuest" @click="userMenuAction('logout')">
       <i class="el-icon-close"></i>
-      <div id="user-menu-title">{{$t('general.logout')}}</div>
+      <div id="user-menu-title">{{ $t('general.logout') }}</div>
     </div>
     <Settings :drawer.sync="drawer" />
   </header>
@@ -96,12 +84,17 @@ export default {
 @import '../theme/colors.scss';
 
 #navbar {
-  max-height: 60px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 60px;
   overflow: hidden;
   border-bottom: 1px solid $color-dark-accent;
   background-color: $color-primary;
   color: white;
   box-shadow: 0px 0px 5px gray;
+  z-index: 2;
 }
 
 #navbar-title {

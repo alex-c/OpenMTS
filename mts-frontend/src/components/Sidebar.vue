@@ -60,6 +60,7 @@ export default {
   &.collapsed {
     width: 47px;
   }
+  z-index: 2;
 }
 
 #menu {

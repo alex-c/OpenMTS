@@ -1,7 +1,7 @@
 <template>
   <div id="private">
-    <Navbar />
     <Sidebar />
+    <Navbar />
     <div id="content" :class="{ collapsed: menuCollapsed }">
       <router-view></router-view>
     </div>
@@ -43,6 +43,7 @@ export default {
 @import '../theme/colors.scss';
 
 #content {
+  margin-top: 61px;
   margin-left: 230px;
   padding: 0px 16px;
   text-align: center;
