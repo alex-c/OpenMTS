@@ -44,6 +44,11 @@ namespace OpenMTS.Services
             return TransactionRepository.GetTransactionsForBatch(materialBatchId).OrderByDescending(t => t.Timestamp);
         }
 
+        /// <summary>
+        /// Gets the last transaction log entry for a given material batch.
+        /// </summary>
+        /// <param name="materialBatchId">The ID of the batch.</param>
+        /// <returns>Returns the last transaction.</returns>
         public Transaction GetLastTransactionLogEntry(Guid materialBatchId)
         {
             return TransactionRepository.GetLastTransactionForBatch(materialBatchId);
@@ -58,6 +63,13 @@ namespace OpenMTS.Services
             TransactionRepository.LogTransaction(transaction);
         }
 
+        /// <summary>
+        /// Attempts to amend the last transaction log entry of a given batch.
+        /// </summary>
+        /// <param name="materialBatchId">The ID of the batch.</param>
+        /// <param name="transactionId">The ID of the transaction to amend.</param>
+        /// <param name="quantity">The quantity to set.</param>
+        /// <exception cref="OpenMTS.Services.Exceptions.NotLastLogEntryException">Thrown if the passed transaction ID doesn't match the last transaction of this batch.</exception>
         public void AmendLastTransactionLogEntry(Guid materialBatchId, Guid transactionId, double quantity)
         {
             Transaction transaction = GetLastTransactionLogEntry(materialBatchId);

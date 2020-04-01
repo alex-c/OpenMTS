@@ -324,6 +324,11 @@ namespace OpenMTS.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the last transaction from the log of a material batch.
+        /// </summary>
+        /// <param name="batchId">The ID of the batch to get the last transaction for.</param>
+        /// <returns>Returns the last transaction.</returns>
         [HttpGet("{batchId}/last-entry")]
         public IActionResult GetLastMaterialBatchTransactionLogEntry(Guid batchId)
         {
@@ -388,6 +393,13 @@ namespace OpenMTS.Controllers
             }
         }
 
+        /// <summary>
+        /// Attempts to amend the last transaction of a material batch.
+        /// </summary>
+        /// <param name="batchId">ID of the batch to amend the last transaction for.</param>
+        /// <param name="transactionId">ID of the transaction to amend.</param>
+        /// <param name="transactionLogEntryAmendingRequest">The data to amend.</param>
+        /// <returns>Returns a `204 No Content` result on success.</returns>
         [HttpPatch("{batchId}/log/{transactionId}")] // TODO - auth policy
         public IActionResult AmendLastMaterialBatchTransactionLogEntry(Guid batchId, Guid transactionId, [FromBody] TransactionLogEntryAmendingRequest transactionLogEntryAmendingRequest)
         {

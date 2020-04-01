@@ -165,6 +165,12 @@ namespace OpenMTS.Services
             return TransactionLogService.GetTransactionLog(batchId);
         }
 
+        /// <summary>
+        /// Gets the last material batch transaction.
+        /// </summary>
+        /// <param name="batchId">The ID of the batch to get the last transaction for.</param>
+        /// <exception cref="MaterialBatchNotFoundException">Thrown if the batch could be found.</exception>
+        /// <returns>Returns the trnasaction</returns>
         public Transaction GetLastMaterialBatchTransaction(Guid batchId)
         {
             GetBatchOrThrowNotFoundException(batchId);
@@ -221,6 +227,15 @@ namespace OpenMTS.Services
             return transaction;
         }
 
+        /// <summary>
+        /// Amends the last material batch transaction.
+        /// </summary>
+        /// <param name="batchId">The ID of the batch.</param>
+        /// <param name="transactionId">The ID of the transaction.</param>
+        /// <param name="quantity">The quantity to set.</param>
+        /// <param name="userId">The ID of the user attempting to amend the transaction.</param>
+        /// <exception cref="OpenMTS.Services.Exceptions.NotLastLogEntryException">Thrown if the passed transaction ID doesn't match the last transaction of this batch.</exception>
+        /// <exception cref="UnauthorizedAccessException">Thrown if the last transaction was performed by a different user.</exception>
         public void AmendLastMaterialBatchTransaction(Guid batchId, Guid transactionId, double quantity, string userId)
         {
             MaterialBatch batch = GetBatchOrThrowNotFoundException(batchId);
