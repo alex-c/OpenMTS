@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using OpenMTS.Models;
 using OpenMTS.Repositories;
+using OpenMTS.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,13 +35,18 @@ namespace OpenMTS.Services
         }
 
         /// <summary>
-        /// Gets the transaction log for a given material batch.
+        /// Gets the transaction log for a given material batch, ordered from newest log entry to oldest.
         /// </summary>
         /// <param name="materialBatchId">The ID of the material batch to read the log for.</param>
         /// <returns>Returns the transaction log.</returns>
         public IEnumerable<Transaction> GetTransactionLog(Guid materialBatchId)
         {
             return TransactionRepository.GetTransactionsForBatch(materialBatchId).OrderByDescending(t => t.Timestamp);
+        }
+
+        public Transaction GetLastTransactionLogEntry(Guid materialBatchId)
+        {
+            return TransactionRepository.GetLastTransactionForBatch(materialBatchId);
         }
 
         /// <summary>
@@ -50,6 +56,17 @@ namespace OpenMTS.Services
         public void LogTransaction(Transaction transaction)
         {
             TransactionRepository.LogTransaction(transaction);
+        }
+
+        public void AmendLastTransactionLogEntry(Guid materialBatchId, Guid transactionId, double quantity)
+        {
+            Transaction transaction = GetLastTransactionLogEntry(materialBatchId);
+            if (transaction.Id != transactionId)
+            {
+                throw new NotLastLogEntryException(transactionId);
+            }
+            transaction.Quantity = quantity;
+            TransactionRepository.UpdateTransaction(transaction);
         }
     }
 }

@@ -165,6 +165,13 @@ namespace OpenMTS.Services
             return TransactionLogService.GetTransactionLog(batchId);
         }
 
+        public Transaction GetLastMaterialBatchTransaction(Guid batchId)
+        {
+            GetBatchOrThrowNotFoundException(batchId);
+            return TransactionLogService.GetLastTransactionLogEntry(batchId);
+
+        }
+
         /// <summary>
         /// Performs a material transaction: checking material in or out of storage.
         /// </summary>
@@ -184,7 +191,7 @@ namespace OpenMTS.Services
             }
 
             // Compute and validate new quantity
-            double newQuantity = Math.Round(batch.Quantity + quantity, 3, MidpointRounding.AwayFromZero);
+            double newQuantity = RoundMaterialQuantity(batch.Quantity + quantity);
             if (newQuantity < 0)
             {
                 throw new ArgumentException("The quantity of a batch cannot be less than 0. You cannot check out more material than there is in the inventory!");
@@ -214,6 +221,35 @@ namespace OpenMTS.Services
             return transaction;
         }
 
+        public void AmendLastMaterialBatchTransaction(Guid batchId, Guid transactionId, double quantity, string userId)
+        {
+            MaterialBatch batch = GetBatchOrThrowNotFoundException(batchId);
+
+            // Get and validate last transaction
+            Transaction transaction = TransactionLogService.GetLastTransactionLogEntry(batchId);
+            if (transaction.Id != transactionId)
+            {
+                throw new NotLastLogEntryException(transactionId);
+            }
+
+            // Validate user
+            if (transaction.UserId != userId)
+            {
+                throw new UnauthorizedAccessException("The last transaction was performed by a different user.");
+            }
+
+            // Calculate new quantity differential
+            quantity = RoundMaterialQuantity(quantity);
+            double newBatchQuantity = batch.Quantity - transaction.Quantity + quantity;
+
+            // Attempt to amend last transaction
+            TransactionLogService.AmendLastTransactionLogEntry(batchId, transactionId, quantity);
+
+            // No exception thrown - update material batch
+            batch.Quantity = newBatchQuantity;
+            MaterialBatchRepository.UpdateMaterialBatch(batch);
+        }
+
         #endregion
 
         #region Private Helpers
@@ -235,6 +271,16 @@ namespace OpenMTS.Services
             }
 
             return batch;
+        }
+
+        /// <summary>
+        /// Rounds a material quantity to 3 digits after the floating point.
+        /// </summary>
+        /// <param name="quantity">The quantity to round.</param>
+        /// <returns>Returns the rounded quantity.</returns>
+        private double RoundMaterialQuantity(double quantity)
+        {
+            return Math.Round(quantity, 3, MidpointRounding.AwayFromZero);
         }
 
         #endregion

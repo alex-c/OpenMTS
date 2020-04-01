@@ -324,6 +324,24 @@ namespace OpenMTS.Controllers
             }
         }
 
+        [HttpGet("{batchId}/last-entry")]
+        public IActionResult GetLastMaterialBatchTransactionLogEntry(Guid batchId)
+        {
+            try
+            {
+                Transaction transaction = InventoryService.GetLastMaterialBatchTransaction(batchId);
+                return Ok(transaction);
+            }
+            catch (MaterialBatchNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
         /// <summary>
         /// Performs a material transaction: checking material in or out of storage.
         /// </summary>
@@ -363,6 +381,38 @@ namespace OpenMTS.Controllers
             catch (ArgumentException exception)
             {
                 return HandleBadRequest(exception.Message);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        [HttpPatch("{batchId}/log/{transactionId}")] // TODO - auth policy
+        public IActionResult AmendLastMaterialBatchTransactionLogEntry(Guid batchId, Guid transactionId, [FromBody] TransactionLogEntryAmendingRequest transactionLogEntryAmendingRequest)
+        {
+            if (transactionLogEntryAmendingRequest == null)
+            {
+                return HandleBadRequest("Missing amending data.");
+            }
+
+            try
+            {
+                string userId = GetSubject();
+                InventoryService.AmendLastMaterialBatchTransaction(batchId, transactionId, transactionLogEntryAmendingRequest.Quantity, userId);
+                return NoContent();
+            }
+            catch (MaterialBatchNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (NotLastLogEntryException exception)
+            {
+                return HandleBadRequest(exception.Message);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Forbid();
             }
             catch (Exception exception)
             {

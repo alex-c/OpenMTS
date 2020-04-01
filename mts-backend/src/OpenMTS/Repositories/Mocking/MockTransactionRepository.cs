@@ -1,6 +1,7 @@
 ﻿using OpenMTS.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenMTS.Repositories.Mocking
 {
@@ -25,6 +26,11 @@ namespace OpenMTS.Repositories.Mocking
             return BatchTransactions.GetValueOrDefault(materialBatchId);
         }
 
+        public Transaction GetLastTransactionForBatch(Guid materialBatchId)
+        {
+            return BatchTransactions.GetValueOrDefault(materialBatchId).OrderByDescending(t => t.Timestamp).FirstOrDefault();
+        }
+
         public void LogTransaction(Transaction transaction)
         {
             if (!BatchTransactions.ContainsKey(transaction.MaterialBatchId))
@@ -35,6 +41,11 @@ namespace OpenMTS.Repositories.Mocking
             {
                 BatchTransactions[transaction.MaterialBatchId].Add(transaction);
             }
+        }
+
+        public void UpdateTransaction(Transaction transaction)
+        {
+            // No need to do anything...
         }
     }
 }

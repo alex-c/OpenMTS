@@ -17,9 +17,22 @@ namespace OpenMTS.Repositories
         IEnumerable<Transaction> GetTransactionsForBatch(Guid materialBatchId);
 
         /// <summary>
+        /// Gets the last transaction from a material batch transaction log.
+        /// </summary>
+        /// <param name="materialBatchId">The ID of the batch.</param>
+        /// <returns>Returns the last transaction.</returns>
+        Transaction GetLastTransactionForBatch(Guid materialBatchId);
+
+        /// <summary>
         /// Logs a new transaction.
         /// </summary>
         /// <param name="transaction">The transaction to log.</param>
         void LogTransaction(Transaction transaction);
+
+        /// <summary>
+        /// Updates a transaction.
+        /// </summary>
+        /// <param name="transaction">The transaction to update.</param>
+        void UpdateTransaction(Transaction transaction);
     }
 }
