@@ -142,6 +142,27 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getLastTransaction: batchId => {
+    return fetch(`http://localhost:5000/api/inventory/${batchId}/last-entry`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  amendLastTransaction: (batchId, transactionId, quantity) => {
+    return fetch(`http://localhost:5000/api/inventory/${batchId}/log/${transactionId}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ quantity }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   checkOut: function(batchId, quantity) {
     return this.performMaterialTransaction(batchId, quantity, true);
   },

@@ -118,7 +118,16 @@
     "updateStatusConfirmTitle": "Please Confirm",
     "lockConfirm": "Are you sure you want to lock this batch? Material cannot be checked in or out of a locked batch.",
     "unlockConfirm": "Are you sure you want to unlock this batch? Users will be able to check material in or out of this batch.",
-    "lockBatchWarning": "Please note that material cannot be checked in or out of a locked batch. Only administrators or scientific assistants can unlock a batch."
+    "lockBatchWarning": "Please note that material cannot be checked in or out of a locked batch. Only administrators or scientific assistants can unlock a batch.",
+    "amendTitle": "Log Entry Amending",
+    "amendDescription": "Did you just perform a bad check-in or check-out transaction? You can amend the last log entry to corrent the value.",
+    "amend": "Amend",
+    "amendPrompt": "Please enter a new value to corrent the last transaction. The last transaction currently has a value of `{oldValue}`. Please note that negative values denote a check-out.",
+    "amendSuccessTitle": "Success",
+    "amendSuccessMessage": "The transaction was successfully amended!",
+    "amendFailTitle": "Fail",
+    "amendFailMessageLastTransaction": "The transaction you are trying to amend is not the last transaction of this batch.",
+    "amendFailMessageWrongUser": "Only the author of a transaction can amend it."
   },
   "materials": {
     "material": "Material",
