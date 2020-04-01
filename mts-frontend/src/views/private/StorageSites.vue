@@ -21,7 +21,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="name" :label="$t('general.name')"></el-table-column>
-          <el-table-column prop="areas" :label="$t('storage.areas')" :formatter="areaCountFormatter"></el-table-column>
+          <el-table-column prop="areas" :label="$t('storage.areas')" width="120" :formatter="areaCountFormatter"></el-table-column>
         </el-table>
       </div>
 
