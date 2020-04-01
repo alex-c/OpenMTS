@@ -45,7 +45,11 @@ namespace OpenMTS.Controllers
         /// <param name="search">An optional search string to filter plastics names with.</param>
         /// <returns>Returns the filtered and paginated plastics.</returns>
         [HttpGet]
-        public IActionResult GetPlastics([FromQuery] bool getAll = false, [FromQuery] int page = 0, [FromQuery] int elementsPerPage = 10, [FromQuery] string search = null)
+        public IActionResult GetPlastics(
+            [FromQuery] bool getAll = false,
+            [FromQuery] int page = 0,
+            [FromQuery] int elementsPerPage = 10,
+            [FromQuery] string search = null)
         {
             if (!getAll && (page < 1 || elementsPerPage < 1))
             {

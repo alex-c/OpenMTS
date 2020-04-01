@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="content-section">
       <div class="content-row">
-        <div class="left content-title">{{ $t('config.createMaterialProp') }}</div>
+        <div class="left content-title">{{ $t('config.createBatchProp') }}</div>
         <div class="right">
           <router-link to="/private/config">
             <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{ $t('general.back') }}</el-button>
@@ -19,15 +19,11 @@
           <el-form-item prop="name" :label="$t('general.name')">
             <el-input v-model="createPropForm.name" :placeholder="$t('general.name')"></el-input>
           </el-form-item>
-          <el-form-item prop="type" :label="$t('general.type')">
-            <el-select v-model="createPropForm.type" :placeholder="$t('general.type')" :no-data-text="$t('general.noData')">
-              <el-option value="0" :label="$t('types.text')" />
-              <el-option value="1" :label="$t('types.file')" />
-            </el-select>
-            <div class="right">
-              <el-button type="primary" @click="create" icon="el-icon-check">{{ $t('general.save') }}</el-button>
-            </div>
-          </el-form-item>
+        </div>
+        <div class="content-row-nopad">
+          <div class="right">
+            <el-button type="primary" size="mini" @click="create" icon="el-icon-check">{{ $t('general.save') }}</el-button>
+          </div>
         </div>
       </el-form>
     </div>
@@ -39,13 +35,12 @@ import Api from '../../../Api.js';
 import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
 
 export default {
-  name: 'CreateMaterialProp',
+  name: 'CreateBatchProp',
   mixins: [GenericErrorHandlingMixin],
   data() {
     return {
       createPropForm: {
         name: '',
-        type: null,
       },
     };
   },
@@ -53,7 +48,6 @@ export default {
     validationRules() {
       return {
         name: { required: true, message: this.$t('config.validation.propName'), trigger: 'blur' },
-        type: { required: true, message: this.$t('config.validation.propType'), trigger: ['change', 'blur'] },
       };
     },
   },
@@ -61,9 +55,9 @@ export default {
     create: function() {
       this.$refs['createPropForm'].validate(valid => {
         if (valid) {
-          Api.createCustomMaterialProp(this.createPropForm.name, this.createPropForm.type)
+          Api.createCustomBatchProp(this.createPropForm.name)
             .then(result => {
-              this.$router.push({ name: 'configuration', params: { feedbackMaterialProps: this.$t('config.materialPropCreated', { ...result.body }) } });
+              this.$router.push({ name: 'configuration', params: { feedbackBatchProps: this.$t('config.batchPropCreated', { ...result.body }) } });
             })
             .catch(error => this.handleHttpError(error));
         }

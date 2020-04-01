@@ -1,57 +1,31 @@
 <template>
   <div id="user-administration">
-    <Alert
-      type="success"
-      :description="feedback.successMessage"
-      :show="feedback.successMessage !== undefined"
-    />
+    <Alert type="success" :description="feedback.successMessage" :show="feedback.successMessage !== undefined" />
     <div class="content-section">
       <!-- Header -->
       <div class="content-row">
-        <div class="left content-title">{{$t('general.users')}}</div>
+        <div class="left content-title">{{ $t('general.users') }}</div>
         <div class="right">
-          {{$t('users.showDisabledSwitchLabel')}}
+          {{ $t('users.showDisabledSwitchLabel') }}
           <el-switch v-model="query.showDisabledUsers" @change="switchDisabled" />
           <router-link to="/private/users/create">
-            <el-button icon="el-icon-plus" type="primary" size="mini">{{$t('users.create')}}</el-button>
+            <el-button icon="el-icon-plus" type="primary" size="mini">{{ $t('users.create') }}</el-button>
           </router-link>
         </div>
       </div>
 
       <!-- Search Bar -->
       <div class="content-row content-row-inputs">
-        <el-input
-          :placeholder="$t('users.filter')"
-          prefix-icon="el-icon-search"
-          v-model="search"
-          size="mini"
-          clearable
-          @change="setSearch"
-        ></el-input>
+        <el-input :placeholder="$t('users.filter')" prefix-icon="el-icon-search" v-model="search" size="mini" clearable @change="setSearch"></el-input>
       </div>
 
       <!-- User Table -->
       <div class="content-row">
-        <el-table
-          :data="users"
-          stripe
-          border
-          size="mini"
-          :empty-text="$t('general.noData')"
-          highlight-current-row
-          @current-change="selectUser"
-          ref="userTable"
-          row-key="id"
-        >
+        <el-table :data="users" stripe border size="mini" :empty-text="$t('general.noData')" highlight-current-row @current-change="selectUser" ref="userTable" row-key="id">
           <el-table-column prop="id" :label="$t('general.id')"></el-table-column>
           <el-table-column prop="name" :label="$t('general.name')"></el-table-column>
           <el-table-column prop="role" :label="$t('users.role')" :formatter="roleIdToText"></el-table-column>
-          <el-table-column
-            prop="disabled"
-            :label="$t('general.status.label')"
-            :formatter="disabledText"
-            v-if="query.showDisabledUsers"
-          ></el-table-column>
+          <el-table-column prop="disabled" :label="$t('general.status.label')" :formatter="disabledText" v-if="query.showDisabledUsers"></el-table-column>
         </el-table>
       </div>
 
@@ -68,27 +42,9 @@
           ></el-pagination>
         </div>
         <div class="right">
-          <el-button
-            icon="el-icon-unlock"
-            type="success"
-            size="mini"
-            v-if="this.selected.disabled === true"
-            @click="enable"
-          >{{$t('general.enable')}}</el-button>
-          <el-button
-            icon="el-icon-lock"
-            type="warning"
-            size="mini"
-            v-if="this.selected.disabled === false"
-            @click="disable"
-          >{{$t('general.disable')}}</el-button>
-          <el-button
-            icon="el-icon-edit"
-            type="info"
-            size="mini"
-            :disabled="selected.id === null"
-            @click="edit"
-          >{{$t('general.edit')}}</el-button>
+          <el-button icon="el-icon-unlock" type="success" size="mini" v-if="this.selected.disabled === true" @click="enable">{{ $t('general.enable') }}</el-button>
+          <el-button icon="el-icon-lock" type="warning" size="mini" v-if="this.selected.disabled === false" @click="disable">{{ $t('general.disable') }}</el-button>
+          <el-button icon="el-icon-edit" type="info" size="mini" :disabled="selected.id === null" @click="edit">{{ $t('general.edit') }}</el-button>
         </div>
       </div>
     </div>
@@ -99,12 +55,11 @@
 import Api from '../../Api.js';
 import GenericErrorHandlingMixin from '@/mixins/GenericErrorHandlingMixin.js';
 import RoleHandlingMixin from '@/mixins/RoleHandlingMixin.js';
-import CreateUser from './UserAdministration/CreateUser.vue';
 import Alert from '@/components/Alert.vue';
 
 export default {
   name: 'UserAdministration',
-  components: { CreateUser, Alert },
+  components: { Alert },
   mixins: [GenericErrorHandlingMixin, RoleHandlingMixin],
   props: ['successMessage'],
   data() {

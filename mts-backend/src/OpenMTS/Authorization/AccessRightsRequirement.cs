@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using OpenMTS.Models;
+using System.Collections.Generic;
 
 namespace OpenMTS.Authorization
 {
@@ -9,9 +10,9 @@ namespace OpenMTS.Authorization
     public class AccessRightsRequirement : IAuthorizationRequirement
     {
         /// <summary>
-        /// The role that grants authorization.
+        /// The roles that grant authorization.
         /// </summary>
-        public Role Role { get; }
+        public IEnumerable<Role> Roles { get; }
 
         /// <summary>
         /// The right that grants authorization.
@@ -19,13 +20,22 @@ namespace OpenMTS.Authorization
         public string RightId { get; }
 
         /// <summary>
-        /// Creates a requirement for a given role and/or right.
+        /// Initializes a new instance of the <see cref="AccessRightsRequirement"/> class.
         /// </summary>
-        /// <param name="role">A role or null.</param>
-        /// <param name="rightId">A right ID or null.</param>
-        public AccessRightsRequirement(Role role, string rightId)
+        public AccessRightsRequirement()
         {
-            Role = role;
+            Roles = new List<Role>();
+            RightId = null;
+        }
+
+        /// <summary>
+        /// Creates a requirement for a given list of roles role and/or a right.
+        /// </summary>
+        /// <param name="roles">Roles that grant authorization.</param>
+        /// <param name="rightId">A right ID or null.</param>
+        public AccessRightsRequirement(IEnumerable<Role> roles, string rightId)
+        {
+            Roles = roles;
             RightId = rightId;
         }
     }

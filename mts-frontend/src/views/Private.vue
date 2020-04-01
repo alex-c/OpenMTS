@@ -2,10 +2,8 @@
   <div id="private">
     <Navbar />
     <Sidebar />
-    <div id="content" :class="{collapsed : menuCollapsed}">
-      <div id="content-inner">
-        <router-view></router-view>
-      </div>
+    <div id="content" :class="{ collapsed: menuCollapsed }">
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -52,12 +50,9 @@ export default {
   &.collapsed {
     margin-left: 48px;
   }
-}
-
-#content-inner {
-  max-width: 900px;
-  margin: auto;
-  text-align: left;
+  & > div {
+    text-align: left;
+  }
 }
 
 .content-row {

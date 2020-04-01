@@ -59,6 +59,7 @@ namespace OpenMTS.Controllers
         /// <summary>
         /// Gets, filters and paginates materials.
         /// </summary>
+        /// <param name="getAll">Disables pagination - all elements will be returned.</param>
         /// <param name="page">The page to display.</param>
         /// <param name="elementsPerPage">The number of elements to display per page.</param>
         /// <param name="search">A string to search in materials names.</param>
@@ -67,12 +68,18 @@ namespace OpenMTS.Controllers
         /// <returns>Returns a filtered, paginated list of materials.</returns>
         [HttpGet]
         public IActionResult GetMaterials(
+            [FromQuery] bool getAll = false,
             [FromQuery] int page = 1,
             [FromQuery] int elementsPerPage = 10,
             [FromQuery] string search = null,
             [FromQuery] string manufacturer = null,
             [FromQuery] string type = null)
         {
+            if (!getAll && (page < 1 || elementsPerPage < 1))
+            {
+                return HandleBadRequest("Bad pagination parameters.");
+            }
+
             // Check for material type validity
             Plastic plastic = null;
             if (type != null)
@@ -91,7 +98,11 @@ namespace OpenMTS.Controllers
             try
             {
                 IEnumerable<Material> materials = MaterialsService.GetMaterials(search, manufacturer, plastic);
-                IEnumerable<Material> paginatedMaterials = materials.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
+                IEnumerable<Material> paginatedMaterials = materials;
+                if (!getAll)
+                {
+                    paginatedMaterials = materials.Skip((page - 1) * elementsPerPage).Take(elementsPerPage);
+                }
                 return Ok(new PaginatedResponse(paginatedMaterials, materials.Count()));
             }
             catch (Exception exception)

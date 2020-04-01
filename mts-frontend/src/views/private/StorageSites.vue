@@ -2,58 +2,46 @@
   <div id="storage-sites">
     <div class="content-section">
       <!-- Page Title -->
-      <div class="content-row content-title">{{$t('storage.sites')}}</div>
+      <div class="content-row content-title">{{ $t('storage.sites') }}</div>
 
       <!-- Search Bar -->
       <div class="content-row content-row-inputs">
-        <el-input
-          :placeholder="$t('storage.filter')"
-          prefix-icon="el-icon-search"
-          v-model="search"
-          size="mini"
-          clearable
-          @change="setSearch"
-        ></el-input>
+        <el-input :placeholder="$t('storage.filter')" prefix-icon="el-icon-search" v-model="search" size="mini" clearable @change="setSearch"></el-input>
       </div>
 
       <!-- Table -->
       <div class="content-row">
-        <el-table
-          :data="sites"
-          stripe
-          border
-          size="mini"
-          :empty-text="$t('general.noData')"
-          ref="siteTable"
-          row-key="id"
-        >
+        <el-table :data="sites" stripe border size="mini" :empty-text="$t('general.noData')" highlight-current-row @current-change="selectSite" ref="siteTable" row-key="id">
           <el-table-column type="expand">
             <template slot-scope="props">
               <p id="area-tags">
-                <b>{{$t('storage.areas')}}:</b>
+                <b>{{ $t('storage.areas') }}:</b>
                 <el-tag v-for="area in props.row.areas" :key="area.id" size="mini">{{ area.name }}</el-tag>
               </p>
             </template>
           </el-table-column>
           <el-table-column prop="name" :label="$t('general.name')"></el-table-column>
-          <el-table-column
-            prop="areas"
-            :label="$t('storage.areas')"
-            :formatter="areaCountFormatter"
-          ></el-table-column>
+          <el-table-column prop="areas" :label="$t('storage.areas')" :formatter="areaCountFormatter"></el-table-column>
         </el-table>
       </div>
 
       <!-- Pagination & Buttons -->
       <div class="content-row">
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          :total="totalSites"
-          :page-size="query.sitesPerPage"
-          :current-page.sync="query.page"
-          @current-change="changePage"
-        ></el-pagination>
+        <div class="left">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="totalSites"
+            :page-size="query.sitesPerPage"
+            :current-page.sync="query.page"
+            @current-change="changePage"
+          ></el-pagination>
+        </div>
+        <div class="right">
+          <router-link :to="{ name: 'inventory', params: { storageSiteFilter: selectedSite.id } }">
+            <el-button icon="el-icon-box" type="success" size="mini" :disabled="selectedSite.id === null">{{ $t('general.inventory') }}</el-button>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -76,10 +64,12 @@ export default {
       },
       sites: [],
       totalSites: 0,
+      selectedSite: { id: null },
     };
   },
   methods: {
     getStorageSites: function() {
+      this.resetSelectedSite();
       Api.getStorageSites(this.query.page, this.query.elementsPerPage, this.query.search)
         .then(result => {
           this.sites = result.body.data;
@@ -95,6 +85,13 @@ export default {
       this.query.search = value;
       this.query.page = 1;
       this.getStorageSites();
+    },
+    selectSite: function(site) {
+      this.selectedSite = { ...site };
+    },
+    resetSelectedSite: function() {
+      this.$refs['siteTable'].setCurrentRow(1);
+      this.selectedSite = { id: null };
     },
     areaCountFormatter: function(site) {
       return site.areas.length;

@@ -5,6 +5,30 @@
     /// </summary>
     public static class AuthPolicyNames
     {
+        #region Material batches
+
+        /// <summary>
+        /// The policy that authorizes the creation of material batches.
+        /// </summary>
+        public const string MAY_CREATE_BATCH = "MayCreateMaterialBatch";
+
+        /// <summary>
+        /// The policy that authorizes the updating of existing material batches.
+        /// </summary>
+        public const string MAY_UPDATE_BATCH = "MayUpdateMaterialBatch";
+
+        /// <summary>
+        /// The policy that authorizes the updating of material batches' status.
+        /// </summary>
+        public const string MAY_UPDATE_BATCH_STATUS = "MayUpdateMaterialBatchStatus";
+
+        /// <summary>
+        /// The policy that authorizes the performing of batch transactions (check-in or check-out of material).
+        /// </summary>
+        public const string MAY_PERFORM_BATCH_TRANSACTION = "MayPerformBatchTransaction";
+
+        #endregion
+
         #region Materials
 
         /// <summary>
@@ -64,6 +88,21 @@
         /// The policy that authorizes the deletion of custom material props.
         /// </summary>
         public const string MAY_DELETE_CUSTOM_MATERIAL_PROP = "MayDeleteCustomMaterialProp";
+
+        /// <summary>
+        /// The policy that authorizes the creation of custom batch props.
+        /// </summary>
+        public const string MAY_CREATE_CUSTOM_BATCH_PROP = "MayCreateCustomBatchProp";
+
+        /// <summary>
+        /// The policy that authorizes the uptating of custom batch props.
+        /// </summary>
+        public const string MAY_UPDATE_CUSTOM_BATCH_PROP = "MayUpdateCustomBatchProp";
+
+        /// <summary>
+        /// The policy that authorizes the deletion of custom batch props.
+        /// </summary>
+        public const string MAY_DELETE_CUSTOM_BATCH_PROP = "MayDeleteCustomBatchProp";
 
         #endregion
 

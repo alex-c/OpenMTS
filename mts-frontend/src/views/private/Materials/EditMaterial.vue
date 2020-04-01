@@ -3,10 +3,10 @@
     <!-- Header -->
     <div class="content-section">
       <div class="content-row">
-        <div class="left content-title">{{$t('materials.editMaterialWithId', {id})}}</div>
+        <div class="left content-title">{{ $t('materials.editMaterialWithId', { id }) }}</div>
         <div class="right">
           <router-link to="/private/materials">
-            <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{$t('general.back')}}</el-button>
+            <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{ $t('general.back') }}</el-button>
           </router-link>
         </div>
       </div>
@@ -14,20 +14,9 @@
 
     <!-- Master Data -->
     <div class="content-section">
-      <div class="content-row content-subtitle">{{$t('general.masterData')}}</div>
-      <Alert
-        type="success"
-        :description="feedback.masterData"
-        :show="feedback.masterData !== null"
-      />
-      <el-form
-        :model="updateMaterialForm"
-        :rules="validationRules"
-        ref="updateMaterialForm"
-        label-position="left"
-        label-width="140px"
-        size="mini"
-      >
+      <div class="content-row content-subtitle">{{ $t('general.masterData') }}</div>
+      <Alert type="success" :description="feedback.masterData" :show="feedback.masterData !== null" />
+      <el-form :model="updateMaterialForm" :rules="validationRules" ref="updateMaterialForm" label-position="left" label-width="140px" size="mini">
         <div class="content-row">
           <!-- Material ID -->
           <el-form-item prop="id" :label="$t('general.id')">
@@ -50,44 +39,22 @@
               clearable
               filterable
             >
-              <el-option
-                v-for="manufacturer in manufacturers"
-                :key="manufacturer"
-                :label="manufacturer"
-                :value="manufacturer"
-              ></el-option>
+              <el-option v-for="manufacturer in manufacturers" :key="manufacturer" :label="manufacturer" :value="manufacturer"></el-option>
             </el-select>
           </el-form-item>
 
           <!-- Manufacturer's ID -->
           <el-form-item prop="manufacturerSpecificId" :label="$t('materials.manufacturerId')">
-            <el-input
-              :placeholder="$t('materials.manufacturerId')"
-              v-model="updateMaterialForm.manufacturerSpecificId"
-            ></el-input>
+            <el-input :placeholder="$t('materials.manufacturerId')" v-model="updateMaterialForm.manufacturerSpecificId"></el-input>
           </el-form-item>
 
           <!-- Material Type & Save -->
           <el-form-item prop="type" :label="$t('materials.type')">
-            <el-select
-              v-model="updateMaterialForm.type"
-              :placeholder="$t('materials.type')"
-              :no-data-text="$t('general.noData')"
-              filterable
-            >
-              <el-option
-                v-for="type in materialTypes"
-                :key="type.id"
-                :label="type.id + ' - ' + type.name"
-                :value="type.id"
-              ></el-option>
+            <el-select v-model="updateMaterialForm.type" :placeholder="$t('materials.type')" :no-data-text="$t('general.noData')" filterable>
+              <el-option v-for="type in materialTypes" :key="type.id" :label="type.id + ' - ' + type.name" :value="type.id"></el-option>
             </el-select>
             <div class="right">
-              <el-button
-                type="primary"
-                @click="editMaterial"
-                icon="el-icon-check"
-              >{{$t('general.save')}}</el-button>
+              <el-button type="primary" @click="editMaterial" icon="el-icon-check">{{ $t('general.save') }}</el-button>
             </div>
           </el-form-item>
         </div>
@@ -96,38 +63,23 @@
 
     <!-- Custom Props -->
     <div class="content-section">
-      <div class="content-row content-subtitle">{{$t('materials.props')}}</div>
-      <Alert
-        type="success"
-        :description="feedback.customProps"
-        :show="feedback.customProps !== null"
-      />
+      <div class="content-row content-subtitle">{{ $t('materials.props') }}</div>
+      <Alert type="success" :description="feedback.customProps" :show="feedback.customProps !== null" />
       <div class="content-row" v-for="(prop, i) in customMaterialProps" v-bind:key="prop.id">
         <CustomProp :prop="prop">
           <template #right>
             <div class="right">
-              <el-tag
-                type="success"
-                effect="dark"
-                size="mini"
-                v-if="prop.set"
-              >{{$t('materials.propSet')}}</el-tag>
-              <el-tag type="danger" effect="dark" size="mini" v-else>{{$t('materials.propNotSet')}}</el-tag>
+              <el-tag type="success" effect="dark" size="mini" v-if="prop.set">{{ $t('materials.propSet') }}</el-tag>
+              <el-tag type="danger" effect="dark" size="mini" v-else>{{ $t('materials.propNotSet') }}</el-tag>
             </div>
           </template>
 
           <!-- Text props -->
           <div v-if="propIsTextProp(prop)">
             <div v-if="prop.set">
-              <div class="row">{{prop.value}}</div>
+              <div class="row">{{ prop.value }}</div>
               <div class="row center">
-                <el-button
-                  @click="deleteMaterialCustomTextProp(prop)"
-                  icon="el-icon-close"
-                  type="danger"
-                  theme="dark"
-                  size="mini"
-                >{{$t('general.delete')}}</el-button>
+                <el-button @click="deleteMaterialCustomTextProp(prop)" icon="el-icon-close" type="danger" theme="dark" size="mini">{{ $t('general.delete') }}</el-button>
               </div>
             </div>
             <div v-else>
@@ -136,13 +88,7 @@
                   <el-input type="textarea" v-model="customMaterialProps[i].value"></el-input>
                 </el-form-item>
                 <div class="row center">
-                  <el-button
-                    @click="setMaterialCustomTextProp(prop)"
-                    icon="el-icon-check"
-                    type="primary"
-                    theme="dark"
-                    size="mini"
-                  >{{$t('general.save')}}</el-button>
+                  <el-button @click="setMaterialCustomTextProp(prop)" icon="el-icon-check" type="primary" theme="dark" size="mini">{{ $t('general.save') }}</el-button>
                 </div>
               </el-form>
             </div>
@@ -152,18 +98,16 @@
           <div v-else-if="propIsFileProp(prop)">
             <div v-if="prop.set">
               <div class="row center">
-                <el-button
-                  @click="deleteMaterialCustomFileProp(prop)"
-                  icon="el-icon-close"
-                  type="danger"
-                  theme="dark"
-                  size="mini"
-                >{{$t('general.delete')}}</el-button>
+                <el-button @click="deleteMaterialCustomFileProp(prop)" icon="el-icon-close" type="danger" theme="dark" size="mini">{{ $t('general.delete') }}</el-button>
               </div>
             </div>
             <div v-else>
               <el-upload
-                :http-request="function(data) {uploadFile(data, prop)}"
+                :http-request="
+                  function(data) {
+                    uploadFile(data, prop);
+                  }
+                "
                 :ref="'upload-' + prop.id"
                 class="upload-container"
                 :auto-upload="false"
@@ -171,27 +115,16 @@
                 :limit="1"
                 action
               >
-                <el-button
-                  slot="trigger"
-                  size="small"
-                  type="info"
-                  icon="el-icon-document"
-                >{{$t('general.selectFile')}}</el-button>
-                <el-button
-                  style="margin-left: 10px;"
-                  size="small"
-                  type="primary"
-                  icon="el-icon-upload"
-                  @click="submitUpload(prop.id)"
-                >{{$t('general.upload')}}</el-button>
+                <el-button slot="trigger" size="small" type="info" icon="el-icon-document">{{ $t('general.selectFile') }}</el-button>
+                <el-button style="margin-left: 10px;" size="small" type="primary" icon="el-icon-upload" @click="submitUpload(prop.id)">{{ $t('general.upload') }}</el-button>
               </el-upload>
             </div>
           </div>
           <Alert type="error" :description="$t('materials.invalidProp')" :show="true" v-else />
         </CustomProp>
       </div>
-      <div class="content-row" v-if="customMaterialProps.length==0">
-        <Empty>{{$t('materials.noPropsDefined')}}</Empty>
+      <div class="content-row" v-if="customMaterialProps.length == 0">
+        <Empty>{{ $t('materials.noPropsDefined') }}</Empty>
       </div>
     </div>
   </div>
@@ -249,7 +182,8 @@ export default {
     getMaterial: function(callback) {
       Api.getMaterial(this.id)
         .then(response => {
-          this.updateMaterialForm = { ...response.body };
+          console.log(response.body);
+          this.updateMaterialForm = { ...response.body, type: response.body.type.id };
           this.customProps = response.body.customProps;
           if (callback !== undefined) {
             callback();
@@ -265,7 +199,7 @@ export default {
         .catch(this.handleHttpError);
     },
     getMaterialTypes: function() {
-      Api.getAllMaterialTypes()
+      Api.getAllPlastics()
         .then(response => {
           this.materialTypes = response.body.data;
         })

@@ -16,6 +16,12 @@ namespace OpenMTS.Models
         {
             return new List<string>()
             {
+                // Material batches
+                BATCHES_CREATE,
+                BATCHES_UPDATE,
+                BATCHES_UPDATE_STATUS,
+                BATCHES_PERFORM_TRANSACTION,
+
                 // Materials
                 MATERIALS_CREATE,
                 MATERIALS_UPDATE,
@@ -31,6 +37,9 @@ namespace OpenMTS.Models
                 CUSTOM_MATERIAL_PROPS_CREATE,
                 CUSTOM_MATERIAL_PROPS_UPDATE,
                 CUSTOM_MATERIAL_PROPS_DELETE,
+                CUSTOM_BATCH_PROPS_CREATE,
+                CUSTOM_BATCH_PROPS_UPDATE,
+                CUSTOM_BATCH_PROPS_DELETE,
 
                 // User administration
                 USERS_CREATE,
@@ -50,6 +59,30 @@ namespace OpenMTS.Models
                 STORAGE_AREAS_UPDATE
             };
         }
+
+        #region Material batches
+
+        /// <summary>
+        /// The right that allows to create a new material batch.
+        /// </summary>
+        public static readonly string BATCHES_CREATE = "batches.create";
+
+        /// <summary>
+        /// The right that allows to update an existing material batch.
+        /// </summary>
+        public static readonly string BATCHES_UPDATE = "batches.update";
+
+        /// <summary>
+        /// The right that allows to update an existing material batch's status.
+        /// </summary>
+        public static readonly string BATCHES_UPDATE_STATUS = "batches.update_status";
+
+        /// <summary>
+        /// The right that allows to perform a transaction (check-in or check-out) on a material batch..
+        /// </summary>
+        public static readonly string BATCHES_PERFORM_TRANSACTION = "batches.perform_transaction";
+
+        #endregion
 
         #region Materials
 
@@ -110,6 +143,21 @@ namespace OpenMTS.Models
         /// The right that allows to delete custom material props.
         /// </summary>
         public static readonly string CUSTOM_MATERIAL_PROPS_DELETE = "custom_material_props.delete";
+
+        /// <summary>
+        /// The right that allows to create custom batch props.
+        /// </summary>
+        public static readonly string CUSTOM_BATCH_PROPS_CREATE = "custom_batch_props.create";
+
+        /// <summary>
+        /// The right that allows to update custom batch props.
+        /// </summary>
+        public static readonly string CUSTOM_BATCH_PROPS_UPDATE = "custom_batch_props.update";
+
+        /// <summary>
+        /// The right that allows to delete custom batch props.
+        /// </summary>
+        public static readonly string CUSTOM_BATCH_PROPS_DELETE = "custom_batch_props.delete";
 
         #endregion
 

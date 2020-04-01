@@ -15,6 +15,7 @@ using OpenMTS.Services;
 using OpenMTS.Services.Authentication;
 using OpenMTS.Services.Authentication.Providers;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace OpenMTS
@@ -102,41 +103,51 @@ namespace OpenMTS
                 });
 
             // Configure authorization policies
+            IEnumerable<Role> allRoles = new Role[] { Role.Administrator, Role.ScientificAssistant, Role.User };
             services.AddAuthorization(options =>
             {
+                // Material batches
+                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_BATCH, allRoles, RightIds.BATCHES_CREATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_BATCH, allRoles, RightIds.BATCHES_UPDATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_BATCH_STATUS, new Role[] { Role.Administrator, Role.ScientificAssistant }, RightIds.BATCHES_UPDATE_STATUS);
+                RegisterPolicy(options, AuthPolicyNames.MAY_PERFORM_BATCH_TRANSACTION, allRoles, RightIds.BATCHES_PERFORM_TRANSACTION);
+
                 // Materials
-                options.AddPolicy(AuthPolicyNames.MAY_CREATE_MATERIAL, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.MATERIALS_CREATE)));
-                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_MATERIAL, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.MATERIALS_UPDATE)));
-                options.AddPolicy(AuthPolicyNames.MAY_SET_CUSTOM_MATERIAL_PROP_VALUE, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.MATERIAL_CUSTOM_PROPS_SET)));
-                options.AddPolicy(AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP_VALUE, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.MATERIAL_CUSTOM_PROPS_DELETE)));
+                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_MATERIAL, allRoles, RightIds.MATERIALS_CREATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_MATERIAL, allRoles, RightIds.MATERIALS_UPDATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_SET_CUSTOM_MATERIAL_PROP_VALUE, allRoles, RightIds.MATERIAL_CUSTOM_PROPS_SET);
+                RegisterPolicy(options, AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP_VALUE, allRoles, RightIds.MATERIAL_CUSTOM_PROPS_DELETE);
 
                 // Plastics
-                options.AddPolicy(AuthPolicyNames.MAY_CREATE_PLASTIC, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.PLASTICS_CREATE)));
-                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_PLASTIC, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.PLASTICS_UPDATE)));
+                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_PLASTIC, allRoles, RightIds.PLASTICS_CREATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_PLASTIC, allRoles, RightIds.PLASTICS_UPDATE);
 
                 // Configuration administration
-                options.AddPolicy(AuthPolicyNames.MAY_SET_CONFIGURATION, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CONFIGFURATION_SET)));
-                options.AddPolicy(AuthPolicyNames.MAY_CREATE_CUSTOM_MATERIAL_PROP, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_CREATE)));
-                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_CUSTOM_MATERIAL_PROP, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_UPDATE)));
-                options.AddPolicy(AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_DELETE)));
+                RegisterPolicy(options, AuthPolicyNames.MAY_SET_CONFIGURATION, Role.Administrator, RightIds.CONFIGFURATION_SET);
+                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_CUSTOM_MATERIAL_PROP, Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_CREATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_CUSTOM_MATERIAL_PROP, Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_UPDATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_DELETE_CUSTOM_MATERIAL_PROP, Role.Administrator, RightIds.CUSTOM_MATERIAL_PROPS_DELETE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_CUSTOM_BATCH_PROP, Role.Administrator, RightIds.CUSTOM_BATCH_PROPS_CREATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_CUSTOM_BATCH_PROP, Role.Administrator, RightIds.CUSTOM_BATCH_PROPS_UPDATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_DELETE_CUSTOM_BATCH_PROP, Role.Administrator, RightIds.CUSTOM_BATCH_PROPS_DELETE);
 
                 // User administration
-                options.AddPolicy(AuthPolicyNames.MAY_CREATE_USER, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.USERS_CREATE)));
-                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_USER, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.USERS_UPDATE)));
-                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_USER_STATUS, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.USERS_UPDATE_STATUS)));
+                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_USER, Role.Administrator, RightIds.USERS_CREATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_USER, Role.Administrator, RightIds.USERS_UPDATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_USER_STATUS, Role.Administrator, RightIds.USERS_UPDATE_STATUS);
 
                 // API key administration
-                options.AddPolicy(AuthPolicyNames.MAY_QUERY_KEYS, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.KEYS_QUERY)));
-                options.AddPolicy(AuthPolicyNames.MAY_CREATE_KEY, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.KEYS_CREATE)));
-                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_KEY, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.KEYS_UPDATE)));
-                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_KEY_STATUS, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.KEYS_UPDATE_STATUS)));
-                options.AddPolicy(AuthPolicyNames.MAY_DELETE_KEY, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.KEYS_DELETE)));
+                RegisterPolicy(options, AuthPolicyNames.MAY_QUERY_KEYS, Role.Administrator, RightIds.KEYS_QUERY);
+                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_KEY, Role.Administrator, RightIds.KEYS_CREATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_KEY, Role.Administrator, RightIds.KEYS_UPDATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_KEY_STATUS, Role.Administrator, RightIds.KEYS_UPDATE_STATUS);
+                RegisterPolicy(options, AuthPolicyNames.MAY_DELETE_KEY, Role.Administrator, RightIds.KEYS_DELETE);
 
                 // Locations administration
-                options.AddPolicy(AuthPolicyNames.MAY_CREATE_STORAGE_SITE, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.STORAGE_SITES_CREATE)));
-                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_STORAGE_SITE, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.STORAGE_SITES_UPDATE)));
-                options.AddPolicy(AuthPolicyNames.MAY_CREATE_STORAGE_AREA, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.STORAGE_AREAS_CREATE)));
-                options.AddPolicy(AuthPolicyNames.MAY_UPDATE_STORAGE_AREA, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(Role.Administrator, RightIds.STORAGE_AREAS_UPDATE)));
+                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_STORAGE_SITE, Role.Administrator, RightIds.STORAGE_SITES_CREATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_STORAGE_SITE, Role.Administrator, RightIds.STORAGE_SITES_UPDATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_CREATE_STORAGE_AREA, Role.Administrator, RightIds.STORAGE_AREAS_CREATE);
+                RegisterPolicy(options, AuthPolicyNames.MAY_UPDATE_STORAGE_AREA, Role.Administrator, RightIds.STORAGE_AREAS_UPDATE);
             });
 
             // Add authorization handler
@@ -149,8 +160,10 @@ namespace OpenMTS
                 {
                     services.AddSingleton<MockDataProvider>();
                 }
-                services.AddSingleton<IPlasticsRepository, MockPlasticsRepository>();
+                services.AddSingleton<IMaterialBatchRepository, MockMaterialBatchRepository>();
+                services.AddSingleton<ITransactionRepository, MockTransactionRepository>();
                 services.AddSingleton<IMaterialsRepository, MockMaterialsRepository>();
+                services.AddSingleton<IPlasticsRepository, MockPlasticsRepository>();
                 services.AddSingleton<IConfigurationRepository, MockConfigurationRepository>();
                 services.AddSingleton<ICustomMaterialPropRepository, MockCustomMaterialPropRepository>();
                 services.AddSingleton<IUserRepository, MockUserRepository>();
@@ -158,6 +171,7 @@ namespace OpenMTS
                 services.AddSingleton<IApiKeyRepository, MockApiKeyRepository>();
                 services.AddSingleton<IReadOnlyApiKeyProvider, MockApiKeyRepository>();
                 services.AddSingleton<ILocationsRepository, MockLocationsRepository>();
+                services.AddSingleton<ICustomBatchPropRepository, MockCustomBatchPropRepository>();
                 MockCustomMaterialPropValueRepository mockCustomMaterialPropValueRepository = new MockCustomMaterialPropValueRepository();
                 services.AddSingleton<ICustomMaterialPropValueRepository>(mockCustomMaterialPropValueRepository);
                 services.AddSingleton(mockCustomMaterialPropValueRepository);
@@ -185,10 +199,13 @@ namespace OpenMTS
             // Register services
             services.AddSingleton<AuthService>();
             services.AddSingleton<PasswordHashingService>();
-            services.AddSingleton<PlasticsService>();
+            services.AddSingleton<InventoryService>();
+            services.AddSingleton<TransactionLogService>();
             services.AddSingleton<MaterialsService>();
+            services.AddSingleton<PlasticsService>();
             services.AddSingleton<ConfigurationService>();
             services.AddSingleton<CustomMaterialPropService>();
+            services.AddSingleton<CustomBatchPropService>();
             services.AddSingleton<UserService>();
             services.AddSingleton<ApiKeyService>();
             services.AddSingleton<RightsService>();
@@ -210,12 +227,22 @@ namespace OpenMTS
                 app.UseCors(LOCAL_DEVELOPMENT_CORS_POLICY);
                 Logger.LogInformation("Local development CORS policy for 'localhost:8080' enabled.");
             }
-            
+
             // Use JWT-based auth
             app.UseAuthentication();
 
             // Use MVC
             app.UseMvc();
+        }
+
+        private void RegisterPolicy(AuthorizationOptions options, string policyName, Role role, string rightId)
+        {
+            RegisterPolicy(options, policyName, new Role[] { role }, rightId);
+        }
+
+        private void RegisterPolicy(AuthorizationOptions options, string policyName, IEnumerable<Role> roles, string rightId)
+        {
+            options.AddPolicy(policyName, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(roles, rightId)));
         }
     }
 }

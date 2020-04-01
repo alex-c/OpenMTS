@@ -79,8 +79,110 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getAllMaterialTypes: function() {
-    return this.getMaterialTypes(0, 0, '', true);
+  getBatches: (page, elementsPerPage, materialId, siteId) => {
+    return fetch(`http://localhost:5000/api/inventory?page=${page}&elementsPerPage=${elementsPerPage}&materialId=${materialId}&siteId=${siteId}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getBatch: id => {
+    return fetch(`http://localhost:5000/api/inventory/${id}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  createBatch: (materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, quantity, customProps, isLocked) => {
+    return fetch(`http://localhost:5000/api/inventory`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, quantity, customProps, isLocked }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateBatch: (batchId, materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, customProps) => {
+    return fetch(`http://localhost:5000/api/inventory/${batchId}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ materialId, expirationDate, storageSiteId, storageAreaId, batchNumber, customProps }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateBatchStatus: (batchId, isLocked) => {
+    return fetch(`http://localhost:5000/api/inventory/${batchId}/status`, {
+      method: 'PUT',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ isLocked }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getTransactionLog: (page, elementsPerPage, batchId) => {
+    return fetch(`http://localhost:5000/api/inventory/${batchId}/log?page=${page}&elementsPerPage=${elementsPerPage}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getLastTransaction: batchId => {
+    return fetch(`http://localhost:5000/api/inventory/${batchId}/last-entry`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  amendLastTransaction: (batchId, transactionId, quantity) => {
+    return fetch(`http://localhost:5000/api/inventory/${batchId}/log/${transactionId}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ quantity }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  checkOut: function(batchId, quantity) {
+    return this.performMaterialTransaction(batchId, quantity, true);
+  },
+  checkIn: function(batchId, quantity) {
+    return this.performMaterialTransaction(batchId, quantity, false);
+  },
+  performMaterialTransaction: (batchId, quantity, isCheckout) => {
+    console.log(quantity);
+    return fetch(`http://localhost:5000/api/inventory/${batchId}/log`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ quantity, isCheckout }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getAllPlastics: function() {
+    return this.getPlastics(0, 0, '', true);
   },
   getPlastics: (page, elementsPerPage, search, getAll = false) => {
     return fetch(`http://localhost:5000/api/plastics?getAll=${getAll}&page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
@@ -124,13 +226,19 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getMaterials: (page, elementsPerPage, search, manufacturer, type) => {
-    return fetch(`http://localhost:5000/api/materials?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&manufacturer=${manufacturer}&type=${type}`, {
-      method: 'GET',
-      withCredentials: true,
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
-    })
+  getAllMaterials: function() {
+    return this.getMaterials(0, 0, '', '', '', true);
+  },
+  getMaterials: (page, elementsPerPage, search, manufacturer, type, getAll = false) => {
+    return fetch(
+      `http://localhost:5000/api/materials?getAll=${getAll}&page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&manufacturer=${manufacturer}&type=${type}`,
+      {
+        method: 'GET',
+        withCredentials: true,
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      },
+    )
       .catch(catchNetworkError)
       .then(processResponse);
   },
@@ -281,6 +389,48 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getCustomBatchProps: () => {
+    return fetch(`http://localhost:5000/api/configuration/batch-props`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  createCustomBatchProp: name => {
+    return fetch(`http://localhost:5000/api/configuration/batch-props/`, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  updateCustomBatchProp: (id, name) => {
+    return fetch(`http://localhost:5000/api/configuration/batch-props/${id}`, {
+      method: 'PATCH',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+      body: JSON.stringify({ name }),
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  deleteCustomBatchProp: id => {
+    return fetch(`http://localhost:5000/api/configuration/batch-props/${id}`, {
+      method: 'DELETE',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   getUsers: (page, elementsPerPage, search, showDisabled) => {
     return fetch(`http://localhost:5000/api/users?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}&showDisabled=${showDisabled}`, {
       method: 'GET',
@@ -377,8 +527,11 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getStorageSites: (page, elementsPerPage, search) => {
-    return fetch(`http://localhost:5000/api/sites?page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
+  getAllStorageSites: function() {
+    return this.getStorageSites(0, 0, '', true);
+  },
+  getStorageSites: (page, elementsPerPage, search, getAll = false) => {
+    return fetch(`http://localhost:5000/api/sites?getAll=${getAll}&page=${page}&elementsPerPage=${elementsPerPage}&search=${search}`, {
       method: 'GET',
       withCredentials: true,
       credentials: 'include',

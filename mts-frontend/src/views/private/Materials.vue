@@ -3,10 +3,10 @@
     <div class="content-section">
       <!-- Header -->
       <div class="content-row">
-        <div class="left content-title">{{$t('general.materials')}}</div>
+        <div class="left content-title">{{ $t('general.materials') }}</div>
         <div class="right">
           <router-link to="/private/materials/create">
-            <el-button icon="el-icon-plus" type="primary" size="mini">{{$t('materials.create')}}</el-button>
+            <el-button icon="el-icon-plus" type="primary" size="mini">{{ $t('materials.create') }}</el-button>
           </router-link>
         </div>
       </div>
@@ -25,45 +25,20 @@
             clearable
             filterable
           >
-            <el-option
-              v-for="manufacturer in manufacturers"
-              :key="manufacturer"
-              :label="manufacturer"
-              :value="manufacturer"
-            ></el-option>
+            <el-option v-for="manufacturer in manufacturers" :key="manufacturer" :label="manufacturer" :value="manufacturer"></el-option>
           </el-select>
         </div>
 
-        <!-- Material Type Filter -->
+        <!-- Plastics Filter -->
         <div style="margin: 0px 8px">
-          <el-select
-            v-model="query.type"
-            :placeholder="$t('materials.type')"
-            :no-data-text="$t('general.noData')"
-            @change="setMaterialType"
-            size="mini"
-            clearable
-            filterable
-          >
-            <el-option
-              v-for="type in materialTypes"
-              :key="type.id"
-              :label="type.id + ' - ' + type.name"
-              :value="type.id"
-            ></el-option>
+          <el-select v-model="query.type" :placeholder="$t('materials.type')" :no-data-text="$t('general.noData')" @change="setPlastic" size="mini" clearable filterable>
+            <el-option v-for="plastic in plastics" :key="plastic.id" :label="plastic.id + ' - ' + plastic.name" :value="plastic.id"></el-option>
           </el-select>
         </div>
 
         <!-- Name Search -->
         <div class="grow">
-          <el-input
-            :placeholder="$t('materials.filter')"
-            prefix-icon="el-icon-search"
-            v-model="search"
-            size="mini"
-            clearable
-            @change="setSearch"
-          ></el-input>
+          <el-input :placeholder="$t('materials.filter')" prefix-icon="el-icon-search" v-model="search" size="mini" clearable @change="setSearch"></el-input>
         </div>
 
         <!-- Reset Filters -->
@@ -89,11 +64,11 @@
           <el-table-column prop="name" :label="$t('general.name')"></el-table-column>
           <el-table-column prop="manufacturer" :label="$t('materials.manufacturer')"></el-table-column>
           <el-table-column prop="type" :label="$t('materials.type')" width="60">
-            <template slot-scope="scope">
+            <template slot-scope="material">
               <el-popover trigger="hover" placement="left">
-                {{ scope.row.type.name }}
+                {{ material.row.type.name }}
                 <div slot="reference">
-                  <el-tag type="primary" plain size="mini">{{ scope.row.type.id }}</el-tag>
+                  <el-tag type="primary" plain size="mini">{{ material.row.type.id }}</el-tag>
                 </div>
               </el-popover>
             </template>
@@ -114,20 +89,15 @@
           ></el-pagination>
         </div>
         <div class="right">
-          <el-button
-            icon="el-icon-view"
-            type="primary"
-            size="mini"
-            :disabled="selectedMaterial.id === null"
-            @click="viewMaterialDetails"
-          >{{$t('general.details')}}</el-button>
-          <el-button
-            icon="el-icon-edit"
-            type="info"
-            size="mini"
-            :disabled="selectedMaterial.id === null"
-            @click="editMaterial"
-          >{{$t('general.edit')}}</el-button>
+          <router-link :to="{ name: 'inventory', params: { materialFilter: selectedMaterial.id } }">
+            <el-button icon="el-icon-box" type="success" size="mini" :disabled="selectedMaterial.id === null">{{ $t('general.inventory') }}</el-button>
+          </router-link>
+          <router-link :to="{ name: 'editMaterial', params: { id: selectedMaterial.id } }">
+            <el-button icon="el-icon-edit" type="info" size="mini" :disabled="selectedMaterial.id === null">{{ $t('general.edit') }}</el-button>
+          </router-link>
+          <router-link :to="{ name: 'materialDetails', params: { ...selectedMaterial } }">
+            <el-button icon="el-icon-view" type="primary" size="mini" :disabled="selectedMaterial.id === null">{{ $t('general.details') }}</el-button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -154,7 +124,7 @@ export default {
       materials: [],
       totalMaterials: 0,
       manufacturers: [],
-      materialTypes: [],
+      plastics: [],
       selectedMaterial: { id: null },
     };
   },
@@ -168,10 +138,10 @@ export default {
         })
         .catch(error => this.handleHttpError(error));
     },
-    getMaterialTypes: function() {
-      Api.getAllMaterialTypes()
+    getPlastics: function() {
+      Api.getAllPlastics()
         .then(response => {
-          this.materialTypes = response.body.data;
+          this.plastics = response.body.data;
         })
         .catch(error => this.handleHttpError(error));
     },
@@ -186,7 +156,7 @@ export default {
       this.query.page = 1;
       this.getMaterials();
     },
-    setMaterialType: function(value) {
+    setPlastic: function(value) {
       this.query.page = 1;
       this.getMaterials();
     },
@@ -214,16 +184,10 @@ export default {
       this.query.page = page;
       this.getMaterials();
     },
-    editMaterial: function() {
-      this.$router.push({ name: 'editMaterial', params: { id: this.selectedMaterial.id } });
-    },
-    viewMaterialDetails: function() {
-      this.$router.push({ name: 'materialDetails', params: { ...this.selectedMaterial } });
-    },
   },
   mounted() {
     this.getManufacturers();
-    this.getMaterialTypes();
+    this.getPlastics();
     this.getMaterials();
   },
 };
