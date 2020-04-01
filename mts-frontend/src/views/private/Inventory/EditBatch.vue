@@ -1,5 +1,5 @@
 <template>
-  <div id="view-edit-batch">
+  <div id="view-edit-batch" class="page-small">
     <div class="content-section">
       <!-- Header -->
       <div class="content-row">

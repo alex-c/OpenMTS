@@ -1,12 +1,12 @@
 <template>
-  <div id="edit-user">
+  <div id="edit-user" class="page-small">
     <!-- Header -->
     <div class="content-section">
       <div class="content-row">
-        <div class="left content-title">{{$t('users.edit', {id})}}</div>
+        <div class="left content-title">{{ $t('users.edit', { id }) }}</div>
         <div class="right">
           <router-link to="/private/users">
-            <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{$t('general.back')}}</el-button>
+            <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{ $t('general.back') }}</el-button>
           </router-link>
         </div>
       </div>
@@ -14,14 +14,7 @@
 
     <!-- Edit User Form -->
     <div class="content-section">
-      <el-form
-        :model="editUserForm"
-        :rules="validationRules"
-        ref="editUserForm"
-        label-position="left"
-        label-width="120px"
-        size="mini"
-      >
+      <el-form :model="editUserForm" :rules="validationRules" ref="editUserForm" label-position="left" label-width="120px" size="mini">
         <div class="content-row">
           <el-form-item prop="userName" :label="$t('general.name')">
             <el-input :placeholder="$t('general.name')" v-model="editUserForm.userName"></el-input>
@@ -33,7 +26,7 @@
               <el-option value="2" :label="$t('users.roles.user')" />
             </el-select>
             <div class="right">
-              <el-button type="primary" @click="edit" icon="el-icon-check">{{$t('general.save')}}</el-button>
+              <el-button type="primary" @click="edit" icon="el-icon-check">{{ $t('general.save') }}</el-button>
             </div>
           </el-form-item>
         </div>

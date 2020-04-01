@@ -42,6 +42,21 @@ export default {
 <style lang="scss">
 @import '../theme/colors.scss';
 
+.page-small {
+  max-width: 800px;
+  margin: auto;
+}
+
+.page-medium {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.page-large {
+  max-width: 1200px;
+  margin: auto;
+}
+
 #content {
   margin-top: 61px;
   margin-left: 230px;

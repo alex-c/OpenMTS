@@ -1,5 +1,5 @@
 <template>
-  <div id="configuration">
+  <div id="configuration" class="page-small">
     <!-- Header -->
     <div class="content-section">
       <div class="content-row content-title">{{ $t('general.configuration') }}</div>

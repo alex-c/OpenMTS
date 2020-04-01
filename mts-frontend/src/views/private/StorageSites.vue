@@ -1,5 +1,5 @@
 <template>
-  <div id="storage-sites">
+  <div id="storage-sites" class="page-small">
     <div class="content-section">
       <!-- Page Title -->
       <div class="content-row content-title">{{ $t('storage.sites') }}</div>

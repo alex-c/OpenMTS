@@ -1,5 +1,5 @@
 <template>
-  <div id="view-create-batch">
+  <div id="view-create-batch" class="page-small">
     <div class="content-section">
       <!-- Header -->
       <div class="content-row">
@@ -207,10 +207,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-#view-create-batch {
-  width: 800px;
-  margin: auto;
-}
-</style>

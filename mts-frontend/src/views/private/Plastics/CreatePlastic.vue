@@ -1,5 +1,5 @@
 <template>
-  <div id="create-plastic">
+  <div id="create-plastic" class="page-small">
     <div class="content-section">
       <!-- Header -->
       <div class="content-row">

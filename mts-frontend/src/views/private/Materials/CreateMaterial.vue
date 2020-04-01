@@ -1,5 +1,5 @@
 <template>
-  <div id="create-material">
+  <div id="create-material" class="page-small">
     <div class="content-section">
       <!-- Header -->
       <div class="content-row">

@@ -1,5 +1,5 @@
 <template>
-  <div id="edit-material">
+  <div id="edit-material" class="page-small">
     <!-- Header -->
     <div class="content-section">
       <div class="content-row">

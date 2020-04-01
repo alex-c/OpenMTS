@@ -1,12 +1,12 @@
 <template>
-  <div id="edit-storage-site">
+  <div id="edit-storage-site" class="page-small">
     <!-- Page Title -->
     <div class="content-section">
       <div class="content-row">
-        <div class="left content-title">{{$t('storage.site')}}</div>
+        <div class="left content-title">{{ $t('storage.site') }}</div>
         <div class="right">
           <router-link to="/private/locations">
-            <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{$t('general.back')}}</el-button>
+            <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{ $t('general.back') }}</el-button>
           </router-link>
         </div>
       </div>
@@ -14,20 +14,9 @@
 
     <!-- Master Data Form -->
     <div class="content-section">
-      <el-form
-        :model="editStorageSiteForm"
-        :rules="validationRules"
-        ref="editStorageSiteForm"
-        label-position="left"
-        label-width="120px"
-        size="mini"
-      >
-        <div class="content-row content-subtitle">{{$t('general.masterData')}}</div>
-        <Alert
-          type="success"
-          :description="feedback.masterData"
-          :show="feedback.masterData !== null"
-        />
+      <el-form :model="editStorageSiteForm" :rules="validationRules" ref="editStorageSiteForm" label-position="left" label-width="120px" size="mini">
+        <div class="content-row content-subtitle">{{ $t('general.masterData') }}</div>
+        <Alert type="success" :description="feedback.masterData" :show="feedback.masterData !== null" />
         <div class="content-row">
           <el-form-item prop="siteId" :label="$t('general.id')">
             <el-input :placeholder="$t('general.id')" v-model="editStorageSiteForm.siteId" disabled></el-input>
@@ -37,13 +26,7 @@
           </el-form-item>
         </div>
         <div class="content-row-nopad">
-          <el-button
-            class="right"
-            type="primary"
-            icon="el-icon-check"
-            size="mini"
-            @click="editStorageSite"
-          >{{$t('general.save')}}</el-button>
+          <el-button class="right" type="primary" icon="el-icon-check" size="mini" @click="editStorageSite">{{ $t('general.save') }}</el-button>
         </div>
       </el-form>
     </div>
@@ -51,21 +34,12 @@
     <!-- Storage Areas Form -->
     <div class="content-section">
       <div class="content-row">
-        <div class="left content-subtitle">{{$t('storage.areas')}}</div>
+        <div class="left content-subtitle">{{ $t('storage.areas') }}</div>
         <div class="right">
-          <el-button
-            icon="el-icon-plus"
-            type="primary"
-            size="mini"
-            @click="createStorageArea"
-          >{{$t('storage.createArea')}}</el-button>
+          <el-button icon="el-icon-plus" type="primary" size="mini" @click="createStorageArea">{{ $t('storage.createArea') }}</el-button>
         </div>
       </div>
-      <Alert
-        type="success"
-        :description="feedback.storageAreas"
-        :show="feedback.storageAreas !== null"
-      />
+      <Alert type="success" :description="feedback.storageAreas" :show="feedback.storageAreas !== null" />
       <div class="content-row">
         <el-table
           :data="editStorageSiteForm.siteAreas"
@@ -83,13 +57,7 @@
         </el-table>
         <div class="content-row">
           <div class="right">
-            <el-button
-              icon="el-icon-edit"
-              type="info"
-              size="mini"
-              :disabled="selectedArea.id === null"
-              @click="editStorageArea"
-            >{{$t('general.edit')}}</el-button>
+            <el-button icon="el-icon-edit" type="info" size="mini" :disabled="selectedArea.id === null" @click="editStorageArea">{{ $t('general.edit') }}</el-button>
           </div>
         </div>
       </div>

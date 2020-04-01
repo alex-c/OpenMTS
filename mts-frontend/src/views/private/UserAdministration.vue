@@ -1,5 +1,5 @@
 <template>
-  <div id="user-administration">
+  <div id="user-administration" class="page-small">
     <Alert type="success" :description="feedback.successMessage" :show="feedback.successMessage !== undefined" />
     <div class="content-section">
       <!-- Header -->

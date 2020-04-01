@@ -1,12 +1,12 @@
 <template>
-  <div id="edit-keys">
+  <div id="edit-keys" class="page-small">
     <!-- Header -->
     <div class="content-section">
       <div class="content-row">
-        <div class="left content-title">{{$t('apiKeys.editTitle', {key: this.id})}}</div>
+        <div class="left content-title">{{ $t('apiKeys.editTitle', { key: this.id }) }}</div>
         <div class="right">
           <router-link to="/private/keys">
-            <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{$t('general.back')}}</el-button>
+            <el-button type="warning" size="mini" icon="el-icon-arrow-left">{{ $t('general.back') }}</el-button>
           </router-link>
         </div>
       </div>
@@ -16,26 +16,18 @@
     <div class="content-section">
       <!-- Form -->
       <div class="content-row">
-        <el-form
-          :model="editKeyForm"
-          :rules="validationRules"
-          ref="editKeyForm"
-          label-position="left"
-          label-width="120px"
-          size="mini"
-        >
-          <el-form-item prop="name" label="Name">
-            <el-input placeholder="Name" v-model="editKeyForm.name"></el-input>
+        <el-form :model="editKeyForm" :rules="validationRules" ref="editKeyForm" label-position="left" label-width="120px" size="mini">
+          <el-form-item prop="name" :label="$t('general.name')">
+            <el-input :placeholder="$t('general.name')" v-model="editKeyForm.name"></el-input>
           </el-form-item>
-          <el-form-item prop="rights" label="Rights" style="text-align:center;">
+          <el-form-item prop="rights" :label="$t('apiKeys.rights')">
             <el-transfer
-              style="margin: auto;text-align: left;"
               v-model="selectedRights"
               :data="availableRights"
               :titles="[$t('apiKeys.rightsAvailable'), $t('apiKeys.rightsSelected')]"
               filterable
               :filter-placeholder="$t('apiKeys.filterPlaceholder')"
-              empty-text="TEST"
+              :empty-text="$t('general.noData')"
             ></el-transfer>
           </el-form-item>
         </el-form>
@@ -44,12 +36,7 @@
       <!-- Buttons -->
       <div class="content-row-nopad">
         <div class="right">
-          <el-button
-            type="primary"
-            icon="el-icon-check"
-            size="mini"
-            @click="edit"
-          >{{$t('general.save')}}</el-button>
+          <el-button type="primary" icon="el-icon-check" size="mini" @click="edit">{{ $t('general.save') }}</el-button>
         </div>
       </div>
       <Alert type="error" :description="$t(error)" :show="error !== null" />
@@ -108,7 +95,7 @@ export default {
 </script>
 
 <style lang="scss">
-.el-transfer-panel__empty {
-  display: none;
+.el-transfer-panel {
+  width: 258px !important;
 }
 </style>

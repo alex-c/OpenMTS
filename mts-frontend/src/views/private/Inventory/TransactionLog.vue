@@ -1,5 +1,5 @@
 <template>
-  <div id="transaction-log">
+  <div id="transaction-log" class="page-large">
     <!-- Transaction log -->
     <div class="content-section">
       <!-- Header -->
@@ -14,22 +14,10 @@
 
       <!-- Transaction Log -->
       <div class="content-row">
-        <el-table
-          :data="transactions"
-          stripe
-          border
-          size="mini"
-          :empty-text="$t('general.noData')"
-          ref="transactionLog"
-          row-key="id"
-        >
+        <el-table :data="transactions" stripe border size="mini" :empty-text="$t('general.noData')" ref="transactionLog" row-key="id">
           <el-table-column prop="id" :label="$t('general.id')"></el-table-column>
           <el-table-column prop="quantity" :label="$t('inventory.quantity') + ' (kg)'"></el-table-column>
-          <el-table-column
-            prop="timestamp"
-            :label="$t('inventory.timestamp')"
-            :formatter="formatTimestamp"
-          ></el-table-column>
+          <el-table-column prop="timestamp" :label="$t('inventory.timestamp')" :formatter="formatTimestamp"></el-table-column>
           <el-table-column prop="userId" :label="$t('inventory.userId')"></el-table-column>
         </el-table>
       </div>
@@ -50,34 +38,18 @@
     <!-- Log entry amending -->
     <div class="content-section">
       <div class="content-row content-title">{{ $t('inventory.amendTitle') }}</div>
-      <div class="content-row">{{$t('inventory.amendDescription')}}</div>
+      <div class="content-row">{{ $t('inventory.amendDescription') }}</div>
       <div class="content-row">
-        <el-table
-          :data="lastTransaction"
-          border
-          size="mini"
-          :empty-text="$t('general.noData')"
-          ref="lastTransaction"
-          row-key="id"
-        >
+        <el-table :data="lastTransaction" border size="mini" :empty-text="$t('general.noData')" ref="lastTransaction" row-key="id">
           <el-table-column prop="id" :label="$t('general.id')"></el-table-column>
           <el-table-column prop="quantity" :label="$t('inventory.quantity') + ' (kg)'"></el-table-column>
-          <el-table-column
-            prop="timestamp"
-            :label="$t('inventory.timestamp')"
-            :formatter="formatTimestamp"
-          ></el-table-column>
+          <el-table-column prop="timestamp" :label="$t('inventory.timestamp')" :formatter="formatTimestamp"></el-table-column>
           <el-table-column prop="userId" :label="$t('inventory.userId')"></el-table-column>
         </el-table>
       </div>
       <div class="content-row">
         <div class="right">
-          <el-button
-            type="info"
-            icon="el-icon-edit"
-            size="mini"
-            @click="amend"
-          >{{$t('inventory.amend')}}</el-button>
+          <el-button type="info" icon="el-icon-edit" size="mini" @click="amend">{{ $t('inventory.amend') }}</el-button>
         </div>
       </div>
     </div>

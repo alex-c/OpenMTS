@@ -1,59 +1,33 @@
 <template>
-  <div id="storage-locations">
+  <div id="storage-locations" class="page-small">
     <div class="content-section">
       <!-- Page Title -->
       <div class="content-row">
-        <div class="left content-title">{{$t('storage.sites')}}</div>
+        <div class="left content-title">{{ $t('storage.sites') }}</div>
         <div class="right">
-          <el-button
-            icon="el-icon-plus"
-            type="primary"
-            size="mini"
-            @click="createStorageSite"
-          >{{$t('storage.createSite')}}</el-button>
+          <el-button icon="el-icon-plus" type="primary" size="mini" @click="createStorageSite">{{ $t('storage.createSite') }}</el-button>
         </div>
       </div>
 
       <!-- Search Bar -->
       <div class="content-row content-row-inputs">
-        <el-input
-          :placeholder="$t('storage.filter')"
-          prefix-icon="el-icon-search"
-          v-model="search"
-          size="mini"
-          clearable
-          @change="setSearch"
-        ></el-input>
+        <el-input :placeholder="$t('storage.filter')" prefix-icon="el-icon-search" v-model="search" size="mini" clearable @change="setSearch"></el-input>
       </div>
 
       <!-- Table -->
       <div class="content-row">
-        <el-table
-          :data="sites"
-          stripe
-          border
-          size="mini"
-          :empty-text="$t('general.noData')"
-          highlight-current-row
-          @current-change="selectStorageSite"
-          ref="siteTable"
-          row-key="id"
-        >
+        <el-table :data="sites" stripe border size="mini" :empty-text="$t('general.noData')" highlight-current-row @current-change="selectStorageSite" ref="siteTable" row-key="id">
           <el-table-column type="expand">
             <template slot-scope="props">
               <p id="area-tags">
-                <b>{{$t('storage.areas')}}:</b>
+                <b>{{ $t('storage.areas') }}:</b>
                 <el-tag v-for="area in props.row.areas" :key="area.id" size="mini">{{ area.name }}</el-tag>
               </p>
             </template>
           </el-table-column>
           <el-table-column prop="id" :label="$t('general.id')"></el-table-column>
           <el-table-column prop="name" :label="$t('general.name')"></el-table-column>
-          <el-table-column
-            prop="areas"
-            :label="$t('storage.areas')"
-            :formatter="areaCountFormatter"
-          ></el-table-column>
+          <el-table-column prop="areas" :label="$t('storage.areas')" width="120" :formatter="areaCountFormatter"></el-table-column>
         </el-table>
       </div>
 
@@ -70,13 +44,7 @@
           ></el-pagination>
         </div>
         <div class="right">
-          <el-button
-            icon="el-icon-edit"
-            type="info"
-            size="mini"
-            :disabled="selected.id === null"
-            @click="editStorageSite"
-          >{{$t('general.edit')}}</el-button>
+          <el-button icon="el-icon-edit" type="info" size="mini" :disabled="selected.id === null" @click="editStorageSite">{{ $t('general.edit') }}</el-button>
         </div>
       </div>
     </div>

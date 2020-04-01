@@ -1,52 +1,29 @@
 <template>
-  <div id="api-keys">
-    <Alert
-      type="success"
-      :description="feedback.successMessage"
-      :show="feedback.successMessage !== undefined"
-    />
+  <div id="api-keys" class="page-small">
+    <Alert type="success" :description="feedback.successMessage" :show="feedback.successMessage !== undefined" />
     <div class="content-section">
       <!-- Header -->
       <div class="content-row">
-        <div class="left content-title">{{$t('general.apiKeys')}}</div>
+        <div class="left content-title">{{ $t('general.apiKeys') }}</div>
         <div class="right">
-          <el-button
-            icon="el-icon-plus"
-            type="primary"
-            size="mini"
-            @click="create"
-          >{{$t('apiKeys.create')}}</el-button>
+          <el-button icon="el-icon-plus" type="primary" size="mini" @click="create">{{ $t('apiKeys.create') }}</el-button>
         </div>
       </div>
 
       <!-- Keys Table -->
       <div class="content-row">
-        <el-table
-          :data="keys"
-          stripe
-          border
-          size="mini"
-          :empty-text="$t('general.noData')"
-          highlight-current-row
-          @current-change="selectKey"
-          ref="keysTable"
-          row-key="id"
-        >
+        <el-table :data="keys" stripe border size="mini" :empty-text="$t('general.noData')" highlight-current-row @current-change="selectKey" ref="keysTable" row-key="id">
           <el-table-column type="expand">
             <template slot-scope="props">
               <p id="rights-tags">
-                <b>{{$t('apiKeys.rights')}}:</b>
+                <b>{{ $t('apiKeys.rights') }}:</b>
                 <el-tag v-for="right in props.row.rights" :key="right" size="mini">{{ right }}</el-tag>
               </p>
             </template>
           </el-table-column>
           <el-table-column prop="id" :label="$t('apiKeys.key')"></el-table-column>
           <el-table-column prop="name" :label="$t('general.name')"></el-table-column>
-          <el-table-column
-            prop="enabled"
-            :label="$t('general.status.label')"
-            :formatter="enabledText"
-          ></el-table-column>
+          <el-table-column prop="enabled" :label="$t('general.status.label')" width="120" :formatter="enabledText"></el-table-column>
         </el-table>
       </div>
 
@@ -63,34 +40,10 @@
           ></el-pagination>
         </div>
         <div class="right">
-          <el-button
-            icon="el-icon-unlock"
-            type="success"
-            size="mini"
-            v-if="this.selected.enabled === false"
-            @click="enable"
-          >{{$t('general.enable')}}</el-button>
-          <el-button
-            icon="el-icon-lock"
-            type="warning"
-            size="mini"
-            v-if="this.selected.enabled === true"
-            @click="disable"
-          >{{$t('general.disable')}}</el-button>
-          <el-button
-            icon="el-icon-edit"
-            type="info"
-            size="mini"
-            :disabled="selected.id === null"
-            @click="edit"
-          >{{$t('general.edit')}}</el-button>
-          <el-button
-            icon="el-icon-delete"
-            type="danger"
-            size="mini"
-            :disabled="selected.id === null"
-            @click="deleteKey"
-          >{{$t('general.delete')}}</el-button>
+          <el-button icon="el-icon-unlock" type="success" size="mini" v-if="this.selected.enabled === false" @click="enable">{{ $t('general.enable') }}</el-button>
+          <el-button icon="el-icon-lock" type="warning" size="mini" v-if="this.selected.enabled === true" @click="disable">{{ $t('general.disable') }}</el-button>
+          <el-button icon="el-icon-edit" type="info" size="mini" :disabled="selected.id === null" @click="edit">{{ $t('general.edit') }}</el-button>
+          <el-button icon="el-icon-delete" type="danger" size="mini" :disabled="selected.id === null" @click="deleteKey">{{ $t('general.delete') }}</el-button>
         </div>
       </div>
     </div>
