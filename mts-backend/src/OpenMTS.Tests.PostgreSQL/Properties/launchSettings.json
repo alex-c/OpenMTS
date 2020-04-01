@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "OpenMTS.Tests.PostgreSQL": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
