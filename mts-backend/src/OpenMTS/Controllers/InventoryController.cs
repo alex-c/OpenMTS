@@ -400,7 +400,7 @@ namespace OpenMTS.Controllers
         /// <param name="transactionId">ID of the transaction to amend.</param>
         /// <param name="transactionLogEntryAmendingRequest">The data to amend.</param>
         /// <returns>Returns a `204 No Content` result on success.</returns>
-        [HttpPatch("{batchId}/log/{transactionId}")] // TODO - auth policy
+        [HttpPatch("{batchId}/log/{transactionId}")]
         public IActionResult AmendLastMaterialBatchTransactionLogEntry(Guid batchId, Guid transactionId, [FromBody] TransactionLogEntryAmendingRequest transactionLogEntryAmendingRequest)
         {
             if (transactionLogEntryAmendingRequest == null)
