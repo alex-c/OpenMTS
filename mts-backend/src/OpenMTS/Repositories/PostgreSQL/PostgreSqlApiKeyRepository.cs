@@ -13,7 +13,7 @@ namespace OpenMTS.Repositories.PostgreSQL
     /// </summary>
     /// <seealso cref="OpenMTS.Repositories.PostgreSQL.PostgreSqlRepositoryBase" />
     /// <seealso cref="OpenMTS.Repositories.IApiKeyRepository" />
-    public class PostgreSqlApiKeyRepository : PostgreSqlRepositoryBase, IApiKeyRepository
+    public class PostgreSqlApiKeyRepository : PostgreSqlRepositoryBase, IApiKeyRepository, IReadOnlyApiKeyRepository
     {
         private readonly string SQL_GET_API_KEYS = "SELECT * FROM api_keys LEFT JOIN api_keys_rights ON api_keys_rights.api_key_id = api_keys.id";
         private readonly string SQL_GET_API_KEY = "SELECT * FROM api_keys LEFT JOIN api_keys_rights ON api_keys_rights.api_key_id = api_keys.id WHERE id=@Id";

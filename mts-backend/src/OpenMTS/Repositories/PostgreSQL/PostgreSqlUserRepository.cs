@@ -12,7 +12,7 @@ namespace OpenMTS.Repositories.PostgreSQL
     /// A user repository based on a PostrgreSQL database.
     /// </summary>
     /// <seealso cref="OpenMTS.Repositories.IUserRepository" />
-    public class PostgreSqlUserRepository : PostgreSqlRepositoryBase, IUserRepository
+    public class PostgreSqlUserRepository : PostgreSqlRepositoryBase, IUserRepository, IReadOnlyUserRepository
     {
         /// <summary>
         /// Sets up a PostgreSQL-based user repository from the app configuration.

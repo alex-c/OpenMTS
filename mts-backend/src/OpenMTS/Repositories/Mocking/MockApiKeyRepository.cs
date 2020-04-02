@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace OpenMTS.Repositories.Mocking
 {
-    public class MockApiKeyRepository : IApiKeyRepository, IReadOnlyApiKeyProvider
+    public class MockApiKeyRepository : IApiKeyRepository, IReadOnlyApiKeyRepository
     {
         private Dictionary<Guid, ApiKey> ApiKeys { get; }
 
