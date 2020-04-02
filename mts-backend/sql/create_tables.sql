@@ -1,13 +1,32 @@
 -- Creates the tables needed for OpenMTS.
 
 DROP TABLE users;
+DROP TABLE api_keys_rights;
+DROP TABLE api_keys;
 DROP TABLE configuration;
 
+-- Configuration
+
 CREATE TABLE configuration (
-  allowGuestLogin boolean DEFAULT false NOT NULL
+  allow_guest_login boolean DEFAULT false NOT NULL
 );
 
-INSERT INTO configuration (allowGuestLogin) VALUES (false);
+INSERT INTO configuration (allow_guest_login) VALUES (false);
+
+-- API Keys
+
+CREATE TABLE api_keys (
+  id uuid PRIMARY KEY,
+  name varchar (255) NOT NULL,
+  enabled boolean DEFAULT false NOT NULL
+);
+
+CREATE TABLE api_keys_rights (
+  api_key_id uuid REFERENCES apikeys (id) NOT NULL,
+  right_id varchar (32) NOT NULL
+);
+
+-- Users
 
 CREATE TABLE users (
     id varchar (32) PRIMARY KEY,
