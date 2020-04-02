@@ -12,30 +12,13 @@ namespace OpenMTS.Repositories.PostgreSQL
     /// A user repository based on a PostrgreSQL database.
     /// </summary>
     /// <seealso cref="OpenMTS.Repositories.IUserRepository" />
-    public class PostgreSqlUserRepository : IUserRepository
+    public class PostgreSqlUserRepository : PostgreSqlRepositoryBase, IUserRepository
     {
-        /// <summary>
-        /// Connection string for the underlying database.
-        /// </summary>
-        private string ConnectionString { get; }
-
         /// <summary>
         /// Sets up a PostgreSQL-based user repository from the app configuration.
         /// </summary>
         /// <param name="configuration">Application configuration.</param>
-        public PostgreSqlUserRepository(IConfiguration configuration)
-        {
-            ConnectionString = configuration.GetValue<string>("Database:ConnectionString");
-        }
-
-        /// <summary>
-        /// Gets a new PostgreSQL connection.
-        /// </summary>
-        /// <returns>Returns a new connection.</returns>
-        internal IDbConnection GetNewConnection()
-        {
-            return new NpgsqlConnection(ConnectionString);
-        }
+        public PostgreSqlUserRepository(IConfiguration configuration) : base(configuration) { }
 
         /// <summary>
         /// Gets all users.

@@ -7,30 +7,13 @@ using System.Data;
 
 namespace OpenMTS.Repositories.PostgreSQL
 {
-    public class PostgreSqlConfigurationRepository : IConfigurationRepository
+    public class PostgreSqlConfigurationRepository : PostgreSqlRepositoryBase, IConfigurationRepository
     {
-        /// <summary>
-        /// Connection string for the underlying database.
-        /// </summary>
-        private string ConnectionString { get; }
-
         /// <summary>
         /// Sets up a PostgreSQL-based configuration repository from the app configuration.
         /// </summary>
         /// <param name="configuration">Application configuration.</param>
-        public PostgreSqlConfigurationRepository(IConfiguration configuration)
-        {
-            ConnectionString = configuration.GetValue<string>("Database:ConnectionString");
-        }
-
-        /// <summary>
-        /// Gets a new PostgreSQL connection.
-        /// </summary>
-        /// <returns>Returns a new connection.</returns>
-        internal IDbConnection GetNewConnection()
-        {
-            return new NpgsqlConnection(ConnectionString);
-        }
+        public PostgreSqlConfigurationRepository(IConfiguration configuration) : base(configuration) { }
 
         /// <summary>
         /// Gets the current OpenMTS configuration.
