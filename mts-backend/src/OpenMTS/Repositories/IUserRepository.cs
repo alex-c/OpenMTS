@@ -21,7 +21,7 @@ namespace OpenMTS.Repositories
         /// <param name="partialName">Partial name to search for.</param>
         /// <param name="showDisabled">Whether to return soft-deleted users.</param>
         /// <returns>Returns a list of matching users.</returns>
-        IEnumerable<User> SearchUsersByName(string partialName, bool showDisabled);
+        IEnumerable<User> SearchUsersByName(string partialName, bool showDisabled = false);
 
         /// <summary>
         /// Gets a user by his unique user ID.
