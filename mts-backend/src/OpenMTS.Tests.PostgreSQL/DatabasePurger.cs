@@ -17,7 +17,19 @@ namespace OpenMTS.Tests.PostgreSQL
         {
             using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
             {
-                connection.Execute("UPDATE configuration SET allowGuestLogin=false");
+                connection.Execute("UPDATE configuration SET allow_guest_login=false");
+            }
+        }
+
+        /// <summary>
+        /// Purges all API keys.
+        /// </summary>
+        public static void PurgeApiKeys()
+        {
+            using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
+            {
+                connection.Execute("DELETE FROM api_keys_rights");
+                connection.Execute("DELETE FROM api_keys");
             }
         }
 

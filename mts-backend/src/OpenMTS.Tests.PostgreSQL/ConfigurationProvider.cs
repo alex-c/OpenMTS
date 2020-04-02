@@ -15,6 +15,7 @@ namespace OpenMTS.Tests.PostgreSQL
         /// </summary>
         public static IConfiguration GetConfiguration()
         {
+            Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
             return new ConfigurationBuilder().AddJsonFile("./testsettings.json").AddJsonFile("./testsettings.Development.json", true).Build();
         }
     }

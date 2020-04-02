@@ -145,7 +145,7 @@ namespace OpenMTS.Tests.PostgreSQL
 
             // Test deletion
             Assert.Equal(oldUserCount - 1, Repository.GetAllUsers().Count());
-            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => Repository.GetUser(id));
+            Assert.Null(Repository.GetUser(id));
         }
 
         /// <summary>

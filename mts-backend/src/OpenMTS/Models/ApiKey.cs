@@ -26,6 +26,14 @@ namespace OpenMTS.Models
         /// <summary>
         /// The atomar access rights granted to this key.
         /// </summary>
-        public IEnumerable<Right> Rights { get; set; }
+        public ICollection<Right> Rights { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiKey"/> class.
+        /// </summary>
+        public ApiKey()
+        {
+            Rights = new List<Right>();
+        }
     }
 }

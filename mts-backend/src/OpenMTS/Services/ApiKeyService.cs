@@ -72,7 +72,7 @@ namespace OpenMTS.Services
         /// <param name="rights">Rights to grant to the key.</param>
         /// <returns>Returns the updated key.</returns>
         /// <exception cref="ApiKeyNotFoundException">Thrown if no matching API key could be found.</exception>
-        public ApiKey UpdateApiKey(Guid id, string name, IEnumerable<Right> rights)
+        public ApiKey UpdateApiKey(Guid id, string name, ICollection<Right> rights)
         {
             ApiKey key = GetApiKeyOrThrowNotFoundException(id);
 

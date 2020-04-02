@@ -82,7 +82,7 @@ namespace OpenMTS.Repositories.PostgreSQL
             User user = null;
             using (IDbConnection connection = GetNewConnection())
             {
-                user = connection.QuerySingle<User>("SELECT * FROM users WHERE id=@Id", new { id });
+                user = connection.QuerySingleOrDefault<User>("SELECT * FROM users WHERE id=@Id", new { id });
             }
             return user;
         }

@@ -39,7 +39,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         {
             using (IDbConnection connection = GetNewConnection())
             {
-                connection.Execute("UPDATE configuration SET allowGuestLogin=@AllowGuestLogin", new { configuration.AllowGuestLogin });
+                connection.Execute("UPDATE configuration SET allow_guest_login=@AllowGuestLogin", new { configuration.AllowGuestLogin });
             }
         }
     }
