@@ -11,12 +11,22 @@ namespace OpenMTS.Tests.PostgreSQL
     public static class DatabasePurger
     {
         /// <summary>
+        /// Resets the OpenMTS configuration to default values.
+        /// </summary>
+        public static void ResetConfiguration()
+        {
+            using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
+            {
+                connection.Execute("UPDATE configuration SET allowGuestLogin=false");
+            }
+        }
+
+        /// <summary>
         /// Purges all users.
         /// </summary>
         public static void PurgeUsers()
         {
-            string connectionString = GetConnectionString();
-            using (IDbConnection connection = new NpgsqlConnection(connectionString))
+            using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
             {
                 connection.Execute("DELETE FROM users");
             }
