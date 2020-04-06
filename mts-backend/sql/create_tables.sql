@@ -1,5 +1,7 @@
 -- Creates the tables needed for OpenMTS.
 
+DROP TABLE storage_areas;
+DROP TABLE storage_sites;
 DROP TABLE plastics;
 DROP TABLE users;
 DROP TABLE api_keys_rights;
@@ -43,4 +45,17 @@ CREATE TABLE users (
 CREATE TABLE plastics (
   id varchar (16) PRIMARY KEY,
   name varchar (255) NOT NULL
+);
+
+-- Storage Locations
+
+CREATE TABLE storage_sites (
+  id uuid PRIMARY KEY,
+  name varchar (255) NOT NULL
+);
+
+CREATE TABLE storage_areas (
+  id uuid PRIMARY KEY,
+  name varchar (255) NOT NULL,
+  site_id uuid REFERENCES storage_sites (id) NOT NULL
 );

@@ -56,6 +56,18 @@ namespace OpenMTS.Tests.PostgreSQL
         }
 
         /// <summary>
+        /// Purges all storage sites and areas.
+        /// </summary>
+        public static void PurgeLocations()
+        {
+            using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
+            {
+                connection.Execute("DELETE FROM storage_areas");
+                connection.Execute("DELETE FROM storage_sites");
+            }
+        }
+
+        /// <summary>
         /// Gets the dataabase connection string from configuration.
         /// </summary>
         /// <returns>Returns the connection string.</returns>

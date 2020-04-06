@@ -19,7 +19,7 @@ namespace OpenMTS.Tests.PostgreSQL
         private IPlasticsRepository Repository { get; }
 
         /// <summary>
-        /// Sets up the SUT and needed services and and cleans up API key tbales.
+        /// Sets up the SUT and needed services and and cleans up plastics tbales.
         /// </summary>
         public PlasticsRepositoryTests()
         {
