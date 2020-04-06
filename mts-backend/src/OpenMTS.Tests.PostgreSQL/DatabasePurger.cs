@@ -45,6 +45,17 @@ namespace OpenMTS.Tests.PostgreSQL
         }
 
         /// <summary>
+        /// Purges all plastics.
+        /// </summary>
+        public static void PurgePlastics()
+        {
+            using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
+            {
+                connection.Execute("DELETE FROM plastics");
+            }
+        }
+
+        /// <summary>
         /// Gets the dataabase connection string from configuration.
         /// </summary>
         /// <returns>Returns the connection string.</returns>

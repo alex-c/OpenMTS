@@ -1,5 +1,6 @@
 -- Creates the tables needed for OpenMTS.
 
+DROP TABLE plastics;
 DROP TABLE users;
 DROP TABLE api_keys_rights;
 DROP TABLE api_keys;
@@ -22,17 +23,24 @@ CREATE TABLE api_keys (
 );
 
 CREATE TABLE api_keys_rights (
-  api_key_id uuid REFERENCES apikeys (id) NOT NULL,
+  api_key_id uuid REFERENCES api_keys (id) NOT NULL,
   right_id varchar (32) NOT NULL
 );
 
 -- Users
 
 CREATE TABLE users (
-    id varchar (32) PRIMARY KEY,
-    name varchar (255) NOT NULL,
-    password varchar (255) NOT NULL,
-    salt bytea NOT NULL,
-    role smallint NOT NULL,
-    disabled boolean DEFAULT false NOT NULL
+  id varchar (32) PRIMARY KEY,
+  name varchar (255) NOT NULL,
+  password varchar (255) NOT NULL,
+  salt bytea NOT NULL,
+  role smallint NOT NULL,
+  disabled boolean DEFAULT false NOT NULL
+);
+
+-- Plastics
+
+CREATE TABLE plastics (
+  id varchar (16) PRIMARY KEY,
+  name varchar (255) NOT NULL
 );

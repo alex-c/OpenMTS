@@ -1,8 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
-using Npgsql;
 using OpenMTS.Models;
-using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -54,17 +52,17 @@ namespace OpenMTS.Repositories.PostgreSQL
         /// </returns>
         public IEnumerable<User> SearchUsersByName(string partialName, bool showDisabled)
         {
-            partialName = $"%{partialName}%";
+            string name = $"%{partialName}%";
             IEnumerable<User> users = null;
             using (IDbConnection connection = GetNewConnection())
             {
                 if (showDisabled)
                 {
-                    users = connection.Query<User>("SELECT * FROM users WHERE name ILIKE @Name", new { Name = partialName });
+                    users = connection.Query<User>("SELECT * FROM users WHERE name ILIKE @Name", new { name });
                 }
                 else
                 {
-                    users = connection.Query<User>("SELECT * FROM users WHERE disabled=false AND name ILIKE @Name", new { Name = partialName });
+                    users = connection.Query<User>("SELECT * FROM users WHERE disabled=false AND name ILIKE @Name", new { name });
                 }
             }
             return users;
@@ -105,11 +103,11 @@ namespace OpenMTS.Repositories.PostgreSQL
             {
                 connection.Execute("INSERT INTO users (id, name, password, salt, role) VALUES (@Id, @Name, @Password, @Salt, @Role)", new
                 {
-                    Id = id,
-                    Name = name,
-                    Password = password,
-                    Salt = salt,
-                    Role = role
+                    id,
+                    name,
+                    password,
+                    salt,
+                    role
                 });
                 user = connection.QuerySingle<User>("SELECT * FROM users WHERE id=@Id", new { id });
             }
