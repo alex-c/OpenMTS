@@ -68,6 +68,17 @@ namespace OpenMTS.Tests.PostgreSQL
         }
 
         /// <summary>
+        /// Purges all materials.
+        /// </summary>
+        public static void PurgeMaterials()
+        {
+            using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
+            {
+                connection.Execute("DELETE FROM materials");
+            }
+        }
+
+        /// <summary>
         /// Gets the dataabase connection string from configuration.
         /// </summary>
         /// <returns>Returns the connection string.</returns>

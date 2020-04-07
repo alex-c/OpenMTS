@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-using Dapper;
+﻿using Dapper;
 using Microsoft.Extensions.Configuration;
 using OpenMTS.Models;
+using System.Collections.Generic;
+using System.Data;
 
 namespace OpenMTS.Repositories.PostgreSQL
 {

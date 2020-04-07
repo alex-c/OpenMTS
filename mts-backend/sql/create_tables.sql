@@ -1,12 +1,13 @@
 -- Creates the tables needed for OpenMTS.
 
-DROP TABLE storage_areas;
-DROP TABLE storage_sites;
-DROP TABLE plastics;
-DROP TABLE users;
-DROP TABLE api_keys_rights;
-DROP TABLE api_keys;
-DROP TABLE configuration;
+DROP TABLE IF EXISTS materials;
+DROP TABLE IF EXISTS storage_areas;
+DROP TABLE IF EXISTS storage_sites;
+DROP TABLE IF EXISTS plastics;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS api_keys_rights;
+DROP TABLE IF EXISTS api_keys;
+DROP TABLE IF EXISTS configuration;
 
 -- Configuration
 
@@ -59,3 +60,13 @@ CREATE TABLE storage_areas (
   name varchar (255) NOT NULL,
   site_id uuid REFERENCES storage_sites (id) NOT NULL
 );
+
+-- Materials
+
+CREATE TABLE materials (
+  id SERIAL,
+  name varchar (255) NOT NULL,
+  manufacturer varchar (255) NOT NULL,
+  manufacturer_specific_id varchar (255) NOT NULL,
+  type varchar (16) REFERENCES plastics (id) NOT NULL
+)
