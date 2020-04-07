@@ -79,6 +79,17 @@ namespace OpenMTS.Tests.PostgreSQL
         }
 
         /// <summary>
+        /// Purges all custom material props.
+        /// </summary>
+        public static void PurgeCustomMaterialProps()
+        {
+            using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
+            {
+                connection.Execute("DELETE FROM material_props");
+            }
+        }
+
+        /// <summary>
         /// Gets the dataabase connection string from configuration.
         /// </summary>
         /// <returns>Returns the connection string.</returns>

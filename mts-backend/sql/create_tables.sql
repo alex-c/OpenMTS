@@ -1,5 +1,6 @@
 -- Creates the tables needed for OpenMTS.
 
+DROP TABLE IF EXISTS material_props;
 DROP TABLE IF EXISTS materials;
 DROP TABLE IF EXISTS storage_areas;
 DROP TABLE IF EXISTS storage_sites;
@@ -69,4 +70,10 @@ CREATE TABLE materials (
   manufacturer varchar (255) NOT NULL,
   manufacturer_specific_id varchar (255) NOT NULL,
   type varchar (16) REFERENCES plastics (id) NOT NULL
-)
+);
+
+CREATE TABLE material_props (
+  id uuid PRIMARY KEY,
+  name varchar (255) NOT NULL,
+  type smallint NOT NULL
+);

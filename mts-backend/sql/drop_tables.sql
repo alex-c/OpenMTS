@@ -1,5 +1,6 @@
 -- Drops the tables used by OpenMTS.
 
+DROP TABLE IF EXISTS material_props;
 DROP TABLE IF EXISTS materials;
 DROP TABLE IF EXISTS storage_areas;
 DROP TABLE IF EXISTS storage_sites;
