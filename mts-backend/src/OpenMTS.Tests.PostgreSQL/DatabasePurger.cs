@@ -94,6 +94,18 @@ namespace OpenMTS.Tests.PostgreSQL
         }
 
         /// <summary>
+        /// Purges all custom batch props.
+        /// </summary>
+        public static void PurgeCustomBatchProps()
+        {
+            using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
+            {
+                // TODO delete batch prop values
+                connection.Execute("DELETE FROM batch_props");
+            }
+        }
+
+        /// <summary>
         /// Gets the dataabase connection string from configuration.
         /// </summary>
         /// <returns>Returns the connection string.</returns>
