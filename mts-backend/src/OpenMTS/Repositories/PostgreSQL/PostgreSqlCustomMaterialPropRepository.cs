@@ -106,6 +106,8 @@ namespace OpenMTS.Repositories.PostgreSQL
         {
             using (IDbConnection connection = GetNewConnection())
             {
+                connection.Execute("DELETE FROM file_material_prop_values WHERE prop_id=@Id", new { id });
+                connection.Execute("DELETE FROM text_material_prop_values WHERE prop_id=@Id", new { id });
                 connection.Execute("DELETE FROM material_props WHERE id=@Id", new { id });
             }
         }

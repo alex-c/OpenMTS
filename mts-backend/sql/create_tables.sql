@@ -1,5 +1,7 @@
 -- Creates the tables needed for OpenMTS.
 
+DROP TABLE IF EXISTS file_material_prop_values;
+DROP TABLE IF EXISTS text_material_prop_values;
 DROP TABLE IF EXISTS material_props;
 DROP TABLE IF EXISTS materials;
 DROP TABLE IF EXISTS storage_areas;
@@ -65,7 +67,7 @@ CREATE TABLE storage_areas (
 -- Materials
 
 CREATE TABLE materials (
-  id SERIAL,
+  id SERIAL UNIQUE,
   name varchar (255) NOT NULL,
   manufacturer varchar (255) NOT NULL,
   manufacturer_specific_id varchar (255) NOT NULL,
@@ -76,4 +78,18 @@ CREATE TABLE material_props (
   id uuid PRIMARY KEY,
   name varchar (255) NOT NULL,
   type smallint NOT NULL
+);
+
+CREATE TABLE text_material_prop_values (
+  material_id integer REFERENCES materials (id) NOT NULL,
+  prop_id uuid REFERENCES material_props (id) NOT NULL,
+  value text,
+  UNIQUE (material_id, prop_id)
+);
+
+CREATE TABLE file_material_prop_values (
+  material_id integer REFERENCES materials (id) NOT NULL,
+  prop_id uuid REFERENCES material_props (id) NOT NULL,
+  file_path varchar (1024) NOT NULL,
+  UNIQUE (material_id, prop_id)
 );

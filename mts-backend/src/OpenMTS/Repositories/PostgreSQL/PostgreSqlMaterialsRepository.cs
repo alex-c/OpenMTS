@@ -29,20 +29,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         /// </returns>
         public IEnumerable<Material> GetAllMaterials()
         {
-            string sql = "SELECT m.id, m.name, m.manufacturer, m.manufacturer_specific_id, p.id, p.name FROM materials m JOIN plastics p ON p.id = m.type";
-
-            IEnumerable<Material> materials = null;
-            using (IDbConnection connection = GetNewConnection())
-            {
-                // TODO: join custom prop values
-                materials = connection.Query<Material, Plastic, Material>(sql,
-                    (material, plastic) =>
-                    {
-                        material.Type = plastic;
-                        return material;
-                    }, splitOn: "id");
-            }
-            return materials;
+            return GetMaterials(null, null);
         }
 
         /// <summary>
@@ -56,9 +43,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         /// </returns>
         public IEnumerable<Material> GetFilteredMaterials(string partialName = null, string partialManufacturerName = null, Plastic type = null)
         {
-            string sql = $"SELECT m.id, m.name, m.manufacturer, m.manufacturer_specific_id, p.id, p.name FROM materials m JOIN plastics p ON p.id = m.type";
-
-            // Build query
+            // Build where clause
             string whereClause = "";
             if (partialName != null)
             {
@@ -86,27 +71,14 @@ namespace OpenMTS.Repositories.PostgreSQL
             {
                 whereClause = $" WHERE {whereClause}";
             }
-            sql += whereClause;
 
             // Query
-            IEnumerable<Material> materials = null;
-            using (IDbConnection connection = GetNewConnection())
+            return GetMaterials(whereClause, new
             {
-                // TODO: join custom prop values
-                materials = connection.Query<Material, Plastic, Material>(sql, (material, plastic) =>
-                {
-                    material.Type = plastic;
-                    return material;
-                },
-                splitOn: "id",
-                param: new
-                {
-                    Name = partialName,
-                    Manufacturer = partialManufacturerName,
-                    Type = type?.Id
-                });
-            }
-            return materials;
+                Name = partialName,
+                Manufacturer = partialManufacturerName,
+                Type = type?.Id
+            });
         }
 
         /// <summary>
@@ -118,21 +90,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         /// </returns>
         public Material GetMaterial(int id)
         {
-            string sql = "SELECT m.id, m.name, m.manufacturer, m.manufacturer_specific_id, p.id, p.name FROM materials m JOIN plastics p ON p.id = m.type WHERE m.id=@Id";
-
-            IEnumerable<Material> materials = null;
-            using (IDbConnection connection = GetNewConnection())
-            {
-                // TODO: join custom prop values
-                materials = connection.Query<Material, Plastic, Material>(sql,
-                    (material, plastic) =>
-                    {
-                        material.Type = plastic;
-                        return material;
-                    },
-                    splitOn: "id",
-                    param: new { id });
-            }
+            IEnumerable<Material> materials = GetMaterials("WHERE m.id=@Id", new { id });
             return materials.FirstOrDefault();
         }
 
@@ -151,7 +109,6 @@ namespace OpenMTS.Repositories.PostgreSQL
             IEnumerable<Material> materials = null;
             using (IDbConnection connection = GetNewConnection())
             {
-                // Insert
                 int id = connection.QuerySingle<int>("INSERT INTO materials (name, manufacturer, manufacturer_specific_id, type) VALUES (@Name, @Manufacturer, @ManufacturerSpecificId, @Type) RETURNING id",
                     param: new
                     {
@@ -160,17 +117,7 @@ namespace OpenMTS.Repositories.PostgreSQL
                         ManufacturerSpecificId = manufacturerSpecificId,
                         Type = type.Id
                     });
-
-                // Get last inserted
-                // TODO: join custom prop values
-                materials = connection.Query<Material, Plastic, Material>("SELECT m.id, m.name, m.manufacturer, m.manufacturer_specific_id, p.id, p.name FROM materials m JOIN plastics p ON p.id = m.type WHERE m.id=@Id",
-                    map: (mat, plastic) =>
-                    {
-                        mat.Type = plastic;
-                        return mat;
-                    },
-                    splitOn: "id",
-                    param: new { id });
+                materials = GetMaterials("WHERE m.id=@Id", new { id });
             }
             return materials.First();
         }
@@ -184,7 +131,8 @@ namespace OpenMTS.Repositories.PostgreSQL
             using (IDbConnection connection = GetNewConnection())
             {
                 connection.Execute("UPDATE materials SET name=@Name, manufacturer=@Manufacturer, manufacturer_specific_id=@ManufacturerSpecificId, type=@Type WHERE id=@Id",
-                    param: new { 
+                    param: new
+                    {
                         material.Id,
                         material.Name,
                         material.Manufacturer,
@@ -193,5 +141,57 @@ namespace OpenMTS.Repositories.PostgreSQL
                     });
             }
         }
+
+        #region Private helpers
+
+        /// <summary>
+        /// A generic getter of materials. Gets all materials if called with (null,null).
+        /// </summary>
+        /// <param name="whereClause">An optional where clause.</param>
+        /// <param name="dataParam">The values to fill into the where clause.</param>
+        /// <returns>Returns all matching materials</returns>
+        private IEnumerable<Material> GetMaterials(string whereClause, object dataParam)
+        {
+            string sql = "SELECT m.id, m.name, m.manufacturer, m.manufacturer_specific_id, p.id, p.name, t.material_id, t.prop_id, t.value, f.material_id, f.prop_id, f.file_path AS value";
+            sql += " FROM materials m";
+            sql += " JOIN plastics p ON p.id = m.type";
+            sql += " LEFT JOIN text_material_prop_values t ON t.material_id = m.id";
+            sql += " LEFT JOIN file_material_prop_values f ON f.material_id = m.id";
+            if (!string.IsNullOrWhiteSpace(whereClause))
+            {
+                sql += " " + whereClause;
+            }
+            Dictionary<int, Material> materialMap = new Dictionary<int, Material>();
+
+            IEnumerable<Material> materials = null;
+            using (IDbConnection connection = GetNewConnection())
+            {
+                materials = connection.Query<Material, Plastic, CustomMaterialPropValue, CustomMaterialPropValue, Material>(sql,
+                    (mat, plastic, textValue, fileValue) =>
+                    {
+                        Material material = null;
+                        if (!materialMap.TryGetValue(mat.Id, out material))
+                        {
+                            material = mat;
+                            materialMap.Add(material.Id, material);
+                        }
+                        material.Type = plastic;
+                        if (textValue != null && !material.CustomProps.Any(p => p.PropId == textValue.PropId))
+                        {
+                            material.CustomProps.Add(textValue);
+                        }
+                        if (fileValue != null && !material.CustomProps.Any(p => p.PropId == fileValue.PropId))
+                        {
+                            material.CustomProps.Add(fileValue);
+                        }
+                        return material;
+                    },
+                    splitOn: "id,material_id,material_id",
+                    param: dataParam);
+            }
+            return materials.Distinct();
+        }
+
+        #endregion
     }
 }

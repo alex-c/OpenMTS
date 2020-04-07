@@ -35,17 +35,18 @@ namespace OpenMTS.Repositories.PostgreSQL
             IEnumerable<StorageSite> sites = null;
             using (IDbConnection connection = GetNewConnection())
             {
-                sites = connection.Query<StorageSite, StorageArea, StorageSite>(sql, (site, area) =>
-                {
-                    StorageSite storageSite = null;
-                    if (!siteMap.TryGetValue(site.Id, out storageSite))
+                sites = connection.Query<StorageSite, StorageArea, StorageSite>(sql,
+                    (site, area) =>
                     {
-                        storageSite = site;
-                        siteMap.Add(storageSite.Id, storageSite);
-                    }
-                    storageSite.Areas.Add(area);
-                    return storageSite;
-                }, splitOn: "id");
+                        StorageSite storageSite = null;
+                        if (!siteMap.TryGetValue(site.Id, out storageSite))
+                        {
+                            storageSite = site;
+                            siteMap.Add(storageSite.Id, storageSite);
+                        }
+                        storageSite.Areas.Add(area);
+                        return storageSite;
+                    }, splitOn: "id");
             }
             return sites.Distinct();
         }

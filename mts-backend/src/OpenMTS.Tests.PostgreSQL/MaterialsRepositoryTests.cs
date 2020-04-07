@@ -1,24 +1,36 @@
-﻿using OpenMTS.Models;
+﻿using Microsoft.Extensions.Configuration;
+using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.PostgreSQL;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Xunit;
 
 namespace OpenMTS.Tests.PostgreSQL
 {
     /// <summary>
-    /// Tests the PostgreSQL implementation of the materials repository. This assumes that the plastics repository
-    /// is already succesfully tested.
+    /// Tests the PostgreSQL implementation of the materials repository and the custom material prop values
+    /// repository. This assumes that the plastics and custom prop repositories are already succesfully tested.
     /// </summary>
     /// <seealso cref="System.IDisposable" />
     public class MaterialsRepositoryTests : IDisposable
     {
         /// <summary>
-        /// The SUT: a materials repository.
+        /// The primary SUT: a materials repository.
         /// </summary>
         private IMaterialsRepository Repository { get; }
+
+        /// <summary>
+        /// The secondary SUT: a materials repository.
+        /// </summary>
+        private ICustomMaterialPropValueRepository PropValueRepository { get; }
+
+        /// <summary>
+        /// Used to create props to test the value repository with.
+        /// </summary>
+        private ICustomMaterialPropRepository PropRepository { get; }
 
         // Plastics used in testing
         private Plastic PC { get; }
@@ -30,12 +42,16 @@ namespace OpenMTS.Tests.PostgreSQL
         public MaterialsRepositoryTests()
         {
             // Repos
-            Repository = new PostgreSqlMaterialsRepository(ConfigurationProvider.GetConfiguration());
-            IPlasticsRepository plasticsRepository = new PostgreSqlPlasticsRepository(ConfigurationProvider.GetConfiguration());
+            IConfiguration configuration = ConfigurationProvider.GetConfiguration();
+            Repository = new PostgreSqlMaterialsRepository(configuration);
+            PropRepository = new PostgreSqlCustomMaterialPropRepository(configuration);
+            PropValueRepository = new PostgreSqlCustomMaterialPropValueRepository(configuration);
+            IPlasticsRepository plasticsRepository = new PostgreSqlPlasticsRepository(configuration);
 
             // Purge for blank slate
             DatabasePurger.PurgeMaterials();
             DatabasePurger.PurgePlastics();
+            DatabasePurger.PurgeCustomMaterialProps();
 
             // Create plastics
             PC = plasticsRepository.CreatePlastic("PC", "Polycarbonate");
@@ -105,13 +121,105 @@ namespace OpenMTS.Tests.PostgreSQL
         }
 
         /// <summary>
-        /// Purges materials and plastics.
+        /// Tests the setting and removing of custom material property values.
+        /// </summary>
+        [Fact]
+        public void TestCustomMaterialPropValues()
+        {
+            // Create materials
+            Material m1 = Repository.CreateMaterial("m1", "Alpha", "alpha-m1", PC);
+            Material m2 = Repository.CreateMaterial("m2", "Alpha", "alpha-m2", PE);
+            Material m3 = Repository.CreateMaterial("m3", "Beta", "beta-m1", PC);
+
+            // Create custom props
+            CustomMaterialProp textProp = PropRepository.CreateCustomMaterialProp("test", PropType.Text);
+            CustomMaterialProp fileProp = PropRepository.CreateCustomMaterialProp("file", PropType.Text);
+
+            // Test getters with no prop values
+            IEnumerable<Material> materials = Repository.GetAllMaterials();
+            Assert.Equal(3, materials.Count());
+            Assert.Empty(materials.Where(m => m.CustomProps.Count > 0));
+
+            // Set custom prop values
+            PropValueRepository.SetCustomTextMaterialProp(m1.Id, textProp.Id, "Lorem Ipsum");
+            PropValueRepository.SetCustomFileMaterialProp(m1.Id, fileProp.Id, "Z:/my-files/file.pdf");
+            PropValueRepository.SetCustomFileMaterialProp(m2.Id, fileProp.Id, "X:/formatc.cmd");
+
+            // Test custom prop values
+            materials = Repository.GetAllMaterials();
+            m1 = materials.Single(m => m.Name == "m1");
+            m2 = materials.Single(m => m.Name == "m2");
+            m3 = materials.Single(m => m.Name == "m3");
+            Assert.Equal(2, m1.CustomProps.Count);
+            Assert.Single(m2.CustomProps);
+            Assert.Empty(m3.CustomProps);
+            Assert.Single(m1.CustomProps.Where(p => p.PropId == textProp.Id && (string)p.Value == "Lorem Ipsum"));
+            Assert.Single(m1.CustomProps.Where(p => p.PropId == fileProp.Id && (string)p.Value == "Z:/my-files/file.pdf"));
+            Assert.Single(m2.CustomProps.Where(p => p.PropId == fileProp.Id && (string)p.Value == "X:/formatc.cmd"));
+
+            // Overwrite custom prop value
+            PropValueRepository.SetCustomTextMaterialProp(m1.Id, textProp.Id, "Foo Bar");
+            m1 = Repository.GetMaterial(m1.Id);
+            Assert.Equal(2, m1.CustomProps.Count);
+            Assert.Empty(m1.CustomProps.Where(p => p.PropId == textProp.Id && (string)p.Value == "Lorem Ipsum"));
+            Assert.Single(m1.CustomProps.Where(p => p.PropId == textProp.Id && (string)p.Value == "Foo Bar"));
+            Assert.Single(m1.CustomProps.Where(p => p.PropId == fileProp.Id && (string)p.Value == "Z:/my-files/file.pdf"));
+
+            // Add second text prop
+            CustomMaterialProp textProp2 = PropRepository.CreateCustomMaterialProp("troll", PropType.Text);
+            PropValueRepository.SetCustomTextMaterialProp(m1.Id, textProp2.Id, "Ak Bars");
+            m1 = Repository.GetMaterial(m1.Id);
+            Assert.Equal(3, m1.CustomProps.Count);
+            Assert.Single(m1.CustomProps.Where(p => p.PropId == textProp.Id && (string)p.Value == "Foo Bar"));
+            Assert.Single(m1.CustomProps.Where(p => p.PropId == textProp2.Id && (string)p.Value == "Ak Bars"));
+            Assert.Single(m1.CustomProps.Where(p => p.PropId == fileProp.Id && (string)p.Value == "Z:/my-files/file.pdf"));
+
+            // Add second file prop
+            CustomMaterialProp fileProp2 = PropRepository.CreateCustomMaterialProp("super-file", PropType.Text);
+            PropValueRepository.SetCustomTextMaterialProp(m2.Id, fileProp2.Id, "F:/ile/path");
+            m2 = Repository.GetMaterial(m2.Id);
+            Assert.Equal(2, m2.CustomProps.Count);
+            Assert.Single(m2.CustomProps.Where(p => p.PropId == fileProp.Id && (string)p.Value == "X:/formatc.cmd"));
+            Assert.Single(m2.CustomProps.Where(p => p.PropId == fileProp2.Id && (string)p.Value == "F:/ile/path"));
+
+            // Check getAll again
+            materials = Repository.GetAllMaterials();
+            m1 = materials.Single(m => m.Name == "m1");
+            m2 = materials.Single(m => m.Name == "m2");
+            m3 = materials.Single(m => m.Name == "m3");
+            Assert.Equal(3, m1.CustomProps.Count);
+            Assert.Equal(2, m2.CustomProps.Count);
+            Assert.Empty(m3.CustomProps);
+
+            // Check getter with filters
+            materials = Repository.GetFilteredMaterials(null, "alpha", PE);
+            Assert.Single(materials);
+            m2 = materials.Single();
+            Assert.Equal(2, m2.CustomProps.Count);
+            Assert.Single(m2.CustomProps.Where(p => p.PropId == fileProp.Id && (string)p.Value == "X:/formatc.cmd"));
+            Assert.Single(m2.CustomProps.Where(p => p.PropId == fileProp2.Id && (string)p.Value == "F:/ile/path"));
+
+            // Test removal of prop values
+            PropValueRepository.RemoveCustomTextMaterialProp(m1.Id, textProp.Id);
+            PropValueRepository.RemoveCustomFileMaterialProp(m2.Id, fileProp.Id);
+            m1 = Repository.GetMaterial(m1.Id);
+            m2 = Repository.GetMaterial(m2.Id);
+            Assert.Equal(2, m1.CustomProps.Count);
+            Assert.Single(m1.CustomProps.Where(p => p.PropId == textProp2.Id && (string)p.Value == "Ak Bars"));
+            Assert.Single(m1.CustomProps.Where(p => p.PropId == fileProp.Id && (string)p.Value == "Z:/my-files/file.pdf"));
+            Assert.Single(m2.CustomProps);
+            Assert.Single(m2.CustomProps.Where(p => p.PropId == fileProp2.Id && (string)p.Value == "F:/ile/path"));
+        }
+
+        /// <summary>
+        /// Purges all tables used in these tests.
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
         public void Dispose()
         {
             DatabasePurger.PurgeMaterials();
             DatabasePurger.PurgePlastics();
+            DatabasePurger.PurgeCustomMaterialProps();
         }
     }
 }

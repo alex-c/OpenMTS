@@ -74,6 +74,8 @@ namespace OpenMTS.Tests.PostgreSQL
         {
             using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
             {
+                connection.Execute("DELETE FROM file_material_prop_values");
+                connection.Execute("DELETE FROM text_material_prop_values");
                 connection.Execute("DELETE FROM materials");
             }
         }
