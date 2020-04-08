@@ -1,6 +1,7 @@
 -- Creates the tables needed for OpenMTS.
 
 DROP TABLE IF EXISTS batch_props;
+DROP TABLE IF EXISTS batches;
 DROP TABLE IF EXISTS file_material_prop_values;
 DROP TABLE IF EXISTS text_material_prop_values;
 DROP TABLE IF EXISTS material_props;
@@ -96,6 +97,17 @@ CREATE TABLE file_material_prop_values (
 );
 
 -- Batches & Custom Props
+
+CREATE TABLE batches (
+  id uuid PRIMARY KEY,
+  material_id integer REFERENCES materials (id) NOT NULL,
+  area_id uuid REFERENCES storage_areas (id) NOT NULL,
+  batch_number bigint NOT NULL,
+  expiration_date timestamptz NOT NULL, 
+  quantity double precision NOT NULL,
+  is_locked boolean NOT NULL,
+  is_archived boolean NOT NULL
+);
 
 CREATE TABLE batch_props (
   id uuid PRIMARY KEY,

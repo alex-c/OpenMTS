@@ -94,13 +94,25 @@ namespace OpenMTS.Tests.PostgreSQL
         }
 
         /// <summary>
+        /// Purges all material batches.
+        /// </summary>
+        public static void PurgeBatches()
+        {
+            using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
+            {
+                // TODO: delete batch prop values
+                connection.Execute("DELETE FROM batches");
+            }
+        }
+
+        /// <summary>
         /// Purges all custom batch props.
         /// </summary>
         public static void PurgeCustomBatchProps()
         {
             using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
             {
-                // TODO delete batch prop values
+                // TODO: delete batch prop values
                 connection.Execute("DELETE FROM batch_props");
             }
         }
