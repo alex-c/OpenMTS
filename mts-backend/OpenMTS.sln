@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenMTS", "src\OpenMTS\OpenMTS.csproj", "{06434F61-7A78-4C1A-B06A-6933D759A6D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMTS.Tests.PostgreSQL", "src\OpenMTS.Tests.PostgreSQL\OpenMTS.Tests.PostgreSQL.csproj", "{EF883A75-886E-4A4E-8DAF-C63CCF522B85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMTS.Tests.PostgreSQL", "test\OpenMTS.Tests.PostgreSQL\OpenMTS.Tests.PostgreSQL.csproj", "{EF883A75-886E-4A4E-8DAF-C63CCF522B85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
