@@ -65,7 +65,7 @@ namespace OpenMTS.Repositories.PostgreSQL
             Plastic plastic = null;
             using (IDbConnection connection = GetNewConnection())
             {
-                plastic = connection.QuerySingle<Plastic>("SELECT * FROM plastics WHERE id=@Id", new { id });
+                plastic = connection.QuerySingleOrDefault<Plastic>("SELECT * FROM plastics WHERE id=@Id", new { id });
             }
             return plastic;
         }
