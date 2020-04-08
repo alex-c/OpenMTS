@@ -89,19 +89,19 @@
         </div>
         <div class="right">
           <span v-if="userMayLockBatches">
-            <el-button icon="el-icon-lock" type="warning" size="mini" v-if="selectedBatch.id !== null && selectedBatch.isLocked === false" @click="lockBatch">{{
-              $t('inventory.lock')
-            }}</el-button>
-            <el-button icon="el-icon-unlock" type="warning" size="mini" v-if="selectedBatch.id !== null && selectedBatch.isLocked === true" @click="unlockBatch">{{
-              $t('inventory.unlock')
-            }}</el-button>
+            <el-button icon="el-icon-lock" type="warning" size="mini" v-if="selectedBatch.id !== null && selectedBatch.isLocked === false" @click="lockBatch">
+              {{ $t('inventory.lock') }}
+            </el-button>
+            <el-button icon="el-icon-unlock" type="warning" size="mini" v-if="selectedBatch.id !== null && selectedBatch.isLocked === true" @click="unlockBatch">
+              {{ $t('inventory.unlock') }}
+            </el-button>
           </span>
-          <el-button icon="el-icon-download" type="success" size="mini" :disabled="selectedBatch.id === null || selectedBatch.isLocked" @click="checkIn">{{
-            $t('inventory.checkIn')
-          }}</el-button>
-          <el-button icon="el-icon-upload2" type="success" size="mini" :disabled="selectedBatch.id === null || selectedBatch.isLocked" @click="checkOut">{{
-            $t('inventory.checkOut')
-          }}</el-button>
+          <el-button icon="el-icon-download" type="success" size="mini" :disabled="selectedBatch.id === null || selectedBatch.isLocked" @click="checkIn">
+            {{ $t('inventory.checkIn') }}
+          </el-button>
+          <el-button icon="el-icon-upload2" type="success" size="mini" :disabled="selectedBatch.id === null || selectedBatch.isLocked" @click="checkOut">
+            {{ $t('inventory.checkOut') }}
+          </el-button>
           <router-link :to="{ name: 'editBatch', params: { id: selectedBatch.id } }">
             <el-button icon="el-icon-edit" type="info" size="mini" :disabled="selectedBatch.id === null">{{ $t('general.edit') }}</el-button>
           </router-link>
@@ -158,7 +158,7 @@ export default {
       this.resetSelectedBatch();
       Api.getBatches(this.query.page, this.query.elementsPerPage, this.query.material, this.query.storageSite)
         .then(response => {
-          this.batches.length = 0;
+          let batches = [];
           this.totalBatches = response.body.totalElements;
           for (let i = 0; i < response.body.data.length; i++) {
             const batch = response.body.data[i];
@@ -167,8 +167,9 @@ export default {
               const name = this.customProps[j].name;
               batch[id] = batch.customProps[id];
             }
-            this.batches.push(batch);
+            batches.push(batch);
           }
+          this.batches = batches;
         })
         .catch(this.handleHttpError);
     },
