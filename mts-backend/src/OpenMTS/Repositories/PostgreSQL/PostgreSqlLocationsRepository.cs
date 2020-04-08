@@ -44,7 +44,10 @@ namespace OpenMTS.Repositories.PostgreSQL
                             storageSite = site;
                             siteMap.Add(storageSite.Id, storageSite);
                         }
-                        storageSite.Areas.Add(area);
+                        if (area != null)
+                        {
+                            storageSite.Areas.Add(area);
+                        }
                         return storageSite;
                     }, splitOn: "id");
             }
@@ -75,7 +78,10 @@ namespace OpenMTS.Repositories.PostgreSQL
                         storageSite = site;
                         siteMap.Add(storageSite.Id, storageSite);
                     }
-                    storageSite.Areas.Add(area);
+                    if (area != null)
+                    {
+                        storageSite.Areas.Add(area);
+                    }
                     return storageSite;
                 },
                 param: new { name },
@@ -107,7 +113,10 @@ namespace OpenMTS.Repositories.PostgreSQL
                         storageSite = site;
                         siteMap.Add(storageSite.Id, storageSite);
                     }
-                    storageSite.Areas.Add(area);
+                    if (area != null)
+                    {
+                        storageSite.Areas.Add(area);
+                    }
                     return storageSite;
                 },
                 param: new { id },
