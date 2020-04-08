@@ -13,7 +13,7 @@ namespace OpenMTS.Services.Authentication.Providers
         /// <summary>
         /// Grants access to API key data.
         /// </summary>
-        private IReadOnlyApiKeyProvider ApiKeyRepository { get; }
+        private IReadOnlyApiKeyRepository ApiKeyRepository { get; }
 
         /// <summary>
         /// The authentication method this provider is for.
@@ -24,7 +24,7 @@ namespace OpenMTS.Services.Authentication.Providers
         /// Sets up the provider with the underlying repositoy.
         /// </summary>
         /// <param name="apiKeyRepository">Repository for API keys.</param>
-        public ApiKeyAuthenticationProvider(IReadOnlyApiKeyProvider apiKeyRepository)
+        public ApiKeyAuthenticationProvider(IReadOnlyApiKeyRepository apiKeyRepository)
         {
             ApiKeyRepository = apiKeyRepository;
         }

@@ -24,7 +24,6 @@ namespace OpenMTS.Services.Authentication.Providers
         /// <returns>Always returns true..</returns>
         public bool TryAuthenticate(string data, out string subject, out IEnumerable<Role> roles, out IEnumerable<Right> rights)
         {
-            // TODO: move subject string to constant
             subject = "openmts.guest";
             roles = new List<Role>() { Role.User };
             rights = new List<Right>();

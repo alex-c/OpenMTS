@@ -182,7 +182,6 @@ export default {
     getMaterial: function(callback) {
       Api.getMaterial(this.id)
         .then(response => {
-          console.log(response.body);
           this.updateMaterialForm = { ...response.body, type: response.body.type.id };
           this.customProps = response.body.customProps;
           if (callback !== undefined) {

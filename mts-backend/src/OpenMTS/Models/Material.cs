@@ -36,5 +36,13 @@ namespace OpenMTS.Models
         /// Custom material properties.
         /// </summary>
         public ICollection<CustomMaterialPropValue> CustomProps { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Material"/> class.
+        /// </summary>
+        public Material()
+        {
+            CustomProps = new List<CustomMaterialPropValue>();
+        }
     }
 }

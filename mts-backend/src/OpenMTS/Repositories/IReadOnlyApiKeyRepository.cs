@@ -7,7 +7,7 @@ namespace OpenMTS.Repositories
     /// <summary>
     /// Generic interface for a read-only API key repository.
     /// </summary>
-    public interface IReadOnlyApiKeyProvider
+    public interface IReadOnlyApiKeyRepository
     {
         /// <summary>
         /// Gets all available API keys.

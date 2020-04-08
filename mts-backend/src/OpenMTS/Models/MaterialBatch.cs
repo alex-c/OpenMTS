@@ -52,5 +52,13 @@ namespace OpenMTS.Models
         /// Whether the batch is archived. A batch is archived when the last bit of material is checked out.
         /// </summary>
         public bool IsArchived { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MaterialBatch"/> class.
+        /// </summary>
+        public MaterialBatch()
+        {
+            CustomProps = new Dictionary<Guid, string>();
+        }
     }
 }

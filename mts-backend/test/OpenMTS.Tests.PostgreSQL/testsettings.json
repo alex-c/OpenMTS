@@ -1,0 +1,5 @@
+﻿{
+  "Database": {
+    "ConnectionString": "Host=localhost;Database=openmts;Username=openmts;Password="
+  }
+}

@@ -18,6 +18,11 @@ namespace OpenMTS.Models
         public string Name { get; set; }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="StorageArea"/> class.
+        /// </summary>
+        public StorageArea() { }
+
+        /// <summary>
         /// Creates a new area with a randomly generated Guid.
         /// </summary>
         /// <param name="name">Name of the area to create.</param>

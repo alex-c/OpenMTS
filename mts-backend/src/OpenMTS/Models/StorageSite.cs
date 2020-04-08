@@ -22,5 +22,13 @@ namespace OpenMTS.Models
         /// Areas associated with this storage site.
         /// </summary>
         public ICollection<StorageArea> Areas { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StorageSite"/> class.
+        /// </summary>
+        public StorageSite()
+        {
+            Areas = new List<StorageArea>();
+        }
     }
 }
