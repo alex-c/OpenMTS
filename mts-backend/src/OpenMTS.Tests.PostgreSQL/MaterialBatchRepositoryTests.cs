@@ -65,7 +65,7 @@ namespace OpenMTS.Tests.PostgreSQL
 
             // Create batch and check return
             DateTime expDate = DateTime.Today.AddDays(5);
-            MaterialBatch batch = Repository.CreateMaterialBatch(pp1, expDate, loc, 1, 125.0, null, false);
+            MaterialBatch batch = Repository.CreateMaterialBatch(pp1, expDate, loc, 1, 125.0, new Dictionary<Guid, string>(), false);
             Assert.Equal(pp1.Id, batch.Material.Id);
             Assert.Equal(expDate, batch.ExpirationDate);
             Assert.Equal(area.Id, batch.StorageLocation.StorageAreaId);

@@ -49,7 +49,7 @@ namespace OpenMTS.Repositories.PostgreSQL
             {
                 whereClause += " m.id=@MaterialId";
             }
-            if(siteId != null)
+            if (siteId != null)
             {
                 if (whereClause != "")
                 {
@@ -109,7 +109,8 @@ namespace OpenMTS.Repositories.PostgreSQL
                     IsArchived = false
                 });
                 connection.Execute("INSERT INTO batch_prop_values (batch_id,prop_id,value) VALUES (@BatchId, @PropId, @Value)",
-                    customProps.Select(p => new {
+                    customProps.Select(p => new
+                    {
                         BatchId = id,
                         PropId = p.Key,
                         p.Value
@@ -144,7 +145,8 @@ namespace OpenMTS.Repositories.PostgreSQL
                     batch.IsArchived
                 });
                 connection.Execute("INSERT INTO batch_prop_values (batch_id,prop_id,value) VALUES (@BatchId, @PropId, @Value) ON CONFLICT (batch_id,prop_id) DO UPDATE SET value=@Value",
-                    batch.CustomProps.Select(p => new {
+                    batch.CustomProps.Select(p => new
+                    {
                         BatchId = batch.Id,
                         PropId = p.Key,
                         p.Value
@@ -206,7 +208,10 @@ namespace OpenMTS.Repositories.PostgreSQL
                         batch.StorageLocation = location;
                         material.Type = plastic;
                         batch.Material = material;
-                        batch.CustomProps.Add(prop.Item1, prop.Item2);
+                        if (prop != (default, default))
+                        {
+                            batch.CustomProps.Add(prop.Item1, prop.Item2);
+                        }
                         return batch;
                     },
                     splitOn: "storage_area_id,id,id,prop_id",
