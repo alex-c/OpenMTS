@@ -202,6 +202,7 @@ namespace OpenMTS.Tests.PostgreSQL
         public void Dispose()
         {
             DatabasePurger.PurgeBatches();
+            DatabasePurger.PurgeCustomBatchProps();
             DatabasePurger.PurgeLocations();
             DatabasePurger.PurgeMaterials();
             DatabasePurger.PurgePlastics();
