@@ -71,6 +71,7 @@ namespace OpenMTS.Repositories.PostgreSQL
             using (IDbConnection connection = GetNewConnection())
             {
                 connection.Execute("INSERT INTO batch_props (id, name) VALUES (@Id, @Name)", new { id, name });
+                prop = connection.QuerySingle<CustomBatchProp>("SELECT * FROM batch_props WHERE id=@Id", new { id });
             }
             return prop;
         }
@@ -97,7 +98,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         {
             using (IDbConnection connection = GetNewConnection())
             {
-                // TODO: delete batch prop values!
+                connection.Execute("DELETE FROM batch_prop_values WHERE prop_id=@Id", new { id });
                 connection.Execute("DELETE FROM batch_props WHERE id=@Id", new { id });
             }
         }

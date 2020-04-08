@@ -94,8 +94,6 @@ namespace OpenMTS.Repositories.PostgreSQL
                 "VALUES (@Id, @MaterialId, @AreaId, @BatchNumber, @ExpirationDate, @Quantity, @IsLocked, @IsArchived)";
             Guid id = Guid.NewGuid();
 
-            // TODO: implement custom batch prop values
-
             IEnumerable<MaterialBatch> batches = null;
             using (IDbConnection connection = GetNewConnection())
             {
@@ -110,6 +108,12 @@ namespace OpenMTS.Repositories.PostgreSQL
                     isLocked,
                     IsArchived = false
                 });
+                connection.Execute("INSERT INTO batch_prop_values (batch_id,prop_id,value) VALUES (@BatchId, @PropId, @Value)",
+                    customProps.Select(p => new {
+                        BatchId = id,
+                        PropId = p.Key,
+                        p.Value
+                    }));
                 batches = GetBatches(" b.id=@Id", new { id });
             }
             return batches.First();
@@ -126,8 +130,6 @@ namespace OpenMTS.Repositories.PostgreSQL
                 "expiration_date=@ExpirationDate, quantity=@Quantity, is_locked=@IsLocked, is_archived=@IsArchived " +
                    "WHERE id=@Id";
 
-            // TODO: implement custom batch prop values
-
             using (IDbConnection connection = GetNewConnection())
             {
                 connection.Execute(sql, new
@@ -141,6 +143,12 @@ namespace OpenMTS.Repositories.PostgreSQL
                     batch.IsLocked,
                     batch.IsArchived
                 });
+                connection.Execute("INSERT INTO batch_prop_values (batch_id,prop_id,value) VALUES (@BatchId, @PropId, @Value) ON CONFLICT (batch_id,prop_id) DO UPDATE SET value=@Value",
+                    batch.CustomProps.Select(p => new {
+                        BatchId = batch.Id,
+                        PropId = p.Key,
+                        p.Value
+                    }));
             }
         }
 
@@ -157,12 +165,14 @@ namespace OpenMTS.Repositories.PostgreSQL
             string sql = "SELECT b.id,b.batch_number,b.expiration_date,b.quantity,b.is_locked,b.is_archived," +
                 "a.id AS storage_area_id, a.name AS storage_area_name,s.id AS storage_site_id,s.name AS storage_site_name, " +
                 "m.id,m.name,m.manufacturer,m.manufacturer_specific_id, " +
-                "p.* " +
+                "p.*, " +
+                "v.prop_id,v.value " +
                 "FROM batches b " +
                 "JOIN storage_areas a ON a.id=b.area_id " +
                 "JOIN storage_sites s ON s.id=a.site_id " +
                 "JOIN materials m ON m.id=b.material_id " +
-                "JOIN plastics p ON p.id=m.type";
+                "JOIN plastics p ON p.id=m.type " +
+                "LEFT JOIN batch_prop_values v ON v.batch_id=b.id";
             if (hideArchived)
             {
                 sql += " WHERE b.is_archived=false";
@@ -184,8 +194,8 @@ namespace OpenMTS.Repositories.PostgreSQL
             IEnumerable<MaterialBatch> batches = null;
             using (IDbConnection connection = GetNewConnection())
             {
-                batches = connection.Query<MaterialBatch, StorageLocation, Material, Plastic, MaterialBatch>(sql,
-                    (bat, location, material, plastic) =>
+                batches = connection.Query<MaterialBatch, StorageLocation, Material, Plastic, (Guid, string), MaterialBatch>(sql,
+                    (bat, location, material, plastic, prop) =>
                     {
                         MaterialBatch batch = null;
                         if (!batchMap.TryGetValue(bat.Id, out batch))
@@ -196,9 +206,10 @@ namespace OpenMTS.Repositories.PostgreSQL
                         batch.StorageLocation = location;
                         material.Type = plastic;
                         batch.Material = material;
+                        batch.CustomProps.Add(prop.Item1, prop.Item2);
                         return batch;
                     },
-                    splitOn: "storage_area_id,id,id",
+                    splitOn: "storage_area_id,id,id,prop_id",
                     param: dataParam);
             }
             return batches.Distinct();

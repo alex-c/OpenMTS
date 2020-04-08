@@ -24,6 +24,7 @@ namespace OpenMTS.Tests.PostgreSQL
         private ILocationsRepository LocationsRepository { get; }
         private IMaterialsRepository MaterialsRepository { get; }
         private IPlasticsRepository PlasticsRepository { get; }
+        private ICustomBatchPropRepository PropRepository { get; }
 
         /// <summary>
         /// Sets up all needed repositories and purges all related tables.
@@ -35,6 +36,7 @@ namespace OpenMTS.Tests.PostgreSQL
             LocationsRepository = new PostgreSqlLocationsRepository(configuration);
             MaterialsRepository = new PostgreSqlMaterialsRepository(configuration);
             PlasticsRepository = new PostgreSqlPlasticsRepository(configuration);
+            PropRepository = new PostgreSqlCustomBatchPropRepository(configuration);
             Dispose();
         }
 
@@ -155,6 +157,43 @@ namespace OpenMTS.Tests.PostgreSQL
             // Still directly gettable by ID
             batch = Repository.GetMaterialBatch(archivedId);
             Assert.Equal(ep1.Id, batch.Material.Id);
+        }
+
+        /// <summary>
+        /// Tests the setting and getting of custom batch prop values.
+        /// </summary>
+        [Fact]
+        public void TestCustomBatchPropValues()
+        {
+            // Prerequisite entities
+            Plastic pp = PlasticsRepository.CreatePlastic("PP", "Polypropylene");
+            Material mat = MaterialsRepository.CreateMaterial("mat", "manu", "manu-id", pp);
+            StorageSite site = LocationsRepository.CreateStorageSite("test_site");
+            StorageArea area = LocationsRepository.CreateStorageArea(site, "test_area");
+            StorageLocation loc = new StorageLocation()
+            {
+                StorageSiteId = site.Id,
+                StorageAreaId = area.Id,
+                StorageSiteName = site.Name,
+                StorageAreaName = area.Name
+            };
+            CustomBatchProp prop1 = PropRepository.CreateCustomBatchProp("prop-1");
+            CustomBatchProp prop2 = PropRepository.CreateCustomBatchProp("prop-2");
+
+            // Create batch with custom prop values
+            MaterialBatch batch = Repository.CreateMaterialBatch(mat, DateTime.Today.AddDays(17), loc, 42, 42, new Dictionary<Guid, string>()
+            {
+                {prop1.Id, "Ak Bars"},
+                {prop2.Id, "Aloha"}
+            }, false);
+            Assert.Equal(2, batch.CustomProps.Count);
+
+            // Test updating
+            batch.CustomProps[prop1.Id] = "UPDATE TEST";
+            Repository.UpdateMaterialBatch(batch);
+            batch = Repository.GetMaterialBatch(batch.Id);
+            Assert.Equal(2, batch.CustomProps.Count);
+            Assert.Single(batch.CustomProps.Where(p => p.Value == "UPDATE TEST"));
         }
 
         /// <summary>

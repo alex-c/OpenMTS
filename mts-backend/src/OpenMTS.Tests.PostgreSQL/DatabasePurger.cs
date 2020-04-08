@@ -100,7 +100,7 @@ namespace OpenMTS.Tests.PostgreSQL
         {
             using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
             {
-                // TODO: delete batch prop values
+                connection.Execute("DELETE FROM batch_prop_values");
                 connection.Execute("DELETE FROM batches");
             }
         }
@@ -112,7 +112,7 @@ namespace OpenMTS.Tests.PostgreSQL
         {
             using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
             {
-                // TODO: delete batch prop values
+                connection.Execute("DELETE FROM batch_prop_values");
                 connection.Execute("DELETE FROM batch_props");
             }
         }
