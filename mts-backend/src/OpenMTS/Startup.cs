@@ -11,6 +11,7 @@ using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.Memory;
 using OpenMTS.Repositories.Mocking;
+using OpenMTS.Repositories.PostgreSQL;
 using OpenMTS.Services;
 using OpenMTS.Services.Authentication;
 using OpenMTS.Services.Authentication.Providers;
@@ -178,10 +179,44 @@ namespace OpenMTS
             }
             else
             {
-                // TODO: implement repositories for PostgreSQL persistence
-                throw new NotImplementedException("PostgreSQL-based persistence hasn't been implemented yet.");
+                // Configure Dapper to convert `table_name` to properties `TableName`
+                Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+
+                // Register services
+                services.AddSingleton<IMaterialBatchRepository, PostgreSqlMaterialBatchRepository>();
+                services.AddSingleton<ITransactionRepository, PostgreSqlTransactionRepository>();
+                services.AddSingleton<IMaterialsRepository, PostgreSqlMaterialsRepository>();
+                services.AddSingleton<IPlasticsRepository, PostgreSqlPlasticsRepository>();
+                services.AddSingleton<IConfigurationRepository, PostgreSqlConfigurationRepository>();
+                services.AddSingleton<ICustomMaterialPropRepository, PostgreSqlCustomMaterialPropRepository>();
+                services.AddSingleton<IUserRepository, PostgreSqlUserRepository>();
+                services.AddSingleton<IReadOnlyUserRepository, PostgreSqlUserRepository>();
+                services.AddSingleton<IApiKeyRepository, PostgreSqlApiKeyRepository>();
+                services.AddSingleton<IReadOnlyApiKeyRepository, PostgreSqlApiKeyRepository>();
+                services.AddSingleton<ILocationsRepository, PostgreSqlLocationsRepository>();
+                services.AddSingleton<ICustomBatchPropRepository, PostgreSqlCustomBatchPropRepository>();
+                services.AddSingleton<ICustomMaterialPropValueRepository, PostgreSqlCustomMaterialPropValueRepository>();
             }
             services.AddSingleton<IRightsRepository>(new MemoryRightsRepository());
+
+            // Optionally ensure that there is an admin account
+            IConfiguration ensureAdmin = Configuration.GetSection("EnsureAdmin");
+            if (ensureAdmin.GetValue<string>("id") != "")
+            {
+                string id = ensureAdmin.GetValue<string>("id");
+                string name = ensureAdmin.GetValue<string>("name");
+                string password = ensureAdmin.GetValue<string>("password");
+                if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(password))
+                {
+                    throw new Exception("The `EnsureAdmin` configuration section is invalid: either leave the ID field empty, or fill in all fields.");
+                }
+                IUserRepository users = services.BuildServiceProvider().GetService<IUserRepository>();
+                if (users.GetUser(id) == null)
+                {
+                    (string hashedPassword, byte[] salt) = new PasswordHashingService(LoggerFactory).HashAndSaltPassword(password);
+                    users.CreateUser(id, name, hashedPassword, salt, Role.Administrator);
+                }
+            }
 
             // Check JWT signing key validity
             if (Configuration.GetValue<string>("Jwt:Secret").Length < 16)
