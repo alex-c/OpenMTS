@@ -1,5 +1,6 @@
 -- Creates the tables needed for OpenMTS.
 
+DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS batch_prop_values;
 DROP TABLE IF EXISTS batch_props;
 DROP TABLE IF EXISTS batches;
@@ -120,4 +121,14 @@ CREATE TABLE batch_prop_values (
   prop_id uuid REFERENCES batch_props (id) NOT NULL,
   value text NOT NULL,
   UNIQUE (batch_id, prop_id)
-)
+);
+
+-- Transactions
+
+CREATE TABLE transactions (
+  id uuid PRIMARY KEY,
+  batch_id uuid REFERENCES batches (id) NOT NULL,
+  quantity double precision NOT NULL,
+  timestamp timestamptz NOT NULL,
+  user_id varchar (32) REFERENCES users (id) NOT NULL
+);

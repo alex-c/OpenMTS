@@ -1,5 +1,6 @@
 -- Drops the tables used by OpenMTS.
 
+DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS batch_prop_values;
 DROP TABLE IF EXISTS batch_props;
 DROP TABLE IF EXISTS batches;

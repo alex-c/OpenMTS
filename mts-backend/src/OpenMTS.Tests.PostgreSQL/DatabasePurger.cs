@@ -118,6 +118,17 @@ namespace OpenMTS.Tests.PostgreSQL
         }
 
         /// <summary>
+        /// Purges all transactions.
+        /// </summary>
+        public static void PurgeTransactions()
+        {
+            using (IDbConnection connection = new NpgsqlConnection(GetConnectionString()))
+            {
+                connection.Execute("DELETE FROM transactions");
+            }
+        }
+
+        /// <summary>
         /// Gets the dataabase connection string from configuration.
         /// </summary>
         /// <returns>Returns the connection string.</returns>
