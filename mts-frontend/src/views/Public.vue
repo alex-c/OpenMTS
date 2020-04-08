@@ -9,39 +9,16 @@
       <div id="login-box-main">
         <el-form :model="loginForm" :rules="validationRules" ref="loginForm">
           <el-form-item prop="user">
-            <el-input
-              :placeholder="$t('login.placeholder.user')"
-              v-model="loginForm.user"
-              prefix-icon="el-icon-user-solid"
-              @keyup.enter.native="login"
-              autofocus
-            ></el-input>
+            <el-input :placeholder="$t('login.placeholder.user')" v-model="loginForm.user" prefix-icon="el-icon-user-solid" @keyup.enter.native="login" autofocus></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input
-              :placeholder="$t('login.placeholder.password')"
-              v-model="loginForm.password"
-              show-password
-              prefix-icon="el-icon-lock"
-              @keyup.enter.native="login"
-            ></el-input>
+            <el-input :placeholder="$t('login.placeholder.password')" v-model="loginForm.password" show-password prefix-icon="el-icon-lock" @keyup.enter.native="login"></el-input>
           </el-form-item>
           <transition name="el-zoom-in-top">
-            <el-alert
-              id="bad-login-error"
-              :closable="false"
-              :title="$t('login.fail.title')"
-              type="error"
-              v-show="badLogin"
-              show-icon
-            >{{ $t('login.fail.description') }}</el-alert>
+            <el-alert id="bad-login-error" :closable="false" :title="$t('login.fail.title')" type="error" v-show="badLogin" show-icon>{{ $t('login.fail.description') }}</el-alert>
           </transition>
           <el-form-item>
-            <el-button
-              type="default"
-              @click="guestLogin"
-              v-if="guestLoginAllowed"
-            >{{ $t('login.guestLogin') }}</el-button>
+            <el-button type="default" @click="guestLogin" v-if="guestLoginAllowed">{{ $t('login.guestLogin') }}</el-button>
             <el-button type="primary" @click="login">{{ $t('login.button') }}</el-button>
           </el-form-item>
         </el-form>
@@ -135,7 +112,7 @@ export default {
 
 #login-box {
   margin: auto;
-  margin-top: 96px;
+  margin-top: 140px;
   max-width: 360px;
   min-width: 230px;
   border: 1px solid gray;
