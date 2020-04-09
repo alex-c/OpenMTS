@@ -21,7 +21,7 @@ namespace OpenMts.EnvironmentReader
 
             // Get and validate topic
             string topic = configuration.GetValue("Topic", "");
-            if (string.IsNullOrWhiteSpace("topic"))
+            if (string.IsNullOrWhiteSpace(topic))
             {
                 throw new Exception("No valid Kafka topic name was provided.");
             }
@@ -81,7 +81,7 @@ namespace OpenMts.EnvironmentReader
         /// <exception cref="System.Exception">An invalid provider name `{providerName}` was supplied for factor `{factor.ToString().ToLower()}`.</exception>
         private static IEnvironmentFactorProvider CreateProvider(IConfiguration configuration, Factor factor)
         {
-            string providerName = configuration.GetValue(factor.ToString(), "");
+            string providerName = configuration.GetValue($"{factor.ToString()}:Provider", "");
             if (string.IsNullOrWhiteSpace(providerName))
             {
                 Console.WriteLine($"No provider configured for factor `{factor.ToString().ToLower()}`, ignoring...");
@@ -93,11 +93,12 @@ namespace OpenMts.EnvironmentReader
                 switch (providerName)
                 {
                     case "MockDataProvider":
-                        provider = new MockDataProvider(configuration.GetSection($"{factor.ToString()}.Configuration"));
+                        provider = new MockDataProvider(configuration.GetSection($"{factor.ToString()}:Configuration"));
                         break;
                     default:
                         throw new Exception($"An invalid provider name `{providerName}` was supplied for factor `{factor.ToString().ToLower()}`.");
                 }
+                Console.WriteLine($"Configuring provider `{providerName}` for factor `{factor.ToString().ToLower()}`.");
                 return provider;
             }
         }
