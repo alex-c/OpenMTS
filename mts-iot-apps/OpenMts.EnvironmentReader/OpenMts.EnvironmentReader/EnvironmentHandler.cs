@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OpenMts.EnvironmentReader
@@ -64,31 +65,36 @@ namespace OpenMts.EnvironmentReader
 
         /// <summary>
         /// Starts periodically reading data.
+        /// <paramref name="cancellationTokenSoruce"/>
         /// </summary>
-        public void StartReading()
+        public void StartReading(CancellationTokenSource cancellationTokenSoruce)
         {
-            // TODO: cts
-            // TODO: Kafka
             if (ReadLoop == null)
             {
                 ReadLoop = new TaskFactory().StartNew(async () =>
                 {
-                    DataPoint dataPoint = new DataPoint()
+                    while (!cancellationTokenSoruce.IsCancellationRequested)
                     {
-                        Timestamp = DateTime.UtcNow,
-                        Temperature = null,
-                        Humidity = null
-                    };
-                    IEnvironmentFactorProvider provider = null;
-                    if (Providers.TryGetValue(Factor.Temperature, out provider))
-                    {
-                        dataPoint.Temperature = provider.Read();
+                        DataPoint dataPoint = new DataPoint()
+                        {
+                            Timestamp = DateTime.UtcNow,
+                            Temperature = null,
+                            Humidity = null
+                        };
+                        IEnvironmentFactorProvider provider = null;
+                        if (Providers.TryGetValue(Factor.Temperature, out provider))
+                        {
+                            dataPoint.Temperature = provider.Read();
+                        }
+                        if (Providers.TryGetValue(Factor.Humidity, out provider))
+                        {
+                            dataPoint.Humidity = provider.Read();
+                        }
+                        // TODO: Write to Kafka
+                        Console.WriteLine($" + {dataPoint.Timestamp} - Temperature: {dataPoint.Temperature} °C - Humidity: {dataPoint.Humidity} g/m^3");
+                        await Task.Delay(ReadInterval);
                     }
-                    if (Providers.TryGetValue(Factor.Humidity, out provider))
-                    {
-                        dataPoint.Humidity = provider.Read();
-                    }
-                    await Task.Delay(ReadInterval);
+                    Console.WriteLine("Environment handler terminating...");
                 }, TaskCreationOptions.LongRunning);
             }
         }

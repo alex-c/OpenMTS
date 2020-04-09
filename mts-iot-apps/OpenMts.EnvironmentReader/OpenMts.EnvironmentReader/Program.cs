@@ -2,6 +2,7 @@
 using OpenMts.EnvironmentReader.Provider;
 using System;
 using System.Linq;
+using System.Threading;
 
 namespace OpenMts.EnvironmentReader
 {
@@ -15,6 +16,10 @@ namespace OpenMts.EnvironmentReader
         /// </summary>
         static void Main(string[] args)
         {
+            ConsoleKeyInfo ConsoleKeyInfo;
+            Console.TreatControlCAsInput = true;
+
+            // Read config files
             IConfiguration configuration = new ConfigurationBuilder()
                 .AddJsonFile("./appsettings.json")
                 .AddJsonFile("./appsettings.Development.json", true).Build();
@@ -65,11 +70,20 @@ namespace OpenMts.EnvironmentReader
                 throw new Exception("No providers loaded, terminating...");
             }
 
-            // Start reading data!
-            handler.StartReading();
 
-            // Wait for termination
-            // TODO - CTS, CTRL+C
+            // Start reading data!
+            CancellationTokenSource cancellationTokenSoruce = new CancellationTokenSource();
+            handler.StartReading(cancellationTokenSoruce);
+
+            // Wait for CTRL+C termination
+            do
+            {
+                Console.WriteLine("Please enter CTRL+C to terminate...");
+                ConsoleKeyInfo = Console.ReadKey(true);
+            } while ((ConsoleKeyInfo.Modifiers & ConsoleModifiers.Control) == 0 || ConsoleKeyInfo.Key != ConsoleKey.C);
+            cancellationTokenSoruce.Cancel();
+            Console.WriteLine("Cancellation was requested, waiting for environment handler to terminate...");
+            Thread.Sleep(readInterval*2);
         }
 
         /// <summary>
