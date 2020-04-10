@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Confluent.Kafka;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -22,6 +24,11 @@ namespace OpenMts.EnvironmentReader
         private string Topic { get; }
 
         /// <summary>
+        /// Configuration POCO for Kafka producers.
+        /// </summary>
+        private ProducerConfig ProducerConfig { get; }
+
+        /// <summary>
         /// The interval to read data in.
         /// </summary>
         private TimeSpan ReadInterval { get; }
@@ -34,11 +41,16 @@ namespace OpenMts.EnvironmentReader
         /// <summary>
         /// Initializes a new instance of the <see cref="EnvironmentHandler"/> class.
         /// </summary>
+        /// <param name="kafkaEndpoint">Kafka server endpoint.</param>
         /// <param name="topic">The Kafka topic to write data to.</param>
         /// <param name="readInterval">The read interval.</param>
-        public EnvironmentHandler(string topic, TimeSpan readInterval)
+        public EnvironmentHandler(string kafkaEndpoint, string topic, TimeSpan readInterval)
         {
             Providers = new Dictionary<Factor, IEnvironmentFactorProvider>();
+            ProducerConfig = new ProducerConfig()
+            {
+                BootstrapServers = kafkaEndpoint
+            };
             Topic = topic;
             ReadInterval = readInterval;
             ReadLoop = null;
@@ -90,8 +102,23 @@ namespace OpenMts.EnvironmentReader
                         {
                             dataPoint.Humidity = provider.Read();
                         }
-                        // TODO: Write to Kafka
-                        Console.WriteLine($" + {dataPoint.Timestamp} - Temperature: {dataPoint.Temperature} °C - Humidity: {dataPoint.Humidity} g/m^3");
+                        try
+                        {
+                            string message = JsonConvert.SerializeObject(dataPoint);
+                            using (IProducer<Null, string> producer = new ProducerBuilder<Null, string>(ProducerConfig).Build())
+                            {
+                                DeliveryResult<Null, string> result = await producer.ProduceAsync(Topic, new Message<Null, string> { Value = message });
+                                Console.WriteLine($" + Delivered '{result.Value}' to '{Topic}'");
+                            }
+                        }
+                        catch (ProduceException<Null, string> exception)
+                        {
+                            Console.WriteLine($" + Delivery failed: {exception.Error.Reason}");
+                        }
+                        catch (Exception exception)
+                        {
+                            Console.WriteLine($"Kafka error: {exception}");
+                        }
                         await Task.Delay(ReadInterval);
                     }
                     Console.WriteLine("Environment handler terminating...");

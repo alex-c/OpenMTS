@@ -24,6 +24,17 @@ namespace OpenMts.EnvironmentReader
                 .AddJsonFile("./appsettings.json")
                 .AddJsonFile("./appsettings.Development.json", true).Build();
 
+            // Get and validate Kafka server endpoint
+            string kafkaEndpoint = configuration.GetValue("Kafka", "");
+            if (string.IsNullOrWhiteSpace(kafkaEndpoint))
+            {
+                throw new Exception("No valid Kafka endpoint was provided.");
+            }
+            else
+            {
+                Console.WriteLine($"Configuring Kafka endpoint `{kafkaEndpoint}`...");
+            }
+
             // Get and validate topic
             string topic = configuration.GetValue("Topic", "");
             if (string.IsNullOrWhiteSpace(topic))
@@ -48,7 +59,7 @@ namespace OpenMts.EnvironmentReader
             TimeSpan readInterval = TimeSpan.FromSeconds(readIntervalInSeconds);
 
             // Create handler
-            EnvironmentHandler handler = new EnvironmentHandler(topic, readInterval);
+            EnvironmentHandler handler = new EnvironmentHandler(kafkaEndpoint, topic, readInterval);
 
             // Temperature provider
             IEnvironmentFactorProvider temperatureProvider = CreateProvider(configuration, Factor.Temperature);
