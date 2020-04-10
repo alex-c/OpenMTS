@@ -2,6 +2,7 @@
 using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Services.Exceptions;
+using OpenMTS.Services.Support;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,13 @@ namespace OpenMTS.Services
     /// <summary>
     /// A service for locations: storage sites and areas.
     /// </summary>
-    public class LocationsService
+    public class LocationsService : IPublisher<StorageSite>
     {
+        /// <summary>
+        /// Subscribers to notify about new storage sites.
+        /// </summary>
+        private List<ISubscriber<StorageSite>> Subscribers { get; }
+
         /// <summary>
         /// The underlying repository granting access to locations data.
         /// </summary>
@@ -30,6 +36,7 @@ namespace OpenMTS.Services
         /// <param name="locationsRepository">A repository to get locations data from.</param>
         public LocationsService(ILoggerFactory loggerFactory, ILocationsRepository locationsRepository)
         {
+            Subscribers = new List<ISubscriber<StorageSite>>();
             Logger = loggerFactory.CreateLogger<LocationsService>();
             LocationsRepository = locationsRepository;
         }
@@ -70,7 +77,9 @@ namespace OpenMTS.Services
         /// <returns>Returns the newly created site.</returns>
         public StorageSite CreateStorageSite(string name)
         {
-            return LocationsRepository.CreateStorageSite(name);
+            StorageSite site = LocationsRepository.CreateStorageSite(name);
+            Publish(site); // Notify environment data service of new site
+            return site;
         }
 
         /// <summary>
@@ -116,6 +125,43 @@ namespace OpenMTS.Services
             area = LocationsRepository.UpdateStorageArea(area);
             return area;
         }
+
+        #region IPublisher implementation
+
+        /// <summary>
+        /// Subscribes the specified subscriber.
+        /// </summary>
+        /// <param name="subscriber">The subscriber.</param>
+        public void Subscribe(ISubscriber<StorageSite> subscriber)
+        {
+            if (!Subscribers.Contains(subscriber))
+            {
+                Subscribers.Add(subscriber);
+            }
+        }
+
+        /// <summary>
+        /// Unsubscribes the specified subscriber.
+        /// </summary>
+        /// <param name="subscriber">The subscriber.</param>
+        public void Unsubscribe(ISubscriber<StorageSite> subscriber)
+        {
+            Subscribers.Remove(subscriber);
+        }
+
+        /// <summary>
+        /// Publishes the specified site.
+        /// </summary>
+        /// <param name="site">The site.</param>
+        public void Publish(StorageSite site)
+        {
+            foreach (ISubscriber<StorageSite> subscriber in Subscribers)
+            {
+                subscriber.OnPublish(site);
+            }
+        }
+
+        #endregion
 
         #region Private Helpers
 
