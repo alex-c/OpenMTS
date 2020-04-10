@@ -197,8 +197,7 @@ namespace OpenMTS
                 services.AddSingleton<ILocationsRepository, PostgreSqlLocationsRepository>();
                 services.AddSingleton<ICustomBatchPropRepository, PostgreSqlCustomBatchPropRepository>();
                 services.AddSingleton<ICustomMaterialPropValueRepository, PostgreSqlCustomMaterialPropValueRepository>();
-                // TODO: replace with PostgreSql implementation
-                services.AddSingleton<IEnvironmentalDataRepository, MockEnvironmentalDataRepository>();
+                services.AddSingleton<IEnvironmentalDataRepository, PostgreSqlEnvironmentalDataRepository>();
             }
             services.AddSingleton<IRightsRepository>(new MemoryRightsRepository());
 
