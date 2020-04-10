@@ -92,9 +92,9 @@ namespace OpenMts.EnvironmentReader
                 Console.WriteLine("Please enter CTRL+C to terminate...");
                 ConsoleKeyInfo = Console.ReadKey(true);
             } while ((ConsoleKeyInfo.Modifiers & ConsoleModifiers.Control) == 0 || ConsoleKeyInfo.Key != ConsoleKey.C);
-            cancellationTokenSoruce.Cancel();
             Console.WriteLine("Cancellation was requested, waiting for environment handler to terminate...");
-            Thread.Sleep(readInterval*2);
+            cancellationTokenSoruce.Cancel();
+            Thread.Sleep(readInterval);
         }
 
         /// <summary>

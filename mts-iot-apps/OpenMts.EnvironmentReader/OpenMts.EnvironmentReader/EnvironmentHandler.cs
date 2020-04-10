@@ -77,51 +77,58 @@ namespace OpenMts.EnvironmentReader
 
         /// <summary>
         /// Starts periodically reading data.
-        /// <paramref name="cancellationTokenSoruce"/>
+        /// <paramref name="cancellationTokenSource"/>
         /// </summary>
-        public void StartReading(CancellationTokenSource cancellationTokenSoruce)
+        public void StartReading(CancellationTokenSource cancellationTokenSource)
         {
             if (ReadLoop == null)
             {
                 ReadLoop = new TaskFactory().StartNew(async () =>
                 {
-                    while (!cancellationTokenSoruce.IsCancellationRequested)
+                    try
                     {
-                        DataPoint dataPoint = new DataPoint()
+                        while (!cancellationTokenSource.IsCancellationRequested)
                         {
-                            Timestamp = DateTime.UtcNow,
-                            Temperature = null,
-                            Humidity = null
-                        };
-                        IEnvironmentFactorProvider provider = null;
-                        if (Providers.TryGetValue(Factor.Temperature, out provider))
-                        {
-                            dataPoint.Temperature = provider.Read();
-                        }
-                        if (Providers.TryGetValue(Factor.Humidity, out provider))
-                        {
-                            dataPoint.Humidity = provider.Read();
-                        }
-                        try
-                        {
-                            string message = JsonConvert.SerializeObject(dataPoint);
-                            using (IProducer<Null, string> producer = new ProducerBuilder<Null, string>(ProducerConfig).Build())
+                            DataPoint dataPoint = new DataPoint()
                             {
-                                DeliveryResult<Null, string> result = await producer.ProduceAsync(Topic, new Message<Null, string> { Value = message });
-                                Console.WriteLine($" + Delivered '{result.Value}' to '{Topic}'");
+                                Timestamp = DateTime.UtcNow,
+                                Temperature = null,
+                                Humidity = null
+                            };
+                            IEnvironmentFactorProvider provider = null;
+                            if (Providers.TryGetValue(Factor.Temperature, out provider))
+                            {
+                                dataPoint.Temperature = provider.Read();
                             }
+                            if (Providers.TryGetValue(Factor.Humidity, out provider))
+                            {
+                                dataPoint.Humidity = provider.Read();
+                            }
+                            try
+                            {
+                                string message = JsonConvert.SerializeObject(dataPoint);
+                                using (IProducer<Null, string> producer = new ProducerBuilder<Null, string>(ProducerConfig).Build())
+                                {
+                                    DeliveryResult<Null, string> result = await producer.ProduceAsync(Topic, new Message<Null, string> { Value = message });
+                                    Console.WriteLine($" + Delivered '{result.Value}' to '{Topic}'");
+                                }
+                            }
+                            catch (ProduceException<Null, string> exception)
+                            {
+                                Console.WriteLine($" + Delivery failed: {exception.Error.Reason}");
+                            }
+                            catch (Exception exception)
+                            {
+                                Console.WriteLine($"Kafka error: {exception}");
+                            }
+                            await Task.Delay(ReadInterval, cancellationTokenSource.Token);
                         }
-                        catch (ProduceException<Null, string> exception)
-                        {
-                            Console.WriteLine($" + Delivery failed: {exception.Error.Reason}");
-                        }
-                        catch (Exception exception)
-                        {
-                            Console.WriteLine($"Kafka error: {exception}");
-                        }
-                        await Task.Delay(ReadInterval);
                     }
-                    Console.WriteLine("Environment handler terminating...");
+                    catch (TaskCanceledException) { }
+                    finally
+                    {
+                        Console.WriteLine("Environment handler terminating...");
+                    }
                 }, TaskCreationOptions.LongRunning);
             }
         }
