@@ -43,7 +43,6 @@
       </div>
 
       <!-- Extrema -->
-      <div class="content-row content-subtitle"></div>
       <div class="content-row">
         <el-table :data="extrema" border size="mini" :empty-text="$t('general.noData')">
           <el-table-column prop="factor" :label="$t('general.id')" />
@@ -64,12 +63,12 @@ export default {
   mixins: [GenericErrorHandlingMixin],
   props: ['siteId'],
   data() {
-    const today = new Date();
-    const oneMonthAgo = new Date();
-    oneMonthAgo.setMonth(today.getMonth() - 1);
+    const end = new Date();
+    const start = new Date();
+    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
     return {
       site: [],
-      range: [oneMonthAgo, today],
+      range: [start, end],
       pickerOptions: {
         shortcuts: [
           {
