@@ -1,5 +1,5 @@
 <template>
-  <div id="environment" class="page-medium">
+  <div id="environment" class="page-large">
     <div class="content-section">
       <!-- Page Title & Back Button -->
       <div class="content-row">
