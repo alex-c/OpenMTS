@@ -177,6 +177,7 @@ namespace OpenMTS
                 services.AddSingleton<ICustomMaterialPropValueRepository>(mockCustomMaterialPropValueRepository);
                 services.AddSingleton(mockCustomMaterialPropValueRepository);
                 services.AddSingleton<IEnvironmentalDataRepository, MockEnvironmentalDataRepository>();
+                // TODO: IStatsProvider implementation
             }
             else
             {
@@ -198,6 +199,7 @@ namespace OpenMTS
                 services.AddSingleton<ICustomBatchPropRepository, PostgreSqlCustomBatchPropRepository>();
                 services.AddSingleton<ICustomMaterialPropValueRepository, PostgreSqlCustomMaterialPropValueRepository>();
                 services.AddSingleton<IEnvironmentalDataRepository, PostgreSqlEnvironmentalDataRepository>();
+                services.AddSingleton<IStatsProvider, PostgreSqlStatsProvider>();
             }
             services.AddSingleton<IRightsRepository>(new MemoryRightsRepository());
 
@@ -229,6 +231,7 @@ namespace OpenMTS
             services.AddSingleton<RightsService>();
             services.AddSingleton<LocationsService>();
             services.AddSingleton<EnvironmentService>();
+            services.AddSingleton<StatsService>();
 
             // Optionally ensure that there is an admin account
             IConfiguration ensureAdmin = Configuration.GetSection("EnsureAdmin");
