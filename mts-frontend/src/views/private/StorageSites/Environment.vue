@@ -135,10 +135,10 @@ export default {
           let site = response.body;
           Api.getStorageSiteLatestEnvironmentValue(this.siteId, 'temperature')
             .then(response => {
-              site.temperature = response.body.value;
+              site.temperature = response.body ? response.body.value : this.$t('general.noData');
               Api.getStorageSiteLatestEnvironmentValue(this.siteId, 'humidity')
                 .then(response => {
-                  site.humidity = response.body.value;
+                  site.humidity = response.body ? response.body.value : this.$t('general.noData');
                   this.site = [site];
                 })
                 .catch(this.handleHttpError);
