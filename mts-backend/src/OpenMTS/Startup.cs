@@ -82,7 +82,7 @@ namespace OpenMTS
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials()
-                          // Header needed on client-side to access a file download file name
+                          // `Content-Disposition` header needed on client-side to access a file download file name!
                           .WithExposedHeaders("Content-Disposition");
                     });
                 }
@@ -176,10 +176,11 @@ namespace OpenMTS
                 MockCustomMaterialPropValueRepository mockCustomMaterialPropValueRepository = new MockCustomMaterialPropValueRepository();
                 services.AddSingleton<ICustomMaterialPropValueRepository>(mockCustomMaterialPropValueRepository);
                 services.AddSingleton(mockCustomMaterialPropValueRepository);
+                services.AddSingleton<IEnvironmentalDataRepository, MockEnvironmentalDataRepository>();
             }
             else
             {
-                // Configure Dapper to convert `table_name` to properties `TableName`
+                // Configure Dapper to convert `column_name` to property `ColumnName`
                 Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
                 // Register services
@@ -196,6 +197,7 @@ namespace OpenMTS
                 services.AddSingleton<ILocationsRepository, PostgreSqlLocationsRepository>();
                 services.AddSingleton<ICustomBatchPropRepository, PostgreSqlCustomBatchPropRepository>();
                 services.AddSingleton<ICustomMaterialPropValueRepository, PostgreSqlCustomMaterialPropValueRepository>();
+                services.AddSingleton<IEnvironmentalDataRepository, PostgreSqlEnvironmentalDataRepository>();
             }
             services.AddSingleton<IRightsRepository>(new MemoryRightsRepository());
 
@@ -226,6 +228,7 @@ namespace OpenMTS
             services.AddSingleton<ApiKeyService>();
             services.AddSingleton<RightsService>();
             services.AddSingleton<LocationsService>();
+            services.AddSingleton<EnvironmentService>();
 
             // Optionally ensure that there is an admin account
             IConfiguration ensureAdmin = Configuration.GetSection("EnsureAdmin");
@@ -270,11 +273,25 @@ namespace OpenMTS
             app.UseMvc();
         }
 
+        /// <summary>
+        /// Registers an authorization policy.
+        /// </summary>
+        /// <param name="options">The authorization options to extend.</param>
+        /// <param name="policyName">Name of the policy tor egister.</param>
+        /// <param name="role">The role that grants authorization.</param>
+        /// <param name="rightId">The right that grants authorization.</param>
         private void RegisterPolicy(AuthorizationOptions options, string policyName, Role role, string rightId)
         {
             RegisterPolicy(options, policyName, new Role[] { role }, rightId);
         }
 
+        /// <summary>
+        /// Registers an authorization policy.
+        /// </summary>
+        /// <param name="options">The authorization options to extend.</param>
+        /// <param name="policyName">Name of the policy tor egister.</param>
+        /// <param name="roles">The roles that grant authorization.</param>
+        /// <param name="rightId">The right that grants authorization.</param>
         private void RegisterPolicy(AuthorizationOptions options, string policyName, IEnumerable<Role> roles, string rightId)
         {
             options.AddPolicy(policyName, policy => policy.RequireAuthenticatedUser().Requirements.Add(new AccessRightsRequirement(roles, rightId)));

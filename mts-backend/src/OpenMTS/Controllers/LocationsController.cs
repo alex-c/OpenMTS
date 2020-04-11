@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Confluent.Kafka;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OpenMTS.Authorization;
 using OpenMTS.Controllers.Contracts.Requests;
 using OpenMTS.Controllers.Contracts.Responses;
 using OpenMTS.Models;
+using OpenMTS.Models.Environmnt;
 using OpenMTS.Services;
 using OpenMTS.Services.Exceptions;
 using System;
@@ -25,17 +27,21 @@ namespace OpenMTS.Controllers
         private LocationsService LocationsService { get; }
 
         /// <summary>
+        /// Provides storage site environment data.
+        /// </summary>
+        private EnvironmentService EnvironmentService { get; }
+
+        /// <summary>
         /// Injects all needed components.
         /// </summary>
         /// <param name="loggerFactory">A factory to create loggers from.</param>
         /// <param name="locationsService">A service for locations-related functionality.</param>
-        public LocationsController(ILoggerFactory loggerFactory, LocationsService locationsService)
+        public LocationsController(ILoggerFactory loggerFactory, LocationsService locationsService, EnvironmentService environmentService)
         {
             Logger = loggerFactory.CreateLogger<LocationsController>();
             LocationsService = locationsService;
+            EnvironmentService = environmentService;
         }
-
-        #region Public getters
 
         /// <summary>
         /// Gets available sites, paginated.
@@ -86,6 +92,193 @@ namespace OpenMTS.Controllers
             try
             {
                 return Ok(LocationsService.GetStorageSite(id));
+            }
+            catch (StorageSiteNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        #region Environment data
+
+        /// <summary>
+        /// Gets the last recorded temperature for a storage site.
+        /// </summary>
+        /// <param name="id">ID of the storage site.</param>
+        /// <param name="factor">The factor to get data for.</param>
+        /// <returns>Returns the last recorded value.</returns>
+        [HttpGet("{id}/temperature")]
+        public IActionResult GetStorageSiteTemperature(Guid id)
+        {
+            return GetStorageSiteEnvironementalFactor(id, EnvironmentalFactor.Temperature);
+        }
+
+        /// <summary>
+        /// Gets the temperature history of a storage site.
+        /// </summary>
+        /// <param name="id">ID of the storage site.</param>
+        /// <param name="factor">The factor to get data for.</param>
+        /// <param name="startTime">The history start time.</param>
+        /// <param name="endTime">The history end time.</param>
+        /// <returns>Returns the history.</returns>
+        [HttpGet("{id}/temperature/history")]
+        public IActionResult GetStorageSiteTemperatureHistory(Guid id, [FromQuery] DateTime startTime, [FromQuery] DateTime endTime)
+        {
+            return GetStorageSiteEnvironementalFactorHistory(id, EnvironmentalFactor.Temperature, startTime, endTime);
+        }
+
+        /// <summary>
+        /// Gets the min and max recorded temperature for a storage site.
+        /// </summary>
+        /// <param name="id">ID of the storage site.</param>
+        /// <param name="factor">The factor to get data for.</param>
+        /// <param name="startTime">The period start time.</param>
+        /// <param name="endTime">The period end time.</param>
+        /// <returns>Returns the maxima.</returns>
+        [HttpGet("{id}/temperature/extrema")]
+        public IActionResult GetStorageSiteTemperatureExtrema(Guid id, [FromQuery] DateTime startTime, [FromQuery] DateTime endTime)
+        {
+            return GetStorageSiteEnvironementalFactorExtrema(id, EnvironmentalFactor.Temperature, startTime, endTime);
+        }
+
+        /// <summary>
+        /// Gets the last recorded humidity for a storage site.
+        /// </summary>
+        /// <param name="id">ID of the storage site.</param>
+        /// <param name="factor">The factor to get data for.</param>
+        /// <returns>Returns the last recorded value.</returns>
+        [HttpGet("{id}/humidity")]
+        public IActionResult GetStorageSiteHumidity(Guid id)
+        {
+            return GetStorageSiteEnvironementalFactor(id, EnvironmentalFactor.Humidity);
+        }
+
+        /// <summary>
+        /// Gets the humidity history of a storage site.
+        /// </summary>
+        /// <param name="id">ID of the storage site.</param>
+        /// <param name="factor">The factor to get data for.</param>
+        /// <param name="startTime">The history start time.</param>
+        /// <param name="endTime">The history end time.</param>
+        /// <returns>Returns the history.</returns>
+        [HttpGet("{id}/humidity/history")]
+        public IActionResult GetStorageSiteHumidityHistory(Guid id, [FromQuery] DateTime startTime, [FromQuery] DateTime endTime)
+        {
+            return GetStorageSiteEnvironementalFactorHistory(id, EnvironmentalFactor.Humidity, startTime, endTime);
+        }
+
+        /// <summary>
+        /// Gets the min and max recorded temperature for a storage site.
+        /// </summary>
+        /// <param name="id">ID of the storage site.</param>
+        /// <param name="factor">The factor to get data for.</param>
+        /// <param name="startTime">The period start time.</param>
+        /// <param name="endTime">The period end time.</param>
+        /// <returns>Returns the maxima.</returns>
+        [HttpGet("{id}/humidity/extrema")]
+        public IActionResult GetStorageSiteHumidityExtrema(Guid id, [FromQuery] DateTime startTime, [FromQuery] DateTime endTime)
+        {
+            return GetStorageSiteEnvironementalFactorExtrema(id, EnvironmentalFactor.Humidity, startTime, endTime);
+        }
+
+        /// <summary>
+        /// Gets the last value for a storage site environemental factor.
+        /// </summary>
+        /// <param name="id">ID of the storage site.</param>
+        /// <param name="factor">The factor to get data for.</param>
+        /// <returns>Returns the last recorded value.</returns>
+        private IActionResult GetStorageSiteEnvironementalFactor(Guid id, EnvironmentalFactor factor)
+        {
+            try
+            {
+                DataPoint lastValue = EnvironmentService.GetLatestValue(id, factor);
+                return Ok(lastValue);
+            }
+            catch (StorageSiteNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        /// <summary>
+        /// Gets the history of a storage site environemental factor history.
+        /// </summary>
+        /// <param name="id">ID of the storage site.</param>
+        /// <param name="factor">The factor to get data for.</param>
+        /// <param name="startTime">The history start time.</param>
+        /// <param name="endTime">The history end time.</param>
+        /// <returns>Returns the history.</returns>
+        private IActionResult GetStorageSiteEnvironementalFactorHistory(Guid id, EnvironmentalFactor factor, DateTime startTime, DateTime endTime)
+        {
+            // Validate times
+            if (startTime == null || startTime == default)
+            {
+                return HandleBadRequest("No start time provided.");
+            }
+            startTime = startTime.ToUniversalTime();
+            if (endTime == null || endTime == default)
+            {
+                endTime = DateTime.UtcNow;
+            }
+            if (startTime > DateTime.UtcNow || startTime > endTime)
+            {
+                return HandleBadRequest("Invalid start time provided.");
+            }
+
+            // Get history
+            try
+            {
+                IEnumerable<DataPoint> history = EnvironmentService.GetHistory(id, factor, startTime, endTime);
+                return Ok(history);
+            }
+            catch (StorageSiteNotFoundException exception)
+            {
+                return HandleResourceNotFoundException(exception);
+            }
+            catch (Exception exception)
+            {
+                return HandleUnexpectedException(exception);
+            }
+        }
+
+        /// <summary>
+        /// Gets the min and max values of a storage site environemental factor.
+        /// </summary>
+        /// <param name="id">ID of the storage site.</param>
+        /// <param name="factor">The factor to get data for.</param>
+        /// <param name="startTime">The period start time.</param>
+        /// <param name="endTime">The period end time.</param>
+        /// <returns>Returns the maxima.</returns>
+        private IActionResult GetStorageSiteEnvironementalFactorExtrema(Guid id, EnvironmentalFactor factor, DateTime startTime, DateTime endTime)
+        {
+            // Validate times
+            if (startTime == null || startTime == default)
+            {
+                return HandleBadRequest("No start time provided.");
+            }
+            startTime = startTime.ToUniversalTime();
+            if (endTime == null || endTime == default)
+            {
+                endTime = DateTime.UtcNow;
+            }
+            if (startTime > DateTime.UtcNow || startTime > endTime)
+            {
+                return HandleBadRequest("Invalid start time provided.");
+            }
+
+            // Get extrema
+            try
+            {
+                Extrema extrema = EnvironmentService.GetExtrema(id, factor, startTime, endTime);
+                return Ok(extrema);
             }
             catch (StorageSiteNotFoundException exception)
             {
