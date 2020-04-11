@@ -107,16 +107,22 @@ namespace OpenMTS.Repositories.Mocking
             {
                 Humidity.Add(snapshot.StorageSiteId, new List<DataPoint>());
             }
-            Temperature[snapshot.StorageSiteId].Add(new DataPoint()
+            if (snapshot.Temperature.HasValue)
             {
-                Timestamp = snapshot.Timestamp,
-                Value = snapshot.Temperature
-            });
-            Humidity[snapshot.StorageSiteId].Add(new DataPoint()
+                Temperature[snapshot.StorageSiteId].Add(new DataPoint()
+                {
+                    Timestamp = snapshot.Timestamp,
+                    Value = snapshot.Temperature.Value
+                });
+            }
+            if (snapshot.Humidity.HasValue)
             {
-                Timestamp = snapshot.Timestamp,
-                Value = snapshot.Humidity
-            });
+                Humidity[snapshot.StorageSiteId].Add(new DataPoint()
+                {
+                    Timestamp = snapshot.Timestamp,
+                    Value = snapshot.Humidity.Value
+                });
+            }
         }
     }
 }

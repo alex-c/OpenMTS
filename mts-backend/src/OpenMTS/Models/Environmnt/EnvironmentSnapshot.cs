@@ -20,11 +20,11 @@ namespace OpenMTS.Models.Environmnt
         /// <summary>
         /// The recorded temperature, if any.
         /// </summary>
-        public double Temperature { get; set; }
+        public double? Temperature { get; set; }
 
         /// <summary>
         /// The recorded humidity, if any.
         /// </summary>
-        public double Humidity { get; set; }
+        public double? Humidity { get; set; }
     }
 }
