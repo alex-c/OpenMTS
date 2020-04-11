@@ -10,6 +10,7 @@ import Dashboard from '../views/private/Dashboard.vue';
 
 // Views - Material
 import StorageSites from '../views/private/StorageSites.vue';
+import Environment from '../views/private/StorageSites/Environment.vue';
 import Inventory from '../views/private/Inventory.vue';
 import CreateBatch from '../views/private/Inventory/CreateBatch.vue';
 import EditBatch from '../views/private/Inventory/EditBatch.vue';
@@ -90,6 +91,12 @@ const routes = [
       {
         path: 'sites',
         component: StorageSites,
+      },
+      {
+        path: 'sites/environment',
+        name: 'environment',
+        component: Environment,
+        props: true,
       },
       {
         path: 'inventory',

@@ -540,6 +540,46 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getStorageSite: id => {
+    return fetch(`http://localhost:5000/api/sites/${id}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getStorageSiteLatestEnvironmentValue: (id, factor) => {
+    return fetch(`http://localhost:5000/api/sites/${id}/${factor}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getStorageSiteEnvironmentHistory: (id, factor, startTime, endTime) => {
+    return fetch(`http://localhost:5000/api/sites/${id}/${factor}/history?startTime=${startTime}&endTime=${endTime}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
+  getStorageSiteEnvironmentExtrema: (id, factor, startTime, endTime) => {
+    return fetch(`http://localhost:5000/api/sites/${id}/${factor}/extrema?startTime=${startTime}&endTime=${endTime}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   createStorageSite: name => {
     return fetch(`http://localhost:5000/api/sites`, {
       method: 'POST',

@@ -41,6 +41,9 @@
           <router-link :to="{ name: 'inventory', params: { storageSiteFilter: selectedSite.id } }">
             <el-button icon="el-icon-box" type="success" size="mini" :disabled="selectedSite.id === null">{{ $t('general.inventory') }}</el-button>
           </router-link>
+          <router-link :to="{ name: 'environment', params: { siteId: selectedSite.id } }">
+            <el-button icon="el-icon-view" type="primary" size="mini" :disabled="selectedSite.id === null">{{ $t('general.environment') }}</el-button>
+          </router-link>
         </div>
       </div>
     </div>

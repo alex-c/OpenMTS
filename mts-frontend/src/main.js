@@ -36,6 +36,10 @@ const i18n = new VueI18n({
   messages,
 });
 
+// Apex Charts
+import VueApexCharts from 'vue-apexcharts';
+Vue.component('apexchart', VueApexCharts);
+
 // Mount app
 import App from './App.vue';
 new Vue({

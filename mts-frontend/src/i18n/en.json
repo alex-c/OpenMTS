@@ -20,6 +20,7 @@
     "type": "Type",
     "material": "Material",
     "sites": "Storage Sites",
+    "environment": "Environment",
     "inventory": "Inventory",
     "materials": "Materials",
     "plastics": "Plastics",
@@ -275,5 +276,18 @@
     "editAreaPrompt": "Please enter a new name for the storage area:",
     "editAreaInputError": "Please enter a name.",
     "areaUpdated": "The storage area with ID `{id}` was successfully renamed to `{name}`."
+  },
+  "environment": {
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "temperatureWithUnit": "Temperature (°C)",
+    "humidityWithUnit": "Humidity (g/m^3)",
+    "history": "History",
+    "extrema": "Extrema",
+    "maximum": "Maximum",
+    "minimum": "Minimum",
+    "rangeSeparator": "To",
+    "startTime": "Start time",
+    "endTime": "End time"
   }
 }
