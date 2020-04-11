@@ -624,4 +624,14 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
+  getStatsSitesOverview: () => {
+    return fetch(`http://localhost:5000/api/stats/sites/overview`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
 };

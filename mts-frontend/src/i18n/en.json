@@ -75,6 +75,9 @@
     },
     "badPassword": "You submitted a bad old password."
   },
+  "dashboard": {
+    "welcome": "Welcome to OpenMTS!"
+  },
   "inventory": {
     "view": "view",
     "batchNumber": "Batch",
