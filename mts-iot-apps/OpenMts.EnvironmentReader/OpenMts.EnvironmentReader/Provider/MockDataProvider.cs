@@ -35,7 +35,7 @@ namespace OpenMts.EnvironmentReader.Provider
         public double Read()
         {
             LastTemperature += Random.NextDouble() * (Random.Next(0, 2) == 0 ? -1 : 1);
-            return LastTemperature;
+            return Math.Round(LastTemperature, 2, MidpointRounding.AwayFromZero);
         }
     }
 }
