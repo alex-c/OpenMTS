@@ -27,6 +27,7 @@
         <el-date-picker
           v-model="range"
           type="datetimerange"
+          :picker-options="pickerOptions"
           :range-separator="$t('environment.rangeSeparator')"
           :start-placeholder="$t('environment.startTime')"
           :end-placeholder="$t('environment.endTime')"
@@ -69,6 +70,37 @@ export default {
     return {
       site: [],
       range: [oneMonthAgo, today],
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: 'Last day',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', [start, end]);
+            },
+          },
+          {
+            text: 'Last week',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
+            },
+          },
+          {
+            text: 'Last month',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            },
+          },
+        ],
+      },
       temperatureChartOptions: {
         chart: {
           id: 'temperature-chart',
@@ -195,7 +227,6 @@ export default {
 
 #graph-container {
   display: flex;
-  //justify-content: space-between;
   .graph {
     width: 50%;
     overflow: hidden;
