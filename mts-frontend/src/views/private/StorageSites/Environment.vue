@@ -45,7 +45,7 @@
       <!-- Extrema -->
       <div class="content-row">
         <el-table :data="extrema" border size="mini" :empty-text="$t('general.noData')">
-          <el-table-column prop="factor" :label="$t('generl.iad')" />
+          <el-table-column prop="factor" :label="$t('environment.factor')" />
           <el-table-column prop="minValue" :label="$t('environment.minimum')" />
           <el-table-column prop="maxValue" :label="$t('environment.maximum')" />
         </el-table>
@@ -119,6 +119,7 @@ export default {
             format: 'dd MMM yyyy - HH:mm:ss',
           },
         },
+        colors: ['#057D13'],
         noData: {
           text: this.$t('general.noData'),
         },
@@ -142,6 +143,7 @@ export default {
             format: 'dd MMM yyyy - HH:mm:ss',
           },
         },
+        colors: ['#057D13'],
         noData: {
           text: this.$t('general.noData'),
         },

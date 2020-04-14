@@ -281,6 +281,7 @@
     "areaUpdated": "The storage area with ID `{id}` was successfully renamed to `{name}`."
   },
   "environment": {
+    "factor": "Factor",
     "temperature": "Temperature",
     "humidity": "Humidity",
     "temperatureWithUnit": "Temperature (°C)",
