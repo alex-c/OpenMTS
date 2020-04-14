@@ -45,7 +45,7 @@
       <!-- Extrema -->
       <div class="content-row">
         <el-table :data="extrema" border size="mini" :empty-text="$t('general.noData')">
-          <el-table-column prop="factor" :label="$t('general.id')" />
+          <el-table-column prop="factor" :label="$t('generl.iad')" />
           <el-table-column prop="minValue" :label="$t('environment.minimum')" />
           <el-table-column prop="maxValue" :label="$t('environment.maximum')" />
         </el-table>
@@ -167,9 +167,15 @@ export default {
           Api.getStorageSiteLatestEnvironmentValue(this.siteId, 'temperature')
             .then(response => {
               site.temperature = response.body ? response.body.value : this.$t('general.noData');
+              if (site.temperature == null) {
+                site.temperature = this.$t('general.noData');
+              }
               Api.getStorageSiteLatestEnvironmentValue(this.siteId, 'humidity')
                 .then(response => {
                   site.humidity = response.body ? response.body.value : this.$t('general.noData');
+                  if (site.humidity == null) {
+                    site.humidity = this.$t('general.noData');
+                  }
                   this.site = [site];
                 })
                 .catch(this.handleHttpError);
@@ -207,7 +213,8 @@ export default {
         .then(response => {
           this.extrema.push({
             factor: this.$t(`environment.${factor}WithUnit`),
-            ...response.body,
+            minValue: response.body.minValue == null ? this.$t('general.noData') : response.body.minValue,
+            maxValue: response.body.maxValue == null ? this.$t('general.noData') : response.body.maxValue,
           });
         })
         .catch(this.handleHttpError);

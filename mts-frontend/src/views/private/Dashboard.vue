@@ -12,11 +12,11 @@
             <div class="title">{{ site.site.name }}</div>
             <div class="row">
               <div class="left">{{ $t('environment.temperature') }}</div>
-              <div class="right">{{ site.temperature }} °C</div>
+              <div class="right">{{ site.temperature == null ? $t('general.noData') : `${site.temperature} °C` }}</div>
             </div>
             <div class="row">
               <div class="left">{{ $t('environment.humidity') }}</div>
-              <div class="right">{{ site.humidity }} g/m^3</div>
+              <div class="right">{{ site.humidity == null ? $t('general.noData') : `${site.humidity} g/m^3` }}</div>
             </div>
           </div>
           <div class="card-footer">

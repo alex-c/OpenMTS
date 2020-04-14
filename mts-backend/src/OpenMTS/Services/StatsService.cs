@@ -40,8 +40,8 @@ namespace OpenMTS.Services
             IEnumerable<StorageSiteOverview> sites = Provider.GetSitesOverview();
             foreach (StorageSiteOverview site in sites)
             {
-                site.Temperature = EnvironmentalDataRepository.GetLatestValue(site.Site, EnvironmentalFactor.Temperature).Value;
-                site.Humidity = EnvironmentalDataRepository.GetLatestValue(site.Site, EnvironmentalFactor.Humidity).Value;
+                site.Temperature = EnvironmentalDataRepository.GetLatestValue(site.Site, EnvironmentalFactor.Temperature)?.Value;
+                site.Humidity = EnvironmentalDataRepository.GetLatestValue(site.Site, EnvironmentalFactor.Humidity)?.Value;
             }
             return sites;
         }
