@@ -13,7 +13,7 @@
         <div class="content-row content-subtitle">{{ $t('trace.result') }}</div>
         <div class="content-row">
           <el-tabs type="border-card">
-            <el-tab-pane :label="$t('trace.tree')">
+            <el-tab-pane :label="$t('trace.overview')">
               <el-tree :data="treeResult" :placeholder="$t('trace.result')" />
             </el-tab-pane>
             <el-tab-pane :label="$t('trace.raw')">
@@ -48,7 +48,7 @@ export default {
       const result = this.result;
       console.log(result);
       return [
-        { label: `${this.$t('inventory.quantity')}: ${result.checkOutTransaction.quantity * -1}` },
+        { label: `${this.$t('inventory.quantity')}: ${result.checkOutTransaction.quantity * -1} kg` },
         {
           label: `${this.$t('trace.checkedOut')}: ${new Date(result.checkOutTransaction.timestamp).toLocaleString(this.$i18n.locale, {
             year: 'numeric',

@@ -299,7 +299,7 @@
     "prompt": "Please enter the ID of a check-out transaction:",
     "placeholder": "Transaction ID",
     "result": "Result",
-    "tree": "Tree View",
+    "overview": "Overview",
     "raw": "Raw Data",
     "batch": "Batch",
     "checkedIn": "Checked in",

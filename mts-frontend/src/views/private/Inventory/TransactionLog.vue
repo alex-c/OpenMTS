@@ -14,7 +14,17 @@
 
       <!-- Transaction Log -->
       <div class="content-row">
-        <el-table :data="transactions" stripe border size="mini" :empty-text="$t('general.noData')" ref="transactionLog" row-key="id">
+        <el-table
+          :data="transactions"
+          stripe
+          border
+          size="mini"
+          :empty-text="$t('general.noData')"
+          highlight-current-row
+          @current-change="selectTransaction"
+          ref="transactionLog"
+          row-key="id"
+        >
           <el-table-column prop="id" :label="$t('general.id')"></el-table-column>
           <el-table-column prop="quantity" :label="$t('inventory.quantity') + ' (kg)'"></el-table-column>
           <el-table-column prop="timestamp" :label="$t('inventory.timestamp')" :formatter="formatTimestamp"></el-table-column>
@@ -24,14 +34,19 @@
 
       <!-- Pagination -->
       <div class="content-row">
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          :total="totalTransactions"
-          :page-size="query.elementsPerPage"
-          :current-page.sync="query.page"
-          @current-change="changePage"
-        ></el-pagination>
+        <div class="left">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="totalTransactions"
+            :page-size="query.elementsPerPage"
+            :current-page.sync="query.page"
+            @current-change="changePage"
+          ></el-pagination>
+        </div>
+        <div class="right">
+          <el-button type="primary" size="mini" :disabled="selectedTransaction == null || selectedTransaction.quantity > 0" @click="trace">{{ $t('general.trace') }}</el-button>
+        </div>
       </div>
     </div>
 
@@ -73,6 +88,7 @@ export default {
       transactions: [],
       totalTransactions: 0,
       lastTransaction: [],
+      selectedTransaction: null,
     };
   },
   methods: {
@@ -95,8 +111,14 @@ export default {
       this.query.page = page;
       this.getTransactionLog();
     },
+    selectTransaction: function(transaction) {
+      this.selectedTransaction = transaction;
+    },
     formatTimestamp: function(transaction) {
       return new Date(transaction.timestamp).toLocaleString(this.$i18n.locale, { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
+    },
+    trace: function() {
+      this.$router.push({ name: 'trace', params: { transactionId: this.selectedTransaction.id } });
     },
     amend: function() {
       this.$prompt(this.$t('inventory.amendPrompt', { oldValue: this.lastTransaction[0].quantity }), this.$t('inventory.amendTitle'), {
