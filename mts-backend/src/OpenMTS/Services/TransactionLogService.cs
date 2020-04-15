@@ -55,6 +55,22 @@ namespace OpenMTS.Services
         }
 
         /// <summary>
+        /// Gets a transaction by it's unique ID.
+        /// </summary>
+        /// <param name="transactionId">The ID of the transaction to get.</param>
+        /// <returns>Returns the transaction.</returns>
+        /// <exception cref="TransactionNotFoundException">Thrown if no matching transaction could be found.</exception>
+        public Transaction GetTransaction(Guid transactionId)
+        {
+            Transaction transaction = TransactionRepository.GetTransaction(transactionId);
+            if (transaction == null)
+            {
+                throw new TransactionNotFoundException();
+            }
+            return transaction;
+        }
+
+        /// <summary>
         /// Logs a new  transaction.
         /// </summary>
         /// <param name="transaction">The transaction to log.</param>

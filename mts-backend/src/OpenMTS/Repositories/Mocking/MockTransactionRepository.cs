@@ -31,6 +31,12 @@ namespace OpenMTS.Repositories.Mocking
             return BatchTransactions.GetValueOrDefault(materialBatchId).OrderByDescending(t => t.Timestamp).FirstOrDefault();
         }
 
+        public Transaction GetTransaction(Guid transactionId)
+        {
+            List<Transaction> transactions = BatchTransactions.Values.Aggregate((result, list) => { result.AddRange(list); return result; });
+            return transactions.FirstOrDefault();
+        }
+
         public void LogTransaction(Transaction transaction)
         {
             if (!BatchTransactions.ContainsKey(transaction.MaterialBatchId))

@@ -61,6 +61,27 @@ namespace OpenMTS.Repositories.PostgreSQL
         }
 
         /// <summary>
+        /// Gets a transaction by it's unique ID.
+        /// </summary>
+        /// <param name="transactionId">The ID of the transaction to get.</param>
+        /// <returns>
+        /// Returns the transaction, or null.
+        /// </returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public Transaction GetTransaction(Guid transactionId)
+        {
+            Transaction transaction = null;
+            using (IDbConnection connection = GetNewConnection())
+            {
+                transaction = connection.QuerySingleOrDefault<Transaction>("SELECT batch_id AS material_batch_id,* FROM transactions WHERE id=@Id", new
+                {
+                    Id = transactionId
+                });
+            }
+            return transaction;
+        }
+
+        /// <summary>
         /// Logs a new transaction.
         /// </summary>
         /// <param name="transaction">The transaction to log.</param>

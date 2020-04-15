@@ -24,6 +24,13 @@ namespace OpenMTS.Repositories
         Transaction GetLastTransactionForBatch(Guid materialBatchId);
 
         /// <summary>
+        /// Gets a transaction by it's unique ID.
+        /// </summary>
+        /// <param name="transactionId">The ID of the transaction to get.</param>
+        /// <returns>Returns the transaction, or null.</returns>
+        Transaction GetTransaction(Guid transactionId);
+
+        /// <summary>
         /// Logs a new transaction.
         /// </summary>
         /// <param name="transaction">The transaction to log.</param>
