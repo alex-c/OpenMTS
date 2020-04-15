@@ -232,6 +232,7 @@ namespace OpenMTS
             services.AddSingleton<LocationsService>();
             services.AddSingleton<EnvironmentService>();
             services.AddSingleton<StatsService>();
+            services.AddSingleton<TraceService>();
 
             // Optionally ensure that there is an admin account
             IConfiguration ensureAdmin = Configuration.GetSection("EnsureAdmin");

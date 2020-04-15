@@ -83,7 +83,7 @@ namespace OpenMTS.Services
             return new TraceResult()
             {
                 Batch = batch,
-                CheckInTranscation = checkInTransaction,
+                CheckInTransaction = checkInTransaction,
                 CheckOutTransaction = checkOutTransaction,
                 Temperature = temperature,
                 Humidity = humidity
