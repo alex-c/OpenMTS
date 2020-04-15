@@ -6,6 +6,7 @@
       <MenuButton :label="$t('general.inventory')" icon="el-icon-box" to="/private/inventory" />
       <MenuButton :label="$t('general.materials')" icon="el-icon-document" to="/private/materials" />
       <MenuButton :label="$t('general.plastics')" icon="el-icon-notebook-2" to="/private/plastics" />
+      <MenuButton :label="$t('general.trace')" icon="el-icon-s-promotion" to="/private/trace" />
       <div v-if="userIsAuthenticated && userIsAdmin">
         <MenuHeader :label="$t('general.administration')" :collapsed="menuCollapsed" />
         <MenuButton :label="$t('general.configuration')" icon="el-icon-s-operation" to="/private/config" />

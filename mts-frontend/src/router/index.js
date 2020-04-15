@@ -21,6 +21,7 @@ import EditMaterial from '../views/private/Materials/EditMaterial.vue';
 import MaterialDetails from '../views/private/Materials/MaterialDetails.vue';
 import Plastics from '../views/private/Plastics.vue';
 import CreatePlastic from '../views/private/Plastics/CreatePlastic.vue';
+import Trace from '../views/private/Trace.vue';
 
 // Views - Administration
 import Configuration from '../views/private/Configuration.vue';
@@ -144,6 +145,12 @@ const routes = [
         path: 'plastics',
         name: 'plastics',
         component: Plastics,
+        props: true,
+      },
+      {
+        path: 'trace',
+        name: 'trace',
+        component: Trace,
         props: true,
       },
       {

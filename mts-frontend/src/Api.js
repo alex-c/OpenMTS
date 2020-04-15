@@ -328,6 +328,16 @@ export default {
       .catch(catchNetworkError)
       .then(processFileDownload);
   },
+  trace: transactionId => {
+    return fetch(`http://localhost:5000/api/trace/${transactionId}`, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Authorization: getAuthorizationHeader() },
+    })
+      .catch(catchNetworkError)
+      .then(processResponse);
+  },
   getConfiguration: () => {
     return fetch(`http://localhost:5000/api/configuration`, {
       method: 'GET',

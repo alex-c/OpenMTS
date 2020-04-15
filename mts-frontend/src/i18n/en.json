@@ -24,6 +24,7 @@
     "inventory": "Inventory",
     "materials": "Materials",
     "plastics": "Plastics",
+    "trace": "Trace",
     "administration": "Administration",
     "configuration": "Configuration",
     "locations": "Locations",
@@ -80,7 +81,7 @@
   },
   "inventory": {
     "view": "view",
-    "batchNumber": "Batch",
+    "batchNumber": "Batch Number",
     "expirationDate": "Expiration Date",
     "quantity": "Quantity",
     "status": {
@@ -293,5 +294,16 @@
     "rangeSeparator": "To",
     "startTime": "Start time",
     "endTime": "End time"
+  },
+  "trace": {
+    "prompt": "Please enter the ID of a check-out transaction:",
+    "placeholder": "Transaction ID",
+    "result": "Result",
+    "tree": "Tree View",
+    "raw": "Raw Data",
+    "batch": "Batch",
+    "checkedIn": "Checked in",
+    "checkedOut": "Checked out",
+    "by": "by"
   }
 }
