@@ -32,7 +32,7 @@
         </el-table>
       </div>
 
-      <!-- Pagination -->
+      <!-- Pagination & Trace Button-->
       <div class="content-row">
         <div class="left">
           <el-pagination
@@ -45,7 +45,9 @@
           ></el-pagination>
         </div>
         <div class="right">
-          <el-button type="primary" size="mini" :disabled="selectedTransaction == null || selectedTransaction.quantity > 0" @click="trace">{{ $t('general.trace') }}</el-button>
+          <el-button :disabled="selectedTransaction == null || selectedTransaction.quantity > 0" @click="trace" type="primary" size="mini" icon="el-icon-s-promotion">{{
+            $t('general.trace')
+          }}</el-button>
         </div>
       </div>
     </div>
