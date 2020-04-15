@@ -15,7 +15,7 @@ namespace OpenMTS.Models.Trace
         /// <summary>
         /// The transaction of the original checkin of the batch.
         /// </summary>
-        public Transaction CheckInTranscation { get; set; }
+        public Transaction CheckInTransaction { get; set; }
 
         /// <summary>
         /// The check-out transaction.
