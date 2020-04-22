@@ -46,7 +46,6 @@ export default {
     },
     treeResult() {
       const result = this.result;
-      console.log(result);
       return [
         { label: `${this.$t('inventory.quantity')}: ${result.checkOutTransaction.quantity * -1} kg` },
         {
