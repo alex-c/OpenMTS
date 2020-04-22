@@ -27,9 +27,9 @@ namespace OpenMTS
     public class Startup
     {
         /// <summary>
-        /// CORS policy name for local development.
+        /// CORS policy name for the frontend.
         /// </summary>
-        private readonly string LOCAL_DEVELOPMENT_CORS_POLICY = "localDevelopmentCorsPolicy";
+        private readonly string FRONTEND_CORS_POLICY = "FrontendCorsPolicy";
 
         /// <summary>
         /// The hosting environment information.
@@ -72,20 +72,26 @@ namespace OpenMTS
         public void ConfigureServices(IServiceCollection services)
         {
             // Configure CORS
+            string frontendUrl = Configuration.GetValue<string>("ExternalFrontendUrl");
+            if (string.IsNullOrWhiteSpace(frontendUrl))
+            {
+                Logger.LogWarning("No valid frontend URL provided for CORS. This is okay if the server self-hosts the frontend at `./wwwroot`.");
+            }
+            else
+            {
+                Logger.LogInformation($"Frontend CORS policy configured for `{frontendUrl}`.");
+            }
             services.AddCors(options =>
             {
-                if (Environment.IsDevelopment())
+                options.AddPolicy(FRONTEND_CORS_POLICY, builder =>
                 {
-                    options.AddPolicy(LOCAL_DEVELOPMENT_CORS_POLICY, builder =>
-                    {
-                        builder.WithOrigins("http://localhost:8080")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod()
-                          .AllowCredentials()
-                          // `Content-Disposition` header needed on client-side to access a file download file name!
-                          .WithExposedHeaders("Content-Disposition");
-                    });
-                }
+                    builder.WithOrigins(frontendUrl)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        // `Content-Disposition` header needed on client-side to access a file download file name!
+                        .WithExposedHeaders("Content-Disposition");
+                });
             });
 
             // Configure JWT-based authentication
@@ -263,11 +269,15 @@ namespace OpenMTS
         /// <param name="app">Application builder to configure the app through.</param>
         public void Configure(IApplicationBuilder app)
         {
-            // Use CORS
-            if (Environment.IsDevelopment())
+            // CORS policy for the frontend
+            app.UseCors(FRONTEND_CORS_POLICY);
+
+            // Static files
+            string frontendUrl = Configuration.GetValue<string>("ExternalFrontendUrl");
+            if (string.IsNullOrWhiteSpace(frontendUrl))
             {
-                app.UseCors(LOCAL_DEVELOPMENT_CORS_POLICY);
-                Logger.LogInformation("Local development CORS policy for 'localhost:8080' enabled.");
+                app.UseDefaultFiles();
+                app.UseStaticFiles();
             }
 
             // Use JWT-based auth
