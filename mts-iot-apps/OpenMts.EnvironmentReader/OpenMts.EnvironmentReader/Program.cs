@@ -117,8 +117,11 @@ namespace OpenMts.EnvironmentReader
                 IEnvironmentFactorProvider provider = null;
                 switch (providerName)
                 {
-                    case "MockDataProvider":
-                        provider = new MockDataProvider(configuration.GetSection($"{factor.ToString()}:Configuration"));
+                    case "MockTemperatureProvider":
+                        provider = new MockTemperatureProvider(configuration.GetSection($"{factor.ToString()}:Configuration"));
+                        break;
+                    case "MockHumidityProvider":
+                        provider = new MockHumidityProvider(configuration.GetSection($"{factor.ToString()}:Configuration"));
                         break;
                     default:
                         throw new Exception($"An invalid provider name `{providerName}` was supplied for factor `{factor.ToString().ToLower()}`.");

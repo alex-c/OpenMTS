@@ -16,7 +16,7 @@
             </div>
             <div class="row">
               <div class="left">{{ $t('environment.humidity') }}</div>
-              <div class="right">{{ site.humidity == null ? $t('general.noData') : `${site.humidity} g/m^3` }}</div>
+              <div class="right">{{ site.humidity == null ? $t('general.noData') : `${site.humidity} %` }}</div>
             </div>
           </div>
           <div class="card-footer">

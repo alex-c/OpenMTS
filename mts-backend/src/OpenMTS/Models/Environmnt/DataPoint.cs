@@ -15,6 +15,6 @@ namespace OpenMTS.Models.Environmnt
         /// <summary>
         /// The recorded value.
         /// </summary>
-        public double? Value { get; set; }
+        public float? Value { get; set; }
     }
 }

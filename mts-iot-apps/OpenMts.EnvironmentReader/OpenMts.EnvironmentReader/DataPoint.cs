@@ -15,11 +15,11 @@ namespace OpenMts.EnvironmentReader
         /// <summary>
         /// The recorded temeprature.
         /// </summary>
-        public double? Temperature { get; set; }
+        public float? Temperature { get; set; }
 
         /// <summary>
         /// The recorded humidity.
         /// </summary>
-        public double? Humidity { get; set; }
+        public float? Humidity { get; set; }
     }
 }

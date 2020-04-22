@@ -18,11 +18,11 @@
         /// <summary>
         /// The latest temperature recorded at this site.
         /// </summary>
-        public double? Temperature { get; set; }
+        public float? Temperature { get; set; }
 
         /// <summary>
         /// The latest humidity recorded at this site.
         /// </summary>
-        public double? Humidity { get; set; }
+        public float? Humidity { get; set; }
     }
 }

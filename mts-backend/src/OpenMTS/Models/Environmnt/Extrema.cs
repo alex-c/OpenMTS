@@ -8,11 +8,11 @@
         /// <summary>
         /// Gets minimum recorded value.
         /// </summary>
-        public double? MinValue { get; set; }
+        public float? MinValue { get; set; }
 
         /// <summary>
         /// Gets maximum recorded value.
         /// </summary>
-        public double? MaxValue { get; set; }
+        public float? MaxValue { get; set; }
     }
 }

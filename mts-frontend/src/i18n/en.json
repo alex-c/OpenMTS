@@ -286,7 +286,7 @@
     "temperature": "Temperature",
     "humidity": "Humidity",
     "temperatureWithUnit": "Temperature (°C)",
-    "humidityWithUnit": "Humidity (g/m^3)",
+    "humidityWithUnit": "Humidity (%)",
     "history": "History",
     "extrema": "Extrema",
     "maximum": "Maximum",

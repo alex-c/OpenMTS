@@ -9,6 +9,6 @@
         /// Reads the current value.
         /// </summary>
         /// <returns>Returns the current value.</returns>
-        double Read();
+        float Read();
     }
 }

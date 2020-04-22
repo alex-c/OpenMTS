@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS environment;
 CREATE TABLE environment (
   timestamp timestamptz NOT NULL,
   site uuid NOT NULL,
-  temperature double precision,
-  humidity double precision
+  temperature real,
+  humidity real
 );
 
 SELECT create_hypertable('environment', 'timestamp');
