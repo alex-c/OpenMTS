@@ -20,8 +20,8 @@
             </div>
           </div>
           <div class="card-footer">
-            <div class="button" @click="toInventory(site.site.id)"><i class="el-icon-box" /> Inventory</div>
-            <div class="button" @click="toEnvironment(site.site.id)"><i class="el-icon-view" /> Environemnt</div>
+            <div class="button" @click="toInventory(site.site.id)"><i class="el-icon-box" /> {{ $t('general.inventory') }}</div>
+            <div class="button" @click="toEnvironment(site.site.id)"><i class="el-icon-view" /> {{ $t('general.environment') }}</div>
           </div>
         </div>
       </div>
