@@ -6,12 +6,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using OpenMTS.Authorization;
 using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.Memory;
 using OpenMTS.Repositories.Mocking;
 using OpenMTS.Repositories.PostgreSQL;
+using OpenMTS.Repositories.PostgreSQL.Support;
 using OpenMTS.Services;
 using OpenMTS.Services.Authentication;
 using OpenMTS.Services.Authentication.Providers;
@@ -187,8 +189,9 @@ namespace OpenMTS
             }
             else
             {
-                // Configure Dapper to convert `column_name` to property `ColumnName`
+                // Configure Dapper to convert `column_name` to property `ColumnName` and handle UTC times right
                 Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+                Dapper.SqlMapper.AddTypeHandler(new DateTimeHandler());
 
                 // Register services
                 services.AddSingleton<IMaterialBatchRepository, PostgreSqlMaterialBatchRepository>();
@@ -260,7 +263,10 @@ namespace OpenMTS
             }
 
             // Configure MVC
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            });
         }
 
         /// <summary>

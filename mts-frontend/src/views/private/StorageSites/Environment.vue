@@ -65,7 +65,7 @@ export default {
   data() {
     const end = new Date();
     const start = new Date();
-    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+    start.setTime(start.getTime() - 3600 * 1000 * 24);
     return {
       site: [],
       range: [start, end],
@@ -113,6 +113,9 @@ export default {
         },
         xaxis: {
           type: 'datetime',
+          labels: {
+            datetimeUTC: false,
+          },
         },
         tooltip: {
           x: {
@@ -137,6 +140,9 @@ export default {
         },
         xaxis: {
           type: 'datetime',
+          labels: {
+            datetimeUTC: false,
+          },
         },
         tooltip: {
           x: {
