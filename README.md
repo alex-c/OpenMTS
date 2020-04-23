@@ -2,7 +2,7 @@
 
 A material tracking system (MTS) for the plastics industry. Built for the [Institute of Plastics Processing in Industry and the Skilled Crafts](https://www.ikv-aachen.de/) (IKV) during the author's Master's thesis at [FH Aachen University of Applied Sciences](https://www.fh-aachen.de/). OpenMTS allows to track the materials inventory accross multiple locations and material types and allows to record the environmental temperature and humidity of storage locations through IoT integrations.
 
-Table of Contents
+**Table of Contents**
 
 - [Features & Tech Stack](#features-&-tech-stack)
 - [Project Structure](#project-structure)
@@ -224,6 +224,6 @@ A successful request will contain a JSON web token in the body:
 
 Subsequent API calls will need to carry this token in the `Authorization` header with the `Bearer` prefix.
 
-#### Enviornment Reader
+### Enviornment Reader
 
 The [mts-iot-apps/OpenMTS.EnvironmentReader](./mts-iot-apps/OpenMTS.EnvironmentReader) directory contains a .NET Core app to read environmental data. An instance can read both the temperature and humidity or either one of those.

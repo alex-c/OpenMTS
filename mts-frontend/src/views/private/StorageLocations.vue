@@ -45,6 +45,7 @@
         </div>
         <div class="right">
           <el-button icon="el-icon-edit" type="info" size="mini" :disabled="selected.id === null" @click="editStorageSite">{{ $t('general.edit') }}</el-button>
+          <el-button icon="el-icon-view" type="primary" size="mini" :disabled="selected.id === null" @click="showKafkaTopic">{{ $t('storage.kafkaHint') }}</el-button>
         </div>
       </div>
     </div>
@@ -131,6 +132,11 @@ export default {
     },
     areaCountFormatter: function(site) {
       return site.areas.length;
+    },
+    showKafkaTopic: function() {
+      this.$alert(this.$t('storage.kafkaHintText', { topic: 'openmts-environment-' + this.selected.id }), this.$t('storage.kafkaHintTitle'), {
+        confirmButtonText: this.$t('general.ok'),
+      });
     },
   },
   mounted() {

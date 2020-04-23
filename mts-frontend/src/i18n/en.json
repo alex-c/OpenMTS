@@ -279,7 +279,10 @@
     "editArea": "Edit Storage Area",
     "editAreaPrompt": "Please enter a new name for the storage area:",
     "editAreaInputError": "Please enter a name.",
-    "areaUpdated": "The storage area with ID `{id}` was successfully renamed to `{name}`."
+    "areaUpdated": "The storage area with ID `{id}` was successfully renamed to `{name}`.",
+    "kafkaHint": "Kafka Topic",
+    "kafkaHintText": "The Kafka topic for environmental data for this storage site is `{topic}`.",
+    "kafkaHintTitle": "Kafka Topic"
   },
   "environment": {
     "factor": "Factor",
