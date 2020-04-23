@@ -89,7 +89,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         {
             using (IDbConnection connection = GetNewConnection())
             {
-                connection.Execute("UPDATE api_keys SET name=@Name WHERE id=@Id", new { apiKey.Name, apiKey.Id });
+                connection.Execute("UPDATE api_keys SET name=@Name, enabled=@Enabled WHERE id=@Id", new { apiKey.Id, apiKey.Name, apiKey.Enabled });
                 connection.Execute("DELETE FROM api_keys_rights WHERE api_key_id=@Id", new { apiKey.Id });
                 connection.Execute("INSERT INTO api_keys_rights (api_key_id, right_id) VALUES (@KeyId, @RightId)",
                     apiKey.Rights.Select(right => new { KeyId = apiKey.Id, RightId = right.Id }));
@@ -104,8 +104,8 @@ namespace OpenMTS.Repositories.PostgreSQL
         {
             using (IDbConnection connection = GetNewConnection())
             {
-                connection.Execute("DELETE FROM api_keys WHERE id=@Id", new { id });
                 connection.Execute("DELETE FROM api_keys_rights WHERE api_key_id=@Id", new { id });
+                connection.Execute("DELETE FROM api_keys WHERE id=@Id", new { id });
             }
         }
 
