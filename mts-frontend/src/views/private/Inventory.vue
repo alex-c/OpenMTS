@@ -67,11 +67,11 @@
         >
           <el-table-column prop="material" :label="$t('general.material')" :formatter="formatMaterial"></el-table-column>
           <el-table-column prop="storageLocation" :label="$t('storage.location')" :formatter="formatLocation"></el-table-column>
+          <el-table-column prop="quantity" :label="$t('inventory.quantity') + ' (kg)'"></el-table-column>
           <el-table-column prop="batchNumber" :label="$t('inventory.batchNumber')"></el-table-column>
           <el-table-column prop="expirationDate" :label="$t('inventory.expirationDate')" :formatter="formatDate"></el-table-column>
           <el-table-column v-for="prop in customProps" v-bind:key="prop.id" :prop="prop.id" :label="prop.name"></el-table-column>
           <el-table-column prop="locked" :label="$t('general.status.label')" :formatter="formatStatus"></el-table-column>
-          <el-table-column prop="quantity" :label="$t('inventory.quantity') + ' (kg)'"></el-table-column>
         </el-table>
       </div>
 

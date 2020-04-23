@@ -11,6 +11,9 @@
           <router-link :to="{ name: 'editMaterial', params: { id: this.id } }">
             <el-button type="info" size="mini" icon="el-icon-edit">{{ $t('general.edit') }}</el-button>
           </router-link>
+          <router-link :to="{ name: 'inventory', params: { materialFilter: this.id } }">
+            <el-button icon="el-icon-box" type="success" size="mini">{{ $t('general.inventory') }}</el-button>
+          </router-link>
         </div>
       </div>
     </div>
