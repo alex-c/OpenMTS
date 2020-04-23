@@ -1,6 +1,6 @@
 # OpenMTS
 
-A material tracking system for the plastics industry. Built for the [Institute of Plastics Processing in Industry and the Skilled Crafts](https://www.ikv-aachen.de/) (IKV) during the author's Master's thesis at [FH Aachen University of Applied Sciences](https://www.fh-aachen.de/). OpenMTS allows to track the materials inventory accross multiple locations and material types and allows to record the environmental temperature and humidity of storage locations through IoT integrations.
+A material tracking system (MTS) for the plastics industry. Built for the [Institute of Plastics Processing in Industry and the Skilled Crafts](https://www.ikv-aachen.de/) (IKV) during the author's Master's thesis at [FH Aachen University of Applied Sciences](https://www.fh-aachen.de/). OpenMTS allows to track the materials inventory accross multiple locations and material types and allows to record the environmental temperature and humidity of storage locations through IoT integrations.
 
 ## Project Structure
 
