@@ -4,7 +4,7 @@ A material tracking system (MTS) for the plastics industry. Built for the [Insti
 
 ## Project Structure
 
-The [mts-backend](./mts-backend) directory contains the .NET Core backend service of OpenMTS.
+The [mts-backend](./mts-backend) directory contains the .NET Core backend service of OpenMTS. The [mts-backend/sql](./mts-backend/sql) directory contains SQL scripts to set up the PostgreSQL and TimescaleDB database(s).
 
 The [mts-frontend](./mts-frontend) directory contains the Vue.js frontend of OpenMTS.
 
