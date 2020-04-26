@@ -26,7 +26,7 @@
       <div id="login-box-footer">{{ $t('login.notice') }}</div>
     </div>
     <div id="footer">
-      <a href="https://www.github.com/alex-c/openmts">OpenMTS</a>
+      <a href="https://www.github.com/alex-c/openmts">OpenMTS on Github</a>
     </div>
   </div>
 </template>
