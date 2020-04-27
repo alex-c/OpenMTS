@@ -14,5 +14,7 @@
         /// Quantity of the transaction.
         /// </summary>
         public double Quantity { get; set; }
+
+        public string UserId { get; set; }
     }
 }

@@ -370,7 +370,15 @@ namespace OpenMTS.Controllers
             // Attempt to perform the transaction
             try
             {
-                string userId = GetSubject();
+                string userId = null;
+                if (transactionRequest.UserId == null)
+                {
+                    userId = GetSubject();
+                }
+                else
+                {
+                    userId = transactionRequest.UserId;
+                }
                 double quantity = transactionRequest.IsCheckout ? transactionRequest.Quantity * -1 : transactionRequest.Quantity;
                 Transaction transaction = InventoryService.PerformMaterialTransaction(batchId, quantity, userId);
                 return Ok(transaction);
