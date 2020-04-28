@@ -81,6 +81,10 @@ namespace OpenMTS.Services
             {
                 throw new Exception("Invalid Kafka endpoint provided!");
             }
+            else
+            {
+                Logger.LogInformation($"Configured Kafka endpoint `{KafkaEndpoint}`.");
+            }
 
             // Start reading from snapshot queue
             QueueConsumer = new TaskFactory().StartNew(() =>
