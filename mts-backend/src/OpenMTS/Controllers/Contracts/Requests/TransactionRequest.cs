@@ -15,6 +15,9 @@
         /// </summary>
         public double Quantity { get; set; }
 
+        /// <summary>
+        /// Optional ID of the user who requests the transaction.
+        /// </summary>
         public string UserId { get; set; }
     }
 }
