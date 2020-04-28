@@ -1,0 +1,26 @@
+version: "3"
+services:
+  openmts-db:
+    image: timescale/timescaledb:latest-pg11
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=openmts
+      - POSTGRES_PASSWORD=password # Set password
+      - TIMESCALEDB_TELEMETRY=off
+    volumes:
+      - data-db:/var/lib/postgresql/data
+      - ./sql:/sql
+  zookeeper:
+    image: wurstmeister/zookeeper
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=localhost
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    depends_on:
+      - zookeeper
+volumes:
+  data-db:
