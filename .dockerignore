@@ -1,0 +1,12 @@
+.git
+/docker
+/docs
+/mts-backend/docs
+/mts-backend/sql
+/mts-backend/test
+/mts-frontend/node_modules
+/mts-frontend/dist
+/mts-iot-apps
+
+**/bin
+**/obj

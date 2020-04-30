@@ -1,9 +1,11 @@
+# Builds an image with both the OpenMTS backend server and frontend
+
 # --- 1: Build frontend ---
 FROM node:lts-alpine as frontend-build-env
 WORKDIR /app
-COPY ../../mts-frontend/package*.json ./
+COPY ./mts-frontend/package*.json ./
 RUN npm install
-COPY ../../mts-frontend .
+COPY ./mts-frontend .
 RUN npm run build
 
 # --- 2: Build backend ---
@@ -11,11 +13,11 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.1 AS backend-build-env
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
-COPY ../../mts-backend/*.csproj ./
+COPY ./mts-backend/src/OpenMTS/*.csproj ./
 RUN dotnet restore
 
 # Copy everything else and build
-COPY ../../mts-backend/ ./
+COPY ./mts-backend/src/OpenMTS ./
 RUN dotnet publish -c Release -o out
 
 # --- 3: Build runtime ---
