@@ -3,4 +3,4 @@ services:
   openmts-env-reader:
     image: openmts-env-reader
     volumes:
-      - ./config/appsettings.json:/app/appsettings.jsons
+      - ./config/appsettings.json:/app/appsettings.json
