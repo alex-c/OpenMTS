@@ -21,25 +21,34 @@
         </el-table>
       </div>
 
-      <!-- History & Extrema - Ttitle, Picker -->
+      <!-- History & Extrema - Title, Picker -->
       <div class="content-row content-subtitle">{{ $t('environment.history') }} &amp; {{ $t('environment.extrema') }}</div>
-      <div class="content-row" id="picker-wrapper">
-        <el-date-picker
-          v-model="range"
-          type="datetimerange"
-          :picker-options="pickerOptions"
-          :range-separator="$t('environment.rangeSeparator')"
-          :start-placeholder="$t('environment.startTime')"
-          :end-placeholder="$t('environment.endTime')"
-          size="mini"
-          @change="getAllData"
-        />
+      <div class="content-row content-row-inputs flex">
+        <div class="grow" id="picker-wrapper">
+          <el-date-picker
+            v-model="range"
+            type="datetimerange"
+            :picker-options="pickerOptions"
+            :range-separator="$t('environment.rangeSeparator')"
+            :start-placeholder="$t('environment.startTime')"
+            :end-placeholder="$t('environment.endTime')"
+            size="mini"
+            @change="getAllData"
+          />
+        </div>
+        <div class="density-setting" style="padding-top: 4px;">Reduce data density: <el-switch v-model="reduceDataDensity" size="mini" plain /></div>
+        <div class="density-setting">Max. data points: <el-input-number v-model="maxDataPoints" :min="100" size="mini" :disabled="!reduceDataDensity" /></div>
+        <div class="density-setting"><el-button icon="el-icon-refresh" size="mini" plain @click="getAllData" /></div>
       </div>
 
       <!-- History -->
       <div class="content-row" id="graph-container">
-        <div class="graph"><apexchart type="line" :options="temperatureChartOptions" :series="temperature" /></div>
-        <div class="graph"><apexchart type="line" :options="humidityChartOptions" :series="humidity" /></div>
+        <div class="graph">
+          <apexchart type="line" :options="temperatureChartOptions" :series="temperature" />
+        </div>
+        <div class="graph">
+          <apexchart type="line" :options="humidityChartOptions" :series="humidity" />
+        </div>
       </div>
 
       <!-- Extrema -->
@@ -100,6 +109,8 @@ export default {
           },
         ],
       },
+      reduceDataDensity: true,
+      maxDataPoints: 1000,
       temperatureChartOptions: {
         chart: {
           id: 'temperature-chart',
@@ -193,7 +204,8 @@ export default {
         .catch(this.handleHttpError);
     },
     getTemperatureHistory: function() {
-      Api.getStorageSiteEnvironmentHistory(this.siteId, 'temperature', this.range[0].toUTCString(), this.range[1].toUTCString())
+      const maxPoints = this.reduceDataDensity ? this.maxDataPoints : null;
+      Api.getStorageSiteEnvironmentHistory(this.siteId, 'temperature', this.range[0].toUTCString(), this.range[1].toUTCString(), maxPoints)
         .then(response => {
           this.temperature = [
             {
@@ -205,7 +217,8 @@ export default {
         .catch(this.handleHttpError);
     },
     getHumidityHistory: function() {
-      Api.getStorageSiteEnvironmentHistory(this.siteId, 'humidity', this.range[0].toUTCString(), this.range[1].toUTCString())
+      const maxPoints = this.reduceDataDensity ? this.maxDataPoints : null;
+      Api.getStorageSiteEnvironmentHistory(this.siteId, 'humidity', this.range[0].toUTCString(), this.range[1].toUTCString(), maxPoints)
         .then(response => {
           this.humidity = [
             {
@@ -237,6 +250,10 @@ export default {
 <style lang="scss" scoped>
 #picker-wrapper > div {
   width: 100%;
+}
+
+.density-setting {
+  margin-left: 16px;
 }
 
 #graph-container {

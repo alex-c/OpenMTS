@@ -568,8 +568,8 @@ export default {
       .catch(catchNetworkError)
       .then(processResponse);
   },
-  getStorageSiteEnvironmentHistory: (id, factor, startTime, endTime) => {
-    return fetch(`${SERVER_ENDPOINT}/api/sites/${id}/${factor}/history?startTime=${startTime}&endTime=${endTime}`, {
+  getStorageSiteEnvironmentHistory: (id, factor, startTime, endTime, maxPoints = null) => {
+    return fetch(`${SERVER_ENDPOINT}/api/sites/${id}/${factor}/history?startTime=${startTime}&endTime=${endTime}&maxPoints=${maxPoints}`, {
       method: 'GET',
       withCredentials: true,
       credentials: 'include',
