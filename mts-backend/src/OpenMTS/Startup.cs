@@ -17,6 +17,7 @@ using OpenMTS.Repositories.PostgreSQL.Support;
 using OpenMTS.Services;
 using OpenMTS.Services.Authentication;
 using OpenMTS.Services.Authentication.Providers;
+using OpenMTS.Services.Environment;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -210,7 +211,10 @@ namespace OpenMTS
                 services.AddSingleton<IEnvironmentalDataRepository, PostgreSqlEnvironmentalDataRepository>();
                 services.AddSingleton<IStatsProvider, PostgreSqlStatsProvider>();
             }
-            services.AddSingleton<IRightsRepository>(new MemoryRightsRepository());
+            services.AddSingleton<IRightsRepository, MemoryRightsRepository>();
+
+            // Data density reducing strategy
+            services.AddTransient<IDataDensityReducer, RamerDouglasPeuckerDataDensityReducer>();
 
             // Check JWT signing key validity
             if (Configuration.GetValue<string>("Jwt:Secret").Length < 16)

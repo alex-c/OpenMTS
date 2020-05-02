@@ -8,6 +8,7 @@ using OpenMTS.Services.Support;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OpenMTS.Services
@@ -43,6 +44,11 @@ namespace OpenMTS.Services
         private ConcurrentQueue<EnvironmentSnapshot> SnapshotQueue { get; }
 
         /// <summary>
+        /// Data density reducing strategy to use.
+        /// </summary>
+        IDataDensityReducer DataDensityReducer { get; }
+
+        /// <summary>
         /// The task that consumes environmental snapshots from the queue to persist them.
         /// </summary>
         private Task QueueConsumer { get; }
@@ -64,16 +70,19 @@ namespace OpenMTS.Services
         /// <param name="configuration">The app configuration.</param>
         /// <param name="locationsService">Provides storage sites.</param>
         /// <param name="environmentalDataRepository">Repository of environmental data.</param>
+        /// <param name="dataDensityReducer">Data density reducing strategy.</param>
         public EnvironmentService(ILoggerFactory loggerFactory,
             IConfiguration configuration,
             LocationsService locationsService,
-            IEnvironmentalDataRepository environmentalDataRepository)
+            IEnvironmentalDataRepository environmentalDataRepository,
+            IDataDensityReducer dataDensityReducer)
         {
             LoggerFactory = loggerFactory;
             Logger = LoggerFactory.CreateLogger<EnvironmentService>();
             LocationsService = locationsService;
             EnvironmentalDataRepository = environmentalDataRepository;
             SnapshotQueue = new ConcurrentQueue<EnvironmentSnapshot>();
+            DataDensityReducer = dataDensityReducer;
 
             // Get Kafka endpoint
             KafkaEndpoint = configuration.GetValue("Kafka", "");
@@ -139,7 +148,12 @@ namespace OpenMTS.Services
         public IEnumerable<DataPoint> GetHistory(Guid siteId, EnvironmentalFactor factor, DateTime startTime, DateTime endTime)
         {
             StorageSite site = LocationsService.GetStorageSite(siteId);
-            return EnvironmentalDataRepository.GetHistory(site, factor, startTime, endTime);
+            IEnumerable<DataPoint> history = EnvironmentalDataRepository.GetHistory(site, factor, startTime, endTime);
+            if (history.Count() > 0)
+            {
+                history = DataDensityReducer.ReduceDensity(history);
+            }
+            return history;
         }
 
         /// <summary>
