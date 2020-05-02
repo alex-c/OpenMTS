@@ -21,11 +21,6 @@ namespace OpenMTS.Controllers
         private TraceService TraceService { get; }
 
         /// <summary>
-        /// A logger for local logging needs.
-        /// </summary>
-        private ILogger Logger { get; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="TraceController"/> class.
         /// </summary>
         /// <param name="loggerFactory">A factory to create loggers from.</param>

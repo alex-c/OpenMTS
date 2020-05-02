@@ -126,9 +126,9 @@ namespace OpenMTS.Controllers
         /// <param name="endTime">The history end time.</param>
         /// <returns>Returns the history.</returns>
         [HttpGet("{id}/temperature/history")]
-        public IActionResult GetStorageSiteTemperatureHistory(Guid id, [FromQuery] DateTime startTime, [FromQuery] DateTime endTime)
+        public IActionResult GetStorageSiteTemperatureHistory(Guid id, [FromQuery] DateTime startTime, [FromQuery] DateTime endTime, [FromQuery] int? maxPoints = null)
         {
-            return GetStorageSiteEnvironementalFactorHistory(id, EnvironmentalFactor.Temperature, startTime, endTime);
+            return GetStorageSiteEnvironementalFactorHistory(id, EnvironmentalFactor.Temperature, startTime, endTime, maxPoints);
         }
 
         /// <summary>
@@ -166,9 +166,9 @@ namespace OpenMTS.Controllers
         /// <param name="endTime">The history end time.</param>
         /// <returns>Returns the history.</returns>
         [HttpGet("{id}/humidity/history")]
-        public IActionResult GetStorageSiteHumidityHistory(Guid id, [FromQuery] DateTime startTime, [FromQuery] DateTime endTime)
+        public IActionResult GetStorageSiteHumidityHistory(Guid id, [FromQuery] DateTime startTime, [FromQuery] DateTime endTime, [FromQuery] int? maxPoints = null)
         {
-            return GetStorageSiteEnvironementalFactorHistory(id, EnvironmentalFactor.Humidity, startTime, endTime);
+            return GetStorageSiteEnvironementalFactorHistory(id, EnvironmentalFactor.Humidity, startTime, endTime, maxPoints);
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace OpenMTS.Controllers
         /// <param name="startTime">The history start time.</param>
         /// <param name="endTime">The history end time.</param>
         /// <returns>Returns the history.</returns>
-        private IActionResult GetStorageSiteEnvironementalFactorHistory(Guid id, EnvironmentalFactor factor, DateTime startTime, DateTime endTime)
+        private IActionResult GetStorageSiteEnvironementalFactorHistory(Guid id, EnvironmentalFactor factor, DateTime startTime, DateTime endTime, int? maxPoints)
         {
             // Validate times
             if (startTime == null || startTime == default)
@@ -236,7 +236,7 @@ namespace OpenMTS.Controllers
             // Get history
             try
             {
-                IEnumerable<DataPoint> history = EnvironmentService.GetHistory(id, factor, startTime, endTime);
+                IEnumerable<DataPoint> history = EnvironmentService.GetHistory(id, factor, startTime, endTime, maxPoints);
                 return Ok(history);
             }
             catch (StorageSiteNotFoundException exception)

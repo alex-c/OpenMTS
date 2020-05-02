@@ -144,14 +144,15 @@ namespace OpenMTS.Services
         /// <param name="factor">The factor to get the history for.</param>
         /// <param name="startTime">Start time of the period to get value for.</param>
         /// <param name="endTime">End time of the period to get value for.</param>
+        /// <param name="maxPoints">Optional upper bound of points for data density reduction.</param>
         /// <returns>Returns the matching values.</returns>
-        public IEnumerable<DataPoint> GetHistory(Guid siteId, EnvironmentalFactor factor, DateTime startTime, DateTime endTime)
+        public IEnumerable<DataPoint> GetHistory(Guid siteId, EnvironmentalFactor factor, DateTime startTime, DateTime endTime, int? maxPoints)
         {
             StorageSite site = LocationsService.GetStorageSite(siteId);
             IEnumerable<DataPoint> history = EnvironmentalDataRepository.GetHistory(site, factor, startTime, endTime);
-            if (history.Count() > 0)
+            if (maxPoints.HasValue && history.Count() > maxPoints)
             {
-                history = DataDensityReducer.ReduceDensity(history);
+                history = DataDensityReducer.ReduceDensity(history, maxPoints.Value);
             }
             return history;
         }
