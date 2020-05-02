@@ -227,3 +227,7 @@ Subsequent API calls will need to carry this token in the `Authorization` header
 ### Enviornment Reader
 
 The [mts-iot-apps/OpenMTS.EnvironmentReader](./mts-iot-apps/OpenMTS.EnvironmentReader) directory contains a .NET Core app to read environmental data. An instance can read both the temperature and humidity or either one of those.
+
+### Automated Check-Out
+
+The [mts-iot-apps/OpenMTS.AutomatedCheckOut](./mts-iot-apps/OpenMTS.AutomatedCheckOut) directory contains a Python app to perform check-out transactions from a Raspberry Pi with a `KERN EOC30K-4` scale and an RFID reader.

@@ -3,8 +3,12 @@
 # --- 1: Build frontend ---
 FROM node:lts-alpine as frontend-build-env
 WORKDIR /app
+
+# Copy package.json and package-lock.json and install dependencies
 COPY ./mts-frontend/package*.json ./
 RUN npm install
+
+# Copy everything else and build
 COPY ./mts-frontend .
 RUN npm run build
 
