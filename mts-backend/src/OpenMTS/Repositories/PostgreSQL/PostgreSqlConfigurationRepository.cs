@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Npgsql;
 using OpenMTS.Models;
 using System;
@@ -13,7 +14,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         /// Sets up a PostgreSQL-based configuration repository from the app configuration.
         /// </summary>
         /// <param name="configuration">Application configuration.</param>
-        public PostgreSqlConfigurationRepository(IConfiguration configuration) : base(configuration) { }
+        public PostgreSqlConfigurationRepository(IConfiguration configuration, ILogger<PostgreSqlConfigurationRepository> logger) : base(configuration, logger) { }
 
         /// <summary>
         /// Gets the current OpenMTS configuration.

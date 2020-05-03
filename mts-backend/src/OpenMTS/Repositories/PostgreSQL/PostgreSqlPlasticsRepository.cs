@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using OpenMTS.Models;
 using System.Collections.Generic;
 using System.Data;
@@ -17,7 +18,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         /// Initializes a new instance of the <see cref="PostgreSqlPlasticsRepository"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public PostgreSqlPlasticsRepository(IConfiguration configuration) : base(configuration) { }
+        public PostgreSqlPlasticsRepository(IConfiguration configuration, ILogger<PostgreSqlPlasticsRepository> logger) : base(configuration, logger) { }
 
         /// <summary>
         /// Gets all available plastics.

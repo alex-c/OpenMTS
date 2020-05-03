@@ -131,15 +131,19 @@ namespace OpenMTS.Controllers
             // Attempt to create the new user
             try
             {
+                Logger.LogDebug("Attempting to create user with ID `{id}`.", userCreationRequest.Id);
                 User user = UserService.CreateUser(userCreationRequest.Id, userCreationRequest.Name, userCreationRequest.Password, role);
+                Logger.LogDebug("User with ID `{id}` created.", user.Id);
                 return Created(GetNewResourceUri(user.Id), new UserResponse(user));
             }
             catch (UserAlreadyExistsException exception)
             {
+                Logger.LogDebug(exception, "User with ID `{id}` already exists.", userCreationRequest.Id);
                 return HandleResourceAlreadyExistsException(exception);
             }
             catch (Exception exception)
             {
+                Logger.LogError(exception, "Unexpected error while trying to create user with id `{id}`.", userCreationRequest.Id);
                 return HandleUnexpectedException(exception);
             }
         }

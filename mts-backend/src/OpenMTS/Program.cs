@@ -19,7 +19,7 @@ namespace OpenMTS
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
-                .WriteTo.Console()
+                .WriteTo.Console(outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{SourceContext}][{Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
 
             // Build and run web host

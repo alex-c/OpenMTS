@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using OpenMTS.Models;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         /// Initializes a new instance of the <see cref="PostgreSqlTransactionRepository"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public PostgreSqlTransactionRepository(IConfiguration configuration) : base(configuration) { }
+        public PostgreSqlTransactionRepository(IConfiguration configuration, ILogger<PostgreSqlTransactionRepository> logger) : base(configuration, logger) { }
 
         /// <summary>
         /// Gets the transaction log for a given material batch.

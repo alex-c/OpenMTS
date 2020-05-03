@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using OpenMTS.Models;
 using System.Collections.Generic;
 using System.Data;
@@ -16,7 +17,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         /// Sets up a PostgreSQL-based user repository from the app configuration.
         /// </summary>
         /// <param name="configuration">Application configuration.</param>
-        public PostgreSqlUserRepository(IConfiguration configuration) : base(configuration) { }
+        public PostgreSqlUserRepository(IConfiguration configuration, ILogger<PostgreSqlUserRepository> logger) : base(configuration, logger) { }
 
         /// <summary>
         /// Gets all users.
@@ -99,8 +100,10 @@ namespace OpenMTS.Repositories.PostgreSQL
         public User CreateUser(string id, string name, string password, byte[] salt, Role role)
         {
             User user = null;
+            Logger.LogDebug("Creating user with ID `{id}`.", id);
             using (IDbConnection connection = GetNewConnection())
             {
+                Logger.LogDebug("Aquired database connection.");
                 connection.Execute("INSERT INTO users (id, name, password, salt, role) VALUES (@Id, @Name, @Password, @Salt, @Role)", new
                 {
                     id,
@@ -111,6 +114,7 @@ namespace OpenMTS.Repositories.PostgreSQL
                 });
                 user = connection.QuerySingle<User>("SELECT * FROM users WHERE id=@Id", new { id });
             }
+            Logger.LogDebug("Created user with ID `{id}`.", id);
             return user;
         }
 

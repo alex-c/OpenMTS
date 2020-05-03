@@ -18,6 +18,7 @@ using OpenMTS.Services;
 using OpenMTS.Services.Authentication;
 using OpenMTS.Services.Authentication.Providers;
 using OpenMTS.Services.Environment;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -52,7 +53,7 @@ namespace OpenMTS
         /// <summary>
         /// Local logger instance.
         /// </summary>
-        private ILogger Logger { get; }
+        private Microsoft.Extensions.Logging.ILogger Logger { get; }
 
         /// <summary>
         /// Sets up the Startup class with everything needed for configuration.

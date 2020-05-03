@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using OpenMTS.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         /// Initializes a new instance of the <see cref="PostgreSqlMaterialsRepository"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public PostgreSqlMaterialsRepository(IConfiguration configuration) : base(configuration) { }
+        public PostgreSqlMaterialsRepository(IConfiguration configuration, ILogger<PostgreSqlMaterialsRepository> logger) : base(configuration, logger) { }
 
         /// <summary>
         /// Gets all materials.

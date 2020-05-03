@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using OpenMTS.Models;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         /// Initializes a new instance of the <see cref="PostgreSqlApiKeyRepository"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public PostgreSqlApiKeyRepository(IConfiguration configuration) : base(configuration) { }
+        public PostgreSqlApiKeyRepository(IConfiguration configuration, ILogger<PostgreSqlApiKeyRepository> logger) : base(configuration, logger) { }
 
         /// <summary>
         /// Gets all available API keys.

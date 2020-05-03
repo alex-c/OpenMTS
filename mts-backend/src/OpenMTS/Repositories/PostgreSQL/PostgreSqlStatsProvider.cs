@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using OpenMTS.Models;
 using OpenMTS.Models.Stats;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         /// Initializes a new instance of the <see cref="PostgreSqlStatsProvider"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public PostgreSqlStatsProvider(IConfiguration configuration) : base(configuration) { }
+        public PostgreSqlStatsProvider(IConfiguration configuration, ILogger<PostgreSqlStatsProvider> logger) : base(configuration, logger) { }
 
         /// <summary>
         /// Gets an overview of all available storage sites, which includes latest environmental values and total material.

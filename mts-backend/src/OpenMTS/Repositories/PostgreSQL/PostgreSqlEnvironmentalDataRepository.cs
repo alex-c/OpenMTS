@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using OpenMTS.Models;
 using OpenMTS.Models.Environmnt;
 using System;
@@ -19,7 +20,7 @@ namespace OpenMTS.Repositories.PostgreSQL
         /// Initializes a new instance of the <see cref="PostgreSqlEnvironmentalDataRepository"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public PostgreSqlEnvironmentalDataRepository(IConfiguration configuration) : base(configuration) { }
+        public PostgreSqlEnvironmentalDataRepository(IConfiguration configuration, ILogger<PostgreSqlEnvironmentalDataRepository> logger) : base(configuration, logger) { }
 
         /// <summary>
         /// Gets the latest value for a specific storage site and environmental factor.
