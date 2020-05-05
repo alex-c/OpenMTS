@@ -25,7 +25,10 @@ OpenMTS allows to manage users, API keys for IoT integrations, plastics and mate
 
 ## Project Structure
 
-The [mts-backend](./mts-backend) directory contains the .NET Core backend service of OpenMTS. The [mts-backend/sql](./mts-backend/sql) directory contains SQL scripts to set up the PostgreSQL and TimescaleDB database(s).
+The [mts-backend](./mts-backend) directory contains the .NET Core backend service of OpenMTS.
+
+- The [mts-backend/sql](./mts-backend/sql) directory contains SQL scripts to set up the PostgreSQL and TimescaleDB database(s).
+- The [mts-backend/docs](./mts-backend/docs) directory contains an export of a [Insomnia](https://insomnia.rest/) workspace. This workspace serves as an API documentation and allows easy testing.
 
 The [mts-frontend](./mts-frontend) directory contains the Vue.js frontend of OpenMTS.
 
