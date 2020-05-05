@@ -10,6 +10,7 @@ A material tracking system (MTS) for the plastics industry. Built for the [Insti
   - [Database](#database)
   - [Backend](#backend)
   - [Frontend](#frontend)
+- [Docker](#docker)
 - [IoT Integrations](#iot-integrations)
 
 ## Features & Tech Stack
@@ -186,12 +187,61 @@ module.exports = {
 
 ##### Self-Hosting
 
-If you want the OpenMTS server to host the frontend, add the built website to the `wwwroot` directory in the server's main directory (next to `OpenMTS.dll`), and leave the `ExternalFrontendUrl` option in the `appsettings.json` configuration file empty:
+If you want the OpenMTS server to host the frontend, add the built website to the `wwwroot` directory in the server's content root (next to `OpenMTS.dll`), and leave the `ExternalFrontendUrl` option in the `appsettings.json` configuration file empty:
 
 ```json
 {
   "ExternalFrontendUrl": ""
 }
+```
+
+## Docker
+
+Several dockerfiles and docker-compose setups are available for easy deployment.
+
+### Building the Backend
+
+To build the OpenMTS backend image, navigate to `./mts-backend/src/OpenMTS` and execute `docker build . -t openmts-backend`. Please note that an image will have the `latest` tag by default, if no tag was provided. A specific version can also be set: `docker build . -t openmts-backend:0.1.0`. To add a tag to an existing image: `docker tag openmts-backend:0.1.0 openmts-backend:latest`.
+
+### Building the Frontend
+
+To build the OpenMTS frontend image, navigate to `./mts-frontend` and execute `docker build . -t openmts-frontend`. Please note that the server endpoint first needs to be set in the `.env` file (see [Frontend Configuration](#frontend)). The frontend image contains [nginx](https://nginx.org/) in order to serve the UI.
+
+### Self-Hosting
+
+It is recommended to separate the OpenMTS backend and frontend (eg. by using the two separate images mentioned above), but the backend server can be used to serve the frontend itself. To do that, execute `docker build . -t openmts` in the main directory of the repository. In docker compose files, replace the `openmts-backend` images with `openmts` and remove the `openmts-frontend` containers.
+
+### Docker Compose
+
+Two different docker compose setups are available in the `./docker` directory. `./docker/openmts-complete` contains a docker compose file which will run all prerequisites as well as OpenMTS itself. This will run Zookeeper, Kafka, TimescaleDB, the OpenMTS backend and the OpenMTS frontend. The `./docker/openmts-infra` directory contains a docker compose file that will run only the prerequisites for OpenMTS: Zookeeper, Kafka and TimescaleDB. The `./docker/openmts-app` directory contains a docker compose file that will run only OpenMTS itself.
+
+#### openmts-complete
+
+Please note that when running the `openmts-complete` app the first time, the database will not be set up yet and the `openmts-backend` container will therefore terminate. This is expected. See the section [Database Setup](#database-setup) below. Once the database has been set up, the `openmts-backend` container can be started again with `docker start`.
+
+### Database setup
+
+To set up the database in the context of Docker, execute `psql` in the `openmts-db` container, and import the `./sql/setup.sql` script:
+
+```bash
+docker exec -it <container_id> psql -U openmts
+
+# In psql:
+\i ./sql/setup.sql
+```
+
+#### Logging
+
+To activate various logging options in PostgreSQL, add the following line to the `openmts-db` service in the docker compose file:
+
+```bash
+command: ["postgres", "-c", "log_connections=on", "-c", "log_statement=all", "-c", "log_disconnections=on", "-c", "log_lock_waits=on", "-c", "log_duration=off", "-c", "log_min_duration_statement=-1", "-c", "log_error_verbosity=VERBOSE", "-c", "log_destination=stderr"]
+```
+
+Alternatively, mount a customized `postgresql.conf` by adding the following section to the `openmts-db` service's volumes section in the docker compose file:
+
+```bash
+- ./config/postgresql.conf:/var/lib/postgresql/data
 ```
 
 ## IoT Integrations
