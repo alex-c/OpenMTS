@@ -187,7 +187,7 @@ namespace OpenMTS
                 services.AddSingleton<ICustomMaterialPropValueRepository>(mockCustomMaterialPropValueRepository);
                 services.AddSingleton(mockCustomMaterialPropValueRepository);
                 services.AddSingleton<IEnvironmentalDataRepository, MockEnvironmentalDataRepository>();
-                // TODO: IStatsProvider implementation
+                services.AddSingleton<IStatsProvider, MockStatsProvider>();
             }
             else
             {
