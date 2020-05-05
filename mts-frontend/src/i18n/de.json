@@ -11,6 +11,7 @@
     "edit": "Editieren",
     "save": "Speichern",
     "delete": "Löschen",
+    "ok": "Ok",
     "cancel": "Abbrechen",
     "repeat": "Wiederholen",
     "details": "Details",
@@ -18,10 +19,12 @@
     "name": "Name",
     "type": "Typ",
     "material": "Material",
-    "plastics": "Kunststoffe",
     "sites": "Lagerorte",
+    "environment": "Umgebungsdaten",
     "inventory": "Lagerbestand",
     "materials": "Werkstoffe",
+    "plastics": "Kunststoffe",
+    "trace": "Rückverfolgung",
     "administration": "Administration",
     "configuration": "Konfiguration",
     "locations": "Lagerstätten",
@@ -72,6 +75,63 @@
       "passwordMatch": "Die Passwörter stimmen nicht überein."
     },
     "badPassword": "Das alte Passwort stimmt nicht."
+  },
+  "dashboard": {
+    "welcome": "Willkommen auf OpenMTS!"
+  },
+  "inventory": {
+    "batchNumber": "Chargennummer",
+    "expirationDate": "Ablaufdatum",
+    "quantity": "Quantität",
+    "status": {
+      "label": "Status",
+      "locked": "Gesperrt",
+      "unlocked": "Freigegeben"
+    },
+    "create": "Neue Charge Einchecken",
+    "created": "Eine neue Charge wurde mit ID `{id}` eingecheckt.",
+    "edit": "Charge `{id}` Editieren",
+    "updated": "Die Charge mit ID `{id}` wurde aktualisiert.",
+    "checkOut": "Auschecken",
+    "checkIn": "Einchecken",
+    "log": "Buchungslog",
+    "timestamp": "Zeitstempel",
+    "userId": "Benutzer-ID",
+    "checkOutPrompt": "Bitte geben Sie an, wieviel Materia Sie auschecken möchten:",
+    "checkInPrompt": "Bitte geben Sie an, wieviel Materia Sie einchecken möchten:",
+    "transactionInputError": "Geben Sie bitte eine valide Quantität an.",
+    "checkOutSuccessTitle": "Auschecken erfolgreich!",
+    "checkInSuccessTitle": "Einchecken erfolgreich!",
+    "checkOutSuccessMessage": "Sie haben {quantity} kg Material ausgecheckt. Die Buchungs-ID lautet: {id}",
+    "checkInSuccessMessage": "Sie haben {quantity} kg Material eingecheckt.",
+    "checkOutFailTitle": "Auschecken fehlgeschlagen!",
+    "checkInFailTitle": "Einchecken fehlgeschlagen!",
+    "checkOutFailMessage": "Bitte stellen Sie sicher, dass Sie nicht versuchen, mehr Material auszuchecken als verfügbar ist!",
+    "transactionFailLockedMessage": "Diese Charge ist gesperrt. Aus einer gesperrten Charge kann kein Material ausgecheckt werden.",
+    "noPropsDefined": "Es sind keine Eigenschaften definiert.",
+    "validation": {
+      "material": "Bitte wählen Sie ein Material aus.",
+      "expirationDate": "Bitte setzen Sie ein Ablaufdatum.",
+      "expirationDateFuture": "Bitte setzen Sie ein Ablaufdatum, welches in der Zukunft liegt.",
+      "location": "Bitte wählen Sie einen Lagerort und -platz aus.",
+      "number": "Bitte geben sie einen positiven Wert ein.",
+      "customProp": "Bitte geben Sie einen Wert ein."
+    },
+    "lock": "Charge Sperren",
+    "unlock": "Charge Freigeben",
+    "updateStatusConfirmTitle": "Bestätigung",
+    "lockConfirm": "Sind Sie sicher, dass Sie diese Charge sperren wollen? Material einer gesperrten Charge kann nicht ausgecheckt werden.",
+    "unlockConfirm": "Sind Sie sicher, dass Sie diese Charge freigeben wollen? Material einer freigegebenen Charge kann von Nutzern ausgecheckt werden.",
+    "lockBatchWarning": "Bitte beachten Sie, dass Material einer gesperrten Charge nicht ausgecheckt werden kann. Nur Administratoren oder Wissenschaftliche Assistenten können eine Charge entsperren.",
+    "amendTitle": "Nachträgliche Buchungskorrektur",
+    "amendDescription": "Haben Sie soeben eine Fehlbuchung durchgeführt? Sie können den Wert der letzten Buchung nachträglich korrigieren.",
+    "amend": "Korrigieren",
+    "amendPrompt": "Bitte geben Sie einen neuen Wert für die letzte Buchung ein. Die letzte Buchung hat aktuell einen Wert von `{oldValue}`. Bitte beachten Sie, dass Auscheck-Buchungen negative Werte haben.",
+    "amendSuccessTitle": "Erfolg",
+    "amendSuccessMessage": "Die Buchung wurde erfolgreich korrigiert!",
+    "amendFailTitle": "Fehlschlag",
+    "amendFailMessageLastTransaction": "Die Buchung ist nicht die letzte Buchung dieser Charge.",
+    "amendFailMessageWrongUser": "Nur der Autor einer Buchung kann sie nachträglich korrigieren."
   },
   "materials": {
     "material": "Werkstoff",
@@ -126,7 +186,10 @@
     "guestLoginAllowed": "Der Gastzugang wurde aktiviert.",
     "guestLoginDisallowed": "Der Gastzugang wurde deaktiviert..",
     "materialProps": "Anwendungsspezifische Materialeigenschaften",
+    "batchProps": "Anwendungsspezigische Chargeneigenschaften",
     "createProp": "Neue Eigenschaft",
+    "createMaterialProp": "Neue Werkstoffeigenschaft",
+    "createBatchProp": "Neue Chargeneigenschaft",
     "editProp": "Eigenschaft Editieren",
     "editPropPrompt": "Bitte geben Sie einen neuen Namen für die Eigenschaft ein:",
     "editPropInputError": "Bitte geben Sie einen Namen ein.",
@@ -137,7 +200,8 @@
       "propName": "Bitte geben Sie einen Namen ein.",
       "propType": "Bitte wählen Sie einen Typen aus."
     },
-    "materialPropCreated": "Die Eigenschaft `{name}` wurde mit ID `{id}` erstellt."
+    "materialPropCreated": "Die Eigenschaft `{name}` wurde mit ID `{id}` erstellt.",
+    "batchPropCreated": "Die Eigenschaft `{name}` wurde mit ID `{id}` erstellt."
   },
   "types": {
     "text": "Text",
@@ -214,6 +278,34 @@
     "editArea": "Lagerplatz Editieren",
     "editAreaPrompt": "Bitte geben Sie einen neuen Namen für den Lagerplatz ein:",
     "editAreaInputError": "Bitte geben Sie einen Namen ein.",
-    "areaUpdated": "Der Lagerplatz mit ID `{id}` wurde zu `{name}` umbenannt."
+    "areaUpdated": "Der Lagerplatz mit ID `{id}` wurde zu `{name}` umbenannt.",
+    "kafkaHint": "Kafka-Topic",
+    "kafkaHintText": "Das Kafka-Topic für die Umgebungsdaten dieses Lagerortes ist `{topic}`.",
+    "kafkaHintTitle": "Kafka-Topic"
+  },
+  "environment": {
+    "factor": "Umgebungsfaktor",
+    "temperature": "Temperatur",
+    "humidity": "Luftfeuchtigkeit",
+    "temperatureWithUnit": "Temperatur (°C)",
+    "humidityWithUnit": "Luftfeuchtigkeit (%)",
+    "history": "Historie",
+    "extrema": "Extrema",
+    "maximum": "Maximum",
+    "minimum": "Minimum",
+    "rangeSeparator": "Bis",
+    "startTime": "Startzeitpunkt",
+    "endTime": "Endzeitpunkt"
+  },
+  "trace": {
+    "prompt": "Bitte geben Sie die ID einer Buchung ein:",
+    "placeholder": "Buchungs-ID",
+    "result": "Ergebnis",
+    "overview": "Übersicht",
+    "raw": "Rohdaten",
+    "batch": "Charge",
+    "checkedIn": "Eingecheckt",
+    "checkedOut": "Ausgecheckt",
+    "by": "durch"
   }
 }

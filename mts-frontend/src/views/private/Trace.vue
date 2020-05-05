@@ -49,6 +49,15 @@ export default {
       return [
         { label: `${this.$t('inventory.quantity')}: ${result.checkOutTransaction.quantity * -1} kg` },
         {
+          label: `${this.$t('trace.checkedIn')}: ${new Date(result.checkInTransaction.timestamp).toLocaleString(this.$i18n.locale, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+          })} ${this.$t('trace.by')} ${result.checkInTransaction.userId}`,
+        },
+        {
           label: `${this.$t('trace.checkedOut')}: ${new Date(result.checkOutTransaction.timestamp).toLocaleString(this.$i18n.locale, {
             year: 'numeric',
             month: 'long',
@@ -85,15 +94,6 @@ export default {
                 month: 'long',
                 day: 'numeric',
               })}`,
-            },
-            {
-              label: `${this.$t('trace.checkedIn')}: ${new Date(result.checkInTransaction.timestamp).toLocaleString(this.$i18n.locale, {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-              })} ${this.$t('trace.by')} ${result.checkInTransaction.userId}`,
             },
             {
               label: this.$t('materials.props'),

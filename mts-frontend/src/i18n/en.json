@@ -80,7 +80,6 @@
     "welcome": "Welcome to OpenMTS!"
   },
   "inventory": {
-    "view": "view",
     "batchNumber": "Batch Number",
     "expirationDate": "Expiration Date",
     "quantity": "Quantity",
