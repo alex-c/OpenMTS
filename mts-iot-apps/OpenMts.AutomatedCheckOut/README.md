@@ -1,4 +1,4 @@
-# AutomaticCheckIn
+# AutomatedCheckOut
 
 This IoT application is written in Python and is designed to run on a Raspberry Pi. It connects to an RFID reader and a KERN EOC30K-4 scale. This was tested on a Raspberry Pi 4 Model B, but should work on previous models too.
 
