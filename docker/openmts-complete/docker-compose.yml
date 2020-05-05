@@ -11,8 +11,6 @@ services:
     volumes:
       - data-db:/var/lib/postgresql/data
       - ./sql:/sql
-    # Optional:
-    command: ["postgres", "-c", "log_connections=on", "-c", "log_statement=all", "-c", "log_disconnections=on", "-c", "log_lock_waits=on", "-c", "log_duration=off", "-c", "log_min_duration_statement=-1", "-c", "log_error_verbosity=VERBOSE", "-c", "log_destination=stderr"]
   zookeeper:
     image: wurstmeister/zookeeper
   kafka:

@@ -100,10 +100,8 @@ namespace OpenMTS.Repositories.PostgreSQL
         public User CreateUser(string id, string name, string password, byte[] salt, Role role)
         {
             User user = null;
-            Logger.LogDebug("Creating user with ID `{id}`.", id);
             using (IDbConnection connection = GetNewConnection())
             {
-                Logger.LogDebug("Aquired database connection.");
                 connection.Execute("INSERT INTO users (id, name, password, salt, role) VALUES (@Id, @Name, @Password, @Salt, @Role)", new
                 {
                     id,
@@ -114,7 +112,6 @@ namespace OpenMTS.Repositories.PostgreSQL
                 });
                 user = connection.QuerySingle<User>("SELECT * FROM users WHERE id=@Id", new { id });
             }
-            Logger.LogDebug("Created user with ID `{id}`.", id);
             return user;
         }
 

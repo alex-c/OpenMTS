@@ -80,18 +80,14 @@ namespace OpenMTS.Services
         /// <exception cref="UserAlreadyExistsException">Thrown if the login name is already taken.</exception>
         public User CreateUser(string id, string name, string password, Role role)
         {
-            Logger.LogDebug("Attempting to create new user with ID `{id}`", id);
             if (UserRepository.GetUser(id) != null)
             {
-                Logger.LogDebug("User ID `{id}` is already taken.", id);
                 throw new UserAlreadyExistsException(id);
             }
 
             // Hash & salt password, create user!
             (string hash, byte[] salt) = PasswordHashingService.HashAndSaltPassword(password);
-            User user = UserRepository.CreateUser(id, name, hash, salt, role);
-            Logger.LogDebug("Created User with ID `{id}`.", id);
-            return user;
+            return UserRepository.CreateUser(id, name, hash, salt, role);
         }
 
         /// <summary>
