@@ -1,7 +1,7 @@
 version: "3"
 services:
-  openmts-server:
-    image: alexcharoy/openmts-server:release-0.1.1
+  openmts-backend:
+    image: openmts-backend
     ports:
       - "5000:5000"
     environment:
@@ -9,8 +9,8 @@ services:
     volumes:
       - ./config/appsettings.Production.json:/app/appsettings.Production.json
       - data-files:/app/files
-  openmts-ui:
-    image: alexcharoy/openmts-ui:release-0.1.1
+  openmts-frontend:
+    image: openmts-frontend
     ports:
       - "8080:80"
     volumes:
