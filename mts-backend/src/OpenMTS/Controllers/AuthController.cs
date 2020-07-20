@@ -82,7 +82,8 @@ namespace OpenMTS.Controllers
             string body = null;
             using (StreamReader reader = new StreamReader(Request.Body))
             {
-                body = reader.ReadToEnd();
+                // TODO: change to await when doing async/await migration
+                body = reader.ReadToEndAsync().Result;
             }
             if (string.IsNullOrWhiteSpace(body))
             {

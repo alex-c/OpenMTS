@@ -268,11 +268,12 @@ namespace OpenMTS
                 Logger.LogInformation($"Ensured existence of administrator account `{id}`.");
             }
 
-            // Configure MVC
-            services.AddMvc().AddJsonOptions(options =>
-            {
-                options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            });
+            // Register controllers and add JSON serialization options
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+                });
         }
 
         /// <summary>
@@ -281,6 +282,9 @@ namespace OpenMTS
         /// <param name="app">Application builder to configure the app through.</param>
         public void Configure(IApplicationBuilder app)
         {
+            app.UseSerilogRequestLogging();
+            app.UseRouting();
+
             // CORS policy for the frontend
             app.UseCors(FRONTEND_CORS_POLICY);
 
@@ -294,9 +298,12 @@ namespace OpenMTS
 
             // Use JWT-based auth
             app.UseAuthentication();
+            app.UseAuthorization();
 
-            // Use MVC
-            app.UseMvc();
+            // Map controller endpoints
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+            });
         }
 
         /// <summary>
