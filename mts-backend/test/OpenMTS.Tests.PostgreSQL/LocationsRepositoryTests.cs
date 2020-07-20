@@ -1,4 +1,5 @@
-﻿using OpenMTS.Models;
+﻿using Microsoft.Extensions.Logging.Abstractions;
+using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.PostgreSQL;
 using System;
@@ -24,7 +25,7 @@ namespace OpenMTS.Tests.PostgreSQL
         /// </summary>
         public LocationsRepositoryTests()
         {
-            Repository = new PostgreSqlLocationsRepository(ConfigurationProvider.GetConfiguration());
+            Repository = new PostgreSqlLocationsRepository(ConfigurationProvider.GetConfiguration(), new NullLogger<PostgreSqlLocationsRepository>());
             DatabasePurger.PurgeLocations();
         }
 

@@ -1,4 +1,5 @@
-﻿using OpenMTS.Models;
+﻿using Microsoft.Extensions.Logging.Abstractions;
+using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.PostgreSQL;
 using System;
@@ -24,7 +25,7 @@ namespace OpenMTS.Tests.PostgreSQL
         /// </summary>
         public CustomMaterialPropRepositoryTests()
         {
-            Repository = new PostgreSqlCustomMaterialPropRepository(ConfigurationProvider.GetConfiguration());
+            Repository = new PostgreSqlCustomMaterialPropRepository(ConfigurationProvider.GetConfiguration(), new NullLogger<PostgreSqlCustomMaterialPropRepository>());
             DatabasePurger.PurgeCustomMaterialProps();
         }
 

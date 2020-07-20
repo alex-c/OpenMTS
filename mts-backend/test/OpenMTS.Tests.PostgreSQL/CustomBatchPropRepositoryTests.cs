@@ -1,4 +1,5 @@
-﻿using OpenMTS.Models;
+﻿using Microsoft.Extensions.Logging.Abstractions;
+using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.PostgreSQL;
 using System;
@@ -24,7 +25,7 @@ namespace OpenMTS.Tests.PostgreSQL
         /// </summary>
         public CustomBatchPropRepositoryTests()
         {
-            Repository = new PostgreSqlCustomBatchPropRepository(ConfigurationProvider.GetConfiguration());
+            Repository = new PostgreSqlCustomBatchPropRepository(ConfigurationProvider.GetConfiguration(), new NullLogger<PostgreSqlCustomBatchPropRepository>());
             DatabasePurger.PurgeCustomBatchProps();
         }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging.Abstractions;
 using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.PostgreSQL;
@@ -32,11 +33,11 @@ namespace OpenMTS.Tests.PostgreSQL
         public MaterialBatchRepositoryTests()
         {
             IConfiguration configuration = ConfigurationProvider.GetConfiguration();
-            Repository = new PostgreSqlMaterialBatchRepository(configuration);
-            LocationsRepository = new PostgreSqlLocationsRepository(configuration);
-            MaterialsRepository = new PostgreSqlMaterialsRepository(configuration);
-            PlasticsRepository = new PostgreSqlPlasticsRepository(configuration);
-            PropRepository = new PostgreSqlCustomBatchPropRepository(configuration);
+            Repository = new PostgreSqlMaterialBatchRepository(configuration, new NullLogger<PostgreSqlMaterialBatchRepository>());
+            LocationsRepository = new PostgreSqlLocationsRepository(configuration, new NullLogger<PostgreSqlLocationsRepository>());
+            MaterialsRepository = new PostgreSqlMaterialsRepository(configuration, new NullLogger<PostgreSqlMaterialsRepository>());
+            PlasticsRepository = new PostgreSqlPlasticsRepository(configuration, new NullLogger<PostgreSqlPlasticsRepository>());
+            PropRepository = new PostgreSqlCustomBatchPropRepository(configuration, new NullLogger<PostgreSqlCustomBatchPropRepository>());
             Dispose();
         }
 

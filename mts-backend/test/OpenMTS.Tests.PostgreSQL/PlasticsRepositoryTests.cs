@@ -1,4 +1,5 @@
-﻿using OpenMTS.Models;
+﻿using Microsoft.Extensions.Logging.Abstractions;
+using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.PostgreSQL;
 using System;
@@ -23,7 +24,7 @@ namespace OpenMTS.Tests.PostgreSQL
         /// </summary>
         public PlasticsRepositoryTests()
         {
-            Repository = new PostgreSqlPlasticsRepository(ConfigurationProvider.GetConfiguration());
+            Repository = new PostgreSqlPlasticsRepository(ConfigurationProvider.GetConfiguration(), new NullLogger<PostgreSqlPlasticsRepository>());
             DatabasePurger.PurgePlastics();
         }
 

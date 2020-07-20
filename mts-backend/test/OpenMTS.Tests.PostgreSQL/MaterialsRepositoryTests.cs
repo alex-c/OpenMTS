@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging.Abstractions;
 using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.PostgreSQL;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -43,10 +43,10 @@ namespace OpenMTS.Tests.PostgreSQL
         {
             // Repos
             IConfiguration configuration = ConfigurationProvider.GetConfiguration();
-            Repository = new PostgreSqlMaterialsRepository(configuration);
-            PropRepository = new PostgreSqlCustomMaterialPropRepository(configuration);
-            PropValueRepository = new PostgreSqlCustomMaterialPropValueRepository(configuration);
-            IPlasticsRepository plasticsRepository = new PostgreSqlPlasticsRepository(configuration);
+            Repository = new PostgreSqlMaterialsRepository(configuration, new NullLogger<PostgreSqlMaterialsRepository>());
+            PropRepository = new PostgreSqlCustomMaterialPropRepository(configuration, new NullLogger<PostgreSqlCustomMaterialPropRepository>());
+            PropValueRepository = new PostgreSqlCustomMaterialPropValueRepository(configuration, new NullLogger<PostgreSqlCustomMaterialPropValueRepository>());
+            IPlasticsRepository plasticsRepository = new PostgreSqlPlasticsRepository(configuration, new NullLogger<PostgreSqlPlasticsRepository>());
 
             // Purge for blank slate
             DatabasePurger.PurgeMaterials();

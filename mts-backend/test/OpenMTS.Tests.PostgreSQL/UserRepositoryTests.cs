@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Logging;
-using Npgsql;
+using Microsoft.Extensions.Logging.Abstractions;
 using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.PostgreSQL;
@@ -30,7 +30,7 @@ namespace OpenMTS.Tests.PostgreSQL
         /// </summary>
         public UserRepositoryTests()
         {
-            Repository = new PostgreSqlUserRepository(ConfigurationProvider.GetConfiguration());
+            Repository = new PostgreSqlUserRepository(ConfigurationProvider.GetConfiguration(), new NullLogger<PostgreSqlUserRepository>());
             PasswordHashingService = new PasswordHashingService(new LoggerFactory());
             DatabasePurger.PurgeUsers();
         }

@@ -1,11 +1,8 @@
-using Microsoft.Extensions.Logging;
-using Npgsql;
+using Microsoft.Extensions.Logging.Abstractions;
 using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.PostgreSQL;
-using OpenMTS.Services;
 using System;
-using System.Linq;
 using Xunit;
 
 namespace OpenMTS.Tests.PostgreSQL
@@ -25,7 +22,7 @@ namespace OpenMTS.Tests.PostgreSQL
         /// </summary>
         public ConfigurationRepositoryTests()
         {
-            Repository = new PostgreSqlConfigurationRepository(ConfigurationProvider.GetConfiguration());
+            Repository = new PostgreSqlConfigurationRepository(ConfigurationProvider.GetConfiguration(), new NullLogger<PostgreSqlConfigurationRepository>());
             DatabasePurger.ResetConfiguration();
         }
 

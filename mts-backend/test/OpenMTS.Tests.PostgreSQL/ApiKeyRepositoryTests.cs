@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using OpenMTS.Models;
 using OpenMTS.Repositories;
 using OpenMTS.Repositories.Memory;
@@ -31,7 +32,7 @@ namespace OpenMTS.Tests.PostgreSQL
         /// </summary>
         public ApiKeyRepositoryTests()
         {
-            Repository = new PostgreSqlApiKeyRepository(ConfigurationProvider.GetConfiguration());
+            Repository = new PostgreSqlApiKeyRepository(ConfigurationProvider.GetConfiguration(), new NullLogger<PostgreSqlApiKeyRepository>());
             RightsService = new RightsService(new LoggerFactory(), new MemoryRightsRepository());
             DatabasePurger.PurgeApiKeys();
         }
