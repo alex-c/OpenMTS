@@ -25,16 +25,14 @@ OpenMTS allows to manage users, API keys for IoT integrations, plastics and mate
 
 ## Project Structure
 
-The [mts-backend](./mts-backend) directory contains the .NET Core backend service of OpenMTS.
+This project has the following structure:
 
-- The [mts-backend/sql](./mts-backend/sql) directory contains SQL scripts to set up the PostgreSQL and TimescaleDB database(s).
-- The [mts-backend/docs](./mts-backend/docs) directory contains an export of a [Insomnia](https://insomnia.rest/) workspace. This workspace serves as an API documentation and allows easy testing.
-
-The [mts-frontend](./mts-frontend) directory contains the Vue.js frontend of OpenMTS.
-
-The [mts-iot-apps](./mts-iot-apps) directory contains IoT apps that use the OpenMTS backend API and have been built to simplify processes at the IKV.
-
-The [docs](./docs) directory contains the API documentation of the OpenMTS backend.
+- [docker](./docker): contains [docker-compose](https://docs.docker.com/compose/) files
+- [mts-backend](./mts-backend): contains the .NET Core backend service
+  - [mts-backend/sql](./mts-backend/sql): contains SQL scripts to set up the PostgreSQL and TimescaleDB database(s)
+  - [mts-backend/docs](./mts-backend/docs): containes an export of an [Insomnia](https://insomnia.rest/) workspace, which serves as an API documentation and allows for easy API testing
+- [mts-frontend](./mts-frontend): contains the Vue.js frontend
+- [mts-iot-apps](./mts-iot-apps): contains IoT apps that use the OpenMTS backend API and have been built to simplify processes at the IKV
 
 ## Installation & Configuration
 
