@@ -265,7 +265,7 @@ namespace OpenMTS
                     (string hashedPassword, byte[] salt) = new PasswordHashingService(LoggerFactory).HashAndSaltPassword(password);
                     users.CreateUser(id, name, hashedPassword, salt, Role.Administrator);
                 }
-                Logger.LogInformation($"Ensured existence of administrator account `id`.");
+                Logger.LogInformation($"Ensured existence of administrator account `{id}`.");
             }
 
             // Configure MVC
