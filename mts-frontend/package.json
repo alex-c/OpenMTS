@@ -15,7 +15,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "apexcharts": "^3.18.1",
+    "apexcharts": "^3.24.0",
     "core-js": "^3.6.4",
     "element-ui": "^2.13.0",
     "jwt-decode": "^2.2.0",
